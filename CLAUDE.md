@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 `player.html`（外枠と再生エンジン）、`slides/*.js`（スライドのデータ。
 `readme`・`user`・`developer`・`claude-memo` の 4 つのスライド一式）と、
 `tools/` の補助スクリプトだけ。ビルドも依存関係のインストールも不要。
-テストは `tools/test_measure_duration.py` の 1 本だけ。
+テストは `tools/test_measure_duration.py` と `tools/test_make_video.py` の 2 本。
 配置場所が `public_html/` なので、ファイルがそのまま公開される。
 確認はブラウザで `player.html` を開くだけ。
 

@@ -8,3 +8,6 @@
 __pycache__/
 *.py[cod]
 .venv/
+
+# make-video.py の書き出し先
+/video/

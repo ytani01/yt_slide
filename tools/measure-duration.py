@@ -94,6 +94,12 @@ def prepare(text, slides=DEFAULT_SLIDES):
     return text
 
 
+def tts_url(text):
+    """Google Translate TTS の URL を組み立てる（TTS_MAX_CHARS で切る）。"""
+    return ('https://translate.google.com/translate_tts?ie=UTF-8&tl=ja'
+            '&client=tw-ob&q=' + urllib.parse.quote(text[:TTS_MAX_CHARS], safe=''))
+
+
 def fetch_duration(url):
     """読み上げ音声を取ってきて、その長さを秒で返す。"""
     with tempfile.NamedTemporaryFile(suffix='.mp3', delete=False) as f:
@@ -115,9 +121,7 @@ def measure(text, slides=DEFAULT_SLIDES, repeat=1):
     Online TTS の秒数は毎回同じとは限らないので、中央値を採る（TODO-065）。
     """
     spoken = prepare(text, slides)
-    clean = spoken[:TTS_MAX_CHARS]
-    url = ('https://translate.google.com/translate_tts?ie=UTF-8&tl=ja'
-           '&client=tw-ob&q=' + urllib.parse.quote(clean, safe=''))
+    url = tts_url(spoken)
     raw = statistics.median(fetch_duration(url) for _ in range(repeat))
     return spoken, raw, raw / BASE_SPEED_MULTIPLIER
 

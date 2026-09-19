@@ -149,6 +149,32 @@ const slidesConfig = {
 - `--text` で下書きを測るときは `--slides <名前>` も付ける。表はスライド一式ごとに
   異なるため、付けないと既定の `readme` の表で測定してしまう。
 
+## 動画に書き出す
+
+URL を渡せない相手（メール添付、YouTube、オフラインの上映）には、
+`tools/make-video.py` で MP4 と `.srt` に書き出して渡す。
+
+```bash
+$ tools/make-video.py --slides readme
+スライド 1: 撮影済み。読み上げ音声を取得中…
+スライド 1: 11.66s
+（…枚数ぶん…）
+video/readme.mp4 と video/readme.srt に書き出した
+```
+
+`--out <ディレクトリ>`（既定 `video/`）で書き出し先を変えられる。
+`--only 1 2` のように番号を渡すと、その枚だけ書き出す（確認用。全部より速い）。
+
+- 各スライドの PNG（1920×1080）と読み上げの mp3 を作り、`ffmpeg` で連結する
+  組み立て方式。画面録画ではないので実時間ぶん待たない
+- 再生速度は `BASE_SPEED_MULTIPLIER`（1.4 倍）に揃える
+- 字幕は映像に焼き込まず、`.srt` を別に出す
+- 進行バー・残り時間・ボタンは映らない。動画では操作できないため
+- `animate-bounce` のようなアニメーションは静止画になる
+- Playwright（Python, chromium）・`ffmpeg`・`ffprobe`・`curl` が要る
+- 書き出し先の `video/` は `.gitignore` に入っており、リポジトリには入れない。
+  要るときに作り直す
+
 ## 公開
 
 このディレクトリは `public_html/` 下なので、ファイルを置くだけで公開される。

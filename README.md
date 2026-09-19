@@ -71,6 +71,8 @@ const slideData = [
 | `docs/` | 説明（下記） |
 | `tools/measure-duration.py` | 読み上げ秒数を測り、`duration` に書き戻す |
 | `tools/test_measure_duration.py` | 書き戻しの置換を確かめる自己テスト |
+| `tools/make-video.py` | スライド一式を MP4 と `.srt` に書き出す |
+| `tools/test_make_video.py` | 分割や字幕の組み立てを確かめる自己テスト |
 | `archives/` | 決着した TODO 項目と、サブエージェントの報告。**現行仕様ではない** |
 | `TODO.md` | 進行中の項目と、完了済みの目次 |
 | `CLAUDE.md` | Claude Code 向けのプロジェクト規約 |
@@ -78,6 +80,18 @@ const slideData = [
 Tailwind・Google Fonts・FontAwesome・読み上げの音声は外部から取得するため、
 **ネット接続が必要**。`file://` で直接開くのは試していないため、
 HTTP での配信が確実。
+
+## 動画に書き出す
+
+URL を渡せない相手（メール添付、YouTube、オフラインの上映）には、MP4 に書き出して渡す。
+
+```bash
+tools/make-video.py --slides readme   # video/readme.mp4 と video/readme.srt
+```
+
+Playwright（Python, chromium）・`ffmpeg`・`ffprobe`・`curl` が要る。書き出しには
+数分かかる（Raspberry Pi での実測。数分の動画で数分）。書き出し先の `video/` は
+`.gitignore` に入っており、リポジトリには入れない。
 
 ## 説明
 
