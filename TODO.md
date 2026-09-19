@@ -1,45 +1,8 @@
 # TODO
 
-**残っている項目: TODO-059、TODO-060、TODO-062、TODO-063、TODO-065、
-TODO-066。**
-これまでに 60 件を決着させた。
+**残っている項目: TODO-060、TODO-062、TODO-063、TODO-066。**
+これまでに 62 件を決着させた。
 新しく足すときは「完了済み」の上に節を作る。**番号は `TODO-067` から。**
-
----
-
-## TODO-059. 「HTML 1 枚で動く」という誤りを直す
-
-|      | main | 担当 |
-|------|------|------|
-| 見込み | Opus 5 / effort high | wording + verifier |
-
-- [ ] `README.md` と `slides/readme.js` の 5 箇所を書き換える
-- [ ] ナレーションが変わったスライドの `duration` を測り直す
-
-**動かすのに要るのは 3 ファイル**で、「HTML 1 枚」は事実ではない。
-`docs/User.md` の「他のサーバーへ持っていくとき」自身が「渡すのは次の 3 つだけ」
-として `player.html` / `slides/_rules.js` / `slides/<名前>.js` を挙げている。
-`player.html` は `slides/_rules.js` を無条件に読み、`prepareSpeechText()` が
-その `SPEECH_RULES` を参照するため、欠けると読み上げで落ちる。
-
-TODO-041 で `player.html` とスライドデータを分け、TODO-054 で置換表を
-`_rules.js` に出した結果、**分割前の `claude_memo.html` 時代の言い方だけが
-残った。**
-
-**「ファイル 3 つを置くだけで、ナレーション付きのプレゼンが動く」に変える。**
-「ビルドもインストールも不要」はそのまま使える。
-
-| ファイル | 箇所 |
-|----------|------|
-| `README.md:3` | 冒頭の一文 |
-| `slides/readme.js:5` | `slidesConfig.title`（ブラウザのタブに出る） |
-| `slides/readme.js:23,31` | スライド 1 のナレーションと `h1` |
-| `slides/readme.js:260,270` | まとめスライドのナレーションと本文 |
-
-- `slides/user.js` などの「1 枚のスライド」はスライドの枚数の話なので**対象外**
-- `README.md:40` と `tools/test_measure_duration.py:19` の `'1 枚目'` は
-  サンプルの題名なので**対象外**
-- 事実の言い換えだけで分岐は変わらないので reviewer は入れない
 
 ---
 
@@ -147,28 +110,6 @@ TODO-054 で共通の置換表を `player.html` から `slides/_rules.js` へ出
 
 ---
 
-## TODO-065. `measure-duration.py` に測る回数のオプションを足す
-
-|      | main | 担当 |
-|------|------|------|
-| 見込み | Sonnet 5 / effort medium | verifier + reviewer |
-
-- [ ] 回数のオプション（既定 1）を足し、n 回測って**中央値**を採る
-- [ ] `tools/test_measure_duration.py` に中央値の取り方のテストを足す
-- [ ] `--text` / スライド番号 / `--all --write` のどれでも効くことを確かめる
-
-Online TTS の秒数は毎回同じとは限らないのに、いまは 1 回の実測で
-`duration` を決めている。TODO-032 の「スライド 15 のずれ」も、
-1 回の測定では揺れと直し忘れの区別が付かなかった。
-
-### 決めたこと
-
-- **値の決め方は中央値。** たまたま長い 1 回に引きずられない
-- **既定は 1 回。** 今までと同じ挙動のままにする。回数を増やすと
-  Google TTS へのリクエストもその分増える
-
----
-
 ## TODO-066. スライドを MP4 に書き出す
 
 |      | main | 担当 |
@@ -222,6 +163,8 @@ URL を渡せない相手（メール添付、YouTube、オフラインの上映
 1 項目 1 ファイル。`archives/todo/` にある（新しい順）。
 **やらないと決めたものの理由も記載してある。** 蒸し返す前に読むこと。
 
+- [**TODO-065.** `measure-duration.py` に測る回数のオプションを足す](archives/todo/TODO-065.%20measure-duration.py%20に測る回数のオプションを足す.md)
+- [**TODO-059.** 「HTML 1 枚で動く」という誤りを直す](archives/todo/TODO-059.%20「HTML%201%20枚で動く」という誤りを直す.md)
 - [**TODO-064.** TODO-061 の 1〜13 位を `~/.claude/CLAUDE.md` に足す](archives/todo/TODO-064.%20TODO-061%20の%201〜13%20位を%20~%20.claude%20CLAUDE.md%20に足す.md)
 - [**TODO-061.** 分担の振り返りから、グローバルなルールに足す候補を出す](archives/todo/TODO-061.%20分担の振り返りから、グローバルなルールに足す候補を出す.md)
 - [**TODO-058.** 「デッキ」をやめ、識別子の `deck` も `slides` に変える](archives/todo/TODO-058.%20「デッキ」をやめ、識別子の%20deck%20も%20slides%20に変える.md)
