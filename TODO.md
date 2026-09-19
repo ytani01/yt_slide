@@ -1,36 +1,8 @@
 # TODO
 
-**残っている項目: TODO-060、TODO-062、TODO-063、TODO-067。**
-これまでに 63 件を決着させた。
+**残っている項目: TODO-062、TODO-063、TODO-067。**
+これまでに 64 件を決着させた。
 新しく足すときは「完了済み」の上に節を作る。**番号は `TODO-068` から。**
-
----
-
-## TODO-060. `slides/_rules.js` を `player.html` に含めるか、もう一度検討する
-
-|      | main | 担当 |
-|------|------|------|
-| 見込み | Opus 5 / effort high | main のみ |
-
-- [ ] 戻す場合と戻さない場合を並べ、どちらにするか決める
-
-TODO-054 で共通の置換表を `player.html` から `slides/_rules.js` へ出した。
-その結果、動かすのに 3 ファイルが要るようになり、TODO-059 で
-「HTML 1 枚で動く」という記述を直すことになった。**戻せば 2 ファイルになる。**
-
-スライド一式ごとに読みを足せるのは `slidesConfig.rules`（各スライドのファイル側）の
-働きで、共通表が別ファイルであることには依存しない。つまり TODO-054 の目的は、
-共通表を `player.html` に戻しても失われない。
-
-### 検討する点
-
-- 共通表を直すのに `player.html` を触ることになる。利用者に共通表を直させる
-  場面が実際にあるか（`docs/User.md` の「読みを直す」は `slidesConfig.rules` を
-  足す手順）
-- `tools/measure-duration.py` が共通表を `slides/_rules.js` から読んでいる。
-  `player.html` から切り出す形にできるか
-
-**決めるだけの項目なので担当は付けない。** 戻すと決まったら、実装は別項目を立てる。
 
 ---
 
@@ -155,6 +127,7 @@ TODO-054 で共通の置換表を `player.html` から `slides/_rules.js` へ出
 1 項目 1 ファイル。`archives/todo/` にある（新しい順）。
 **やらないと決めたものの理由も記載してある。** 蒸し返す前に読むこと。
 
+- [**TODO-060.** `slides/_rules.js` を `player.html` に含めるか、もう一度検討する](archives/todo/TODO-060.%20slides%20_rules.js%20を%20player.html%20に含めるか、もう一度検討する.md)
 - [**TODO-066.** スライドを MP4 に書き出すツールを作る](archives/todo/TODO-066.%20スライドを%20MP4%20に書き出すツールを作る.md)
 - [**TODO-065.** `measure-duration.py` に測る回数のオプションを足す](archives/todo/TODO-065.%20measure-duration.py%20に測る回数のオプションを足す.md)
 - [**TODO-059.** 「HTML 1 枚で動く」という誤りを直す](archives/todo/TODO-059.%20「HTML%201%20枚で動く」という誤りを直す.md)
