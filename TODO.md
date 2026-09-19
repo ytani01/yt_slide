@@ -110,6 +110,46 @@ TODO-054 で共通の置換表を `player.html` から `slides/_rules.js` へ出
 
 ---
 
+## TODO-067. 前提になるパッケージのインストールを `README.md` に書き、他の文書からはそこを指す
+
+|      | main | 担当 |
+|------|------|------|
+| 見込み | Opus 5 / effort high | verifier |
+
+- [ ] `README.md` に「必要なもの」の節を作り、要るパッケージと入れ方を書く
+- [ ] `docs/User.md` と `docs/Developer.md` の前提の記述を、その節を指す形に置き換える
+- [ ] 書いたコマンドが実際に通るか確かめる
+
+スライドを**見るだけならブラウザ 1 つで足りる**（Tailwind と Font Awesome は CDN から
+読む）。前提が要るのは `tools/` のスクリプトのほうで、`measure-duration.py` は
+`curl` と `ffprobe`、`make-video.py`（TODO-066）はさらに `ffmpeg`、Python の
+`playwright` と chromium が要る。**入れ方はどこにも書いていない。**
+
+道具を使うのは `docs/Developer.md` の読者だけではない。`docs/User.md` は
+スライドを作る人に `measure-duration.py` と `make-video.py` を使わせている。
+
+### 決めたこと
+
+- **入れ方の本体は `README.md` に置く。** 両方の読者の入口で、`tools/` の表も
+  すでにここにある
+- **`docs/User.md` と `docs/Developer.md` は README を指すだけにする。**
+  前提の記述はいま `README.md`、`docs/User.md` の 2 箇所（3 行）に散っており、
+  もう 1 箇所増やすと片方だけ古くなる
+- **「見るだけなら何も要らない」ことも書く。** それがこのプロジェクトの作りなので、
+  書かないと誤解される
+- **確認は verifier に分ける。** 書いたとおりに試せる手順だから（TODO-017）。
+  ただし `apt install` は実行させず、`--version` で実在と版を照合させる
+
+### 決めること（着手時）
+
+- **Debian / Raspberry Pi 前提の `apt` と `pip` のコマンドまで書くか、
+  パッケージ名だけ挙げるか。** 実測した版（`ffmpeg 5.1.9` など）を添えるかも
+  一緒に決める
+
+**TODO-066 は決着済み**（`tools/make-video.py` がある）。着手できる。
+
+---
+
 ## 完了済み
 
 1 項目 1 ファイル。`archives/todo/` にある（新しい順）。
