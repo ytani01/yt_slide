@@ -1,7 +1,7 @@
 # TODO
 
-**残っている項目: TODO-062、TODO-063、TODO-067、TODO-068。**
-これまでに 64 件を決着させた。
+**残っている項目: TODO-062、TODO-063、TODO-067。**
+これまでに 65 件を決着させた。
 新しく足すときは「完了済み」の上に節を作る。**番号は `TODO-069` から。**
 
 ---
@@ -122,68 +122,12 @@
 
 ---
 
-## TODO-068. `slides/_rules.js` を `player.html` に戻す
-
-|      | main | 担当 |
-|------|------|------|
-| 見込み | Opus 5 / effort high | implementer + reviewer + verifier |
-
-- [ ] `player.html` に `SPEECH_RULES` を戻し、`<script src="slides/_rules.js">` を外す
-- [ ] `tools/measure-duration.py` の `load_common_rules()` の読み先を `player.html` にする
-- [ ] `_rules.js` への言及 12 箇所を直す
-- [ ] `slides/developer.js` のナレーションとスライドの文面を直し、`duration` を測り直す
-- [ ] `slides/_rules.js` を消す
-
-TODO-060 で「戻す」と決めた。理由は
-[archives/todo/TODO-060.%20slides%20_rules.js%20を%20player.html%20に含めるか、もう一度検討する.md](archives/todo/TODO-060.%20slides%20_rules.js%20を%20player.html%20に含めるか、もう一度検討する.md)
-にある。**スライドを作る人から見て、`slides/` に自分のファイル以外が
-並んでいるのをやめる**のが目的。配布ファイルが 2 つに減るのは結果。
-
-### 触る箇所（TODO-060 で数えた）
-
-- `player.html:464` の `<script src="slides/_rules.js"></script>` と、
-  その上のコメント。`player.html:608` のコメントも `slides/_rules.js` を指している
-- `tools/measure-duration.py:82` の `load_common_rules()`。冒頭の docstring
-  （25 行目）も直す
-- `README.md` 1 箇所、`docs/Developer.md` 5 箇所、`docs/User.md` 2 箇所、
-  `slides/{readme,user,developer,claude-memo}.js` のコメント各 1 箇所
-- `slides/developer.js:83`（ナレーション）と `:92`（スライドの本文）。
-  「ローカルを指すのは `slides/_rules.js` とスライドデータの 2 つだけ」が
-  1 つだけになる
-
-### 決めたこと
-
-- **表を置く位置は `prepareSpeechText()` の近く。** いまの
-  `<script src>` の位置（`</main>` の直後）ではなく、使う関数のそばに置く。
-  スライド一式のファイルより先に読む必要があったのは外部ファイルだったからで、
-  同じ `<script>` の中に入れればその制約は消える
-- **`load_common_rules()` には囲いを付ける。** `slides_rules_from_text()` と
-  同じく `const SPEECH_RULES = [` から `];` までを先に切り出してから
-  `load_rules()` に渡す。`player.html` 全体に `JS_RULE_RE` を当てる形にしない
-  （いまはヒット 0 だが、あとから正規表現リテラルが増えると拾う）
-- **`docs/User.md` の「他のサーバーへ持っていくとき」は 2 ファイルになる。**
-  「渡すのは次の 3 つだけ」を直す
-- **reviewer を入れる。** `load_common_rules()` のパースが変わり、囲いの
-  正規表現を誤ると共通表が空になる。置換が全部素通りするだけで例外は出ず、
-  `tools/test_measure_duration.py` の `assert len(common_rules) == 23` 以外は
-  落ちない
-- **verifier には実測させる。** 移動の前後で `measure-duration.py` の
-  出力（置換後の読み上げ文）が一致すること、`player.html` をブラウザで
-  開いて読み上げが変わらないことを確かめる。**`duration` の測り直しは
-  `slides/developer.js` の文面を直した分だけ**で、他のスライドは測り直さない
-
-### 決めること（着手時）
-
-- **`slides/developer.js` の文面をどう書き直すか。** 利用者に見せる文なので、
-  文言が固まるまで verifier を起こさない
-
----
-
 ## 完了済み
 
 1 項目 1 ファイル。`archives/todo/` にある（新しい順）。
 **やらないと決めたものの理由も記載してある。** 蒸し返す前に読むこと。
 
+- [**TODO-068.** `slides/_rules.js` を `player.html` に戻す](archives/todo/TODO-068.%20slides%20_rules.js%20を%20player.html%20に戻す.md)
 - [**TODO-060.** `slides/_rules.js` を `player.html` に含めるか、もう一度検討する](archives/todo/TODO-060.%20slides%20_rules.js%20を%20player.html%20に含めるか、もう一度検討する.md)
 - [**TODO-066.** スライドを MP4 に書き出すツールを作る](archives/todo/TODO-066.%20スライドを%20MP4%20に書き出すツールを作る.md)
 - [**TODO-065.** `measure-duration.py` に測る回数のオプションを足す](archives/todo/TODO-065.%20measure-duration.py%20に測る回数のオプションを足す.md)

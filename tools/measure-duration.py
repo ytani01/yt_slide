@@ -22,7 +22,7 @@
 出す。戻すのは git の差分で足りる）。`--slides` はどのスライド一式を読むかで、
 既定は `DEFAULT_SLIDES`（下で定める）のスライド一式。
 
-読みの置換表は `slides/_rules.js`（共通）と `slides/<スライド一式名>.js` の
+読みの置換表は `player.html` の `SPEECH_RULES`（共通）と `slides/<スライド一式名>.js` の
 `slidesConfig.rules`（スライド一式だけの語）から読む。`prepareSpeechText()` と同じく
 スライド一式側を先、共通を後に当てる。表そのものはここには持たない。
 
@@ -38,7 +38,9 @@ import subprocess
 import tempfile
 import urllib.parse
 
-SLIDES = pathlib.Path(__file__).resolve().parent.parent / 'slides'
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+SLIDES = ROOT / 'slides'
+PLAYER_HTML = ROOT / 'player.html'
 DEFAULT_SLIDES = 'readme'
 
 # player.html の写し ---------------------------------------------------
@@ -80,9 +82,12 @@ def load_slides_rules(slides):
 
 
 def load_common_rules():
-    """`slides/_rules.js` の SPEECH_RULES を読む。"""
-    text = (SLIDES / '_rules.js').read_text(encoding='utf-8')
-    return load_rules(text)
+    """`player.html` の `const SPEECH_RULES = [ … ];` を読む。"""
+    text = PLAYER_HTML.read_text(encoding='utf-8')
+    m = re.search(r'const SPEECH_RULES = \[(.*?)\n\s*\];', text, re.S)
+    if not m:
+        raise SystemExit(f'{PLAYER_HTML} に SPEECH_RULES が見つからない')
+    return load_rules(m.group(1))
 
 
 def prepare(text, slides=DEFAULT_SLIDES):

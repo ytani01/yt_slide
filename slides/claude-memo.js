@@ -4,7 +4,7 @@
 const slidesConfig = {
     title: 'Claude Code 活用法 - プレゼン動画プレイヤー',
     heading: '私の Claude Code の使い方',
-    // このスライド一式だけの読みの置換表（TODO-054）。共通は slides/_rules.js
+    // このスライド一式だけの読みの置換表（TODO-054）。共通は player.html
     rules: [
         [/ccstatusline/gi, 'シーシー ステータス ライン'],
         [/\/clear/gi, 'スラッシュ クリア'],

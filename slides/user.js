@@ -5,7 +5,7 @@
 const slidesConfig = {
     title: 'player.html で別のスライドを作る - 使い方',
     heading: '新しいスライドを作る手順',
-    // このスライド一式だけの読みの置換表（TODO-054）。共通は slides/_rules.js
+    // このスライド一式だけの読みの置換表（TODO-054）。共通は player.html
     rules: [
         [/\.js\b/gi, ' ドット ジェイエス'],
         [/\bwrite\b/gi, 'ライト'],

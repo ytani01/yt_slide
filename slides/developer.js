@@ -5,7 +5,7 @@
 const slidesConfig = {
     title: 'player.html を直す人へ - 開発者向けガイド',
     heading: 'player.html を直す人へ',
-    // このスライド一式だけの読みの置換表（TODO-054）。共通は slides/_rules.js
+    // このスライド一式だけの読みの置換表（TODO-054）。共通は player.html
     rules: [
         [/archives\/todo/gi, 'アーカイブズ スラッシュ トゥードゥー'],
         [/public_html/gi, 'パブリック エイチティーエムエル'],
@@ -79,8 +79,8 @@ const slideData = [
     // Slide 3
     {
         title: '場所を選ばない',
-        duration: 17,
-        narration: 'player.html がローカルを指すのは slides/_rules.js とスライドデータの2つだけで、しかも相対パスです。両方を同じディレクトリに置けば、public_htmlの外でもそのまま動きます。ネット接続だけは必要です。',
+        duration: 16,
+        narration: 'player.html がローカルを指すのはスライドデータだけで、しかも相対パスです。player.html と同じ場所に slides を置けば、public_htmlの外でもそのまま動きます。ネット接続だけは必要です。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
@@ -89,7 +89,7 @@ const slideData = [
                     </h2>
                     <div class="bg-sky-950/40 border border-sky-500/40 rounded-xl p-[1.4cqw] mb-[1.4cqw] text-sky-300 font-bold" style="font-size: clamp(1.0rem, 2.2cqw, 1.6rem);">
                         <i class="fa-solid fa-lightbulb text-lime-400 mr-[0.8cqw]"></i>
-                        ローカルを指すのは slides/_rules.js と slides/&lt;名前&gt;.js の2つだけ。しかも相対パス
+                        ローカルを指すのは slides/&lt;名前&gt;.js だけ。しかも相対パス
                     </div>
                     <div class="grid grid-cols-2 gap-[1.4cqw]">
                         <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-[1.6cqw]">

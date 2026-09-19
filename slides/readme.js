@@ -2,9 +2,9 @@
 // このリポジトリ自体の紹介スライド一式。共通の再生エンジンは player.html の中にある。
 
 const slidesConfig = {
-    title: 'yt_slide - ファイル 3 つで動くナレーション付きプレゼン',
+    title: 'yt_slide - ファイル 2 つで動くナレーション付きプレゼン',
     heading: 'yt_slide の紹介',
-    // このスライド一式だけの読みの置換表（TODO-054）。共通は slides/_rules.js
+    // このスライド一式だけの読みの置換表（TODO-054）。共通は player.html
     rules: [
         [/claude-memo/gi, 'クロード メモ'],
         [/yt_slide/gi, 'ワイティー スライド'],
@@ -20,7 +20,7 @@ const slideData = [
     {
         title: 'yt_slide',
         duration: 12,
-        narration: 'yt_slide は、3 つのファイルを置くだけで、ナレーション付きのプレゼンが動き出す仕組みです。ビルドもインストールも不要で、URLを渡すだけでそのまま見てもらえます。',
+        narration: 'yt_slide は、2 つのファイルを置くだけで、ナレーション付きのプレゼンが動き出す仕組みです。ビルドもインストールも不要で、URLを渡すだけでそのまま見てもらえます。',
         render: function() {
             return `
                 <div class="flex flex-col items-start justify-center h-full px-[4cqw] py-[1.5cqw] space-y-[1.5cqw]">
@@ -28,7 +28,7 @@ const slideData = [
                         <i class="fa-solid fa-clapperboard text-lime-400"></i> yt_slide
                     </span>
                     <h1 class="font-extrabold text-slate-50 leading-tight" style="font-size: clamp(1.8rem, 5cqw, 3.8rem);">
-                        ファイル <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-lime-400">3 つ</span> で、
+                        ファイル <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-lime-400">2 つ</span> で、
                         ナレーション付きのプレゼンが動き出す
                     </h1>
                     <p class="text-slate-200 font-medium leading-relaxed" style="font-size: clamp(1.15rem, 2.8cqw, 2.1rem);">
@@ -257,7 +257,7 @@ const slideData = [
     {
         title: 'まとめ',
         duration: 10,
-        narration: 'まとめです。yt_slide を使えば、ファイル 3 つを置くだけで、ナレーション付きのプレゼンをすぐに作って公開できます。ぜひ試してみてください。',
+        narration: 'まとめです。yt_slide を使えば、ファイル 2 つを置くだけで、ナレーション付きのプレゼンをすぐに作って公開できます。ぜひ試してみてください。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
@@ -267,7 +267,7 @@ const slideData = [
                     <div class="space-y-[1cqw] text-slate-200 font-medium mb-[1.5cqw]">
                         <div class="bg-slate-800/60 p-[1cqw] rounded-lg border border-slate-700 flex items-center gap-[1.2cqw]">
                             <i class="fa-solid fa-file-code text-lime-400 flex-shrink-0" style="font-size: clamp(1.2rem, 2.4cqw, 1.7rem);"></i>
-                            <span style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);"><strong>ファイル 3 つ</strong> を置くだけで、ナレーション付きプレゼンが動く</span>
+                            <span style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);"><strong>ファイル 2 つ</strong> を置くだけで、ナレーション付きプレゼンが動く</span>
                         </div>
                         <div class="bg-slate-800/60 p-[1cqw] rounded-lg border border-slate-700 flex items-center gap-[1.2cqw]">
                             <i class="fa-solid fa-plus text-sky-400 flex-shrink-0" style="font-size: clamp(1.2rem, 2.4cqw, 1.7rem);"></i>

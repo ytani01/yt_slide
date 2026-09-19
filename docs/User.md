@@ -119,7 +119,7 @@ Online TTS の秒数は毎回同じとは限らないので、揺れが気にな
 
 | 表 | 置き場所 | 役割 |
 |----|----------|-----------|
-| 共通 | `slides/_rules.js` の `SPEECH_RULES` | すべてのスライド一式で用いる語 |
+| 共通 | `player.html` の `SPEECH_RULES` | すべてのスライド一式で用いる語 |
 | スライド一式 | `slides/<名前>.js` の `slidesConfig.rules` | 該当スライド一式だけの語 |
 
 **当たる順はスライド一式が先、共通が後。** 同じ語に両方が当たるときはスライド一式側が
@@ -182,15 +182,14 @@ video/readme.mp4 と video/readme.srt に書き出した
 
 ### 他のサーバーへ持っていくとき
 
-**渡すのは次の 3 つだけ。** 同じ位置関係のまま置く。
+**渡すのは次の 2 つだけ。** 同じ位置関係のまま置く。
 
 ```
 player.html
-slides/_rules.js
 slides/<名前>.js    ← 公開したいスライド一式の分だけ
 ```
 
-`player.html` がローカルから読むのはこの 2 種類の `.js` だけで、参照は
+`player.html` がローカルから読むのはこの `.js` だけで、参照は
 相対パス。残り（Tailwind・Google Fonts・FontAwesome・読み上げの音声）は
 すべて外部から取得する。
 

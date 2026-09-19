@@ -12,7 +12,6 @@
 |----------|------|
 | `player.html` | 外枠の HTML・CSS と再生ロジック。本体 |
 | `slides/<名前>.js` | スライドデータ。`readme`・`user`・`developer`・`claude-memo` |
-| `slides/_rules.js` | 全スライド共通の読み置換表 |
 | `tools/measure-duration.py` | 読み上げ秒数の測定と `duration` への書き込み |
 | `tools/test_measure_duration.py` | 書き込みと置換表の読み込みの自動確認 |
 
@@ -26,8 +25,8 @@
 
 ### 場所を選ばない
 
-`player.html` がローカルを指すのは `slides/_rules.js` と `slides/<名前>.js` の
-2 つだけで、相対パス。残りはすべて CDN の https。
+`player.html` がローカルを指すのは `slides/<名前>.js` だけで、相対パス。
+残りはすべて CDN の https。
 **`player.html` と `slides/` を同じディレクトリに置くと、`public_html/` の外でも
 動く**。
 
@@ -91,8 +90,8 @@ python3 -m http.server 8000
 ナレーション編集後は
 `tools/measure-duration.py --slides <名前> --all --write` でまとめて更新できる。
 
-置換表は `player.html` と同じものを `slides/_rules.js` とスライド一式のファイルから
-読み込むため、複製ではない（TODO-054）。ただし **`TTS_MAX_CHARS` と
+置換表は `player.html` と同じものを `player.html` の `SPEECH_RULES` と
+スライド一式のファイルから読み込むため、複製ではない（TODO-054）。ただし **`TTS_MAX_CHARS` と
 `BASE_SPEED_MULTIPLIER` は `player.html` と同じ値**なため、どちらか一方を変えたら
 もう一方も変える。片方だけ変えると測定値が実際とずれる。
 
@@ -106,10 +105,8 @@ python3 -m http.server 8000
 | `speech` | Web Speech API（`SpeechSynthesisUtterance`） | 長い発話が途中で切れる |
 
 `narration` は `prepareSpeechText()` を通してから読み上げられる。置換表は
-**スライド一式の `slidesConfig.rules` が先、`slides/_rules.js` の `SPEECH_RULES` が後**
-の順に適用される。`_rules.js` はスライド一式より先に読む必要があるため、
-`document.write` 前の `<script>` タグで読み込む（`fetch` にすると `file://` で
-開けなくなる）。方法は `docs/User.md` の「読みを直す」にある。
+**スライド一式の `slidesConfig.rules` が先、`player.html` の `SPEECH_RULES` が後**
+の順に適用される。方法は `docs/User.md` の「読みを直す」にある。
 
 どちらにも安全タイマーがある。読み終わりのイベントが来ない場合に備える。
 
