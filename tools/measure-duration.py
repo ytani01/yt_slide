@@ -10,10 +10,14 @@
     tools/measure-duration.py --all --write # すべて測って duration を書き戻す
     tools/measure-duration.py --slides user --all --write
     tools/measure-duration.py --text 'ここに下書き'
+    tools/measure-duration.py --all --write -n 3   # 3 回測って中央値を採る
 
 `--text` は、差し替える前に案の長さを見るためのもの。スライド一式ごとに置換表が
 違うので、測りたいスライド一式と `--slides` を揃えないと違う秒数が出る（既定は
 `readme`）。
+`-n` は 1 枚を何回測るかで、**中央値**を採る（既定 1）。Online TTS の秒数は
+毎回同じとは限らないので、揺れが気になるときに増やす。増やした分だけ Google TTS
+へのリクエストも増える。
 `--write` は測った値を `duration` に書き込む（変わった枚だけ `17 -> 16` と
 出す。戻すのは git の差分で足りる）。`--slides` はどのスライド一式を読むかで、
 既定は `DEFAULT_SLIDES`（下で定める）のスライド一式。
@@ -29,6 +33,7 @@ import itertools
 import os
 import pathlib
 import re
+import statistics
 import subprocess
 import tempfile
 import urllib.parse
@@ -89,12 +94,8 @@ def prepare(text, slides=DEFAULT_SLIDES):
     return text
 
 
-def measure(text, slides=DEFAULT_SLIDES):
-    """読み上げ音声を取ってきて、実測秒数と BASE_SPEED_MULTIPLIER 倍での秒数を返す。"""
-    spoken = prepare(text, slides)
-    clean = spoken[:TTS_MAX_CHARS]
-    url = ('https://translate.google.com/translate_tts?ie=UTF-8&tl=ja'
-           '&client=tw-ob&q=' + urllib.parse.quote(clean, safe=''))
+def fetch_duration(url):
+    """読み上げ音声を取ってきて、その長さを秒で返す。"""
     with tempfile.NamedTemporaryFile(suffix='.mp3', delete=False) as f:
         tmp = f.name
     try:
@@ -105,7 +106,19 @@ def measure(text, slides=DEFAULT_SLIDES):
             check=True, capture_output=True, text=True).stdout.strip()
     finally:
         os.unlink(tmp)
-    raw = float(out)
+    return float(out)
+
+
+def measure(text, slides=DEFAULT_SLIDES, repeat=1):
+    """repeat 回測り、実測秒数の中央値と BASE_SPEED_MULTIPLIER 倍での秒数を返す。
+
+    Online TTS の秒数は毎回同じとは限らないので、中央値を採る（TODO-065）。
+    """
+    spoken = prepare(text, slides)
+    clean = spoken[:TTS_MAX_CHARS]
+    url = ('https://translate.google.com/translate_tts?ie=UTF-8&tl=ja'
+           '&client=tw-ob&q=' + urllib.parse.quote(clean, safe=''))
+    raw = statistics.median(fetch_duration(url) for _ in range(repeat))
     return spoken, raw, raw / BASE_SPEED_MULTIPLIER
 
 
@@ -159,7 +172,12 @@ def main():
     # dest が衝突するため（TODO-058）。
     parser.add_argument('--slides', dest='slides_name', default=DEFAULT_SLIDES,
                         help=f'slides/<名前>.js の <名前>（既定は {DEFAULT_SLIDES}）')
+    parser.add_argument('-n', '--repeat', type=int, default=1,
+                        help='1 枚を測る回数。中央値を採る（既定 1）')
     args = parser.parse_args()
+
+    if args.repeat < 1:
+        parser.error('-n は 1 以上')
 
     src = SLIDES / f'{args.slides_name}.js'
     if (args.slides or args.all) and not src.exists():
@@ -180,11 +198,12 @@ def main():
 
     updates = {}
     for number, label, text in jobs:
-        spoken, raw, scaled = measure(text, args.slides_name)
+        spoken, raw, scaled = measure(text, args.slides_name, args.repeat)
         cut = (f' ★TTS_MAX_CHARS={TTS_MAX_CHARS} 字で切れる'
                if len(spoken) > TTS_MAX_CHARS else '')
+        times = f'{args.repeat} 回の中央値 ' if args.repeat > 1 else ''
         print(f'{label}: 原文 {len(text)} 字 / 読み {len(spoken)} 字{cut}'
-              f' / 実測 {raw:.3f}s'
+              f' / 実測 {times}{raw:.3f}s'
               f' / BASE_SPEED_MULTIPLIER={BASE_SPEED_MULTIPLIER} 倍速'
               f' {scaled:.2f}s -> duration: {round(scaled)}')
         if number is not None:

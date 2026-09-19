@@ -96,4 +96,37 @@ for slides in ('readme', 'user', 'developer', 'claude-memo'):
 common_rules = md.load_common_rules()
 assert len(common_rules) == 23, common_rules
 
+
+# 測る回数と中央値（TODO-065）。fetch_duration() を差し替えるので
+# ネットワークは使わない。prepare() は実ファイルの置換表を読むだけ。
+calls = []
+
+
+def fake_fetch(seconds):
+    def fetch(url):
+        calls.append(url)
+        return seconds[len(calls) - 1]
+    return fetch
+
+
+md.fetch_duration = fake_fetch([3.0, 9.0, 5.0])
+spoken, raw, scaled = md.measure('テスト', repeat=3)
+assert len(calls) == 3, calls
+assert len(set(calls)) == 1, '同じ URL を測り直すだけ'
+assert raw == 5.0, raw           # 並びの真ん中ではなく、値の中央値
+assert scaled == 5.0 / md.BASE_SPEED_MULTIPLIER, scaled
+
+# 偶数回のときは真ん中 2 つの平均（statistics.median のふるまい）。
+calls.clear()
+md.fetch_duration = fake_fetch([3.0, 6.0])
+spoken, raw, scaled = md.measure('テスト', repeat=2)
+assert raw == 4.5, raw
+
+# 既定は 1 回（今までと同じ挙動）。
+calls.clear()
+md.fetch_duration = fake_fetch([4.2])
+spoken, raw, scaled = md.measure('テスト')
+assert len(calls) == 1, calls
+assert raw == 4.2, raw
+
 print('OK')
