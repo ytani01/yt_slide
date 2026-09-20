@@ -75,7 +75,7 @@ const slideData = [
 | `user` | スライドの作り方 |
 | `developer` | `player.html` の作り |
 | `claude-memo` | 実例。「私の Claude Code の使い方」17 枚 |
-| `template` | スライドの型の見本 17 種。コピーして使う |
+| `template` | スライドの型の見本 19 種。コピーして使う |
 
 `docs/` の説明と、同じ内容をスライドでも見られる。
 
