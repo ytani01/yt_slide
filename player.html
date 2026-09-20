@@ -320,7 +320,7 @@
     <!-- Main Content Area -->
     <main class="max-w-7xl w-full mx-auto p-4 md:p-6 flex-grow flex flex-col gap-4">
         
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
             
             <!-- Video Player Column (3 Cols) -->
             <div class="lg:col-span-3 flex flex-col gap-3">
@@ -477,17 +477,29 @@
             </div>
 
             <!-- Sidebar Playlist / Agenda (1 Col) -->
-            <div id="sidebar" class="lg:col-span-1 bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col h-[520px] shadow-lg">
-                <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
-                    <h2 class="font-bold text-sm text-slate-200 flex items-center gap-2">
-                        <i class="fa-solid fa-rectangle-list text-sky-400"></i> チャプター一覧
-                    </h2>
-                    <span class="text-xs text-slate-500 font-mono" id="playlist-count"></span>
-                </div>
+            <!-- lg では中身を absolute で浮かせ、高さの決定から外す（TODO-077）。
+                 そうしないと項目の数だけ行が伸びて、下端がボタン類とずれる。 -->
+            <div id="sidebar" class="lg:col-span-1 bg-slate-900 border border-slate-800 rounded-xl shadow-lg h-[520px] lg:h-auto lg:relative">
+                <div class="p-4 flex flex-col h-full lg:absolute lg:inset-0">
+                    <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
+                        <h2 class="font-bold text-sm text-slate-200 flex items-center gap-2">
+                            <i class="fa-solid fa-rectangle-list text-sky-400"></i> チャプター一覧
+                        </h2>
+                        <span class="text-xs text-slate-500 font-mono" id="playlist-count"></span>
+                    </div>
 
-                <!-- Playlist Scroll Container -->
-                <div class="flex-grow overflow-y-auto space-y-2 pr-1" id="playlist-items">
-                    <!-- Dynamic playlist item buttons injected via JS -->
+                    <!-- 題名とナレーションで一覧を絞り込む検索欄（TODO-077）。
+                         type="search" にして、解除の × と Escape はブラウザに任せる。 -->
+                    <input id="playlist-search" type="search" aria-label="チャプターを検索"
+                           placeholder="題名・ナレーションで検索"
+                           class="mb-3 w-full bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-sky-500">
+
+                    <p id="playlist-empty" class="hidden text-xs text-slate-500 py-2">該当するスライドはありません。</p>
+
+                    <!-- Playlist Scroll Container -->
+                    <div class="flex-grow min-h-0 overflow-y-auto space-y-2 pr-1" id="playlist-items">
+                        <!-- Dynamic playlist item buttons injected via JS -->
+                    </div>
                 </div>
             </div>
 
@@ -503,7 +515,7 @@
         <div class="guide-body">
             <p>Tab でボタンへ移動し、Enter または Space で操作できます。ガイドは「閉じる」または Escape で閉じます。</p>
             <h3>キー操作</h3>
-            <p>Space・矢印・Home・End・F・M は、ボタンや選択欄を操作していないときに使えます。</p>
+            <p>Space・矢印・Home・End・F・M は、ボタンや選択欄、チャプター一覧の検索欄を操作していないときに使えます。</p>
             <dl>
                 <dt>Space</dt><dd>再生／一時停止</dd>
                 <dt>← / →</dt><dd>前／次のスライド</dd>
@@ -661,6 +673,8 @@
         const waveContainer = document.getElementById('wave-container');
         const audioStatusBadge = document.getElementById('audio-status-badge');
         const playlistItemsContainer = document.getElementById('playlist-items');
+        const playlistSearch = document.getElementById('playlist-search');
+        const playlistEmpty = document.getElementById('playlist-empty');
         const speechStatusIndicator = document.getElementById('speech-status-indicator');
         const toggleVoiceEngineBtn = document.getElementById('toggle-voice-engine-btn');
         const subtitleBanner = document.getElementById('subtitle-banner');
@@ -1191,6 +1205,24 @@
             });
         }
 
+        // 題名とナレーションの部分一致で一覧だけを絞り込む（TODO-077）。
+        // 項目は隠すだけなので、番号もクリック先も再生順序も総時間も変わらない。
+        function filterPlaylist() {
+            const query = playlistSearch.value.trim().toLowerCase();
+            let hits = 0;
+            playlistItems.forEach((item, idx) => {
+                const slide = slideData[idx];
+                const match = !query ||
+                    `${slide.title} ${slide.narration || ''}`.toLowerCase().includes(query);
+                item.classList.toggle('hidden', !match);
+                if (match) hits++;
+            });
+            playlistEmpty.classList.toggle('hidden', hits > 0);
+            playlistCount.textContent = query
+                ? `${hits} / ${slideData.length} Slides`
+                : `${slideData.length} Slides`;
+        }
+
         // 再生中の項目をチャプター一覧の中だけでスクロールさせる。
         // scrollIntoView() はスクロールできる祖先を全部動かすので、
         // 一覧が画面の外にあるスマホ縦画面ではページごとスクロールする（TODO-001）。
@@ -1212,7 +1244,10 @@
         function updatePlaylistSelection() {
             playlistItems.forEach((item, idx) => {
                 setPlaylistItemState(item, idx === currentIndex);
-                if (idx === currentIndex) scrollPlaylistIntoView(item);
+                // 絞り込みで隠れている項目は位置を測れないのでスクロールしない。
+                if (idx === currentIndex && !item.classList.contains('hidden')) {
+                    scrollPlaylistIntoView(item);
+                }
             });
         }
 
@@ -1222,6 +1257,8 @@
             guideBtn.addEventListener('click', () => guide.showModal());
             document.getElementById('guide-close-btn').addEventListener('click', () => guide.close());
             guide.addEventListener('close', () => guideBtn.focus({ preventScroll: true }));
+
+            playlistSearch.addEventListener('input', filterPlaylist);
 
             playBtn.addEventListener('click', () => {
                 // Direct user gesture unlock for Web Speech API in Chrome/Safari iFrames
@@ -1399,6 +1436,8 @@
                 // ボタンの Space を再生操作で奪わない。
                 if (guide.open || e.defaultPrevented || e.isComposing) return;
                 if (e.key === 'Escape') {
+                    // 検索欄では絞り込みの解除に譲る（TODO-077）。
+                    if (e.target === playlistSearch) return;
                     if (playerViewport.classList.contains('pseudo-fullscreen')) setFullscreen(false);
                     return;
                 }
