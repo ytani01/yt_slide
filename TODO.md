@@ -9,7 +9,7 @@
 
 |      | main | 担当 |
 |------|------|------|
-| 見込み | Sonnet 5 / effort medium | implementer + verifier（消音を直す場合は reviewer も） |
+| 見込み | Opus 5 / effort medium | implementer + verifier + reviewer（7 を直す場合） |
 
 文書と実装の照合（2026-09-20）で見つかった食い違い。
 
@@ -30,15 +30,18 @@
   張り直さないため自動で進まないように読める（`player.html` 1372 行付近）。
   ブラウザでの再現は未確認
 
-**着手時に聞くこと**
+**決めたこと（2026-09-20）**
 
-- 7 は、まず Playwright で再現する。再現したら「コードを直す」か
-  「`docs/Developer.md` に制限として書く」かを聞く。コードを直すなら
-  挙動が変わるので reviewer を入れる
+- 7 は、まず Playwright で再現する。再現したらコードを直す
+  （消音にしたとき、`duration` で進めるタイマーを張り直す）。
+  挙動が変わるので reviewer を入れる。再現しなければ何もしない
 - 5 は `docs/` だけを対象にする。`player.html`・`slides/*.js`・`tools/*.py` の
-  コメントにも番号があるが、外すかどうかは着手時に聞く
+  コメントの番号は残す
+- 3 は `slides/readme.js` 5・6 枚目のコード例と要素の説明だけ直す
+  （`body`・`icon` を足す。7 枚目は、`render()` が「`body` で足りないとき」と
+  分かる一言を足す）
 - ナレーションを変えたスライドは `duration` を測り直す
-  （`tools/measure-duration.py`。Google TTS への通信が要る）
+  （`tools/measure-duration.py --write`。Google TTS への通信が要る）
 
 ---
 
