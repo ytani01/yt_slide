@@ -28,6 +28,24 @@ python3 -m http.server 8000
 `player.html?slides=<名前>` で `slides/<名前>.js` を読む。`?slides=` を省くと
 このリポジトリの紹介（`slides/readme.js`）が流れる。
 
+## 必要なもの
+
+**見るだけならブラウザだけ。** インストールは要らない（ネット接続は要る）。
+
+前提が要るのは `tools/` のスクリプトを使うときだけ。
+
+```bash
+sudo apt install curl ffmpeg   # curl・ffmpeg・ffprobe
+pip install playwright         # make-video.py だけが使う
+playwright install chromium
+```
+
+- `tools/measure-duration.py` — `curl`・`ffprobe`
+- `tools/make-video.py` — 加えて `ffmpeg`・Playwright（Python, chromium）
+
+Debian 12 (bookworm) / curl 7.88.1 / ffmpeg 5.1.9 / Python 3.14.7 /
+playwright 1.63.0 で確認した。他の OS では入れ方を読み替える。
+
 ## 自分のスライドを作る
 
 **`player.html` は触らない。** `slides/` に JavaScript を 1 つ足すだけ。
@@ -88,7 +106,7 @@ URL を渡せない相手（メール添付、YouTube、オフラインの上映
 tools/make-video.py --slides readme   # video/readme.mp4 と video/readme.srt
 ```
 
-Playwright（Python, chromium）・`ffmpeg`・`ffprobe`・`curl` が要る。書き出しには
+前提のパッケージは[「必要なもの」](#必要なもの)にある。書き出しには
 数分かかる（Raspberry Pi での実測。数分の動画で数分）。書き出し先の `video/` は
 `.gitignore` に入っており、リポジトリには入れない。
 

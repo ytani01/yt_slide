@@ -1,7 +1,7 @@
 # TODO
 
-**残っている項目: TODO-062、TODO-063、TODO-067。**
-これまでに 65 件を決着させた。
+**残っている項目: TODO-062、TODO-063。**
+これまでに 66 件を決着させた。
 新しく足すときは「完了済み」の上に節を作る。**番号は `TODO-069` から。**
 
 ---
@@ -82,51 +82,12 @@
 
 ---
 
-## TODO-067. 前提になるパッケージのインストールを `README.md` に書き、他の文書からはそこを指す
-
-|      | main | 担当 |
-|------|------|------|
-| 見込み | Opus 5 / effort high | verifier |
-
-- [ ] `README.md` に「必要なもの」の節を作り、要るパッケージと入れ方を書く
-- [ ] `docs/User.md` と `docs/Developer.md` の前提の記述を、その節を指す形に置き換える
-- [ ] 書いたコマンドが実際に通るか確かめる
-
-スライドを**見るだけならブラウザ 1 つで足りる**（Tailwind と Font Awesome は CDN から
-読む）。前提が要るのは `tools/` のスクリプトのほうで、`measure-duration.py` は
-`curl` と `ffprobe`、`make-video.py`（TODO-066）はさらに `ffmpeg`、Python の
-`playwright` と chromium が要る。**入れ方はどこにも書いていない。**
-
-道具を使うのは `docs/Developer.md` の読者だけではない。`docs/User.md` は
-スライドを作る人に `measure-duration.py` と `make-video.py` を使わせている。
-
-### 決めたこと
-
-- **入れ方の本体は `README.md` に置く。** 両方の読者の入口で、`tools/` の表も
-  すでにここにある
-- **`docs/User.md` と `docs/Developer.md` は README を指すだけにする。**
-  前提の記述はいま `README.md`、`docs/User.md` の 2 箇所（3 行）に散っており、
-  もう 1 箇所増やすと片方だけ古くなる
-- **「見るだけなら何も要らない」ことも書く。** それがこのプロジェクトの作りなので、
-  書かないと誤解される
-- **確認は verifier に分ける。** 書いたとおりに試せる手順だから（TODO-017）。
-  ただし `apt install` は実行させず、`--version` で実在と版を照合させる
-
-### 決めること（着手時）
-
-- **Debian / Raspberry Pi 前提の `apt` と `pip` のコマンドまで書くか、
-  パッケージ名だけ挙げるか。** 実測した版（`ffmpeg 5.1.9` など）を添えるかも
-  一緒に決める
-
-**TODO-066 は決着済み**（`tools/make-video.py` がある）。着手できる。
-
----
-
 ## 完了済み
 
 1 項目 1 ファイル。`archives/todo/` にある（新しい順）。
 **やらないと決めたものの理由も記載してある。** 蒸し返す前に読むこと。
 
+- [**TODO-067.** 前提になるパッケージのインストールを `README.md` に書き、他の文書からはそこを指す](archives/todo/TODO-067.%20%E5%89%8D%E6%8F%90%E3%81%AB%E3%81%AA%E3%82%8B%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E3%82%92%20README.md%20%E3%81%AB%E6%9B%B8%E3%81%8D%E3%80%81%E4%BB%96%E3%81%AE%E6%96%87%E6%9B%B8%E3%81%8B%E3%82%89%E3%81%AF%E3%81%9D%E3%81%93%E3%82%92%E6%8C%87%E3%81%99.md)
 - [**TODO-068.** `slides/_rules.js` を `player.html` に戻す](archives/todo/TODO-068.%20slides%20_rules.js%20を%20player.html%20に戻す.md)
 - [**TODO-060.** `slides/_rules.js` を `player.html` に含めるか、もう一度検討する](archives/todo/TODO-060.%20slides%20_rules.js%20を%20player.html%20に含めるか、もう一度検討する.md)
 - [**TODO-066.** スライドを MP4 に書き出すツールを作る](archives/todo/TODO-066.%20スライドを%20MP4%20に書き出すツールを作る.md)

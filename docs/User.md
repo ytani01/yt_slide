@@ -89,7 +89,8 @@ $ tools/measure-duration.py --text 'ここに読み上げる文章'
 下書き: 原文 10 字 / 読み 10 字 / 実測 2.376s / BASE_SPEED_MULTIPLIER=1.4 倍速 1.70s -> duration: 2
 ```
 
-最後に出る `duration: 2` をそのまま書く。`curl` と `ffprobe` が必要。
+最後に出る `duration: 2` をそのまま書く。前提のパッケージは
+[README の「必要なもの」](../README.md#必要なもの)にある。
 
 `--slides <名前>` を付けると、どのスライド一式のスライドでも指定できる
 （省くと `readme`）。`--write` を付けると、`duration` を直接書き換える。
@@ -171,7 +172,7 @@ video/readme.mp4 と video/readme.srt に書き出した
 - 字幕は映像に焼き込まず、`.srt` を別に出す
 - 進行バー・残り時間・ボタンは映らない。動画では操作できないため
 - `animate-bounce` のようなアニメーションは静止画になる
-- Playwright（Python, chromium）・`ffmpeg`・`ffprobe`・`curl` が要る
+- 前提のパッケージは [README の「必要なもの」](../README.md#必要なもの)にある
 - 書き出し先の `video/` は `.gitignore` に入っており、リポジトリには入れない。
   要るときに作り直す
 

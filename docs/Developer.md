@@ -16,6 +16,7 @@
 | `tools/test_measure_duration.py` | 書き込みと置換表の読み込みの自動確認 |
 
 **ビルドも依存関係のインストールも不要。**
+（`tools/` のスクリプトだけは前提が要る。[README の「必要なもの」](../README.md#必要なもの)）
 テストは `tools/test_measure_duration.py` だけ。`duration` の書き込み確認を見る
 （`python3` だけあれば十分）。Tailwind・Google Fonts・FontAwesome は CDN から
 読み込む（オフラインでは崩れる）。`public_html/` に置くため、ファイルを置くだけで
