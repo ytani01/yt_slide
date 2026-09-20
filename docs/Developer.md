@@ -55,7 +55,10 @@ python3 -m http.server 8000
 読み込み時点で `slideData` を参照するため、順番を変えると動かない。
 スライド一式が読めなかった場合、白画面にせず理由を表示して `throw` で停止する。
 
-`slideData` の各要素は `{ title, duration, narration, render() }`。
+`slideData` の各要素は `{ title, duration, narration }` に、
+`render()` か `body`（見出しのアイコンは `icon`）が付く。
+`render()` があればそれを呼び、無ければ `title` と `icon` から見出しを
+作って `body` を枠で包む。
 スライド番号は持たず、並び順から計算する（TODO-048）。
 各キーの意味は [User.md](User.md) にある。
 

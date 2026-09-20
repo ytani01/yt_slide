@@ -905,7 +905,23 @@
             slideCanvas.classList.remove('slide-fade-enter');
             void slideCanvas.offsetWidth; // Reflow trigger
             slideCanvas.classList.add('slide-fade-enter');
-            slideCanvas.innerHTML = slide.render();
+            // render() があればそれを使う。無ければ title/icon から見出しを
+            // 作り、body を枠で包む（TODO-062）
+            if (typeof slide.render === 'function') {
+                slideCanvas.innerHTML = slide.render();
+            } else {
+                const heading = slide.title
+                    ? `<h2 class="font-bold text-sky-400 mb-[1.5cqw] flex items-center gap-[1cqw]" style="font-size: clamp(1.4rem, 3.2cqw, 2.5rem);">${
+                        slide.icon ? `<i class="fa-solid ${slide.icon} text-lime-400"></i> ` : ''
+                    }${slide.title}</h2>`
+                    : '';
+                slideCanvas.innerHTML = `
+                    <div class="flex flex-col h-full justify-center px-[3cqw]">
+                        ${heading}
+                        ${slide.body}
+                    </div>
+                `;
+            }
 
             // Update UI headers & captions
             slideNum.textContent = String(currentIndex + 1).padStart(2, '0');

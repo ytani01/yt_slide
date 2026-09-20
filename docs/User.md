@@ -46,13 +46,39 @@ const slideData = [
 | `title` | プレイリストと再生バーの上に出る題名 |
 | `duration` | このスライドの秒数。**読み上げの実測値を入れる**（後述） |
 | `narration` | 読み上げる文章。字幕にもそのまま出る |
+| `body` | 本文の HTML を**文字列で書く**。見出しの下に差し込まれる（後述） |
+| `icon` | 見出しの先頭に出す FontAwesome のクラス名（例 `'fa-list-check'`）。省略できる |
 | `render()` | スライドの HTML を**文字列で返す関数**。`#slide-canvas` の `innerHTML` に入る |
 
 **スライドの番号と枚数は書かない。** `SLIDE 01 / 17` の番号は
 `slideData` の並び順から、総枚数と総時間は `slideData.length` と
 `duration` の合計から自動で計算される。
 
+## `body` だけで書く
+
+見出しと本文の枠だけでよいスライドは、`render()` を書かずに `body` だけで
+書ける。外枠と見出しは `player.html` が `title` と `icon` から作るので、
+`body` には本文の HTML だけを書く（外側の `div` や `h2` は書かない）。
+
+```js
+{
+    title: '箇条書きの例',
+    icon: 'fa-list-check',
+    duration: 7,
+    narration: '……',
+    body: `<ul>…</ul>`,
+}
+```
+
+`title` が空（または未定義）なら見出しごと出ず、本文だけになる。`icon` を
+省くとアイコンは出ない。`render()` を書いた場合はそちらが優先される
+（`body` は無視される）。詳しい例は `slides/template.js`
+（`player.html?slides=template`）を見る。
+
 ## `render()` の書き方
+
+`body` では足りない、見出しの形自体を変えたいスライドは
+`render()` を使う（今までどおり使える）。
 
 差し込み先の `#slide-canvas` は縦に伸びる領域で、外側が **960x540 の
 16:9 枠**。Tailwind・Google Fonts・FontAwesome は
