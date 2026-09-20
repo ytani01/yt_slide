@@ -258,6 +258,35 @@
                 z-index: -1;
             }
         }
+        #operation-guide {
+            width: min(36rem, calc(100% - 2rem));
+            max-height: calc(100dvh - 2rem);
+            margin: auto;
+            padding: 0;
+            color: #e2e8f0;
+            background: #0f172a;
+            border: 1px solid #475569;
+            border-radius: 0.75rem;
+            overflow-y: auto;
+        }
+        #operation-guide::backdrop { background: rgb(0 0 0 / 70%); }
+        #operation-guide .guide-header {
+            position: sticky;
+            top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1rem;
+            background: #0f172a;
+            border-bottom: 1px solid #475569;
+        }
+        #operation-guide .guide-body { padding: 1rem; line-height: 1.75; }
+        #operation-guide h3 { margin-top: 1rem; font-weight: bold; }
+        #operation-guide dl { display: grid; grid-template-columns: auto 1fr; gap: 0.5rem 1rem; }
+        #operation-guide dt { font-weight: bold; }
+        #operation-guide button { padding: 0.5rem 0.75rem; border: 1px solid #64748b; border-radius: 0.5rem; }
+        button:focus-visible { outline: 2px solid #38bdf8; outline-offset: 3px; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between">
@@ -280,7 +309,7 @@
         <div class="flex items-center gap-3 flex-shrink-0">
             <!-- Voice Selector / Engine Toggle Button -->
             <button id="toggle-voice-engine-btn" class="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 px-3 py-1.5 rounded-lg text-xs transition cursor-pointer">
-                <i class="fa-solid fa-volume-high text-lime-400"></i>
+                <i aria-hidden="true" class="fa-solid fa-volume-high text-lime-400"></i>
                 <span class="hidden sm:inline text-slate-300 font-medium">音声エンジン:</span>
                 <span id="speech-status-indicator" class="text-sky-400 font-bold font-mono">Online Voice</span>
                 <span class="hidden sm:inline text-[10px] bg-slate-950 text-sky-400 px-1.5 py-0.5 rounded border border-slate-800">切替</span>
@@ -371,25 +400,27 @@
                     <!-- Main Buttons Row -->
                     <div class="flex items-center justify-between gap-y-2 flex-wrap pt-1">
                         
-                        <div class="flex items-center gap-2">
+                        <div class="flex items-center gap-2 flex-wrap">
                             <!-- Prev Slide Button -->
-                            <button id="prev-btn" class="w-10 h-10 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 flex items-center justify-center transition border border-slate-700">
-                                <i class="fa-solid fa-backward-step"></i>
+                            <button id="prev-btn" aria-label="前のスライド" title="前のスライドへ移動（←）" class="w-10 h-10 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 flex items-center justify-center transition border border-slate-700">
+                                <i aria-hidden="true" class="fa-solid fa-backward-step"></i>
                             </button>
 
                             <!-- Play/Pause Button -->
-                            <button id="play-btn" class="w-12 h-12 rounded-xl bg-gradient-to-r from-sky-400 to-lime-400 hover:opacity-90 text-slate-950 flex items-center justify-center font-bold text-lg transition shadow-lg shadow-sky-500/20">
-                                <i class="fa-solid fa-play ml-0.5" id="play-icon"></i>
+                            <button id="play-btn" aria-label="再生" title="再生（Space）" class="w-12 h-12 rounded-xl bg-gradient-to-r from-sky-400 to-lime-400 hover:opacity-90 text-slate-950 flex items-center justify-center font-bold text-lg transition shadow-lg shadow-sky-500/20">
+                                <i aria-hidden="true" class="fa-solid fa-play ml-0.5" id="play-icon"></i>
                             </button>
 
                             <!-- Next Slide Button -->
-                            <button id="next-btn" class="w-10 h-10 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 flex items-center justify-center transition border border-slate-700">
-                                <i class="fa-solid fa-forward-step"></i>
+                            <button id="next-btn" aria-label="次のスライド" title="次のスライドへ移動（→）" class="w-10 h-10 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 flex items-center justify-center transition border border-slate-700">
+                                <i aria-hidden="true" class="fa-solid fa-forward-step"></i>
                             </button>
+
+                            <button id="guide-btn" aria-haspopup="dialog" aria-controls="operation-guide" title="キー操作とタッチ操作を確認する" class="text-slate-200 text-xs bg-slate-800 hover:bg-slate-700 px-3 py-2 rounded-lg border border-slate-700">操作ガイド</button>
 
                             <!-- Auto-Replay Toggle -->
                             <button id="restart-btn" class="ml-2 text-slate-400 hover:text-slate-200 text-xs flex items-center gap-1 bg-slate-800/50 hover:bg-slate-800 px-3 py-2 rounded-lg border border-slate-800">
-                                <i class="fa-solid fa-rotate-left"></i> 最初から
+                                <i aria-hidden="true" class="fa-solid fa-rotate-left"></i> 最初から
                             </button>
                         </div>
 
@@ -402,8 +433,8 @@
                         <!-- Right Options -->
                         <div class="flex items-center gap-2">
                             <!-- Subtitle / Caption Toggle Button -->
-                            <button id="toggle-caption-btn" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs text-slate-400 font-bold px-2.5 py-2 rounded-lg transition flex items-center gap-1.5 cursor-pointer" title="字幕の表示/非表示">
-                                <i class="fa-solid fa-closed-captioning" id="caption-icon"></i>
+                            <button id="toggle-caption-btn" aria-label="字幕" aria-pressed="false" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs text-slate-400 font-bold px-2.5 py-2 rounded-lg transition flex items-center gap-1.5 cursor-pointer" title="字幕の表示/非表示">
+                                <i aria-hidden="true" class="fa-solid fa-closed-captioning" id="caption-icon"></i>
                                 <span class="hidden sm:inline">字幕</span>
                             </button>
 
@@ -424,13 +455,13 @@
                             </select>
 
                             <!-- Mute Button -->
-                            <button id="mute-btn" class="w-9 h-9 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center text-sm border border-slate-700">
-                                <i class="fa-solid fa-volume-high" id="mute-icon"></i>
+                            <button id="mute-btn" aria-label="消音" title="音声を消す／戻す（M）" aria-pressed="false" class="w-9 h-9 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center text-sm border border-slate-700">
+                                <i aria-hidden="true" class="fa-solid fa-volume-high" id="mute-icon"></i>
                             </button>
 
                             <!-- Fullscreen Button -->
-                            <button id="fullscreen-btn" class="w-9 h-9 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center text-sm border border-slate-700">
-                                <i class="fa-solid fa-expand"></i>
+                            <button id="fullscreen-btn" aria-label="フルスクリーン" title="フルスクリーン表示を切り替える（F）" aria-pressed="false" class="w-9 h-9 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center text-sm border border-slate-700">
+                                <i aria-hidden="true" class="fa-solid fa-expand"></i>
                             </button>
                         </div>
 
@@ -458,6 +489,35 @@
         </div>
 
     </main>
+
+    <dialog id="operation-guide" aria-labelledby="guide-title">
+        <div class="guide-header">
+            <h2 id="guide-title" class="font-bold">操作ガイド</h2>
+            <button id="guide-close-btn" autofocus>閉じる</button>
+        </div>
+        <div class="guide-body">
+            <p>Tab でボタンへ移動し、Enter または Space で操作できます。ガイドは「閉じる」または Escape で閉じます。</p>
+            <h3>キー操作</h3>
+            <p>Space・矢印・F・M は、ボタンや選択欄を操作していないときに使えます。</p>
+            <dl>
+                <dt>Space</dt><dd>再生／一時停止</dd>
+                <dt>← / →</dt><dd>前／次のスライド</dd>
+                <dt>F</dt><dd>フルスクリーンの切り替え</dd>
+                <dt>M</dt><dd>消音の切り替え</dd>
+                <dt>Escape</dt><dd>フルスクリーンを終了</dd>
+            </dl>
+            <h3>タッチ操作</h3>
+            <dl>
+                <dt>スライドをタップ</dt><dd>再生／一時停止</dd>
+                <dt>左へスワイプ</dt><dd>次のスライド</dd>
+                <dt>右へスワイプ</dt><dd>前のスライド</dd>
+            </dl>
+            <p>タッチ画面では、フルスクリーン中の枠の外にある暗幕をタップすると通常表示に戻ります。画面比率によって暗幕がない場合は、F または Escape を使ってください。</p>
+            <h3>その他のボタン</h3>
+            <p>「最初から」で先頭へ戻り、「字幕」でナレーションの全文を表示します。「速度」と「待ち」で再生速度と読み上げ後の待ち時間を選べます。</p>
+            <p>ガイドを開閉しても再生状態は変わりません。再生中はスライドが進みます。</p>
+        </div>
+    </dialog>
 
     <!-- ?slides=<名前> で読み込むスライドのデータを選ぶ（TODO-041）。
          下の再生エンジンより先に読む必要があるので document.write を使う。
@@ -989,6 +1049,8 @@
 
         function playPresentation() {
             isPlaying = true;
+            playBtn.setAttribute('aria-label', '一時停止');
+            playBtn.title = '一時停止（Space）';
             playIcon.classList.remove('fa-play', 'ml-0.5');
             playIcon.classList.add('fa-pause');
             
@@ -1000,6 +1062,8 @@
 
         function pausePresentation() {
             isPlaying = false;
+            playBtn.setAttribute('aria-label', '再生');
+            playBtn.title = '再生（Space）';
             playIcon.classList.remove('fa-pause');
             playIcon.classList.add('fa-play', 'ml-0.5');
             
@@ -1082,6 +1146,12 @@
         }
 
         function setupEventListeners() {
+            const guideBtn = document.getElementById('guide-btn');
+            const guide = document.getElementById('operation-guide');
+            guideBtn.addEventListener('click', () => guide.showModal());
+            document.getElementById('guide-close-btn').addEventListener('click', () => guide.close());
+            guide.addEventListener('close', () => guideBtn.focus({ preventScroll: true }));
+
             playBtn.addEventListener('click', () => {
                 // Direct user gesture unlock for Web Speech API in Chrome/Safari iFrames
                 if ('speechSynthesis' in window) {
@@ -1099,6 +1169,7 @@
             // Toggle Subtitle Banner visibility
             toggleCaptionBtn.addEventListener('click', () => {
                 showCaptions = !showCaptions;
+                toggleCaptionBtn.setAttribute('aria-pressed', String(showCaptions));
                 subtitleBanner.classList.toggle('hidden', !showCaptions);
                 toggleCaptionBtn.classList.toggle('text-slate-400', !showCaptions);
                 toggleCaptionBtn.classList.toggle('text-lime-400', showCaptions);
@@ -1156,6 +1227,7 @@
 
             muteBtn.addEventListener('click', () => {
                 isMuted = !isMuted;
+                muteBtn.setAttribute('aria-pressed', String(isMuted));
                 if (isMuted) {
                     muteIcon.className = 'fa-solid fa-volume-xmark text-rose-400';
                     stopSpeech();
@@ -1231,6 +1303,7 @@
             // レターボックスと、狭い画面・タッチ画面の暗幕が使う。
             const stage = document.getElementById('viewport-stage');
             const setFullscreen = (on) => {
+                fullscreenBtn.setAttribute('aria-pressed', String(on));
                 playerViewport.classList.toggle('pseudo-fullscreen', on);
                 stage.classList.toggle('is-fullscreen', on);
                 document.body.classList.toggle('fs-lock', on);
@@ -1253,8 +1326,14 @@
 
             // Listen for keyboard shortcuts (Space, Arrow keys, Fullscreen, Mute, Escape)
             document.addEventListener('keydown', (e) => {
-                // Do not trigger shortcuts if focus is inside text inputs
-                if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) return;
+                // モーダル中は Escape も含めてブラウザに任せる。
+                // ボタンの Space を再生操作で奪わない。
+                if (guide.open || e.defaultPrevented || e.isComposing) return;
+                if (e.key === 'Escape') {
+                    if (playerViewport.classList.contains('pseudo-fullscreen')) setFullscreen(false);
+                    return;
+                }
+                if (e.target.closest('button, input, textarea, select, a, [contenteditable]:not([contenteditable="false"])')) return;
 
                 if (e.key === ' ' || e.code === 'Space') {
                     e.preventDefault();
@@ -1280,10 +1359,7 @@
                 } else if (e.key === 'm' || e.key === 'M') {
                     e.preventDefault();
                     muteBtn.click();
-                } else if (e.key === 'Escape') {
-                    if (playerViewport.classList.contains('pseudo-fullscreen')) {
-                        setFullscreen(false);
-                    }
+
                 }
             });
 
