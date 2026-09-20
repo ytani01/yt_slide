@@ -29,8 +29,9 @@
 このリポジトリの紹介（`slides/readme.js`）が流れる。
 
 自分で作ったスライドも `player.html?slides=<名前>` で開ける。ただし
-スライドの一覧（`index.html`）には自動では出ない。出すには `index.html`
-に `<li>` を 1 つ足す（[User.md の手順](docs/User.md#手順)）。
+スライドの一覧（`index.html`）には自動では出ない。出すには
+`slidesConfig` に `summary` と `icon` を書いて `tools/make-index.py` を
+走らせる（[User.md の手順](docs/User.md#手順)）。
 
 ## 必要なもの
 
@@ -87,10 +88,12 @@ const slideData = [
 | ファイル・ディレクトリ | 中身 |
 |------------------------|------|
 | `player.html` | 外枠の HTML・CSS と再生ロジック。**これ 1 つが本体** |
-| `index.html` | スライドの一覧。足したら 1 行足す（`docs/User.md` の「手順」） |
+| `index.html` | スライドの一覧。`tools/make-index.py` が生成する（`docs/User.md` の「手順」） |
 | `slides/<名前>.js` | スライドのデータ。`player.html?slides=<名前>` で読まれる |
 | `images/` | スライドに貼るビットマップ画像 |
 | `docs/` | 説明（下記） |
+| `tools/make-index.py` | `slides/*.js` の `slidesConfig` から `index.html` の一覧を作る |
+| `tools/test_make_index.py` | 一覧の差し替えを確かめる自己テスト |
 | `tools/measure-duration.py` | 読み上げ秒数を測り、`duration` に書き戻す |
 | `tools/test_measure_duration.py` | 書き戻しの置換を確かめる自己テスト |
 | `tools/make-video.py` | スライド一式を MP4 と `.srt` に書き出す |

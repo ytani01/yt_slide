@@ -4,10 +4,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 構成
 
-`player.html`（外枠と再生エンジン）、`index.html`（スライドの一覧。入口）、`slides/*.js`（スライドのデータ。
+`player.html`（外枠と再生エンジン）、`index.html`（スライドの一覧。入口。
+`tools/make-index.py` が `slides/*.js` から生成する）、`slides/*.js`（スライドのデータ。
 `readme`・`user`・`developer`・`claude-memo`・`template` の 5 つのスライド一式）と、
 `tools/` の補助スクリプトだけ。ビルドも依存関係のインストールも不要。
-テストは `tools/test_measure_duration.py` と `tools/test_make_video.py` の 2 本。
+テストは `tools/test_make_index.py`・`tools/test_measure_duration.py`・
+`tools/test_make_video.py` の 3 本。
 配置場所が `public_html/` なので、ファイルがそのまま公開される。
 確認はブラウザで `player.html` を開くだけ。
 

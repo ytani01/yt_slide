@@ -5,6 +5,9 @@
 const slidesConfig = {
     title: 'player.html で別のスライドを作る - 使い方',
     heading: '新しいスライドを作る手順',
+    // index.html の一覧に出す説明とアイコン（tools/make-index.py が読む。TODO-089）
+    summary: 'スライドの作り方',
+    icon: 'fa-pen-ruler',
     // このスライド一式だけの読みの置換表（TODO-054）。共通は player.html
     rules: [
         [/\.js\b/gi, ' ドット ジェイエス'],
@@ -140,17 +143,18 @@ const slideData = [
     },
     // Slide 5
     {
-        title: '手順3 index.html に足す',
+        title: '手順3 index.html を作り直す',
         icon: 'fa-file-circle-plus',
         duration: 11,
-        narration: 'index.html の一覧に、リスト項目を1つ足します。既存の1つを写して、リンク先のslidesと名前・説明を直すだけです。',
+        narration: 'slidesConfigにsummaryとiconを書いて、tools/make-index.pyを走らせると、index.htmlの一覧が作り直されます。',
         body: `
             <div class="bg-slate-800/80 border border-lime-500 p-[1.6cqw] rounded-xl shadow-lg shadow-lime-500/10 mb-[1.4cqw]">
-                <div class="text-lime-400 font-bold mb-[0.5cqw]" style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);">index.html の一覧に &lt;li&gt; を 1 つ足す</div>
-                <div class="text-slate-200 font-medium" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">既存の 1 つを写して、<code class="font-mono text-sky-300">href</code> の <code class="font-mono text-sky-300">slides=</code> と名前・説明を直す</div>
+                <div class="text-lime-400 font-bold mb-[0.5cqw]" style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);">slidesConfig に summary と icon を書く</div>
+                <div class="text-slate-200 font-medium" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);"><code class="font-mono text-sky-300">summary</code> は一覧に出す説明文、<code class="font-mono text-sky-300">icon</code> は FontAwesome のクラス名</div>
             </div>
             <div class="bg-sky-950/40 border border-sky-500/40 rounded-xl p-[1.2cqw] text-sky-300 font-medium" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">
-                足さなくても <code class="font-mono">player.html?slides=&lt;名前&gt;</code> で直接開ける。一覧に出したいときの手順
+                <code class="font-mono">tools/make-index.py</code> を走らせると <code class="font-mono">index.html</code> の一覧が作り直される。走らせなくても
+                <code class="font-mono">player.html?slides=&lt;名前&gt;</code> で直接開ける
             </div>
         `,
     },

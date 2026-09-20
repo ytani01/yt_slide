@@ -4,6 +4,9 @@
 const slidesConfig = {
     title: 'Claude Code 活用法 - プレゼン動画プレイヤー',
     heading: '私の Claude Code の使い方',
+    // index.html の一覧に出す説明とアイコン（tools/make-index.py が読む。TODO-089）
+    summary: '実例。「私の Claude Code の使い方」',
+    icon: 'fa-robot',
     // このスライド一式だけの読みの置換表（TODO-054）。共通は player.html
     rules: [
         [/ccstatusline/gi, 'シーシー ステータス ライン'],

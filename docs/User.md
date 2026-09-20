@@ -41,9 +41,9 @@
 
 1. `player.html` と同じディレクトリの `slides/` に `<名前>.js` を作る
    （`<名前>` は英数字・`_`・`-` のみ。その他は無視される）
-2. `slidesConfig` と `slideData` を書く（下記）
-3. `index.html` の一覧に、`<li>` を 1 つ足す（既存の 1 つを写して、
-   `href` の `slides=` と名前・説明を直す）
+2. `slidesConfig` と `slideData` を書く（下記）。一覧に出したいなら
+   `summary` と `icon` も書く
+3. `tools/make-index.py` を走らせ、`index.html` の一覧を作り直す
 4. ブラウザで `player.html?slides=<名前>` を開く
 
 `?slides=` を省くと `slides/readme.js` を読む。読み込みに失敗した場合、
@@ -58,6 +58,8 @@
 const slidesConfig = {
     title: 'ブラウザのタブに出る文字列',
     heading: 'ヘッダーに出る見出し',
+    summary: 'index.html の一覧に出す説明文',
+    icon: 'fa-list-check',
 };
 
 const slideData = [
@@ -84,6 +86,18 @@ const slideData = [
 **スライドの番号と枚数は書かない。** `SLIDE 01 / 17` の番号は
 `slideData` の並び順から、総枚数と総時間は `slideData.length` と
 `duration` の合計から自動で計算される。
+
+`slidesConfig` の `summary`・`icon` は `index.html` の一覧専用で、
+`player.html` の再生には関わらない。`tools/make-index.py` を走らせると、
+`slides/` にある `_` で始まらないファイルすべてから読み、
+`index.html` のマーカーコメントの間の `<li>` を作り直す（並びは
+`readme` を先頭、残りはファイル名の辞書順）。一覧に出したくないスライドは
+ファイル名の頭に `_` を付ける（`?slides=` では今までどおり開ける）。
+`summary`・`icon` を省くと警告が出るだけで生成は止まらない。
+`summary` は `index.html` にエスケープせずそのまま挿入する。HTML を
+そのまま書ける（`developer.js` のように `<span>` などを埋め込める）が、
+逆に `<` や `&` を含む素のテキストを書くと、そのまま HTML として
+解釈される。
 
 ## `body` で書く（標準）
 
@@ -306,13 +320,16 @@ images/             ← 画像を使っているときだけ
 だけで、参照は相対パス。残り（Tailwind・Google Fonts・FontAwesome・
 読み上げの音声）はすべて外部から取得する。
 
-- **`index.html` を持っていくなら、持っていかないスライドの `<li>` は消す。**
-  一覧は `slides/` を見て作られるのではなく、リンクを直接書いたもの。
-  消さないと無いスライドへのリンクが残り、開いたときに「スライドのデータ
-  `slides/<名前>.js` を読み込めませんでした。」と出る
-- `tools/`・`docs/`・`archives/`・`README.md`・`TODO.md` は**要らない**。
-  `tools/measure-duration.py` は `duration` を測るためのもので、再生には
-  関わらない
+- **`index.html` を持っていくなら、持っていかないスライドの `.js` を
+  `slides/` から消してから `tools/make-index.py` を走らせ直す。**
+  `index.html` は `slides/` を見て作った静的なファイルで、渡す側で
+  自動的に絞り込まれるわけではない。消さずに持っていくと無いスライドへの
+  リンクが残り、開いたときに「スライドのデータ `slides/<名前>.js` を
+  読み込めませんでした。」と出る
+- `docs/`・`archives/`・`README.md`・`TODO.md` は**要らない**。`tools/` も
+  持っていかなくてよいが、`index.html` を作り直すなら `tools/make-index.py`
+  が要る（`python3` があればよい）。`tools/measure-duration.py` は
+  `duration` を測るためのもので、どちらも再生には関わらない
 - **ネット接続が要る。** オフラインでは見た目が崩れ、音声も出ない
 - **`file://` でも動く。** サーバーに置かず、ファイルを直接開いても表示から
   読み上げまで動く（Online Voice で確かめた）。HTTP で配信しても同じ

@@ -5,6 +5,9 @@
 const slidesConfig = {
     title: 'player.html を直す人へ - 開発者向けガイド',
     heading: 'player.html を直す人へ',
+    // index.html の一覧に出す説明とアイコン（tools/make-index.py が読む。TODO-089）
+    summary: '<span class="font-mono">player.html</span> の作り',
+    icon: 'fa-code',
     // このスライド一式だけの読みの置換表（TODO-054）。共通は player.html
     rules: [
         [/archives\/todo/gi, 'アーカイブズ スラッシュ トゥードゥー'],

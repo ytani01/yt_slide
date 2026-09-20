@@ -4,6 +4,9 @@
 const slidesConfig = {
     title: 'yt_slide - ファイル 2 つで動くナレーション付きプレゼン',
     heading: 'yt_slide の紹介',
+    // index.html の一覧に出す説明とアイコン（tools/make-index.py が読む。TODO-089）
+    summary: 'このリポジトリの紹介',
+    icon: 'fa-book-open',
     // このスライド一式だけの読みの置換表（TODO-054）。共通は player.html
     rules: [
         [/claude-memo/gi, 'クロード メモ'],

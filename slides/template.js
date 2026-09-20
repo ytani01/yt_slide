@@ -8,6 +8,9 @@
 const slidesConfig = {
     title: 'テンプレート',
     heading: 'スライドの型 19 種',
+    // index.html の一覧に出す説明とアイコン（tools/make-index.py が読む。TODO-089）
+    summary: 'スライドの型の見本。コピーして使う',
+    icon: 'fa-shapes',
     rules: [
         [/render\(\)/gi, 'レンダー'],
         [/\bbody\b/gi, 'ボディ'],
