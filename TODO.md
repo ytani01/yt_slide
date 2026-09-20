@@ -1,7 +1,7 @@
 # TODO
 
-**残っている項目: TODO-074・TODO-075・TODO-077・TODO-078。** これまでに 77 件を決着させた。
-新しく足すときは「完了済み」の上に節を作る。**番号は `TODO-082` から。**
+**残っている項目: TODO-074・TODO-075・TODO-077・TODO-078・TODO-082。** これまでに 77 件を決着させた。
+新しく足すときは「完了済み」の上に節を作る。**番号は `TODO-083` から。**
 
 ---
 
@@ -122,6 +122,42 @@ Online TTS の `onerror` と `play()` の拒否は、現在は console に警告
 **着手前の担当見込み:** 複数の音声経路とタイマーに関わるため、implementer が
 実装・テスト、main が方針整理と文書を担当する。reviewer の確認後に verifier が
 実測する。実装は未着手。
+
+---
+
+## TODO-082. template.js を入口に加え、user.js 9 枚目の案内先にし、削りやすい見本にする
+
+|      | main | 担当 |
+|------|------|------|
+| 見込み | Sonnet 5 / effort medium | verifier |
+
+- [ ] `index.html` の一覧に `template` を足す（`player.html?slides=template`）
+- [ ] `slides/user.js` 9 枚目の 1 枚目のカードを `claude-memo.js` から `template.js` にする（リンク先・題・説明文。「既存の17枚から近いものを探す」は合わなくなるので直す）
+- [ ] `slides/template.js` に型を数種足し、使う人が不要なものを削りやすい形にする
+- [ ] `docs/User.md` と `README.md` の `template.js` の記述を、変えた中身に合わせる
+
+`template.js` は 9 種の型の見本で、`docs/User.md` から案内されているが、
+`index.html` の一覧には無い。`user.js` 9 枚目は、いま実例の
+`claude-memo.js` へ案内している（TODO-081）。見本として作った
+`template.js` のほうが、コピーして使う入口には向いている。
+
+決めてあること（利用者と決めた）:
+
+- **「もう少しだけ高度に」は、型を増やし、削りやすくする方向。**
+  表・コード例・図など数種を足す。各スライドを独立させ、コメントで
+  「不要ならこの範囲を丸ごと削除してよい」と区切りを示す。作り込みすぎない
+- `claude-memo.js` の `index.html` の項目は、そのまま残す
+  （`user.js` の案内先を替えるだけで、一覧からは外さない）
+
+着手前に決めること: **足す型の種類と数。** 着手時に案を出して確認を取る。
+
+`template.js` の変更は、`slideData` の配列に足すだけで挙動は変わらない。
+verifier が Playwright で 1280×720 と 390×844 を確認する。
+`player.html?slides=template` の全枚が描画エラー無しで出る、足した型の
+見た目が崩れない、`index.html` のリンクから開ける、`user.js` 9 枚目のカードの
+リンクが `template.js` を指す、スライドを 1 枚削っても他が動く（ナレーションの
+`duration` と `rules` を含む）ことを見る。`docs/User.md` の手順は
+書いたとおりに試して再現する。
 
 ---
 
