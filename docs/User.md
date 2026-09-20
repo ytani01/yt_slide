@@ -267,3 +267,38 @@ const slideData = [
     },
 ];
 ```
+
+## 付録 アイコン名の例
+
+`icon` と `render()` の中で使える FontAwesome のクラス名。`player.html` が
+CDN から読む **FontAwesome 6.5.1 の無料の solid** から、用途別に 30 件挙げる。
+
+| 用途 | クラス名 |
+|------|----------|
+| 箇条書き・一覧 | `fa-list-check` / `fa-list-ol` / `fa-table-list` |
+| 注意・禁止 | `fa-triangle-exclamation` / `fa-circle-exclamation` / `fa-ban` / `fa-circle-info` |
+| 手順・進行 | `fa-flag-checkered` / `fa-arrow-right` / `fa-circle-check` |
+| コード・端末 | `fa-code` / `fa-terminal` / `fa-file-code` |
+| ファイル・文書 | `fa-folder-open` / `fa-file-lines` / `fa-book` |
+| 時間・計測 | `fa-clock` / `fa-stopwatch` / `fa-gauge-high` / `fa-chart-simple` |
+| 人・対話 | `fa-users` / `fa-comments` / `fa-robot` |
+| 図解・設定 | `fa-diagram-project` / `fa-table` / `fa-gear` / `fa-sliders` |
+| 強調・ひらめき | `fa-lightbulb` / `fa-star` / `fa-wand-magic-sparkles` |
+
+`icon` にはこの名前だけを書く（`fa-solid` は `player.html` が付ける）。
+`render()` の中では `<i class="fa-solid fa-list-check"></i>` と組みで書く。
+
+```js
+{
+    title: '注意点',
+    icon: 'fa-triangle-exclamation',
+    ...
+}
+```
+
+ここに無いものは [FontAwesome の検索](https://fontawesome.com/search?o=r&m=free&s=solid)
+で探す。**無料の solid に限る**（有料のアイコンや、ブランドのロゴ
+（`fa-brands`）は `fa-solid` では出ない）。**名前を間違えても何も言われず、
+アイコンが出ないだけ**なので、足したら画面で確かめる。
+
+同じ一覧がスライドの巻末にもある（`player.html?slides=user`）。

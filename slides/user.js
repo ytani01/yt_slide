@@ -12,6 +12,41 @@ const slidesConfig = {
     ],
 };
 
+// 巻末のアイコン一覧（TODO-069）。用途ごとに 3〜4 件、FontAwesome 6.5.1 の
+// 無料の solid から選んである。docs/User.md の付録と同じ内容。
+const ICON_GROUPS = [
+    ['箇条書き・一覧', ['fa-list-check', 'fa-list-ol', 'fa-table-list']],
+    ['注意・禁止', ['fa-triangle-exclamation', 'fa-circle-exclamation', 'fa-ban', 'fa-circle-info']],
+    ['手順・進行', ['fa-flag-checkered', 'fa-arrow-right', 'fa-circle-check']],
+    ['コード・端末', ['fa-code', 'fa-terminal', 'fa-file-code']],
+    ['ファイル・文書', ['fa-folder-open', 'fa-file-lines', 'fa-book']],
+    ['時間・計測', ['fa-clock', 'fa-stopwatch', 'fa-gauge-high', 'fa-chart-simple']],
+    ['人・対話', ['fa-users', 'fa-comments', 'fa-robot']],
+    ['図解・設定', ['fa-diagram-project', 'fa-table', 'fa-gear', 'fa-sliders']],
+    ['強調・ひらめき', ['fa-lightbulb', 'fa-star', 'fa-wand-magic-sparkles']],
+];
+
+// 1 枚ぶん（3 グループ）を 3 カラムに並べる
+function iconTable(groups) {
+    return `
+        <div class="grid grid-cols-3 gap-[1.2cqw]">
+            ${groups.map(([label, names]) => `
+                <div class="bg-slate-800/60 rounded-xl border border-slate-700 p-[1.2cqw]">
+                    <div class="text-sky-300 font-bold mb-[0.9cqw]" style="font-size: clamp(0.9rem, 1.9cqw, 1.35rem);">${label}</div>
+                    <div class="space-y-[0.7cqw] text-slate-200">
+                        ${names.map((name) => `
+                            <div class="flex items-center gap-[0.9cqw]">
+                                <i class="fa-solid ${name} text-lime-400 flex-shrink-0 text-center" style="width: 2.4cqw; font-size: clamp(0.95rem, 2cqw, 1.45rem);"></i>
+                                <code class="font-mono" style="font-size: clamp(0.75rem, 1.6cqw, 1.15rem);">${name}</code>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+    `;
+}
+
 const slideData = [
     // Slide 1
     {
@@ -301,5 +336,29 @@ const slideData = [
                 </div>
             `;
         }
+    },
+    // Slide 12
+    {
+        title: 'アイコン名の例 1 - 一覧・注意・手順',
+        icon: 'fa-icons',
+        duration: 8,
+        narration: 'ここからは icon に書けるアイコン名の例です。まずは箇条書き、注意や禁止、手順を示すものです。',
+        body: iconTable(ICON_GROUPS.slice(0, 3)),
+    },
+    // Slide 13
+    {
+        title: 'アイコン名の例 2 - コード・文書・時間',
+        icon: 'fa-icons',
+        duration: 8,
+        narration: 'コードや端末の画面、ファイルや文書、時間と計測を表すものです。名前を間違えるとアイコンは何も出ません。',
+        body: iconTable(ICON_GROUPS.slice(3, 6)),
+    },
+    // Slide 14
+    {
+        title: 'アイコン名の例 3 - 人・図解・強調',
+        icon: 'fa-icons',
+        duration: 12,
+        narration: '人や対話、図解と設定、強調に使うものです。ここに無いものは FontAwesome のサイトで探せます。同じ一覧が User.md の巻末にもあります。',
+        body: iconTable(ICON_GROUPS.slice(6, 9)),
     },
 ];
