@@ -41,11 +41,10 @@ const slidesConfig = {
 const slideData = [
     {
         title: 'プレイリストに出る題名',
+        icon: 'fa-list-check',
         duration: 10,
         narration: '読み上げる文章。',
-        render: function() {
-            return `<div class="...">…</div>`;
-        }
+        body: `<ul>…</ul>`,
     },
     // 以下、スライドの数だけ続ける
 ];
@@ -56,19 +55,19 @@ const slideData = [
 | `title` | プレイリストと再生バーの上に出る題名 |
 | `duration` | このスライドの秒数。**読み上げの実測値を入れる**（後述） |
 | `narration` | 読み上げる文章。字幕にもそのまま出る |
-| `body` | 本文の HTML を**文字列で書く**。見出しの下に差し込まれる（後述） |
+| `body` | 本文の HTML を**文字列で書く**。見出しの下に差し込まれる。**標準の書き方**（後述） |
 | `icon` | 見出しの先頭に出す FontAwesome のクラス名（例 `'fa-list-check'`）。省略できる |
-| `render()` | スライドの HTML を**文字列で返す関数**。`#slide-canvas` の `innerHTML` に入る |
+| `render()` | `body` で足りないときだけ使う。スライドの HTML を**文字列で返す関数**（後述） |
 
 **スライドの番号と枚数は書かない。** `SLIDE 01 / 17` の番号は
 `slideData` の並び順から、総枚数と総時間は `slideData.length` と
 `duration` の合計から自動で計算される。
 
-## `body` だけで書く
+## `body` で書く（標準）
 
-見出しと本文の枠だけでよいスライドは、`render()` を書かずに `body` だけで
-書ける。外枠と見出しは `player.html` が `title` と `icon` から作るので、
-`body` には本文の HTML だけを書く（外側の `div` や `h2` は書かない）。
+スライドは `body` だけで書く。外枠と見出しは `player.html` が `title` と
+`icon` から作るので、`body` には本文の HTML だけを書く
+（外側の `div` や `h2` は書かない）。
 
 ```js
 {
@@ -81,7 +80,7 @@ const slideData = [
 ```
 
 `title` が空（または未定義）なら見出しごと出ず、本文だけになる。`icon` を
-省くとアイコンは出ない。`render()` を書いた場合はそちらが優先される
+省くとアイコンは出ない。`render()` も書いた場合は `render()` が優先される
 （`body` は無視される）。
 
 **型の見本が `slides/template.js` にある**（`player.html?slides=template`）。
@@ -92,8 +91,19 @@ const slideData = [
 
 ## `render()` の書き方
 
-`body` では足りない、見出しの形自体を変えたいスライドは
-`render()` を使う（今までどおり使える）。
+**`body` で足りないとき**の高度な使い方。見出しの形自体を変えたい、
+全面を自分で組みたいスライドだけ `render()` を使う。
+
+```js
+{
+    title: '全面のスライド',
+    duration: 10,
+    narration: '……',
+    render: function() {
+        return `<div class="flex flex-col h-full justify-center">…</div>`;
+    }
+}
+```
 
 差し込み先の `#slide-canvas` は縦に伸びる領域で、外側が **960x540 の
 16:9 枠**。Tailwind・Google Fonts・FontAwesome は
@@ -262,22 +272,15 @@ const slidesConfig = {
 const slideData = [
     {
         title: 'はじめに',
+        icon: 'fa-flag-checkered',
         duration: 5,
         narration: 'これはサンプルのスライドです。',
-        render: function() {
-            return `
-                <div class="flex flex-col h-full justify-center px-[3cqw]">
-                    <h1 class="font-extrabold text-slate-50"
-                        style="font-size: clamp(1.8rem, 5cqw, 3.8rem);">
-                        サンプル
-                    </h1>
-                    <p class="text-slate-200 mt-[1.5cqw]"
-                       style="font-size: clamp(1.15rem, 2.8cqw, 2.1rem);">
-                        本文はここに書く
-                    </p>
-                </div>
-            `;
-        }
+        body: `
+            <p class="text-slate-200"
+               style="font-size: clamp(1.15rem, 2.8cqw, 2.1rem);">
+                本文はここに書く
+            </p>
+        `,
     },
 ];
 ```

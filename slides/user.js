@@ -151,7 +151,7 @@ const slideData = [
     {
         title: 'slideData の中身',
         duration: 10,
-        narration: 'slideData は配列で、1つの要素が1枚のスライドです。題名と秒数と読み上げ文と、HTML を返す関数を持ちます。',
+        narration: 'slideData は配列で、1つの要素が1枚のスライドです。題名と秒数と読み上げ文と、本文の HTML を持ちます。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
@@ -173,8 +173,8 @@ const slideData = [
                             <span class="text-slate-200 font-medium" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">読み上げる文章。字幕にもそのまま出る</span>
                         </div>
                         <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-[1.1cqw] flex items-center gap-[1.2cqw]">
-                            <span class="font-mono font-bold text-purple-400 w-[15cqw] flex-shrink-0" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">render()</span>
-                            <span class="text-slate-200 font-medium" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">スライドの HTML を文字列で返す関数</span>
+                            <span class="font-mono font-bold text-purple-400 w-[15cqw] flex-shrink-0" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">body</span>
+                            <span class="text-slate-200 font-medium" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">本文の HTML を文字列で書く</span>
                         </div>
                     </div>
                 </div>
@@ -211,9 +211,26 @@ const slideData = [
     },
     // Slide 7
     {
+        title: 'body で書く',
+        icon: 'fa-pen',
+        duration: 9,
+        narration: 'スライドは body に、本文の HTML だけを書きます。外枠と見出しは、title と icon から自動で作られます。',
+        body: `
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-[1.4cqw] font-mono text-slate-200 mb-[1.4cqw] whitespace-pre" style="font-size: clamp(0.8rem, 1.7cqw, 1.25rem);">{
+    title: '注意点',
+    icon: 'fa-triangle-exclamation',
+    body: &#96;&lt;ul&gt;…&lt;/ul&gt;&#96;,
+}</div>
+            <div class="bg-sky-950/40 border border-sky-500/40 rounded-xl p-[1.2cqw] text-sky-300 font-medium" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">
+                外側の div や h2 は書かない。見出しとアイコンは自動で付く
+            </div>
+        `,
+    },
+    // Slide 8
+    {
         title: 'render() の書き方',
-        duration: 12,
-        narration: '画面は960かける540の16対9です。サイズは cqw と clamp で指定します。px や rem の直書きは、枠を縮めたときに崩れます。',
+        duration: 14,
+        narration: 'body で足りないときだけ render を使います。画面は960かける540の16対9です。サイズは cqw と clamp で指定します。px や rem の直書きは、枠を縮めたときに崩れます。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
@@ -238,7 +255,7 @@ const slideData = [
             `;
         }
     },
-    // Slide 8
+    // Slide 9
     {
         title: '近い見た目をコピーする',
         duration: 9,
@@ -265,7 +282,7 @@ const slideData = [
             `;
         }
     },
-    // Slide 9
+    // Slide 10
     {
         title: 'duration の測り方',
         duration: 10,
@@ -286,7 +303,7 @@ const slideData = [
             `;
         }
     },
-    // Slide 10
+    // Slide 11
     {
         title: 'まとめて書き換える',
         duration: 9,
@@ -308,7 +325,7 @@ const slideData = [
             `;
         }
     },
-    // Slide 11
+    // Slide 12
     {
         title: 'まとめ',
         duration: 10,
@@ -337,7 +354,7 @@ const slideData = [
             `;
         }
     },
-    // Slide 12
+    // Slide 13
     {
         title: 'アイコン名の例 1 - 一覧・注意・手順',
         icon: 'fa-icons',
@@ -345,7 +362,7 @@ const slideData = [
         narration: 'ここからは icon に書けるアイコン名の例です。まずは箇条書き、注意や禁止、手順を示すものです。',
         body: iconTable(ICON_GROUPS.slice(0, 3)),
     },
-    // Slide 13
+    // Slide 14
     {
         title: 'アイコン名の例 2 - コード・文書・時間',
         icon: 'fa-icons',
@@ -353,7 +370,7 @@ const slideData = [
         narration: 'コードや端末の画面、ファイルや文書、時間と計測を表すものです。名前を間違えるとアイコンは何も出ません。',
         body: iconTable(ICON_GROUPS.slice(3, 6)),
     },
-    // Slide 14
+    // Slide 15
     {
         title: 'アイコン名の例 3 - 人・図解・強調',
         icon: 'fa-icons',

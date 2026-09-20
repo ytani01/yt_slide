@@ -56,12 +56,10 @@ const slidesConfig = { title: 'ブラウザのタブに出る名前', heading: '
 
 const slideData = [
     {
-        title: '1 枚目',
+        title: '1 枚目',                 // 見出しに出る
         duration: 10,                    // 読み上げにかかる秒数
         narration: 'ここが読み上げられ、字幕にも出ます。',
-        render: function() {
-            return `<h1 class="text-4xl font-bold">好きな HTML を書く</h1>`;
-        }
+        body: `<p class="text-2xl">好きな HTML を書く</p>`,
     },
 ];
 ```
