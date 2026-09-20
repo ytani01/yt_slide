@@ -1079,6 +1079,14 @@
             // Sync sidebar list state
             updatePlaylistSelection();
 
+            // 見ている枚を URL に載せる（TODO-074）。履歴は増やさない
+            // Safari は 30 秒に 100 回を超えると例外を投げる。URL が更新できなくても再生は止めない
+            try {
+                history.replaceState(null, '', `#${currentIndex + 1}`);
+            } catch (e) {
+                console.warn('history.replaceState failed:', e);
+            }
+
             // Speak narration if currently active
             if (isPlaying) {
                 speakCurrentNarration();
@@ -1543,6 +1551,13 @@
                 stage, { attributes: true, attributeFilter: ['class'] });
         }
 
+        // #7 → 6（0 始まり）。数値でない・範囲外は 0（TODO-074）
+        function startIndexFromHash() {
+            const m = /^#(\d+)$/.exec(location.hash);
+            const n = m ? Number(m[1]) - 1 : 0;
+            return n >= 0 && n < slideData.length ? n : 0;
+        }
+
         function startApp() {
             document.title = slidesConfig.title;
             document.getElementById('slides-heading').textContent = slidesConfig.heading;
@@ -1550,7 +1565,7 @@
             initPlaylist();
             applyCaptions();
             applyVoiceEngine();
-            renderSlide(0, true);
+            renderSlide(startIndexFromHash(), true);
             setupEventListeners();
         }
 

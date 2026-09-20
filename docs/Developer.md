@@ -121,8 +121,21 @@ python3 -m http.server 8000
 
 字幕・音声エンジンの見た目の反映は `applyCaptions()` / `applyVoiceEngine()`
 にまとめてあり、クリックハンドラと起動時（`startApp()` 内、
-`renderSlide(0, true)` の前）の両方から呼ぶ。同じ見た目の指定を
+`renderSlide(startIndexFromHash(), true)` の前）の両方から呼ぶ。同じ見た目の指定を
 複製しないため。
+
+## 表示中のスライド番号を URL に載せる
+
+`renderSlide()` の末尾で `history.replaceState(null, '', '#N')` を呼び、
+表示が変わるたびに番号（1 始まり）をハッシュへ書く。自動送り・手動送り・
+シークバー・チャプター一覧はすべて `renderSlide()` を通るので、書き換える
+場所は 1 箇所。`replaceState` なので戻るボタンの履歴は増えない。
+クエリ（`?slides=`）はそのまま残る。
+
+起動時は `startIndexFromHash()` が `location.hash` を読む。`#` 直後が
+数字だけで、枚数の範囲内なら、その枚から始める。ハッシュが無い・数値でない・
+0 以下・枚数超過は 1 枚目に寄せる（URL から来る値は信用しない）。
+起動後にハッシュを手で書き換えても追従しない（`hashchange` は聞かない）。
 
 ## 読み上げ
 
