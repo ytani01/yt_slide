@@ -1,7 +1,7 @@
 # TODO
 
-**残っている項目: TODO-073・TODO-074・TODO-075・TODO-077・TODO-078。** これまでに 73 件を決着させた。
-新しく足すときは「完了済み」の上に節を作る。**番号は `TODO-079` から。**
+**残っている項目: TODO-073・TODO-074・TODO-075・TODO-077・TODO-078・TODO-079。** これまでに 73 件を決着させた。
+新しく足すときは「完了済み」の上に節を作る。**番号は `TODO-080` から。**
 
 ---
 
@@ -149,6 +149,43 @@ Online TTS の `onerror` と `play()` の拒否は、現在は console に警告
 **着手前の担当見込み:** 複数の音声経路とタイマーに関わるため、implementer が
 実装・テスト、main が方針整理と文書を担当する。reviewer の確認後に verifier が
 実測する。実装は未着手。
+
+---
+
+## TODO-079. `docs/User.md` は `body` を標準として書く
+
+|      | main | 担当 |
+|------|------|------|
+| 見込み | Sonnet 5 / effort medium | verifier |
+
+- [ ] `docs/User.md` のキーの表を `title`・`duration`・`narration`・`body`・`icon` の順にし、`render()` は最後に置く
+- [ ] 「`body` だけで書く」を `render()` の節より前に出し、標準の書き方として書く
+- [ ] 「`render()` の書き方」は「`body` で足りないとき」と明記した高度な使い方にする
+- [ ] 冒頭の `slideData` の例と「最小の例」を `body` で書き直す
+- [ ] `README.md` の「自分のスライドを作る」の例も `body` にする
+- [ ] `slides/user.js` の 7 枚目を「`body` で書く」に差し替え、後ろに `render()` の枚を 1 枚足す（11 枚 → 12 枚）
+- [ ] 5 枚目「slideData の中身」の表の `render()` の行を `body` にする
+- [ ] `tools/measure-duration.py --slides user --all --write` で `duration` を測り直す
+- [ ] 表示とリンクの確認を verifier に分ける
+
+`player.html:968-983` は `render()` があればそれを使い、無ければ `title`・`icon` から
+見出しを作って `body` を枠で包む（TODO-062）。`slides/template.js` の 9 種類も
+8 つが `body` で書かれているのに、`docs/User.md` は `render()` を先に説明し、
+`body` を「`render()` を書かずに済ませる書き方」として後から補足する構成のまま
+になっている。これだと `render()` が標準に見える。
+
+決めてあること:
+
+- スライドは 1 枚足して 2 枚に分ける（利用者と決めた）。`body` の説明に枠を取れる
+- `README.md` の例も `body` に揃える（利用者と決めた）
+- `player.html` は触らない。変えるのは文書とスライドのデータだけ
+
+**検証方法:** verifier が `player.html?slides=user` を開いて 12 枚が崩れずに出ることと、
+`body` だけで書いた枚に見出しとアイコンが出ることを確かめる。`docs/User.md` と
+`README.md` の例をそのまま `slides/sample.js` に貼って再生できるかも試す。
+
+`slides/user.js` は書いたとおりに開いて確かめられるので、確認は verifier に分ける。
+挙動の分岐は変わらないので reviewer は立てない。
 
 ---
 
