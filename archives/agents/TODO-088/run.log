@@ -1,0 +1,139 @@
+
+=== 実測1: ファイル2つだけで動くか ===
+standalone dir contents: [ 'player.html', 'slides' ] [ 'readme.js' ]
+--- file ---
+{
+  "url": "file:///tmp/claude-649/-net-fs-vol0-home-localhost-1-ytani-ytani-public-html-yt-slide/73543a65-a7fb-4f3f-b4c9-c4f1586f23ba/scratchpad/standalone/player.html?slides=readme",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "requestFailed": [],
+  "charCount": 88,
+  "hasLoadErrorText": false,
+  "slideCount": 10,
+  "slide2TextSnippet": "yt_slide の紹介\nAI Presentation Video\n\nインタラクティブ・プレゼンテーション動画プレイヤー\n\n音声エンジン:\nOnline Voice\n切替\nSLIDE 02 / 10\nできること\n読み上げと字幕表示\n自動再生で次へ\n再生速度 0.75〜2.0 倍\nフルスクリーン・前後送り\nスマホでもスワイプで送り、タップで再生・一時停止\n0:14\n2:03\n操作ガイド\n再生中スライド\n2. できること\n字幕\n速度 0.75x\n速度 1.0x\n速度 1.25x\n速度 1.5x\n速度 2.0x\n待ち 1秒\n待ち 2秒\n待ち 3秒\nチャプター一覧\n10 Slides\n01\nyt_s",
+  "screenshot": "/home/ytani/tmp/playwright-mcp/TODO-088-standalone-file.png"
+}
+--- http ---
+{
+  "url": "http://localhost:8123/player.html?slides=readme",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "requestFailed": [],
+  "charCount": 88,
+  "hasLoadErrorText": false,
+  "slideCount": 10,
+  "slide2TextSnippet": "yt_slide の紹介\nAI Presentation Video\n\nインタラクティブ・プレゼンテーション動画プレイヤー\n\n音声エンジン:\nOnline Voice\n切替\nSLIDE 02 / 10\nできること\n読み上げと字幕表示\n自動再生で次へ\n再生速度 0.75〜2.0 倍\nフルスクリーン・前後送り\nスマホでもスワイプで送り、タップで再生・一時停止\n0:14\n2:03\n操作ガイド\n再生中スライド\n2. できること\n字幕\n速度 0.75x\n速度 1.0x\n速度 1.25x\n速度 1.5x\n速度 2.0x\n待ち 1秒\n待ち 2秒\n待ち 3秒\nチャプター一覧\n10 Slides\n01\nyt_s",
+  "screenshot": "/home/ytani/tmp/playwright-mcp/TODO-088-standalone-http.png"
+}
+
+=== 実測2: file:// で音声が鳴るか ===
+--- file ---
+{
+  "url": "file:///net/fs/vol0/home.localhost.1-ytani/ytani/public_html/yt_slide/player.html?slides=readme",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "requestFailed": [],
+  "ttsRequests": [
+    "https://translate.google.com/translate_tts?ie=UTF-8&tl=ja&client=tw-ob&q=%E3%83%86%E3%82%B9%E3%83%88",
+    "https://translate.google.com/translate_tts?ie=UTF-8&tl=ja&client=tw-ob&q=%E3%83%AF%E3%82%A4%E3%83%86%E3%82%A3%E3%83%BC%20%E3%82%B9%E3%83%A9%E3%82%A4%E3%83%89%20%E3%81%AF%E3%80%812%20%E3%81%A4%E3%81%AE%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92%E7%BD%AE%E3%81%8F%E3%81%A0%E3%81%91%E3%81%A7%E3%80%81%E3%83%8A%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E4%BB%98%E3%81%8D%E3%81%AE%E3%83%97%E3%83%AC%E3%82%BC%E3%83%B3%E3%81%8C%E5%8B%95%E3%81%8D%E5%87%BA%E3%81%99%E4%BB%95%E7%B5%84%E3%81%BF%E3%81%A7%E3%81%99%E3%80%82%E3%83%93%E3%83%AB%E3%83%89%E3%82%82%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E3%82%82%E4%B8%8D%E8%A6%81%E3%81%A7%E3%80%81%E3%83%A6%E3%83%BC%E3%82%A2%E3%83%BC%E3%83%AB%E3%82%A8%E3%83%AB%E3%82%92%E6%B8%A1%E3%81%99%E3%81%A0%E3%81%91%E3%81%A7%E3%81%9D%E3%81%AE%E3%81%BE%E3%81%BE%E8%A6%8B%E3%81%A6%E3%82%82%E3%82%89%E3%81%88%E3%81%BE%E3%81%99%E3%80%82"
+  ],
+  "ttsResponses": [
+    {
+      "url": "https://translate.google.com/translate_tts?ie=UTF-8&tl=ja&client=tw-ob&q=%E3%83%86%E3%82%B9%E3%83%88",
+      "status": 200
+    },
+    {
+      "url": "https://translate.google.com/translate_tts?ie=UTF-8&tl=ja&client=tw-ob&q=%E3%83%AF%E3%82%A4%E3%83%86%E3%82%A3%E3%83%BC%20%E3%82%B9%E3%83%A9%E3%82%A4%E3%83%89%20%E3%81%AF%E3%80%812%20%E3%81%A4%E3%81%AE%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92%E7%BD%AE%E3%81%8F%E3%81%A0%E3%81%91%E3%81%A7%E3%80%81%E3%83%8A%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E4%BB%98%E3%81%8D%E3%81%AE%E3%83%97%E3%83%AC%E3%82%BC%E3%83%B3%E3%81%8C%E5%8B%95%E3%81%8D%E5%87%BA%E3%81%99%E4%BB%95%E7%B5%84%E3%81%BF%E3%81%A7%E3%81%99%E3%80%82%E3%83%93%E3%83%AB%E3%83%89%E3%82%82%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E3%82%82%E4%B8%8D%E8%A6%81%E3%81%A7%E3%80%81%E3%83%A6%E3%83%BC%E3%82%A2%E3%83%BC%E3%83%AB%E3%82%A8%E3%83%AB%E3%82%92%E6%B8%A1%E3%81%99%E3%81%A0%E3%81%91%E3%81%A7%E3%81%9D%E3%81%AE%E3%81%BE%E3%81%BE%E8%A6%8B%E3%81%A6%E3%82%82%E3%82%89%E3%81%88%E3%81%BE%E3%81%99%E3%80%82",
+      "status": 200
+    }
+  ],
+  "speechResult": {
+    "voicesLength": 0,
+    "jaVoicesCount": 0,
+    "jaVoiceNames": [],
+    "event": "onerror:synthesis-failed",
+    "elapsedMs": 1
+  },
+  "audioResult": {
+    "events": [
+      {
+        "ev": "canplay",
+        "t": 196
+      },
+      {
+        "ev": "playing",
+        "t": 196
+      },
+      {
+        "ev": "ended",
+        "t": 1109
+      }
+    ],
+    "timeupdateCount": 4,
+    "currentTime": 0.888,
+    "duration": 0.888,
+    "error": null
+  },
+  "playBtnResult": {
+    "clicked": true,
+    "noticeVisible": false,
+    "noticeText": "音声を再生できませんでした\n                        もう一度再生\n                        音声エンジンを切り替える",
+    "statusBadge": "朗読中 (Online Voice)"
+  }
+}
+--- http ---
+{
+  "url": "http://localhost:8124/player.html?slides=readme",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "requestFailed": [],
+  "ttsRequests": [
+    "https://translate.google.com/translate_tts?ie=UTF-8&tl=ja&client=tw-ob&q=%E3%83%86%E3%82%B9%E3%83%88",
+    "https://translate.google.com/translate_tts?ie=UTF-8&tl=ja&client=tw-ob&q=%E3%83%AF%E3%82%A4%E3%83%86%E3%82%A3%E3%83%BC%20%E3%82%B9%E3%83%A9%E3%82%A4%E3%83%89%20%E3%81%AF%E3%80%812%20%E3%81%A4%E3%81%AE%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92%E7%BD%AE%E3%81%8F%E3%81%A0%E3%81%91%E3%81%A7%E3%80%81%E3%83%8A%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E4%BB%98%E3%81%8D%E3%81%AE%E3%83%97%E3%83%AC%E3%82%BC%E3%83%B3%E3%81%8C%E5%8B%95%E3%81%8D%E5%87%BA%E3%81%99%E4%BB%95%E7%B5%84%E3%81%BF%E3%81%A7%E3%81%99%E3%80%82%E3%83%93%E3%83%AB%E3%83%89%E3%82%82%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E3%82%82%E4%B8%8D%E8%A6%81%E3%81%A7%E3%80%81%E3%83%A6%E3%83%BC%E3%82%A2%E3%83%BC%E3%83%AB%E3%82%A8%E3%83%AB%E3%82%92%E6%B8%A1%E3%81%99%E3%81%A0%E3%81%91%E3%81%A7%E3%81%9D%E3%81%AE%E3%81%BE%E3%81%BE%E8%A6%8B%E3%81%A6%E3%82%82%E3%82%89%E3%81%88%E3%81%BE%E3%81%99%E3%80%82"
+  ],
+  "ttsResponses": [
+    {
+      "url": "https://translate.google.com/translate_tts?ie=UTF-8&tl=ja&client=tw-ob&q=%E3%83%86%E3%82%B9%E3%83%88",
+      "status": 200
+    },
+    {
+      "url": "https://translate.google.com/translate_tts?ie=UTF-8&tl=ja&client=tw-ob&q=%E3%83%AF%E3%82%A4%E3%83%86%E3%82%A3%E3%83%BC%20%E3%82%B9%E3%83%A9%E3%82%A4%E3%83%89%20%E3%81%AF%E3%80%812%20%E3%81%A4%E3%81%AE%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92%E7%BD%AE%E3%81%8F%E3%81%A0%E3%81%91%E3%81%A7%E3%80%81%E3%83%8A%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E4%BB%98%E3%81%8D%E3%81%AE%E3%83%97%E3%83%AC%E3%82%BC%E3%83%B3%E3%81%8C%E5%8B%95%E3%81%8D%E5%87%BA%E3%81%99%E4%BB%95%E7%B5%84%E3%81%BF%E3%81%A7%E3%81%99%E3%80%82%E3%83%93%E3%83%AB%E3%83%89%E3%82%82%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E3%82%82%E4%B8%8D%E8%A6%81%E3%81%A7%E3%80%81%E3%83%A6%E3%83%BC%E3%82%A2%E3%83%BC%E3%83%AB%E3%82%A8%E3%83%AB%E3%82%92%E6%B8%A1%E3%81%99%E3%81%A0%E3%81%91%E3%81%A7%E3%81%9D%E3%81%AE%E3%81%BE%E3%81%BE%E8%A6%8B%E3%81%A6%E3%82%82%E3%82%89%E3%81%88%E3%81%BE%E3%81%99%E3%80%82",
+      "status": 200
+    }
+  ],
+  "speechResult": {
+    "voicesLength": 0,
+    "jaVoicesCount": 0,
+    "jaVoiceNames": [],
+    "event": "onerror:synthesis-failed",
+    "elapsedMs": 1
+  },
+  "audioResult": {
+    "events": [
+      {
+        "ev": "canplay",
+        "t": 94
+      },
+      {
+        "ev": "playing",
+        "t": 94
+      },
+      {
+        "ev": "ended",
+        "t": 1012
+      }
+    ],
+    "timeupdateCount": 4,
+    "currentTime": 0.888,
+    "duration": 0.888,
+    "error": null
+  },
+  "playBtnResult": {
+    "clicked": true,
+    "noticeVisible": false,
+    "noticeText": "音声を再生できませんでした\n                        もう一度再生\n                        音声エンジンを切り替える",
+    "statusBadge": "朗読中 (Online Voice)"
+  }
+}
+
+=== DONE. results.json written ===

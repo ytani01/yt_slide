@@ -34,18 +34,17 @@
 **`player.html` と `slides/` を同じディレクトリに置くと、`public_html/` の外でも
 動く**。
 
-手元で試すなら:
+手元で試すなら、`player.html` をブラウザで開くだけでよい。サーバーを
+立てる必要はない。
 
-```bash
-python3 -m http.server 8000
-# => http://localhost:8000/player.html
-```
-
-- **表示は `file://` でも動くことが分かっている**（`tools/make-video.py` が
-  `file://` の URL を Chromium で開いてスクリーンショットを撮っている。
-  相対 `<script>` の読み込みと CDN の読み込みは通る）。**ただし読み上げは
-  `file://` では試していない**（`make-video.py` は `file://` のページで
-  音声を鳴らさず、読み上げ音声は別に取得して合成している）。HTTP 配信が確実。
+- **`file://` でも表示と読み上げが動く**（TODO-088 で実測）。相対
+  `<script>` の読み込みと CDN の読み込みは通り、Online Voice の
+  `translate_tts` も `file://` から 200 で取れて再生できた。コンソール
+  エラー・失敗したリクエストは 0 件で、`http://` との差は無かった
+- **Web Speech API は `file://` でも `http://` でも確かめられていない。**
+  実測に使ったヘッドレスの Chromium には音声合成エンジンが無く、
+  どちらでも `synthesis-failed` になる。`file://` 固有の制約かどうかは
+  切り分けていない
 - **ネット接続が必要。** Tailwind・Google Fonts・FontAwesome・読み上げの音声を
   外部から取得するため、オフラインでは崩れ、音声も出ない。
 - 公開 URL を変えたくない場合、元の場所にリダイレクトまたはシンボリックリンクを残す。

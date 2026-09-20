@@ -1,0 +1,27 @@
+slideCount: 11
+slide3 note layout: {
+  "noteText": "※ file:// で直接開いても、表示から読み上げまで動く（Online Voice で確認）",
+  "noteRect": {
+    "top": 481.421875,
+    "bottom": 502.25,
+    "left": 75.03125,
+    "right": 890.96875,
+    "height": 20.828125
+  },
+  "stageRect": {
+    "top": 152,
+    "bottom": 580.375,
+    "left": 49,
+    "right": 917
+  },
+  "fitsWithinStage": true,
+  "scrollHeightVsClientHeight": {
+    "scrollHeight": 21,
+    "clientHeight": 21
+  }
+}
+slide3 narration: "player.html がローカルを指すのはスライドデータだけで、しかも相対パスです。player.html と同じ場所に slides を置けば、public_htmlの外でもそのまま動きます。ネット接続だけは必要です。"
+emptySlides: []
+consoleErrors: 0 []
+pageErrors: 0 []
+requestFailed: 0 []

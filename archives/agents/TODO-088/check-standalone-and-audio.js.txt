@@ -1,0 +1,254 @@
+// TODO-088 検証スクリプト
+// 実測1: ファイル2つだけで動くか（file:// と http://）
+// 実測2: file:// で音声が鳴るか（Web Speech API / Online Voice）
+'use strict';
+const { chromium } = require('playwright');
+const fs = require('fs');
+const path = require('path');
+const http = require('http');
+const { execFile } = require('child_process');
+
+const REPO = '/net/fs/vol0/home.localhost.1-ytani/ytani/public_html/yt_slide';
+const SCRATCH = '/tmp/claude-649/-net-fs-vol0-home-localhost-1-ytani-ytani-public-html-yt-slide/73543a65-a7fb-4f3f-b4c9-c4f1586f23ba/scratchpad';
+const STANDALONE = path.join(SCRATCH, 'standalone');
+const SHOT_DIR = process.env.HOME + '/tmp/playwright-mcp';
+
+function log(...args) { console.log(...args); }
+
+async function collectPageInfo(page, label) {
+    const consoleErrors = [];
+    const pageErrors = [];
+    const requestFailed = [];
+    const requests = [];
+    const responses = [];
+    page.on('console', (msg) => {
+        if (msg.type() === 'error') consoleErrors.push(msg.text());
+    });
+    page.on('pageerror', (err) => pageErrors.push(String(err)));
+    page.on('requestfailed', (req) => {
+        requestFailed.push({ url: req.url(), failure: req.failure() && req.failure().errorText });
+    });
+    page.on('request', (req) => {
+        if (req.url().includes('translate_tts')) requests.push(req.url());
+    });
+    page.on('response', (res) => {
+        if (res.url().includes('translate_tts')) responses.push({ url: res.url(), status: res.status() });
+    });
+    return { consoleErrors, pageErrors, requestFailed, requests, responses };
+}
+
+async function startServer(dir, port) {
+    return new Promise((resolve, reject) => {
+        const proc = execFile('python3', ['-m', 'http.server', String(port)], { cwd: dir });
+        proc.on('error', reject);
+        // give it a moment
+        setTimeout(() => resolve(proc), 700);
+    });
+}
+
+async function checkStandalone(browser) {
+    log('\n=== 実測1: ファイル2つだけで動くか ===');
+    // build standalone dir
+    fs.rmSync(STANDALONE, { recursive: true, force: true });
+    fs.mkdirSync(path.join(STANDALONE, 'slides'), { recursive: true });
+    fs.copyFileSync(path.join(REPO, 'player.html'), path.join(STANDALONE, 'player.html'));
+    fs.copyFileSync(path.join(REPO, 'slides', 'readme.js'), path.join(STANDALONE, 'slides', 'readme.js'));
+    log('standalone dir contents:', fs.readdirSync(STANDALONE), fs.readdirSync(path.join(STANDALONE, 'slides')));
+
+    const results = {};
+
+    for (const mode of ['file', 'http']) {
+        let server = null;
+        let url;
+        if (mode === 'file') {
+            url = 'file://' + path.join(STANDALONE, 'player.html') + '?slides=readme';
+        } else {
+            const port = 8123;
+            server = await startServer(STANDALONE, port);
+            url = `http://localhost:${port}/player.html?slides=readme`;
+        }
+        const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+        const info = await collectPageInfo(page, mode);
+        await page.goto(url, { waitUntil: 'load' });
+        await page.waitForTimeout(2000);
+
+        const bodyText = await page.evaluate(() => {
+            const el = document.querySelector('#narration-text, #subtitle, .narration, #slide-body, #viewport-stage');
+            return el ? el.innerText : document.body.innerText;
+        }).catch(() => null);
+
+        const slideCount = await page.evaluate(() => {
+            try { return (typeof slideData !== 'undefined') ? slideData.length : null; } catch (e) { return null; }
+        }).catch(() => null);
+
+        const hasLoadError = await page.evaluate(() => document.body.innerText.includes('読み込めませんでした')).catch(() => null);
+
+        const charCount = bodyText ? bodyText.trim().length : 0;
+
+        // go to slide 2
+        let slide2Text = null;
+        try {
+            const nextBtn = await page.$('#next-btn, [aria-label="次へ"]');
+            if (nextBtn) {
+                await nextBtn.click();
+                await page.waitForTimeout(1000);
+                slide2Text = await page.evaluate(() => document.body.innerText.slice(0, 300));
+            }
+        } catch (e) { slide2Text = 'ERROR: ' + e; }
+
+        const shotPath = path.join(SHOT_DIR, `TODO-088-standalone-${mode}.png`);
+        fs.mkdirSync(SHOT_DIR, { recursive: true });
+        await page.screenshot({ path: shotPath });
+
+        results[mode] = {
+            url,
+            consoleErrors: info.consoleErrors,
+            pageErrors: info.pageErrors,
+            requestFailed: info.requestFailed,
+            charCount,
+            hasLoadErrorText: hasLoadError,
+            slideCount,
+            slide2TextSnippet: slide2Text,
+            screenshot: shotPath,
+        };
+
+        log(`--- ${mode} ---`);
+        log(JSON.stringify(results[mode], null, 2));
+
+        await page.close();
+        if (server) server.kill();
+    }
+    return results;
+}
+
+async function checkAudio(browser) {
+    log('\n=== 実測2: file:// で音声が鳴るか ===');
+    const results = {};
+    let httpServer = null;
+    const port = 8124;
+
+    for (const mode of ['file', 'http']) {
+        let url;
+        if (mode === 'file') {
+            url = 'file://' + path.join(REPO, 'player.html') + '?slides=readme';
+        } else {
+            httpServer = await startServer(REPO, port);
+            url = `http://localhost:${port}/player.html?slides=readme`;
+        }
+        const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+        const info = await collectPageInfo(page, mode);
+        await page.goto(url, { waitUntil: 'load' });
+        await page.waitForTimeout(1500);
+
+        // (a) Web Speech API
+        const speechResult = await page.evaluate(() => {
+            return new Promise((resolve) => {
+                const voices = window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
+                const jaVoices = voices.filter(v => v.lang && v.lang.startsWith('ja'));
+                const out = { voicesLength: voices.length, jaVoicesCount: jaVoices.length, jaVoiceNames: jaVoices.map(v => v.name + '/' + v.lang) };
+                if (!window.speechSynthesis) { out.event = 'no-speechSynthesis'; out.elapsedMs = null; resolve(out); return; }
+                const u = new SpeechSynthesisUtterance('テスト');
+                const t0 = Date.now();
+                let resolved = false;
+                const finish = (ev) => {
+                    if (resolved) return;
+                    resolved = true;
+                    out.event = ev;
+                    out.elapsedMs = Date.now() - t0;
+                    resolve(out);
+                };
+                u.onstart = () => finish('onstart');
+                u.onend = () => finish('onend');
+                u.onerror = (e) => finish('onerror:' + (e.error || ''));
+                window.speechSynthesis.speak(u);
+                setTimeout(() => finish('timeout'), 10000);
+            });
+        });
+
+        // (b) Online Voice - translate_tts
+        const audioResult = await page.evaluate(() => {
+            return new Promise((resolve) => {
+                const src = 'https://translate.google.com/translate_tts?ie=UTF-8&tl=ja&client=tw-ob&q=' + encodeURIComponent('テスト');
+                const audio = new Audio(src);
+                const events = [];
+                const t0 = Date.now();
+                ['canplay', 'playing', 'ended', 'error'].forEach(ev => {
+                    audio.addEventListener(ev, () => events.push({ ev, t: Date.now() - t0 }));
+                });
+                let timeupdateCount = 0;
+                audio.addEventListener('timeupdate', () => { timeupdateCount++; });
+                audio.play().catch(e => events.push({ ev: 'play-catch', msg: String(e) }));
+                setTimeout(() => {
+                    resolve({
+                        events,
+                        timeupdateCount,
+                        currentTime: audio.currentTime,
+                        duration: audio.duration,
+                        error: audio.error ? { code: audio.error.code, message: audio.error.message } : null,
+                    });
+                }, 8000);
+            });
+        });
+
+        // click play button, wait 10s, check notice/badge
+        let playBtnResult = { clicked: false };
+        try {
+            const playBtn = await page.$('#play-btn');
+            if (playBtn) {
+                await playBtn.click();
+                playBtnResult.clicked = true;
+                await page.waitForTimeout(10000);
+                playBtnResult.noticeVisible = await page.evaluate(() => {
+                    const el = document.getElementById('audio-error-notice');
+                    return el ? !el.classList.contains('hidden') : null;
+                });
+                playBtnResult.noticeText = await page.evaluate(() => {
+                    const el = document.getElementById('audio-error-notice');
+                    return el ? el.innerText.trim() : null;
+                });
+                playBtnResult.statusBadge = await page.evaluate(() => {
+                    const el = document.getElementById('audio-status-badge');
+                    return el ? el.innerText.trim() : null;
+                });
+            } else {
+                playBtnResult.error = 'play-btn not found';
+            }
+        } catch (e) {
+            playBtnResult.error = String(e);
+        }
+
+        results[mode] = {
+            url,
+            consoleErrors: info.consoleErrors,
+            pageErrors: info.pageErrors,
+            requestFailed: info.requestFailed,
+            ttsRequests: info.requests,
+            ttsResponses: info.responses,
+            speechResult,
+            audioResult,
+            playBtnResult,
+        };
+
+        log(`--- ${mode} ---`);
+        log(JSON.stringify(results[mode], null, 2));
+
+        await page.close();
+        if (httpServer) { httpServer.kill(); httpServer = null; }
+    }
+    return results;
+}
+
+(async () => {
+    const browser = await chromium.launch({ headless: true });
+    try {
+        const standaloneResults = await checkStandalone(browser);
+        const audioResults = await checkAudio(browser);
+        fs.writeFileSync(path.join(SCRATCH, 'results.json'), JSON.stringify({ standaloneResults, audioResults }, null, 2));
+        log('\n=== DONE. results.json written ===');
+    } finally {
+        await browser.close();
+    }
+})().catch((e) => {
+    console.error('FATAL', e);
+    process.exit(1);
+});

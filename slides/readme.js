@@ -19,8 +19,8 @@ const slideData = [
     // Slide 1
     {
         title: 'yt_slide',
-        duration: 12,
-        narration: 'yt_slide は、2 つのファイルを置くだけで、ナレーション付きのプレゼンが動き出す仕組みです。ビルドもインストールも不要で、URLを渡すだけでそのまま見てもらえます。',
+        duration: 13,
+        narration: 'yt_slide は、2 つのファイルを置くだけで、ナレーション付きのプレゼンが動き出す仕組みです。ビルドもインストールも不要。Webサーバーに置けば、URLを渡すだけで見てもらえます。',
         render: function() {
             return `
                 <div class="flex flex-col items-start justify-center h-full px-[4cqw] py-[1.5cqw] space-y-[1.5cqw]">
@@ -32,7 +32,7 @@ const slideData = [
                         ナレーション付きのプレゼンが動き出す
                     </h1>
                     <p class="text-slate-200 font-medium leading-relaxed" style="font-size: clamp(1.15rem, 2.8cqw, 2.1rem);">
-                        ビルドもインストールも不要。URL を渡せばそのまま見てもらえる。
+                        ビルドもインストールも不要。サーバーに置けば、URL を渡すだけで見てもらえる。
                     </p>
                 </div>
             `;
@@ -78,8 +78,8 @@ const slideData = [
     // Slide 3
     {
         title: 'すぐ試す',
-        duration: 11,
-        narration: 'すぐ試すには、Pythonの簡易サーバーを立てて player.html を開くだけです。URLにスライドの名前を指定すると、そのスライドが再生されます。',
+        duration: 15,
+        narration: 'すぐ試すには、player.html をブラウザで開くだけです。サーバーを立てる必要はなく、ファイルを直接開いても読み上げまで動きます。URLにスライドの名前を指定すると、そのスライドが再生されます。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
@@ -87,8 +87,8 @@ const slideData = [
                         <i class="fa-solid fa-play text-lime-400"></i> すぐ試す
                     </h2>
                     <div class="bg-slate-950 border border-slate-800 rounded-xl p-[1.6cqw] font-mono text-slate-200 space-y-[0.6cqw] mb-[1.5cqw]" style="font-size: clamp(0.95rem, 2.0cqw, 1.5rem);">
-                        <div><span class="text-lime-400">$</span> python3 -m http.server 8000</div>
-                        <div class="text-slate-400"># =&gt; http://localhost:8000/player.html</div>
+                        <div>player.html <span class="text-slate-400"># ブラウザで開くだけ</span></div>
+                        <div>player.html?slides=user <span class="text-slate-400"># 名前を指定して開く</span></div>
                     </div>
                     <p class="text-slate-200 font-medium" style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);">
                         <code class="bg-slate-900 px-[0.6cqw] py-[0.2cqw] rounded text-sky-300 font-mono">player.html?slides=&lt;名前&gt;</code>
@@ -261,8 +261,8 @@ const slideData = [
     // Slide 10
     {
         title: 'まとめ',
-        duration: 10,
-        narration: 'まとめです。yt_slide を使えば、ファイル 2 つを置くだけで、ナレーション付きのプレゼンをすぐに作って公開できます。ぜひ試してみてください。',
+        duration: 13,
+        narration: 'まとめです。yt_slide を使えば、ファイル 2 つを置くだけで、ナレーション付きのプレゼンをすぐに作れます。Webサーバーに置けば、URLを渡すだけで見てもらえます。ぜひ試してみてください。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
@@ -280,7 +280,7 @@ const slideData = [
                         </div>
                         <div class="bg-slate-800/60 p-[1cqw] rounded-lg border border-slate-700 flex items-center gap-[1.2cqw]">
                             <i class="fa-solid fa-share-nodes text-amber-400 flex-shrink-0" style="font-size: clamp(1.2rem, 2.4cqw, 1.7rem);"></i>
-                            <span style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);"><strong>ビルド不要</strong>。URL を渡すだけでそのまま見てもらえる</span>
+                            <span style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);"><strong>ビルド不要</strong>。サーバーに置けば URL を渡すだけで見てもらえる</span>
                         </div>
                     </div>
                     <div class="bg-sky-950/60 border border-sky-500/60 rounded-xl p-[1cqw] text-center text-sky-300 font-bold" style="font-size: clamp(0.95rem, 2.0cqw, 1.4rem);">

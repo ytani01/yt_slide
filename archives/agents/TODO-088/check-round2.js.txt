@@ -1,0 +1,124 @@
+// TODO-088 続き（文言が固まった後の再現確認）
+'use strict';
+const { chromium } = require('playwright');
+const fs = require('fs');
+const path = require('path');
+
+const REPO = '/net/fs/vol0/home.localhost.1-ytani/ytani/public_html/yt_slide';
+const SHOT_DIR = process.env.HOME + '/tmp/playwright-mcp';
+
+function evLog(page, bucket) {
+    page.on('console', (m) => { if (m.type() === 'error') bucket.consoleErrors.push(m.text()); });
+    page.on('pageerror', (e) => bucket.pageErrors.push(String(e)));
+    page.on('requestfailed', (r) => bucket.requestFailed.push({ url: r.url(), failure: r.failure() && r.failure().errorText }));
+}
+
+async function openAndMeasure(browser, url, label) {
+    const bucket = { consoleErrors: [], pageErrors: [], requestFailed: [] };
+    const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+    evLog(page, bucket);
+    await page.goto(url, { waitUntil: 'load' });
+    await page.waitForTimeout(1500);
+    const bodyText = await page.evaluate(() => document.body.innerText).catch(() => null);
+    const charCount = bodyText ? bodyText.trim().length : 0;
+    console.log(`--- ${label} ---`);
+    console.log('url:', url);
+    console.log('consoleErrors:', bucket.consoleErrors.length, JSON.stringify(bucket.consoleErrors));
+    console.log('pageErrors:', bucket.pageErrors.length, JSON.stringify(bucket.pageErrors));
+    console.log('requestFailed:', bucket.requestFailed.length, JSON.stringify(bucket.requestFailed));
+    console.log('charCount:', charCount);
+    await page.close();
+    return { bucket, charCount };
+}
+
+async function walkAll10(browser) {
+    console.log('\n=== 2. readme 全10枚を送る、1/3/10のテキスト取得、スクショ ===');
+    const url = 'file://' + path.join(REPO, 'player.html') + '?slides=readme';
+    const bucket = { consoleErrors: [], pageErrors: [], requestFailed: [] };
+    const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+    evLog(page, bucket);
+    await page.goto(url, { waitUntil: 'load' });
+    await page.waitForTimeout(1000);
+
+    const slideCount = await page.evaluate(() => slideData.length);
+    console.log('slideCount:', slideCount);
+
+    const emptySlides = [];
+    const slideTexts = {};
+    for (let i = 1; i <= slideCount; i++) {
+        const info = await page.evaluate(() => {
+            const stage = document.getElementById('slide-canvas') || document.getElementById('viewport-stage');
+            return {
+                stageText: stage ? stage.innerText.trim() : null,
+                stageLen: stage ? stage.innerText.trim().length : 0,
+            };
+        });
+        if (info.stageLen === 0) emptySlides.push(i);
+        if (i === 1 || i === 3 || i === 10) {
+            slideTexts[i] = { stageText: info.stageText };
+            const shotPath = path.join(SHOT_DIR, `TODO-088-after-${i}.png`);
+            fs.mkdirSync(SHOT_DIR, { recursive: true });
+            await page.screenshot({ path: shotPath });
+            slideTexts[i].screenshot = shotPath;
+        }
+        if (i < slideCount) {
+            await page.click('#next-btn');
+            await page.waitForTimeout(500);
+        }
+    }
+
+    // fetch narration text for slides 1,3,10 directly from slideData
+    const narrations = await page.evaluate(() => ({
+        1: slideData[0] ? slideData[0].narration : null,
+        3: slideData[2] ? slideData[2].narration : null,
+        10: slideData[9] ? slideData[9].narration : null,
+    }));
+    for (const i of [1, 3, 10]) {
+        slideTexts[i].narration = narrations[i];
+    }
+
+    console.log('emptySlides:', JSON.stringify(emptySlides));
+    console.log('consoleErrors:', bucket.consoleErrors.length, JSON.stringify(bucket.consoleErrors));
+    console.log('pageErrors:', bucket.pageErrors.length, JSON.stringify(bucket.pageErrors));
+    console.log('requestFailed:', bucket.requestFailed.length, JSON.stringify(bucket.requestFailed));
+    console.log('slide1/3/10:', JSON.stringify(slideTexts, null, 2));
+
+    await page.close();
+    return { slideCount, emptySlides, slideTexts };
+}
+
+async function checkIndexAndMissing(browser) {
+    console.log('\n=== 5. index.html と slides/ の一致、nosuch の挙動 ===');
+    const slidesDir = path.join(REPO, 'slides');
+    const jsFiles = fs.readdirSync(slidesDir).filter(f => f.endsWith('.js')).map(f => f.replace(/\.js$/, '')).sort();
+    const indexHtml = fs.readFileSync(path.join(REPO, 'index.html'), 'utf8');
+    const liMatches = [...indexHtml.matchAll(/slides=([\w-]+)/g)].map(m => m[1]).sort();
+    console.log('slides/*.js (basenames):', JSON.stringify(jsFiles));
+    console.log('index.html <li> slides= values:', JSON.stringify(liMatches));
+    console.log('<li> count in index.html:', (indexHtml.match(/<li>/g) || []).length);
+
+    const url = 'file://' + path.join(REPO, 'player.html') + '?slides=nosuch';
+    const bucket = { consoleErrors: [], pageErrors: [], requestFailed: [] };
+    const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+    evLog(page, bucket);
+    await page.goto(url, { waitUntil: 'load' }).catch((e) => console.log('goto error (may be expected, page throws):', String(e)));
+    await page.waitForTimeout(1000);
+    const bodyText = await page.evaluate(() => document.body.innerText).catch(() => null);
+    console.log('nosuch bodyText:', JSON.stringify(bodyText));
+    console.log('nosuch pageErrors:', JSON.stringify(bucket.pageErrors));
+    await page.close();
+}
+
+(async () => {
+    const browser = await chromium.launch({ headless: true });
+    try {
+        console.log('=== 1. README すぐ試す: file:// で player.html（?slides無し）/ ?slides=user ===');
+        await openAndMeasure(browser, 'file://' + path.join(REPO, 'player.html'), 'file:// player.html (no slides param)');
+        await openAndMeasure(browser, 'file://' + path.join(REPO, 'player.html') + '?slides=user', 'file:// player.html?slides=user');
+
+        await walkAll10(browser);
+        await checkIndexAndMissing(browser);
+    } finally {
+        await browser.close();
+    }
+})().catch((e) => { console.error('FATAL', e); process.exit(1); });

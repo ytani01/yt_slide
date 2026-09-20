@@ -102,7 +102,7 @@ const slideData = [
                             <p class="text-slate-200 font-medium leading-relaxed" style="font-size: clamp(0.95rem, 2.0cqw, 1.45rem);">ネット接続は必須。TTS・フォント・アイコンを外部から取得するため</p>
                         </div>
                     </div>
-                    <div class="mt-[1.2cqw] text-slate-400 font-medium" style="font-size: clamp(0.8rem, 1.6cqw, 1.15rem);">※ file:// で直接開くのは試していない。HTTP 配信が確実</div>
+                    <div class="mt-[1.2cqw] text-slate-400 font-medium" style="font-size: clamp(0.8rem, 1.6cqw, 1.15rem);">※ file:// で直接開いても、表示から読み上げまで動く（Online Voice で確認）</div>
                 </div>
             `;
         }

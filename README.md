@@ -3,8 +3,9 @@
 **ファイル 2 つを置くだけで、ナレーション付きのプレゼンが動く。**
 
 スライドを順に映しながら読み上げ、字幕を出し、時間どおりに次へ進む。
-動画に書き出す必要はなく、URL を渡せばそのまま見てもらえる。
-ディレクトリの URL を開くと、スライドの一覧（`index.html`）が出る。
+動画に書き出す必要はない。Web サーバーに置けば、URL を渡すだけで
+見てもらえる。その URL でディレクトリを開くと、スライドの一覧
+（`index.html`）が出る。
 
 ビルドもインストールも不要。`player.html` と `slides/`（画像を使うなら
 `images/` も）を Web サーバーに置くだけで公開できる。
@@ -21,13 +22,15 @@
 
 ## すぐ試す
 
-```bash
-python3 -m http.server 8000
-# => http://localhost:8000/player.html
-```
+`player.html` をブラウザで開くだけ。サーバーを立てる必要はない。
+ファイルを直接開いた `file://` でも、表示から読み上げまで動く。
 
 `player.html?slides=<名前>` で `slides/<名前>.js` を読む。`?slides=` を省くと
 このリポジトリの紹介（`slides/readme.js`）が流れる。
+
+自分で作ったスライドも `player.html?slides=<名前>` で開ける。ただし
+スライドの一覧（`index.html`）には自動では出ない。出すには `index.html`
+に `<li>` を 1 つ足す（[User.md の手順](docs/User.md#手順)）。
 
 ## 必要なもの
 
@@ -97,8 +100,8 @@ const slideData = [
 | `CLAUDE.md` | Claude Code 向けのプロジェクト規約 |
 
 Tailwind・Google Fonts・FontAwesome・読み上げの音声は外部から取得するため、
-**ネット接続が必要**。表示は `file://` でも動くことが分かっているが、
-読み上げは `file://` では試していないため、HTTP での配信が確実
+**ネット接続が必要**。サーバーに置かず `file://` で直接開いても、表示から
+読み上げまで動く
 （詳細は [Developer.md の「場所を選ばない」](docs/Developer.md#場所を選ばない)）。
 
 ## 動画に書き出す

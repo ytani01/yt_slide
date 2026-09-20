@@ -1,0 +1,75 @@
+// TODO-088 3回目（2箇所の直しの確認）
+'use strict';
+const { chromium } = require('playwright');
+const fs = require('fs');
+const path = require('path');
+
+const REPO = '/net/fs/vol0/home.localhost.1-ytani/ytani/public_html/yt_slide';
+const SHOT_DIR = process.env.HOME + '/tmp/playwright-mcp';
+
+function evLog(page, bucket) {
+    page.on('console', (m) => { if (m.type() === 'error') bucket.consoleErrors.push(m.text()); });
+    page.on('pageerror', (e) => bucket.pageErrors.push(String(e)));
+    page.on('requestfailed', (r) => bucket.requestFailed.push({ url: r.url(), failure: r.failure() && r.failure().errorText }));
+}
+
+(async () => {
+    const browser = await chromium.launch({ headless: true });
+    try {
+        const url = 'file://' + path.join(REPO, 'player.html') + '?slides=developer';
+        const bucket = { consoleErrors: [], pageErrors: [], requestFailed: [] };
+        const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+        evLog(page, bucket);
+        await page.goto(url, { waitUntil: 'load' });
+        await page.waitForTimeout(1000);
+
+        const slideCount = await page.evaluate(() => slideData.length);
+        console.log('slideCount:', slideCount);
+
+        const emptySlides = [];
+        for (let i = 1; i <= slideCount; i++) {
+            const info = await page.evaluate(() => {
+                const stage = document.getElementById('slide-canvas') || document.getElementById('viewport-stage');
+                return { stageLen: stage ? stage.innerText.trim().length : 0 };
+            });
+            if (info.stageLen === 0) emptySlides.push(i);
+            if (i === 3) {
+                // check note text bounding box vs container, overlap
+                const layout = await page.evaluate(() => {
+                    const stage = document.getElementById('slide-canvas') || document.getElementById('viewport-stage');
+                    const candidates = [...document.querySelectorAll('div')].filter(d => d.textContent.includes('file:// で直接開いても'));
+                    const note = candidates.sort((a, b) => a.textContent.length - b.textContent.length)[0];
+                    if (!note || !stage) return null;
+                    const noteRect = note.getBoundingClientRect();
+                    const stageRect = stage.getBoundingClientRect();
+                    return {
+                        noteText: note.textContent.trim(),
+                        noteRect: { top: noteRect.top, bottom: noteRect.bottom, left: noteRect.left, right: noteRect.right, height: noteRect.height },
+                        stageRect: { top: stageRect.top, bottom: stageRect.bottom, left: stageRect.left, right: stageRect.right },
+                        fitsWithinStage: noteRect.bottom <= stageRect.bottom + 1 && noteRect.right <= stageRect.right + 1,
+                        scrollHeightVsClientHeight: { scrollHeight: note.scrollHeight, clientHeight: note.clientHeight },
+                    };
+                });
+                console.log('slide3 note layout:', JSON.stringify(layout, null, 2));
+                fs.mkdirSync(SHOT_DIR, { recursive: true });
+                await page.screenshot({ path: path.join(SHOT_DIR, 'TODO-088-developer-3.png') });
+
+                const narrationCheck = await page.evaluate(() => slideData[2] ? slideData[2].narration : null);
+                console.log('slide3 narration:', JSON.stringify(narrationCheck));
+            }
+            if (i < slideCount) {
+                await page.click('#next-btn');
+                await page.waitForTimeout(400);
+            }
+        }
+
+        console.log('emptySlides:', JSON.stringify(emptySlides));
+        console.log('consoleErrors:', bucket.consoleErrors.length, JSON.stringify(bucket.consoleErrors));
+        console.log('pageErrors:', bucket.pageErrors.length, JSON.stringify(bucket.pageErrors));
+        console.log('requestFailed:', bucket.requestFailed.length, JSON.stringify(bucket.requestFailed));
+
+        await page.close();
+    } finally {
+        await browser.close();
+    }
+})().catch((e) => { console.error('FATAL', e); process.exit(1); });

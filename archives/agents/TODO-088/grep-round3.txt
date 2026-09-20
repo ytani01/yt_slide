@@ -1,0 +1,22 @@
+player.html:710:        // 覚える（TODO-075）。プライベートウィンドウや file:// など、
+README.md:6:動画に書き出す必要はない。Web サーバーに置けば、URL を渡すだけで
+README.md:11:`images/` も）を Web サーバーに置くだけで公開できる。
+README.md:25:`player.html` をブラウザで開くだけ。サーバーを立てる必要はない。
+README.md:26:ファイルを直接開いた `file://` でも、表示から読み上げまで動く。
+README.md:103:**ネット接続が必要**。サーバーに置かず `file://` で直接開いても、表示から
+README.md:109:URL を渡せない相手（メール添付、YouTube、オフラインの上映）には、MP4 に書き出して渡す。
+slides/readme.js:23:        narration: 'yt_slide は、2 つのファイルを置くだけで、ナレーション付きのプレゼンが動き出す仕組みです。ビルドもインストールも不要。Webサーバーに置けば、URLを渡すだけで見てもらえます。',
+slides/readme.js:35:                        ビルドもインストールも不要。サーバーに置けば、URL を渡すだけで見てもらえる。
+slides/readme.js:82:        narration: 'すぐ試すには、player.html をブラウザで開くだけです。サーバーを立てる必要はなく、ファイルを直接開いても読み上げまで動きます。URLにスライドの名前を指定すると、そのスライドが再生されます。',
+slides/readme.js:265:        narration: 'まとめです。yt_slide を使えば、ファイル 2 つを置くだけで、ナレーション付きのプレゼンをすぐに作れます。Webサーバーに置けば、URLを渡すだけで見てもらえます。ぜひ試してみてください。',
+slides/readme.js:283:                            <span style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);"><strong>ビルド不要</strong>。サーバーに置けば URL を渡すだけで見てもらえる</span>
+docs/Developer.md:37:手元で試すなら、`player.html` をブラウザで開くだけでよい。サーバーを
+docs/Developer.md:40:- **`file://` でも表示と読み上げが動く**（TODO-088 で実測）。相対
+docs/Developer.md:42:  `translate_tts` も `file://` から 200 で取れて再生できた。コンソール
+docs/Developer.md:44:- **Web Speech API は `file://` でも `http://` でも確かめられていない。**
+docs/Developer.md:46:  どちらでも `synthesis-failed` になる。`file://` 固有の制約かどうかは
+docs/Developer.md:121:`file://`、サイトデータを止めている環境）でも落とさず既定値で動く。
+docs/User.md:250:URL を渡せない相手（メール添付、YouTube、オフラインの上映）には、
+docs/User.md:294:### 他のサーバーへ持っていくとき
+docs/User.md:317:- **`file://` でも動く。** サーバーに置かず、ファイルを直接開いても表示から
+slides/developer.js:105:                    <div class="mt-[1.2cqw] text-slate-400 font-medium" style="font-size: clamp(0.8rem, 1.6cqw, 1.15rem);">※ file:// で直接開いても、表示から読み上げまで動く（Online Voice で確認）</div>

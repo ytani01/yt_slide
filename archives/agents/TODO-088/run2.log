@@ -1,0 +1,44 @@
+=== 1. README すぐ試す: file:// で player.html（?slides無し）/ ?slides=user ===
+--- file:// player.html (no slides param) ---
+url: file:///net/fs/vol0/home.localhost.1-ytani/ytani/public_html/yt_slide/player.html
+consoleErrors: 0 []
+pageErrors: 0 []
+requestFailed: 0 []
+charCount: 439
+--- file:// player.html?slides=user ---
+url: file:///net/fs/vol0/home.localhost.1-ytani/ytani/public_html/yt_slide/player.html?slides=user
+consoleErrors: 0 []
+pageErrors: 0 []
+requestFailed: 0 []
+charCount: 585
+
+=== 2. readme 全10枚を送る、1/3/10のテキスト取得、スクショ ===
+slideCount: 10
+emptySlides: []
+consoleErrors: 0 []
+pageErrors: 0 []
+requestFailed: 0 []
+slide1/3/10: {
+  "1": {
+    "stageText": "yt_slide\nファイル 2 つ で、 ナレーション付きのプレゼンが動き出す\n\nビルドもインストールも不要。サーバーに置けば、URL を渡すだけで見てもらえる。",
+    "screenshot": "/home/ytani/tmp/playwright-mcp/TODO-088-after-1.png",
+    "narration": "yt_slide は、2 つのファイルを置くだけで、ナレーション付きのプレゼンが動き出す仕組みです。ビルドもインストールも不要。Webサーバーに置けば、URLを渡すだけで見てもらえます。"
+  },
+  "3": {
+    "stageText": "すぐ試す\nplayer.html # ブラウザで開くだけ\nplayer.html?slides=user # 名前を指定して開く\n\nplayer.html?slides=<名前> で slides/<名前>.js を読む。",
+    "screenshot": "/home/ytani/tmp/playwright-mcp/TODO-088-after-3.png",
+    "narration": "すぐ試すには、player.html をブラウザで開くだけです。サーバーを立てる必要はなく、ファイルを直接開いても読み上げまで動きます。URLにスライドの名前を指定すると、そのスライドが再生されます。"
+  },
+  "10": {
+    "stageText": "まとめ\nファイル 2 つ を置くだけで、ナレーション付きプレゼンが動く\nslides/ に JavaScript を 1 つ足す だけで新しいスライドを作れる\nビルド不要。サーバーに置けば URL を渡すだけで見てもらえる\nぜひ試してみてください",
+    "screenshot": "/home/ytani/tmp/playwright-mcp/TODO-088-after-10.png",
+    "narration": "まとめです。yt_slide を使えば、ファイル 2 つを置くだけで、ナレーション付きのプレゼンをすぐに作れます。Webサーバーに置けば、URLを渡すだけで見てもらえます。ぜひ試してみてください。"
+  }
+}
+
+=== 5. index.html と slides/ の一致、nosuch の挙動 ===
+slides/*.js (basenames): ["claude-memo","developer","readme","template","user"]
+index.html <li> slides= values: ["claude-memo","developer","readme","template","user"]
+<li> count in index.html: 5
+nosuch bodyText: "AI Presentation Video\n\nインタラクティブ・プレゼンテーション動画プレイヤー\n\n音声エンジン:\nOnline Voice\n切替\nSLIDE 01 /\nスライドのデータ slides/nosuch.js を読み込めませんでした。\n0:00\n--:--\n操作ガイド\n再生中スライド\n1. タイトル\n字幕\n速度 0.75x\n速度 1.0x\n速度 1.25x\n速度 1.5x\n速度 2.0x\n待ち 1秒\n待ち 2秒\n待ち 3秒\nチャプター一覧"
+nosuch pageErrors: ["Error: slides not found: nosuch"]
