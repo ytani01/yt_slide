@@ -1,7 +1,7 @@
 # TODO
 
-**残っている項目: TODO-073・TODO-074・TODO-075・TODO-077・TODO-078・TODO-079。** これまでに 73 件を決着させた。
-新しく足すときは「完了済み」の上に節を作る。**番号は `TODO-080` から。**
+**残っている項目: TODO-073・TODO-074・TODO-075・TODO-077・TODO-078・TODO-079・TODO-080。** これまでに 73 件を決着させた。
+新しく足すときは「完了済み」の上に節を作る。**番号は `TODO-081` から。**
 
 ---
 
@@ -186,6 +186,40 @@ Online TTS の `onerror` と `play()` の拒否は、現在は console に警告
 
 `slides/user.js` は書いたとおりに開いて確かめられるので、確認は verifier に分ける。
 挙動の分岐は変わらないので reviewer は立てない。
+
+---
+
+## TODO-080. 先頭・末尾へ送るボタンを付け、「最初から」を外す
+
+|      | main | 担当 |
+|------|------|------|
+| 見込み | Sonnet 5 / effort medium | reviewer + verifier |
+
+- [ ] `player.html` の `restart-btn`（「最初から」）を削除する
+- [ ] `prev-btn` の左に「先頭へ」、`next-btn` の右に「最後へ」のボタンを足す
+- [ ] キー操作に Home（先頭）と End（最後）を足す
+- [ ] 操作ガイド（`#operation-guide`）のキー操作一覧に 2 行足し、「その他のボタン」から「最初から」の記述を消す
+
+いまの並びは `◀ ▶ 操作ガイド 最初から` で、「最初から」だけ離れた位置にあり、
+末尾へ飛ぶ手段が無い（シークバーを右端まで押すしかない）。送りのボタンを
+`⏮ ◀ ▶ ⏭` と並べれば、先頭・末尾も前後送りと同じ場所で操作できる。
+
+決めてあること:
+
+- キーは Home と End を割り当てる（利用者と決めた）
+- アイコンは `fa-backward-fast` / `fa-forward-fast`。見た目は `prev-btn`・`next-btn` と
+  同じ `w-10 h-10`
+- 新しいボタンは `renderSlide(0, true)` / `renderSlide(slideData.length - 1, true)` だけを
+  呼ぶ。`prev-btn`・`next-btn` と同じ形にする。いまの `restart-btn` は `renderSlide()` の
+  後に `playPresentation()` も呼んでいて、再生中は `speakCurrentNarration()` が
+  二重に走る（`player.html:1205-1208`）
+
+**検証方法:** verifier が Playwright で、4 つのボタンと Home / End から先頭・最後へ
+移ることを確かめる。再生中に押したときに読み上げが二重にならないこと、先頭で
+「先頭へ」・末尾で「最後へ」を押しても壊れないこと、狭い画面でボタンの行が
+折り返しても押せることも見る。
+
+再生の状態に関わる変更なので reviewer を入れ、reviewer の後に verifier を回す。
 
 ---
 
