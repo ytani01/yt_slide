@@ -551,7 +551,8 @@
         let isPlaying = false;
         let isMuted = false;
         let playbackRate = 1.0;
-        // ナレーション終了後、次のスライドへ移るまでの待ち（秒）。覚えない（TODO-021）
+        // ナレーション終了後、次のスライドへ移るまでの待ち（秒）。
+        // 再生速度・字幕・音声エンジンと一緒に localStorage で覚える（TODO-075）
         let pauseSeconds = 2;
         let currentSlideElapsedTime = 0;
         let animationFrameId = null;
@@ -665,6 +666,69 @@
         const subtitleBanner = document.getElementById('subtitle-banner');
         const toggleCaptionBtn = document.getElementById('toggle-caption-btn');
         const captionIcon = document.getElementById('caption-icon');
+
+        // 再生の設定（速度・字幕・音声エンジン・待ち秒数）を localStorage で
+        // 覚える（TODO-075）。プライベートウィンドウや file:// など、
+        // localStorage が使えない環境でも落とさず既定値で動かす。
+        const SETTINGS_KEY_PREFIX = 'ytSlidePlayer.';
+
+        function loadSetting(key, fallback, valid) {
+            try {
+                const raw = localStorage.getItem(SETTINGS_KEY_PREFIX + key);
+                if (raw === null || !valid(raw)) return fallback;
+                return raw;
+            } catch (e) {
+                return fallback;
+            }
+        }
+
+        function saveSetting(key, value) {
+            try {
+                localStorage.setItem(SETTINGS_KEY_PREFIX + key, String(value));
+            } catch (e) {
+                // 覚えられなくても既定値のまま動かす（TODO-075）
+            }
+        }
+
+        function applyCaptions() {
+            toggleCaptionBtn.setAttribute('aria-pressed', String(showCaptions));
+            subtitleBanner.classList.toggle('hidden', !showCaptions);
+            toggleCaptionBtn.classList.toggle('text-slate-400', !showCaptions);
+            toggleCaptionBtn.classList.toggle('text-lime-400', showCaptions);
+            toggleCaptionBtn.classList.toggle('border-lime-500/50', showCaptions);
+            captionIcon.classList.toggle('text-slate-400', !showCaptions);
+            captionIcon.classList.toggle('text-lime-400', showCaptions);
+        }
+
+        function applyVoiceEngine() {
+            const online = voiceEngineMode === 'online';
+            speechStatusIndicator.textContent = online ? "Online Voice" : "Web Speech API";
+            speechStatusIndicator.className =
+                `${online ? 'text-sky-400' : 'text-lime-400'} font-bold font-mono`;
+        }
+
+        // 保存した値も信用しない。プルダウンの選択肢に無い値や、想定外の
+        // 値なら既定値へ戻す（TODO-075）
+        const SPEED_OPTIONS = Array.from(speedSelect.options).map(o => o.value);
+        const PAUSE_OPTIONS = Array.from(pauseSelect.options).map(o => o.value);
+
+        const savedSpeed = loadSetting(
+            'speed', String(playbackRate), v => SPEED_OPTIONS.includes(v));
+        playbackRate = Number(savedSpeed);
+        speedSelect.value = savedSpeed;
+
+        const savedPauseSeconds = loadSetting(
+            'pauseSeconds', String(pauseSeconds), v => PAUSE_OPTIONS.includes(v));
+        pauseSeconds = Number(savedPauseSeconds);
+        pauseSelect.value = savedPauseSeconds;
+        recalcTimeline();
+
+        showCaptions = loadSetting(
+            'showCaptions', String(showCaptions), v => v === 'true' || v === 'false'
+        ) === 'true';
+
+        voiceEngineMode = loadSetting(
+            'voiceEngineMode', voiceEngineMode, v => v === 'online' || v === 'speech');
 
         // 全スライド共通の読みの置換表（TODO-054）。
         // スライド一式だけの語は slides/<名前>.js の slidesConfig.rules に書く。
@@ -1176,22 +1240,15 @@
             // Toggle Subtitle Banner visibility
             toggleCaptionBtn.addEventListener('click', () => {
                 showCaptions = !showCaptions;
-                toggleCaptionBtn.setAttribute('aria-pressed', String(showCaptions));
-                subtitleBanner.classList.toggle('hidden', !showCaptions);
-                toggleCaptionBtn.classList.toggle('text-slate-400', !showCaptions);
-                toggleCaptionBtn.classList.toggle('text-lime-400', showCaptions);
-                toggleCaptionBtn.classList.toggle('border-lime-500/50', showCaptions);
-                captionIcon.classList.toggle('text-slate-400', !showCaptions);
-                captionIcon.classList.toggle('text-lime-400', showCaptions);
+                applyCaptions();
+                saveSetting('showCaptions', showCaptions);
             });
 
             // Toggle Audio Engine Mode (Web Speech API <-> Online Voice)
             toggleVoiceEngineBtn.addEventListener('click', () => {
                 voiceEngineMode = voiceEngineMode === 'speech' ? 'online' : 'speech';
-                const online = voiceEngineMode === 'online';
-                speechStatusIndicator.textContent = online ? "Online Voice" : "Web Speech API";
-                speechStatusIndicator.className =
-                    `${online ? 'text-sky-400' : 'text-lime-400'} font-bold font-mono`;
+                applyVoiceEngine();
+                saveSetting('voiceEngineMode', voiceEngineMode);
                 if (isPlaying) {
                     speakCurrentNarration();
                 }
@@ -1220,6 +1277,7 @@
             // 1.0x が標準（実際は BASE_SPEED_MULTIPLIER を掛けた速さ）
             speedSelect.addEventListener('change', () => {
                 playbackRate = Number(speedSelect.value);
+                saveSetting('speed', speedSelect.value);
                 if (isPlaying) {
                     speakCurrentNarration();
                 }
@@ -1227,6 +1285,7 @@
 
             pauseSelect.addEventListener('change', () => {
                 pauseSeconds = Number(pauseSelect.value);
+                saveSetting('pauseSeconds', pauseSelect.value);
                 recalcTimeline();
                 // 待ちを縮めたとき、経過が新しい尺を超えたままにならないようにする
                 currentSlideElapsedTime = Math.min(currentSlideElapsedTime, slideSpan(currentIndex));
@@ -1450,6 +1509,8 @@
             document.getElementById('slides-heading').textContent = slidesConfig.heading;
             setupViewportScale();
             initPlaylist();
+            applyCaptions();
+            applyVoiceEngine();
             renderSlide(0, true);
             setupEventListeners();
         }

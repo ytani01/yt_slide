@@ -100,6 +100,30 @@ python3 -m http.server 8000
 `BASE_SPEED_MULTIPLIER` は `player.html` と同じ値**なため、どちらか一方を変えたら
 もう一方も変える。片方だけ変えると測定値が実際とずれる。
 
+## 再生の設定を覚える
+
+再生速度・字幕・音声エンジン・待ち秒数は `localStorage` に覚え、
+読み込み時に復元する。スライド一式（`?slides=`）ごとには
+分けず、全体で 1 組の設定を使う。
+
+| 設定 | 変数 | 保存キー | 既定値 |
+|------|------|----------|--------|
+| 再生速度 | `playbackRate` | `ytSlidePlayer.speed` | `1` |
+| 字幕 | `showCaptions` | `ytSlidePlayer.showCaptions` | `false` |
+| 音声エンジン | `voiceEngineMode` | `ytSlidePlayer.voiceEngineMode` | `online` |
+| 待ち秒数 | `pauseSeconds` | `ytSlidePlayer.pauseSeconds` | `2` |
+
+読み書きは `loadSetting()` / `saveSetting()` に集約し、`try`/`catch` は
+その中だけに書く。`localStorage` が使えない環境（プライベートウィンドウ、
+`file://`、サイトデータを止めている環境）でも落とさず既定値で動く。
+保存した値も信用せず、`loadSetting()` に渡す `valid` 関数でプルダウンの
+選択肢や想定する値かどうかを確かめ、外れていれば既定値に戻す。
+
+字幕・音声エンジンの見た目の反映は `applyCaptions()` / `applyVoiceEngine()`
+にまとめてあり、クリックハンドラと起動時（`startApp()` 内、
+`renderSlide(0, true)` の前）の両方から呼ぶ。同じ見た目の指定を
+複製しないため。
+
 ## 読み上げ
 
 2 系統を `toggle-voice-engine-btn` で切り替える。既定は `online`。
