@@ -1,7 +1,44 @@
 # TODO
 
-**残っている項目: なし。** これまでに 83 件を決着させた。
-新しく足すときは「完了済み」の上に節を作る。**番号は `TODO-084` から。**
+**残っている項目: TODO-084。** これまでに 83 件を決着させた。
+新しく足すときは「完了済み」の上に節を作る。**番号は `TODO-085` から。**
+
+---
+
+## TODO-084. 文書・スライドと実装の食い違いをまとめて直す
+
+|      | main | 担当 |
+|------|------|------|
+| 見込み | Sonnet 5 / effort medium | implementer + verifier（消音を直す場合は reviewer も） |
+
+文書と実装の照合（2026-09-20）で見つかった食い違い。
+
+- [ ] 1. `docs/Developer.md` の構成表に `tools/make-video.py` と
+  `tools/test_make_video.py` を足し、「テストは `test_measure_duration.py` だけ」を
+  2 本に直す。同じ内容の `slides/developer.js` 2 枚目の表も揃える
+- [ ] 2. スライド一式の数を 5 つ（`template` を含む）に揃える。
+  `CLAUDE.md`（「4 つ」）と `slides/readme.js` 9 枚目（表とナレーション）
+- [ ] 3. `slides/readme.js` 5〜7 枚目を、`body` を標準とする書き方
+  （`docs/User.md`・`README.md`）に合わせる
+- [ ] 4. `slides/user.js` に、`index.html` へ 1 行足す手順を足す
+  （`docs/User.md` の手順 3）
+- [ ] 5. `docs/Developer.md` の TODO 番号（`TODO-048`・`050`・`051`・`054`）を外す
+- [ ] 6. `file://` は「試していない」とある記述（`docs/Developer.md`・
+  `README.md`）を、`tools/make-video.py` が Chromium で `file://` を開いて
+  撮影している事実に合わせる
+- [ ] 7. 消音ボタンを再生中に押すと、`stopSpeech()` が待ちのタイマーを消し、
+  張り直さないため自動で進まないように読める（`player.html` 1372 行付近）。
+  ブラウザでの再現は未確認
+
+**着手時に聞くこと**
+
+- 7 は、まず Playwright で再現する。再現したら「コードを直す」か
+  「`docs/Developer.md` に制限として書く」かを聞く。コードを直すなら
+  挙動が変わるので reviewer を入れる
+- 5 は `docs/` だけを対象にする。`player.html`・`slides/*.js`・`tools/*.py` の
+  コメントにも番号があるが、外すかどうかは着手時に聞く
+- ナレーションを変えたスライドは `duration` を測り直す
+  （`tools/measure-duration.py`。Google TTS への通信が要る）
 
 ---
 
