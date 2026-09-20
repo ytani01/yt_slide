@@ -6,8 +6,8 @@
 動画に書き出す必要はなく、URL を渡せばそのまま見てもらえる。
 ディレクトリの URL を開くと、スライドの一覧（`index.html`）が出る。
 
-ビルドもインストールも不要。`player.html` と `slides/` を Web サーバーに
-置くだけで公開できる。
+ビルドもインストールも不要。`player.html` と `slides/`（画像を使うなら
+`images/` も）を Web サーバーに置くだけで公開できる。
 
 ## できること
 
@@ -75,6 +75,7 @@ const slideData = [
 | `user` | スライドの作り方 |
 | `developer` | `player.html` の作り |
 | `claude-memo` | 実例。「私の Claude Code の使い方」17 枚 |
+| `template` | スライドの型の見本 17 種。コピーして使う |
 
 `docs/` の説明と、同じ内容をスライドでも見られる。
 
@@ -85,6 +86,7 @@ const slideData = [
 | `player.html` | 外枠の HTML・CSS と再生ロジック。**これ 1 つが本体** |
 | `index.html` | スライドの一覧。足したら 1 行足す（`docs/User.md` の「手順」） |
 | `slides/<名前>.js` | スライドのデータ。`player.html?slides=<名前>` で読まれる |
+| `images/` | スライドに貼るビットマップ画像 |
 | `docs/` | 説明（下記） |
 | `tools/measure-duration.py` | 読み上げ秒数を測り、`duration` に書き戻す |
 | `tools/test_measure_duration.py` | 書き戻しの置換を確かめる自己テスト |

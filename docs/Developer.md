@@ -11,7 +11,8 @@
 | ファイル | 役割 |
 |----------|------|
 | `player.html` | 外枠の HTML・CSS と再生ロジック。本体 |
-| `slides/<名前>.js` | スライドデータ。`readme`・`user`・`developer`・`claude-memo` |
+| `slides/<名前>.js` | スライドデータ。`readme`・`user`・`developer`・`claude-memo`・`template` |
+| `images/` | スライドに貼るビットマップ画像。パスは `player.html` から見た相対 |
 | `tools/measure-duration.py` | 読み上げ秒数の測定と `duration` への書き込み |
 | `tools/test_measure_duration.py` | 書き込みと置換表の読み込みの自動確認 |
 

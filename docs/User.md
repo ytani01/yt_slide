@@ -84,10 +84,13 @@ const slideData = [
 （`body` は無視される）。
 
 **型の見本が `slides/template.js` にある**（`player.html?slides=template`）。
-箇条書き、2 カラム比較、表、コードと端末画面、図解、数字を大きく見せる、
-引用、時系列、章の区切りの 9 種類。使いたい型のスライドをまるごとコピーして、
-中身を差し替えるのが早い。最後の「章の区切り」だけは見出しの枠を外すため
-`render()` で書いてある。
+表紙、箇条書き、2 カラム比較、表、コードと端末画面、図解、数字を大きく見せる、
+引用、時系列、カード 3 枚、前後の差分、割合バー、Q&A、本文と脚注、画像、
+画像（全面）、章の区切りの 17 種類。使いたい型のスライドをまるごとコピーして、
+中身を差し替えるのが早い。1 枚は `// ── N. 名前 ──` のコメントから次の
+コメントまでで、要らない型はその範囲を丸ごと削除してよい。「表紙」
+「画像（全面）」「章の区切り」の 3 つは、見出しの枠を外すため `render()` で
+書いてある。
 
 ## `render()` の書き方
 
@@ -122,8 +125,25 @@ const slideData = [
   `flex flex-col h-full justify-center` で縦に詰めている
 
 既存の 17 枚が `slides/claude-memo.js` にあるため、**近い見た目のものを
-コピーして中身を差し替えると早い。** `slides/template.js` の「章の区切り」も
-`render()` で書いた例で、見出しの枠を外した全面のスライドはこの形になる。
+コピーして中身を差し替えると早い。** `slides/template.js` の「表紙」
+「画像（全面）」「章の区切り」も `render()` で書いた例で、見出しの枠を外した
+全面のスライドはこの形になる。
+
+### 画像を入れる
+
+ビットマップ画像は `images/` に置き、**`player.html` から見た相対パス**で
+書く（`slides/` から見た位置ではない）。枠は container query で拡大縮小する
+ため、幅を `cqw` か `w-full` で指定すれば画面の大きさに追従する。
+
+```html
+<img src="images/spheres.jpg" alt="…" class="w-full h-auto rounded-xl">
+```
+
+- 高さを抑えたいときは `class="max-h-[34cqw] object-contain"` を足す
+- 枠いっぱいに敷くときは `render()` の中で
+  `class="absolute inset-0 w-full h-full object-cover"`。文字を載せるなら
+  上に半透明の膜を 1 枚重ねる
+- 見本は `slides/template.js` の「画像」と「画像（全面）」
 
 ## `narration` と `duration`
 
@@ -238,17 +258,18 @@ video/readme.mp4 と video/readme.srt に書き出した
 
 ### 他のサーバーへ持っていくとき
 
-**渡すのは次の 2 つだけ。** 同じ位置関係のまま置く。
+**渡すのは `player.html` とスライド一式だけ。** 同じ位置関係のまま置く。
 
 ```
 player.html
 index.html          ← 一覧が要るときだけ
 slides/<名前>.js    ← 公開したいスライド一式の分だけ
+images/             ← 画像を使っているときだけ
 ```
 
-`player.html` がローカルから読むのはこの `.js` だけで、参照は
-相対パス。残り（Tailwind・Google Fonts・FontAwesome・読み上げの音声）は
-すべて外部から取得する。
+`player.html` がローカルから読むのはこの `.js` と、スライドが参照する画像
+だけで、参照は相対パス。残り（Tailwind・Google Fonts・FontAwesome・
+読み上げの音声）はすべて外部から取得する。
 
 - `tools/`・`docs/`・`archives/`・`README.md`・`TODO.md` は**要らない**。
   `tools/measure-duration.py` は `duration` を測るためのもので、再生には
