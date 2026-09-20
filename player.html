@@ -401,6 +401,11 @@
                     <div class="flex items-center justify-between gap-y-2 flex-wrap pt-1">
                         
                         <div class="flex items-center gap-2 flex-wrap">
+                            <!-- First Slide Button -->
+                            <button id="first-btn" aria-label="先頭のスライド" title="先頭のスライドへ移動（Home）" class="w-10 h-10 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 flex items-center justify-center transition border border-slate-700">
+                                <i aria-hidden="true" class="fa-solid fa-backward-fast"></i>
+                            </button>
+
                             <!-- Prev Slide Button -->
                             <button id="prev-btn" aria-label="前のスライド" title="前のスライドへ移動（←）" class="w-10 h-10 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 flex items-center justify-center transition border border-slate-700">
                                 <i aria-hidden="true" class="fa-solid fa-backward-step"></i>
@@ -416,12 +421,12 @@
                                 <i aria-hidden="true" class="fa-solid fa-forward-step"></i>
                             </button>
 
-                            <button id="guide-btn" aria-haspopup="dialog" aria-controls="operation-guide" title="キー操作とタッチ操作を確認する" class="text-slate-200 text-xs bg-slate-800 hover:bg-slate-700 px-3 py-2 rounded-lg border border-slate-700">操作ガイド</button>
-
-                            <!-- Auto-Replay Toggle -->
-                            <button id="restart-btn" class="ml-2 text-slate-400 hover:text-slate-200 text-xs flex items-center gap-1 bg-slate-800/50 hover:bg-slate-800 px-3 py-2 rounded-lg border border-slate-800">
-                                <i aria-hidden="true" class="fa-solid fa-rotate-left"></i> 最初から
+                            <!-- Last Slide Button -->
+                            <button id="last-btn" aria-label="最後のスライド" title="最後のスライドへ移動（End）" class="w-10 h-10 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 flex items-center justify-center transition border border-slate-700">
+                                <i aria-hidden="true" class="fa-solid fa-forward-fast"></i>
                             </button>
+
+                            <button id="guide-btn" aria-haspopup="dialog" aria-controls="operation-guide" title="キー操作とタッチ操作を確認する" class="text-slate-200 text-xs bg-slate-800 hover:bg-slate-700 px-3 py-2 rounded-lg border border-slate-700">操作ガイド</button>
                         </div>
 
                         <!-- Slide Title Preview -->
@@ -498,10 +503,11 @@
         <div class="guide-body">
             <p>Tab でボタンへ移動し、Enter または Space で操作できます。ガイドは「閉じる」または Escape で閉じます。</p>
             <h3>キー操作</h3>
-            <p>Space・矢印・F・M は、ボタンや選択欄を操作していないときに使えます。</p>
+            <p>Space・矢印・Home・End・F・M は、ボタンや選択欄を操作していないときに使えます。</p>
             <dl>
                 <dt>Space</dt><dd>再生／一時停止</dd>
                 <dt>← / →</dt><dd>前／次のスライド</dd>
+                <dt>Home / End</dt><dd>先頭／最後のスライド</dd>
                 <dt>F</dt><dd>フルスクリーンの切り替え</dd>
                 <dt>M</dt><dd>消音の切り替え</dd>
                 <dt>Escape</dt><dd>フルスクリーンを終了</dd>
@@ -514,7 +520,7 @@
             </dl>
             <p>タッチ画面では、フルスクリーン中の枠の外にある暗幕をタップすると通常表示に戻ります。画面比率によって暗幕がない場合は、F または Escape を使ってください。</p>
             <h3>その他のボタン</h3>
-            <p>「最初から」で先頭へ戻り、「字幕」でナレーションの全文を表示します。「速度」と「待ち」で再生速度と読み上げ後の待ち時間を選べます。</p>
+            <p>送りのボタンは左から「先頭のスライド」「前のスライド」「再生」「次のスライド」「最後のスライド」の順に並んでいます。「字幕」でナレーションの全文を表示します。「速度」と「待ち」で再生速度と読み上げ後の待ち時間を選べます。</p>
             <p>ガイドを開閉しても再生状態は変わりません。再生中はスライドが進みます。</p>
         </div>
     </dialog>
@@ -639,7 +645,8 @@
         const playIcon = document.getElementById('play-icon');
         const prevBtn = document.getElementById('prev-btn');
         const nextBtn = document.getElementById('next-btn');
-        const restartBtn = document.getElementById('restart-btn');
+        const firstBtn = document.getElementById('first-btn');
+        const lastBtn = document.getElementById('last-btn');
         const speedSelect = document.getElementById('speed-select');
         const pauseSelect = document.getElementById('pause-select');
         const muteBtn = document.getElementById('mute-btn');
@@ -1202,9 +1209,12 @@
                 }
             });
 
-            restartBtn.addEventListener('click', () => {
+            firstBtn.addEventListener('click', () => {
                 renderSlide(0, true);
-                if (isPlaying) playPresentation();
+            });
+
+            lastBtn.addEventListener('click', () => {
+                renderSlide(slideData.length - 1, true);
             });
 
             // 1.0x が標準（実際は BASE_SPEED_MULTIPLIER を掛けた速さ）
@@ -1353,6 +1363,12 @@
                     if (currentIndex > 0) {
                         renderSlide(currentIndex - 1, true);
                     }
+                } else if (e.key === 'Home') {
+                    e.preventDefault();
+                    renderSlide(0, true);
+                } else if (e.key === 'End') {
+                    e.preventDefault();
+                    renderSlide(slideData.length - 1, true);
                 } else if (e.key === 'f' || e.key === 'F') {
                     e.preventDefault();
                     fullscreenBtn.click();
