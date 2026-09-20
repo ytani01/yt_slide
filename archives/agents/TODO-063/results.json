@@ -1,0 +1,212 @@
+{
+  "results": [
+    {
+      "scrollHeight": 428,
+      "clientHeight": 428,
+      "scrollWidth": 868,
+      "clientWidth": 868,
+      "canvasRect": {
+        "left": 372.431640625,
+        "top": 153.69358825683594,
+        "right": 1233.568359375,
+        "bottom": 578.6813812255859
+      },
+      "contentBounds": {
+        "left": 372.431640625,
+        "top": 157.66195678710938,
+        "right": 1233.568359375,
+        "bottom": 574.7130126953125
+      },
+      "hasH2": true,
+      "h2Text": "箇条書き",
+      "hasIcon": true,
+      "index": 0,
+      "title": "箇条書き"
+    },
+    {
+      "scrollHeight": 428,
+      "clientHeight": 428,
+      "scrollWidth": 868,
+      "clientWidth": 868,
+      "canvasRect": {
+        "left": 372.4319763183594,
+        "top": 153.69375610351562,
+        "right": 1233.5679626464844,
+        "bottom": 578.6812744140625
+      },
+      "contentBounds": {
+        "left": 372.4319763183594,
+        "top": 157.66212463378906,
+        "right": 1233.5679626464844,
+        "bottom": 574.7129058837891
+      },
+      "hasH2": true,
+      "h2Text": "2 カラム比較",
+      "hasIcon": true,
+      "index": 1,
+      "title": "2 カラム比較"
+    },
+    {
+      "scrollHeight": 428,
+      "clientHeight": 428,
+      "scrollWidth": 868,
+      "clientWidth": 868,
+      "canvasRect": {
+        "left": 372.92474365234375,
+        "top": 153.9369354248047,
+        "right": 1233.0751953125,
+        "bottom": 578.4380340576172
+      },
+      "contentBounds": {
+        "left": 372.92474365234375,
+        "top": 157.9007568359375,
+        "right": 1233.0751953125,
+        "bottom": 574.4742431640625
+      },
+      "hasH2": true,
+      "h2Text": "表",
+      "hasIcon": true,
+      "index": 2,
+      "title": "表"
+    },
+    {
+      "scrollHeight": 428,
+      "clientHeight": 428,
+      "scrollWidth": 868,
+      "clientWidth": 868,
+      "canvasRect": {
+        "left": 372.9241943359375,
+        "top": 153.93666076660156,
+        "right": 1233.0758056640625,
+        "bottom": 578.4383697509766
+      },
+      "contentBounds": {
+        "left": 372.9241943359375,
+        "top": 157.90048217773438,
+        "right": 1233.0758056640625,
+        "bottom": 574.4744873046875
+      },
+      "hasH2": true,
+      "h2Text": "コードと端末画面",
+      "hasIcon": true,
+      "index": 3,
+      "title": "コードと端末画面"
+    },
+    {
+      "scrollHeight": 428,
+      "clientHeight": 428,
+      "scrollWidth": 868,
+      "clientWidth": 868,
+      "canvasRect": {
+        "left": 372.9237060546875,
+        "top": 153.93641662597656,
+        "right": 1233.0762939453125,
+        "bottom": 578.4386138916016
+      },
+      "contentBounds": {
+        "left": 372.9237060546875,
+        "top": 157.90025329589844,
+        "right": 1233.0762939453125,
+        "bottom": 574.4747161865234
+      },
+      "hasH2": true,
+      "h2Text": "図解",
+      "hasIcon": true,
+      "index": 4,
+      "title": "図解"
+    },
+    {
+      "scrollHeight": 428,
+      "clientHeight": 428,
+      "scrollWidth": 868,
+      "clientWidth": 868,
+      "canvasRect": {
+        "left": 373.4425354003906,
+        "top": 154.19247436523438,
+        "right": 1232.5575256347656,
+        "bottom": 578.1824951171875
+      },
+      "contentBounds": {
+        "left": 373.4425354003906,
+        "top": 158.15151977539062,
+        "right": 1232.5575256347656,
+        "bottom": 574.2234497070312
+      },
+      "hasH2": true,
+      "h2Text": "数字を大きく見せる",
+      "hasIcon": true,
+      "index": 5,
+      "title": "数字を大きく見せる"
+    },
+    {
+      "scrollHeight": 428,
+      "clientHeight": 428,
+      "scrollWidth": 868,
+      "clientWidth": 868,
+      "canvasRect": {
+        "left": 373.9783630371094,
+        "top": 154.45692443847656,
+        "right": 1232.0215759277344,
+        "bottom": 577.9181060791016
+      },
+      "contentBounds": {
+        "left": 373.9783630371094,
+        "top": 158.41104125976562,
+        "right": 1232.0215759277344,
+        "bottom": 573.9639282226562
+      },
+      "hasH2": true,
+      "h2Text": "引用",
+      "hasIcon": true,
+      "index": 6,
+      "title": "引用"
+    },
+    {
+      "scrollHeight": 428,
+      "clientHeight": 428,
+      "scrollWidth": 868,
+      "clientWidth": 868,
+      "canvasRect": {
+        "left": 372.92327880859375,
+        "top": 153.93621826171875,
+        "right": 1233.07666015625,
+        "bottom": 578.4387817382812
+      },
+      "contentBounds": {
+        "left": 372.92327880859375,
+        "top": 157.90005493164062,
+        "right": 1233.07666015625,
+        "bottom": 574.4749755859375
+      },
+      "hasH2": true,
+      "h2Text": "時系列",
+      "hasIcon": true,
+      "index": 7,
+      "title": "時系列"
+    },
+    {
+      "scrollHeight": 428,
+      "clientHeight": 428,
+      "scrollWidth": 868,
+      "clientWidth": 868,
+      "canvasRect": {
+        "left": 372.4296875,
+        "top": 153.69261169433594,
+        "right": 1233.5703125,
+        "bottom": 578.6823577880859
+      },
+      "contentBounds": {
+        "left": 372.4296875,
+        "top": 157.6610107421875,
+        "right": 1233.5703125,
+        "bottom": 574.7139892578125
+      },
+      "hasH2": false,
+      "h2Text": null,
+      "hasIcon": false,
+      "index": 8,
+      "title": "章の区切り"
+    }
+  ],
+  "console_errors": []
+}

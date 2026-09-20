@@ -72,8 +72,13 @@ const slideData = [
 
 `title` が空（または未定義）なら見出しごと出ず、本文だけになる。`icon` を
 省くとアイコンは出ない。`render()` を書いた場合はそちらが優先される
-（`body` は無視される）。詳しい例は `slides/template.js`
-（`player.html?slides=template`）を見る。
+（`body` は無視される）。
+
+**型の見本が `slides/template.js` にある**（`player.html?slides=template`）。
+箇条書き、2 カラム比較、表、コードと端末画面、図解、数字を大きく見せる、
+引用、時系列、章の区切りの 9 種類。使いたい型のスライドをまるごとコピーして、
+中身を差し替えるのが早い。最後の「章の区切り」だけは見出しの枠を外すため
+`render()` で書いてある。
 
 ## `render()` の書き方
 
@@ -97,7 +102,8 @@ const slideData = [
   `flex flex-col h-full justify-center` で縦に詰めている
 
 既存の 17 枚が `slides/claude-memo.js` にあるため、**近い見た目のものを
-コピーして中身を差し替えると早い。**
+コピーして中身を差し替えると早い。** `slides/template.js` の「章の区切り」も
+`render()` で書いた例で、見出しの枠を外した全面のスライドはこの形になる。
 
 ## `narration` と `duration`
 
