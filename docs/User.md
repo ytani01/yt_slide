@@ -275,15 +275,18 @@ CDN から読む **FontAwesome 6.5.1 の無料の solid** から、用途別に 
 
 | 用途 | クラス名 |
 |------|----------|
-| 箇条書き・一覧 | `fa-list-check` / `fa-list-ol` / `fa-table-list` |
-| 注意・禁止 | `fa-triangle-exclamation` / `fa-circle-exclamation` / `fa-ban` / `fa-circle-info` |
-| 手順・進行 | `fa-flag-checkered` / `fa-arrow-right` / `fa-circle-check` |
-| コード・端末 | `fa-code` / `fa-terminal` / `fa-file-code` |
-| ファイル・文書 | `fa-folder-open` / `fa-file-lines` / `fa-book` |
-| 時間・計測 | `fa-clock` / `fa-stopwatch` / `fa-gauge-high` / `fa-chart-simple` |
-| 人・対話 | `fa-users` / `fa-comments` / `fa-robot` |
-| 図解・設定 | `fa-diagram-project` / `fa-table` / `fa-gear` / `fa-sliders` |
-| 強調・ひらめき | `fa-lightbulb` / `fa-star` / `fa-wand-magic-sparkles` |
+| 箇条書き・一覧 | [`fa-list-check`](https://fontawesome.com/icons/list-check?s=solid) / [`fa-list-ol`](https://fontawesome.com/icons/list-ol?s=solid) / [`fa-table-list`](https://fontawesome.com/icons/table-list?s=solid) |
+| 注意・禁止 | [`fa-triangle-exclamation`](https://fontawesome.com/icons/triangle-exclamation?s=solid) / [`fa-circle-exclamation`](https://fontawesome.com/icons/circle-exclamation?s=solid) / [`fa-ban`](https://fontawesome.com/icons/ban?s=solid) / [`fa-circle-info`](https://fontawesome.com/icons/circle-info?s=solid) |
+| 手順・進行 | [`fa-flag-checkered`](https://fontawesome.com/icons/flag-checkered?s=solid) / [`fa-arrow-right`](https://fontawesome.com/icons/arrow-right?s=solid) / [`fa-circle-check`](https://fontawesome.com/icons/circle-check?s=solid) |
+| コード・端末 | [`fa-code`](https://fontawesome.com/icons/code?s=solid) / [`fa-terminal`](https://fontawesome.com/icons/terminal?s=solid) / [`fa-file-code`](https://fontawesome.com/icons/file-code?s=solid) |
+| ファイル・文書 | [`fa-folder-open`](https://fontawesome.com/icons/folder-open?s=solid) / [`fa-file-lines`](https://fontawesome.com/icons/file-lines?s=solid) / [`fa-book`](https://fontawesome.com/icons/book?s=solid) |
+| 時間・計測 | [`fa-clock`](https://fontawesome.com/icons/clock?s=solid) / [`fa-stopwatch`](https://fontawesome.com/icons/stopwatch?s=solid) / [`fa-gauge-high`](https://fontawesome.com/icons/gauge-high?s=solid) / [`fa-chart-simple`](https://fontawesome.com/icons/chart-simple?s=solid) |
+| 人・対話 | [`fa-users`](https://fontawesome.com/icons/users?s=solid) / [`fa-comments`](https://fontawesome.com/icons/comments?s=solid) / [`fa-robot`](https://fontawesome.com/icons/robot?s=solid) |
+| 図解・設定 | [`fa-diagram-project`](https://fontawesome.com/icons/diagram-project?s=solid) / [`fa-table`](https://fontawesome.com/icons/table?s=solid) / [`fa-gear`](https://fontawesome.com/icons/gear?s=solid) / [`fa-sliders`](https://fontawesome.com/icons/sliders?s=solid) |
+| 強調・ひらめき | [`fa-lightbulb`](https://fontawesome.com/icons/lightbulb?s=solid) / [`fa-star`](https://fontawesome.com/icons/star?s=solid) / [`fa-wand-magic-sparkles`](https://fontawesome.com/icons/wand-magic-sparkles?s=solid) |
+
+**名前をクリックすると FontAwesome のページに飛び、実物のアイコンを
+見られる。**
 
 `icon` にはこの名前だけを書く（`fa-solid` は `player.html` が付ける）。
 `render()` の中では `<i class="fa-solid fa-list-check"></i>` と組みで書く。
