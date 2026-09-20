@@ -120,34 +120,57 @@ const slideData = [
     },
     // Slide 4
     {
-        title: '手順2と3 書いて開く',
-        duration: 10,
-        narration: 'ファイルの中に slidesConfig と slideData を書きます。書けたら、ブラウザで player.html に slides パラメータを付けて開けば再生されます。',
+        title: '手順2 slidesConfig と slideData を書く',
+        duration: 4,
+        narration: 'ファイルの中に slidesConfig と slideData を書きます。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
                     <h2 class="font-bold text-sky-400 mb-[1.8cqw] flex items-center gap-[1cqw]" style="font-size: clamp(1.4rem, 3.2cqw, 2.5rem);">
-                        <i class="fa-solid fa-list-ol text-lime-400"></i> 手順2 &amp; 3: 書いて開く
+                        <i class="fa-solid fa-list-ol text-lime-400"></i> 手順2: 中身を書く
                     </h2>
-                    <div class="grid grid-cols-2 gap-[1.8cqw]">
-                        <div class="bg-slate-800/80 border border-sky-500/50 p-[1.6cqw] rounded-xl">
-                            <div class="text-sky-400 font-bold mb-[0.5cqw]" style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);">2. 中身を書く</div>
-                            <div class="text-slate-100 font-mono font-bold" style="font-size: clamp(0.95rem, 2.0cqw, 1.45rem);">slidesConfig</div>
-                            <div class="text-slate-100 font-mono font-bold" style="font-size: clamp(0.95rem, 2.0cqw, 1.45rem);">slideData</div>
-                        </div>
-                        <div class="bg-slate-800/80 border border-lime-500 p-[1.6cqw] rounded-xl shadow-lg shadow-lime-500/10">
-                            <div class="text-lime-400 font-bold mb-[0.5cqw]" style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);">3. ブラウザで開く</div>
-                            <div class="text-slate-100 font-mono font-bold break-all" style="font-size: clamp(0.85rem, 1.8cqw, 1.3rem);">player.html?slides=&lt;名前&gt;</div>
-                        </div>
-                    </div>
-                    <div class="mt-[1.5cqw] text-slate-400 font-medium" style="font-size: clamp(0.85rem, 1.7cqw, 1.25rem);">
-                        <code class="bg-slate-900 px-[0.6cqw] py-[0.2cqw] rounded text-slate-300 font-mono">?slides=</code> を省くと <code class="bg-slate-900 px-[0.6cqw] py-[0.2cqw] rounded text-slate-300 font-mono">slides/readme.js</code> が読まれる
+                    <div class="bg-slate-800/80 border border-sky-500/50 p-[1.8cqw] rounded-xl text-center">
+                        <div class="text-sky-400 font-bold mb-[0.6cqw]" style="font-size: clamp(1.05rem, 2.2cqw, 1.6rem);">ファイルの中に 2 つ書く</div>
+                        <div class="text-slate-100 font-mono font-bold" style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);">slidesConfig</div>
+                        <div class="text-slate-100 font-mono font-bold" style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);">slideData</div>
                     </div>
                 </div>
             `;
         }
     },
     // Slide 5
+    {
+        title: '手順3 index.html に足す',
+        icon: 'fa-file-circle-plus',
+        duration: 11,
+        narration: 'index.html の一覧に、リスト項目を1つ足します。既存の1つを写して、リンク先のslidesと名前・説明を直すだけです。',
+        body: `
+            <div class="bg-slate-800/80 border border-lime-500 p-[1.6cqw] rounded-xl shadow-lg shadow-lime-500/10 mb-[1.4cqw]">
+                <div class="text-lime-400 font-bold mb-[0.5cqw]" style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);">index.html の一覧に &lt;li&gt; を 1 つ足す</div>
+                <div class="text-slate-200 font-medium" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">既存の 1 つを写して、<code class="font-mono text-sky-300">href</code> の <code class="font-mono text-sky-300">slides=</code> と名前・説明を直す</div>
+            </div>
+            <div class="bg-sky-950/40 border border-sky-500/40 rounded-xl p-[1.2cqw] text-sky-300 font-medium" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">
+                足さなくても <code class="font-mono">player.html?slides=&lt;名前&gt;</code> で直接開ける。一覧に出したいときの手順
+            </div>
+        `,
+    },
+    // Slide 6
+    {
+        title: '手順4 ブラウザで開く',
+        icon: 'fa-play',
+        duration: 6,
+        narration: 'ブラウザで player.html に slides パラメータを付けて開けば再生されます。',
+        body: `
+            <div class="bg-slate-800/80 border border-lime-500 p-[1.8cqw] rounded-xl text-center">
+                <div class="text-lime-400 font-bold mb-[0.6cqw]" style="font-size: clamp(1.05rem, 2.2cqw, 1.6rem);">ブラウザで開く</div>
+                <div class="text-slate-100 font-mono font-bold break-all" style="font-size: clamp(0.95rem, 2.0cqw, 1.5rem);">player.html?slides=&lt;名前&gt;</div>
+            </div>
+            <div class="mt-[1.5cqw] text-slate-400 font-medium" style="font-size: clamp(0.85rem, 1.7cqw, 1.25rem);">
+                <code class="bg-slate-900 px-[0.6cqw] py-[0.2cqw] rounded text-slate-300 font-mono">?slides=</code> を省くと <code class="bg-slate-900 px-[0.6cqw] py-[0.2cqw] rounded text-slate-300 font-mono">slides/readme.js</code> が読まれる
+            </div>
+        `,
+    },
+    // Slide 7
     {
         title: 'slideData の中身',
         duration: 10,
@@ -181,7 +204,7 @@ const slideData = [
             `;
         }
     },
-    // Slide 6
+    // Slide 8
     {
         title: '番号と枚数は自動',
         duration: 9,
@@ -209,7 +232,7 @@ const slideData = [
             `;
         }
     },
-    // Slide 7
+    // Slide 9
     {
         title: 'body で書く',
         icon: 'fa-pen',
@@ -226,7 +249,7 @@ const slideData = [
             </div>
         `,
     },
-    // Slide 8
+    // Slide 10
     {
         title: 'render() の書き方',
         duration: 14,
@@ -255,7 +278,7 @@ const slideData = [
             `;
         }
     },
-    // Slide 9
+    // Slide 11
     {
         title: '近い見た目をコピーする',
         duration: 9,
@@ -282,7 +305,7 @@ const slideData = [
             `;
         }
     },
-    // Slide 10
+    // Slide 12
     {
         title: 'duration の測り方',
         duration: 10,
@@ -303,7 +326,7 @@ const slideData = [
             `;
         }
     },
-    // Slide 11
+    // Slide 13
     {
         title: 'まとめて書き換える',
         duration: 9,
@@ -325,7 +348,7 @@ const slideData = [
             `;
         }
     },
-    // Slide 12
+    // Slide 14
     {
         title: 'まとめ',
         duration: 10,
@@ -354,7 +377,7 @@ const slideData = [
             `;
         }
     },
-    // Slide 13
+    // Slide 15
     {
         title: 'アイコン名の例 1 - 一覧・注意・手順',
         icon: 'fa-icons',
@@ -362,7 +385,7 @@ const slideData = [
         narration: 'ここからは icon に書けるアイコン名の例です。まずは箇条書き、注意や禁止、手順を示すものです。',
         body: iconTable(ICON_GROUPS.slice(0, 3)),
     },
-    // Slide 14
+    // Slide 16
     {
         title: 'アイコン名の例 2 - コード・文書・時間',
         icon: 'fa-icons',
@@ -370,7 +393,7 @@ const slideData = [
         narration: 'コードや端末の画面、ファイルや文書、時間と計測を表すものです。名前を間違えるとアイコンは何も出ません。',
         body: iconTable(ICON_GROUPS.slice(3, 6)),
     },
-    // Slide 15
+    // Slide 17
     {
         title: 'アイコン名の例 3 - 人・図解・強調',
         icon: 'fa-icons',

@@ -48,8 +48,8 @@ const slideData = [
     // Slide 2
     {
         title: 'リポジトリの構成',
-        duration: 15,
-        narration: 'リポジトリの中身は player.html が本体、slides の下にスライドデータ、tools に duration を測るスクリプトがあります。ビルドも依存関係のインストールも不要で、CDN から Tailwind などを読み込みます。',
+        duration: 17,
+        narration: 'リポジトリの中身は player.html が本体、slides の下にスライドデータ、tools に duration を測るスクリプトと、動画に書き出すスクリプトがあります。ビルドも依存関係のインストールも不要で、CDN から Tailwind などを読み込みます。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
@@ -65,6 +65,7 @@ const slideData = [
                                 <tr><td class="p-[1cqw] font-mono text-lime-400">player.html</td><td class="p-[1cqw]">外枠の HTML・CSS と再生ロジック。これ1つが本体</td></tr>
                                 <tr><td class="p-[1cqw] font-mono text-lime-400">slides/&lt;名前&gt;.js</td><td class="p-[1cqw]">スライドのデータ</td></tr>
                                 <tr><td class="p-[1cqw] font-mono text-sky-400">tools/measure-duration.py</td><td class="p-[1cqw]">読み上げ秒数を測り duration に書き込む</td></tr>
+                                <tr><td class="p-[1cqw] font-mono text-sky-400">tools/make-video.py</td><td class="p-[1cqw]">スライド一式を MP4 と .srt に書き出す</td></tr>
                             </tbody>
                         </table>
                     </div>

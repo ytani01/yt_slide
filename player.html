@@ -1397,8 +1397,16 @@
                 muteBtn.setAttribute('aria-pressed', String(isMuted));
                 if (isMuted) {
                     muteIcon.className = 'fa-solid fa-volume-xmark text-rose-400';
-                    stopSpeech();
-                    updateWaveState(false, "消音中");
+                    // stopSpeech() は待ちのタイマーも消す。ここで直に呼ぶと
+                    // 張り直す先が無く、そのスライドで自動送りが止まる（TODO-084）
+                    if (!isPlaying) {
+                        stopSpeech();
+                        updateWaveState(false, "消音中");
+                    } else if (pauseStartedAt === null) {
+                        // 読み上げの最中。止めて、duration で進むタイマーに張り替える
+                        speakCurrentNarration();
+                    }
+                    // 読み終わりの待ちの最中は鳴っている音が無いので、待ちを続ける
                 } else {
                     muteIcon.className = 'fa-solid fa-volume-high';
                     if (isPlaying) speakCurrentNarration();

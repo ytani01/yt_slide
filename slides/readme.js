@@ -132,7 +132,7 @@ const slideData = [
 <pre class="whitespace-pre-wrap"><span class="text-sky-400">const</span> slidesConfig = { title: <span class="text-lime-300">'...'</span>, heading: <span class="text-lime-300">'...'</span> };
 
 <span class="text-sky-400">const</span> slideData = [
-  { title: <span class="text-lime-300">'1枚目'</span>, duration: <span class="text-amber-300">10</span>, narration: <span class="text-lime-300">'...'</span>, render() { <span class="text-slate-500">/* HTML を返す */</span> } },
+  { title: <span class="text-lime-300">'1枚目'</span>, duration: <span class="text-amber-300">10</span>, narration: <span class="text-lime-300">'...'</span>, body: <span class="text-lime-300">&#96;...&#96;</span> },
 ];</pre>
                     </div>
                     <p class="text-slate-400 mt-[1cqw] font-medium" style="font-size: clamp(0.85rem, 1.7cqw, 1.25rem);">スライドの番号も総枚数もどこにも書かない。並び順と duration の合計から自動で出る。</p>
@@ -143,8 +143,8 @@ const slideData = [
     // Slide 6
     {
         title: '1枚のスライドの要素',
-        duration: 9,
-        narration: '1枚ごとに、題名と、読み上げにかかる秒数と、読み上げる文章と、HTMLを返す関数を書きます。',
+        duration: 8,
+        narration: '1枚ごとに、題名と、読み上げにかかる秒数と、読み上げる文章と、本文のHTMLを書きます。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
@@ -165,8 +165,8 @@ const slideData = [
                             <div class="text-slate-200 font-medium mt-[0.3cqw]" style="font-size: clamp(0.9rem, 1.9cqw, 1.35rem);">読み上げる文章。字幕にも出る</div>
                         </div>
                         <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-[1.4cqw]">
-                            <div class="text-sky-400 font-mono font-bold" style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);">render()</div>
-                            <div class="text-slate-200 font-medium mt-[0.3cqw]" style="font-size: clamp(0.9rem, 1.9cqw, 1.35rem);">HTML を文字列で返す関数</div>
+                            <div class="text-sky-400 font-mono font-bold" style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);">body <span class="text-slate-500 font-sans font-medium" style="font-size: clamp(0.7rem, 1.5cqw, 1.05rem);">(icon も)</span></div>
+                            <div class="text-slate-200 font-medium mt-[0.3cqw]" style="font-size: clamp(0.9rem, 1.9cqw, 1.35rem);">本文の HTML を文字列で書く</div>
                         </div>
                     </div>
                 </div>
@@ -176,14 +176,18 @@ const slideData = [
     // Slide 7
     {
         title: 'render() の書き方',
-        duration: 8,
-        narration: '見た目は Tailwind と cqw 単位の clamp で書きます。枠が拡大縮小しても崩れないようにするためです。',
+        duration: 10,
+        narration: '見た目は Tailwind と cqw 単位の clamp で書きます。枠が拡大縮小しても崩れないようにするためです。body で足りないときだけ使う書き方です。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
                     <h2 class="font-bold text-sky-400 mb-[1.5cqw] flex items-center gap-[1cqw]" style="font-size: clamp(1.4rem, 3.2cqw, 2.5rem);">
                         <i class="fa-solid fa-ruler-combined text-lime-400"></i> render() の書き方
                     </h2>
+                    <div class="bg-sky-950/40 border border-sky-500/40 rounded-xl p-[1.2cqw] mb-[1.2cqw] text-sky-300 font-bold" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">
+                        <i class="fa-solid fa-circle-info text-lime-400 mr-[0.6cqw]"></i>
+                        body で足りないときだけ使う、高度な書き方
+                    </div>
                     <div class="space-y-[1.2cqw] text-slate-200 font-medium">
                         <div class="bg-slate-800/60 border border-slate-700/80 rounded-xl p-[1.4cqw] flex items-center gap-[1.2cqw]">
                             <i class="fa-solid fa-expand-alt text-lime-400 flex-shrink-0" style="font-size: clamp(1.2rem, 2.6cqw, 1.8rem);"></i>
@@ -228,8 +232,8 @@ const slideData = [
     // Slide 9
     {
         title: '入っているスライド',
-        duration: 12,
-        narration: 'このリポジトリには、紹介用のreadme、作り方を説明するuser、内部の作りを説明するdeveloper、実例のclaude-memoの4つのスライド一式が入っています。',
+        duration: 14,
+        narration: 'このリポジトリには、紹介用のreadme、作り方を説明するuser、内部の作りを説明するdeveloper、実例のclaude-memo、型の見本のtemplateの5つのスライド一式が入っています。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
@@ -246,6 +250,7 @@ const slideData = [
                                 <tr><td class="p-[1cqw] font-mono font-bold text-sky-400">user</td><td class="p-[1cqw]">スライドの作り方</td></tr>
                                 <tr><td class="p-[1cqw] font-mono font-bold text-sky-400">developer</td><td class="p-[1cqw]">player.html の作り</td></tr>
                                 <tr><td class="p-[1cqw] font-mono font-bold text-lime-400">claude-memo</td><td class="p-[1cqw]">実例。Claude Code の使い方 17 枚</td></tr>
+                                <tr><td class="p-[1cqw] font-mono font-bold text-sky-400">template</td><td class="p-[1cqw]">スライドの型の見本。コピーして使う</td></tr>
                             </tbody>
                         </table>
                     </div>

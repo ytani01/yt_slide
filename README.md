@@ -97,8 +97,9 @@ const slideData = [
 | `CLAUDE.md` | Claude Code 向けのプロジェクト規約 |
 
 Tailwind・Google Fonts・FontAwesome・読み上げの音声は外部から取得するため、
-**ネット接続が必要**。`file://` で直接開くのは試していないため、
-HTTP での配信が確実。
+**ネット接続が必要**。表示は `file://` でも動くことが分かっているが、
+読み上げは `file://` では試していないため、HTTP での配信が確実
+（詳細は [Developer.md の「場所を選ばない」](docs/Developer.md#場所を選ばない)）。
 
 ## 動画に書き出す
 

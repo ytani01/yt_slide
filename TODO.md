@@ -1,47 +1,9 @@
 # TODO
 
-**残っている項目: TODO-084。** これまでに 83 件を決着させた。
+**残っている項目: なし。** これまでに 84 件を決着させた。
 新しく足すときは「完了済み」の上に節を作る。**番号は `TODO-085` から。**
 
 ---
-
-## TODO-084. 文書・スライドと実装の食い違いをまとめて直す
-
-|      | main | 担当 |
-|------|------|------|
-| 見込み | Opus 5 / effort medium | implementer + verifier + reviewer（7 を直す場合） |
-
-文書と実装の照合（2026-09-20）で見つかった食い違い。
-
-- [ ] 1. `docs/Developer.md` の構成表に `tools/make-video.py` と
-  `tools/test_make_video.py` を足し、「テストは `test_measure_duration.py` だけ」を
-  2 本に直す。同じ内容の `slides/developer.js` 2 枚目の表も揃える
-- [ ] 2. スライド一式の数を 5 つ（`template` を含む）に揃える。
-  `CLAUDE.md`（「4 つ」）と `slides/readme.js` 9 枚目（表とナレーション）
-- [ ] 3. `slides/readme.js` 5〜7 枚目を、`body` を標準とする書き方
-  （`docs/User.md`・`README.md`）に合わせる
-- [ ] 4. `slides/user.js` に、`index.html` へ 1 行足す手順を足す
-  （`docs/User.md` の手順 3）
-- [ ] 5. `docs/Developer.md` の TODO 番号（`TODO-048`・`050`・`051`・`054`）を外す
-- [ ] 6. `file://` は「試していない」とある記述（`docs/Developer.md`・
-  `README.md`）を、`tools/make-video.py` が Chromium で `file://` を開いて
-  撮影している事実に合わせる
-- [ ] 7. 消音ボタンを再生中に押すと、`stopSpeech()` が待ちのタイマーを消し、
-  張り直さないため自動で進まないように読める（`player.html` 1372 行付近）。
-  ブラウザでの再現は未確認
-
-**決めたこと（2026-09-20）**
-
-- 7 は、まず Playwright で再現する。再現したらコードを直す
-  （消音にしたとき、`duration` で進めるタイマーを張り直す）。
-  挙動が変わるので reviewer を入れる。再現しなければ何もしない
-- 5 は `docs/` だけを対象にする。`player.html`・`slides/*.js`・`tools/*.py` の
-  コメントの番号は残す
-- 3 は `slides/readme.js` 5・6 枚目のコード例と要素の説明だけ直す
-  （`body`・`icon` を足す。7 枚目は、`render()` が「`body` で足りないとき」と
-  分かる一言を足す）
-- ナレーションを変えたスライドは `duration` を測り直す
-  （`tools/measure-duration.py --write`。Google TTS への通信が要る）
 
 ---
 
@@ -50,6 +12,7 @@
 1 項目 1 ファイル。`archives/todo/` にある（新しい順）。
 **やらないと決めたものの理由も記載してある。** 蒸し返す前に読むこと。
 
+- [**TODO-084.** 文書・スライドと実装の食い違いをまとめて直す](archives/todo/TODO-084.%20文書・スライドと実装の食い違いをまとめて直す.md)
 - [**TODO-078.** 音声の再生失敗を画面に知らせる](archives/todo/TODO-078.%20音声の再生失敗を画面に知らせる.md)
 - [**TODO-074.** 表示中のスライド番号を URL に載せる](archives/todo/TODO-074.%20表示中のスライド番号を%20URL%20に載せる.md)
 - [**TODO-077.** チャプター一覧を検索できるようにする](archives/todo/TODO-077.%20チャプター一覧を検索できるようにする.md)
