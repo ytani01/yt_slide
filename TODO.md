@@ -1,6 +1,6 @@
 # TODO
 
-**残っている項目: TODO-074・TODO-075・TODO-077・TODO-078。** これまでに 76 件を決着させた。
+**残っている項目: TODO-074・TODO-075・TODO-077・TODO-078・TODO-081。** これまでに 76 件を決着させた。
 新しく足すときは「完了済み」の上に節を作る。**番号は `TODO-081` から。**
 
 ---
@@ -122,6 +122,24 @@ Online TTS の `onerror` と `play()` の拒否は、現在は console に警告
 **着手前の担当見込み:** 複数の音声経路とタイマーに関わるため、implementer が
 実装・テスト、main が方針整理と文書を担当する。reviewer の確認後に verifier が
 実測する。実装は未着手。
+
+---
+
+## TODO-081. `slides/user.js` 9 枚目にリンクを埋め込む
+
+|      | main | 担当 |
+|------|------|------|
+| 見込み | Sonnet 5 / effort medium | verifier |
+
+- [ ] 9 枚目「近い見た目をコピーする」の 2 枚のカード（`claude-memo.js`・`docs/User.md`）を、GitHub 上のファイルへのリンクにする
+- [ ] リンクが新しいタブで開き、スライドの操作（クリックで送らない等）に影響しないことを verifier が確かめる
+
+リンク先は GitHub の URL（利用者と決めた）。リモートは `ytani01/yt_slide`
+なので、`https://github.com/ytani01/yt_slide/blob/main/slides/claude-memo.js` と
+`https://github.com/ytani01/yt_slide/blob/main/docs/User.md` の想定。
+`main` ブランチに載っていないと 404 になる点は、push するときに利用者が確かめる。
+`player.html` のカード類でクリックやキー操作を拾っていないか、`target="_blank"` と
+`rel="noopener"` を付けて確かめる。
 
 ---
 
