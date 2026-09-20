@@ -1,0 +1,75 @@
+const { chromium } = require('playwright');
+
+const BASE = 'https://ytani01.github.io/yt_slide/';
+const SCREENSHOT_DIR = process.env.HOME + '/tmp/playwright-mcp/';
+
+function newCollector(page, label) {
+  const consoleErrors = [];
+  const failedRequests = [];
+  page.on('console', msg => {
+    if (msg.type() === 'error') consoleErrors.push(`[${label}] console: ${msg.text()}`);
+  });
+  page.on('pageerror', err => {
+    consoleErrors.push(`[${label}] pageerror: ${err.message}`);
+  });
+  page.on('response', res => {
+    if (res.status() >= 400) {
+      failedRequests.push(`[${label}] ${res.status()} ${res.url()}`);
+    }
+  });
+  return { consoleErrors, failedRequests };
+}
+
+(async () => {
+  const browser = await chromium.launch();
+  const results = {};
+
+  // 1. Top page
+  {
+    const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+    const { consoleErrors, failedRequests } = newCollector(page, 'top');
+    await page.goto(BASE, { waitUntil: 'networkidle' });
+    const links = await page.$$eval('a[href*="player.html?slides="]', as => as.map(a => a.getAttribute('href')));
+    await page.screenshot({ path: SCREENSHOT_DIR + 'TODO-087-pages-top.png', fullPage: true });
+    results.top = { links, consoleErrors, failedRequests };
+
+    // 3. click readme link
+    const readmeLink = await page.$('a[href*="slides=readme"]');
+    if (readmeLink) {
+      await Promise.all([
+        page.waitForNavigation({ waitUntil: 'networkidle' }),
+        readmeLink.click(),
+      ]);
+    }
+    results.readmeClickUrl = page.url();
+    const bodyText = await page.evaluate(() => document.body.innerText);
+    results.readmeAfterClickBodyLen = bodyText.trim().length;
+    results.readmeAfterClickHasErrorMsg = bodyText.includes('読み込めませんでした');
+    await page.screenshot({ path: SCREENSHOT_DIR + 'TODO-087-pages-readme.png', fullPage: true });
+    results.readmeConsoleErrors = consoleErrors.slice();
+    results.readmeFailedRequests = failedRequests.slice();
+    await page.close();
+  }
+
+  // 5. direct URL opens
+  for (const slide of ['readme', 'user', 'template', 'developer']) {
+    const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+    const { consoleErrors, failedRequests } = newCollector(page, slide);
+    await page.goto(BASE + 'player.html?slides=' + slide, { waitUntil: 'networkidle' });
+    const bodyText = await page.evaluate(() => document.body.innerText);
+    const title = await page.title();
+    results[slide] = {
+      url: page.url(),
+      title,
+      bodyLen: bodyText.trim().length,
+      hasErrorMsg: bodyText.includes('読み込めませんでした'),
+      bodySnippet: bodyText.trim().slice(0, 200),
+      consoleErrors,
+      failedRequests,
+    };
+    await page.close();
+  }
+
+  await browser.close();
+  console.log(JSON.stringify(results, null, 2));
+})();

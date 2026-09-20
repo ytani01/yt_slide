@@ -1,0 +1,25 @@
+const { chromium } = require('playwright');
+const BASE = 'https://ytani01.github.io/yt_slide/';
+(async () => {
+  const browser = await chromium.launch();
+  const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+  const consoleErrors = [];
+  const failedRequests = [];
+  page.on('console', msg => { if (msg.type() === 'error') consoleErrors.push(`console: ${msg.text()}`); });
+  page.on('pageerror', err => consoleErrors.push(`pageerror: ${err.message}`));
+  page.on('response', res => { if (res.status() >= 400) failedRequests.push(`${res.status()} ${res.url()}`); });
+  await page.goto(BASE + 'player.html?slides=claude-memo', { waitUntil: 'networkidle' });
+  const bodyText = await page.evaluate(() => document.body.innerText);
+  const title = await page.title();
+  const result = {
+    url: page.url(),
+    title,
+    bodyLen: bodyText.trim().length,
+    hasErrorMsg: bodyText.includes('読み込めませんでした'),
+    bodySnippet: bodyText.trim().slice(0, 200),
+    consoleErrors,
+    failedRequests,
+  };
+  await browser.close();
+  console.log(JSON.stringify(result, null, 2));
+})();
