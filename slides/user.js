@@ -267,16 +267,16 @@ const slideData = [
                         <i class="fa-solid fa-copy text-lime-400"></i> 近い見た目をコピーする
                     </h2>
                     <div class="grid grid-cols-2 gap-[2cqw] items-center">
-                        <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-[1.8cqw] text-center">
+                        <a href="https://github.com/ytani01/yt_slide/blob/main/slides/claude-memo.js" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="block no-underline bg-slate-800/60 border border-slate-700 rounded-xl p-[1.8cqw] text-center">
                             <i class="fa-solid fa-images text-sky-400 mb-[0.8cqw]" style="font-size: clamp(1.8rem, 4cqw, 2.8rem);"></i>
                             <div class="text-slate-100 font-bold" style="font-size: clamp(1.05rem, 2.3cqw, 1.7rem);">claude-memo.js</div>
                             <div class="text-slate-300 mt-[0.4cqw] font-medium" style="font-size: clamp(0.85rem, 1.8cqw, 1.3rem);">既存の17枚から近いものを探す</div>
-                        </div>
-                        <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-[1.8cqw] text-center">
+                        </a>
+                        <a href="https://github.com/ytani01/yt_slide/blob/main/docs/User.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="block no-underline bg-slate-800/60 border border-slate-700 rounded-xl p-[1.8cqw] text-center">
                             <i class="fa-solid fa-book text-lime-400 mb-[0.8cqw]" style="font-size: clamp(1.8rem, 4cqw, 2.8rem);"></i>
                             <div class="text-slate-100 font-bold" style="font-size: clamp(1.05rem, 2.3cqw, 1.7rem);">docs/User.md</div>
                             <div class="text-slate-300 mt-[0.4cqw] font-medium" style="font-size: clamp(0.85rem, 1.8cqw, 1.3rem);">細かい書き方はこちらを見る</div>
-                        </div>
+                        </a>
                     </div>
                 </div>
             `;

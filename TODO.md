@@ -1,7 +1,7 @@
 # TODO
 
-**残っている項目: TODO-074・TODO-075・TODO-077・TODO-078・TODO-081。** これまでに 76 件を決着させた。
-新しく足すときは「完了済み」の上に節を作る。**番号は `TODO-081` から。**
+**残っている項目: TODO-074・TODO-075・TODO-077・TODO-078。** これまでに 77 件を決着させた。
+新しく足すときは「完了済み」の上に節を作る。**番号は `TODO-082` から。**
 
 ---
 
@@ -125,29 +125,12 @@ Online TTS の `onerror` と `play()` の拒否は、現在は console に警告
 
 ---
 
-## TODO-081. `slides/user.js` 9 枚目にリンクを埋め込む
-
-|      | main | 担当 |
-|------|------|------|
-| 見込み | Sonnet 5 / effort medium | verifier |
-
-- [ ] 9 枚目「近い見た目をコピーする」の 2 枚のカード（`claude-memo.js`・`docs/User.md`）を、GitHub 上のファイルへのリンクにする
-- [ ] リンクが新しいタブで開き、スライドの操作（クリックで送らない等）に影響しないことを verifier が確かめる
-
-リンク先は GitHub の URL（利用者と決めた）。リモートは `ytani01/yt_slide`
-なので、`https://github.com/ytani01/yt_slide/blob/main/slides/claude-memo.js` と
-`https://github.com/ytani01/yt_slide/blob/main/docs/User.md` の想定。
-`main` ブランチに載っていないと 404 になる点は、push するときに利用者が確かめる。
-`player.html` のカード類でクリックやキー操作を拾っていないか、`target="_blank"` と
-`rel="noopener"` を付けて確かめる。
-
----
-
 ## 完了済み
 
 1 項目 1 ファイル。`archives/todo/` にある（新しい順）。
 **やらないと決めたものの理由も記載してある。** 蒸し返す前に読むこと。
 
+- [**TODO-081.** `slides/user.js` 9 枚目にリンクを埋め込む](archives/todo/TODO-081.%20slides%20user.js%209%20枚目にリンクを埋め込む.md)
 - [**TODO-073.** リポジトリの入口に `index.html` を置く](archives/todo/TODO-073.%20リポジトリの入口に%20index.html%20を置く.md)
 - [**TODO-079.** `docs/User.md` は `body` を標準として書く](archives/todo/TODO-079.%20docs%20User.md%20は%20body%20を標準として書く.md)
 - [**TODO-080.** 先頭・末尾へ送るボタンを付け、「最初から」を外す](archives/todo/TODO-080.%20先頭・末尾へ送るボタンを付け、「最初から」を外す.md)
