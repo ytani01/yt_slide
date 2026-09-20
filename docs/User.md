@@ -20,7 +20,9 @@
 1. `player.html` と同じディレクトリの `slides/` に `<名前>.js` を作る
    （`<名前>` は英数字・`_`・`-` のみ。その他は無視される）
 2. `slidesConfig` と `slideData` を書く（下記）
-3. ブラウザで `player.html?slides=<名前>` を開く
+3. `index.html` の一覧に、`<li>` を 1 つ足す（既存の 1 つを写して、
+   `href` の `slides=` と名前・説明を直す）
+4. ブラウザで `player.html?slides=<名前>` を開く
 
 `?slides=` を省くと `slides/readme.js` を読む。読み込みに失敗した場合、
 白画面ではなく「スライドのデータ slides/<名前>.js を読み込めませんでした。」
@@ -221,12 +223,16 @@ video/readme.mp4 と video/readme.srt に書き出した
 このディレクトリは `public_html/` 下なので、ファイルを置くだけで公開される。
 ビルドも依存関係のインストールも不要。
 
+ディレクトリの URL を開くと `index.html`（スライドの一覧）が出る。
+渡すときはこの URL でよい。
+
 ### 他のサーバーへ持っていくとき
 
 **渡すのは次の 2 つだけ。** 同じ位置関係のまま置く。
 
 ```
 player.html
+index.html          ← 一覧が要るときだけ
 slides/<名前>.js    ← 公開したいスライド一式の分だけ
 ```
 
