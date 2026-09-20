@@ -175,6 +175,25 @@
             right: 0;
         }
 
+        /* 再生失敗の通知は、擬似フルスクリーン中は枠の下に余白が無いことがある
+           ため、字幕と違い枠の下端に重ねる（TODO-078）。 */
+        #viewport-stage.is-fullscreen > #audio-error-notice {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin-top: 0;
+        }
+        /* 縦持ちは枠の上に余白があるので、そこへ出してスライドを隠さない。
+           下は字幕が使う */
+        @media (orientation: portrait) {
+            #viewport-stage.is-fullscreen > #audio-error-notice {
+                top: auto;
+                bottom: 100%;
+                margin-bottom: 0.75rem;
+            }
+        }
+
         /* 16:9 の外枠（#viewport-frame）は、マウスの PC では素通し。
            ブロック要素のまま幅いっぱいに広がるので、ここでの指定は要らない。
            狭い画面とタッチ画面でだけ、下の @media が縮小の土台にする。 */
@@ -356,6 +375,11 @@
                         </div>
                     </div>
 
+                    <div id="audio-error-notice" role="status" class="z-30 bg-slate-950/95 border border-amber-500/50 rounded-xl p-3 shadow-2xl flex flex-wrap items-center gap-2 mt-3 hidden">
+                        <span class="text-xs md:text-sm text-amber-300 font-bold flex-grow"><i aria-hidden="true" class="fa-solid fa-triangle-exclamation"></i> 音声を再生できませんでした</span>
+                        <button id="audio-retry-btn" class="text-slate-200 text-xs bg-slate-800 hover:bg-slate-700 px-3 py-2 rounded-lg border border-slate-700">もう一度再生</button>
+                        <button id="audio-switch-engine-btn" class="text-slate-200 text-xs bg-slate-800 hover:bg-slate-700 px-3 py-2 rounded-lg border border-slate-700">音声エンジンを切り替える</button>
+                    </div>
                     <!-- Bottom Subtitle / Narration Banner。
                          縮小の対象は #viewport-frame の中だけなので、字幕はその外に
                          置いて等倍のまま読めるようにしている（TODO-001）。
@@ -678,6 +702,7 @@
         const speechStatusIndicator = document.getElementById('speech-status-indicator');
         const toggleVoiceEngineBtn = document.getElementById('toggle-voice-engine-btn');
         const subtitleBanner = document.getElementById('subtitle-banner');
+        const audioErrorNotice = document.getElementById('audio-error-notice');
         const toggleCaptionBtn = document.getElementById('toggle-caption-btn');
         const captionIcon = document.getElementById('caption-icon');
 
@@ -816,7 +841,18 @@
             return `${mins}:${String(secs).padStart(2, '0')}`;
         }
 
+        function hideAudioError() {
+            audioErrorNotice.classList.add('hidden');
+        }
+
+        // 消音・一時停止とは別の文言で、再生の失敗を画面に出す（TODO-078）
+        function showAudioError() {
+            audioErrorNotice.classList.remove('hidden');
+            updateWaveState(false, "音声エラー");
+        }
+
         function stopSpeech() {
+            hideAudioError();
             pauseStartedAt = null;
             if (slideTransitionTimeout) {
                 clearTimeout(slideTransitionTimeout);
@@ -833,6 +869,7 @@
                 fallbackAudioElement.pause();
                 fallbackAudioElement.onended = null;
                 fallbackAudioElement.onerror = null;
+                fallbackAudioElement.onplaying = null;
                 fallbackAudioElement.onloadedmetadata = null;
             }
         }
@@ -988,6 +1025,7 @@
             fallbackAudioElement.pause();
             fallbackAudioElement.onended = null;
             fallbackAudioElement.onerror = null;
+            fallbackAudioElement.onplaying = null;
             fallbackAudioElement.onloadedmetadata = null;
             fallbackAudioElement.src = ttsUrl;
             fallbackAudioElement.load();
@@ -1013,11 +1051,20 @@
             };
 
             fallbackAudioElement.onended = () => {
+                hideAudioError();
                 handleEnd();
+            };
+
+            fallbackAudioElement.onplaying = () => {
+                if (runId !== speechRunId) return;
+                hideAudioError();
+                updateWaveState(true, "朗読中 (Online Voice)");
             };
 
             fallbackAudioElement.onerror = (err) => {
                 console.warn("Online Audio TTS error:", err);
+                if (runId !== speechRunId) return;
+                showAudioError();
                 setEndTimeout((slideData[currentIndex].duration / playbackRate) * MS_PER_SECOND);
             };
 
@@ -1033,7 +1080,10 @@
             };
 
             fallbackAudioElement.play().catch(e => {
+                // stopSpeech() の後でも reject は届く。古い呼び出しの分は無視する
+                if (runId !== speechRunId || e.name === 'AbortError') return;
                 console.warn("Audio play blocked by browser interaction policy:", e);
+                showAudioError();
                 setEndTimeout((slideData[currentIndex].duration / playbackRate) * MS_PER_SECOND);
             });
         }
@@ -1288,6 +1338,9 @@
                 applyCaptions();
                 saveSetting('showCaptions', showCaptions);
             });
+
+            document.getElementById('audio-retry-btn').addEventListener('click', speakCurrentNarration);
+            document.getElementById('audio-switch-engine-btn').addEventListener('click', () => toggleVoiceEngineBtn.click());
 
             // Toggle Audio Engine Mode (Web Speech API <-> Online Voice)
             toggleVoiceEngineBtn.addEventListener('click', () => {

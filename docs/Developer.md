@@ -158,6 +158,25 @@ python3 -m http.server 8000
 - **Online TTS**: 音声の実長（`loadedmetadata` で取得。失敗時はスライドの
   `duration`）に `TTS_END_MARGIN_MS` を足した時点で進む。
 
+### 再生失敗の通知
+
+Online TTS の `onerror` と `play()` の reject で、`#audio-error-notice`
+（`role="status"`）を出し、状態表示を「音声エラー」にする（`showAudioError()`）。
+「もう一度再生」は `speakCurrentNarration()`、「音声エンジンを切り替える」は
+`toggle-voice-engine-btn` の click を呼ぶ。切り替えのロジックは複製しない。
+
+- **消すのは `stopSpeech()`**。スライド移動・一時停止・消音・エンジン切替・
+  再試行はすべてここを通る。再生が始まったとき（`playing`）と読み終わったとき
+  （`onended`）にも消す。
+- **失敗は `runId === speechRunId` のときだけ扱う。** `stopSpeech()` の後でも
+  古い `play()` の reject は届く（`load()` による中断の `AbortError` を含む）。
+  弾かないと、次のスライドに前の失敗の通知が出たり、待ちのタイマーを消したりする。
+  `AbortError` も通知しない。
+- 通知が出ても `setEndTimeout` による自動送りは続く。
+- 擬似フルスクリーン中の位置は向きで変える。縦持ちは枠の上（`bottom: 100%`。下は字幕が使う）、
+  横持ちと PC は枠の下に余白が無いため、枠の下端に重ねる。
+- Web Speech の失敗は従来どおり Online TTS へ切り替える。単独の失敗表示は無い。
+
 ### 副作用のある実装
 
 次の 3 つは実機で音声が出なくなった原因。理由を知らずに「整理」すると再発する。
