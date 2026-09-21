@@ -11,25 +11,39 @@
 |------|------|------|
 | 見込み | Opus 5 / effort high | implementer + reviewer + verifier |
 
-- [ ] `ytslide init` が `slides/readme.js` も置くようにする
-- [ ] `slides/readme.js` をパッケージの同梱データに入れる
-      （`pyproject.toml` の `force-include`）
-- [ ] `tests/test_cli.py` を、置かれるファイルの増加に合わせて直す
-- [ ] `docs/User.md` の `ytslide init` の説明（置かれるファイルの一覧）を直す
+- [ ] `ytslide init` が `slides/readme.js` と `README.md` を置くのをやめる
+      （置くのは `slides/template.js`・`player.html`・`index.html` の 3 つ）
+- [ ] CLI の「`<名前>.js` が無い」に、`slides/` にある候補を添える
+      （`measure` と `video` の 2 か所）
+- [ ] `player.html` が `?slides=` 省略時にデータを読めなかったとき、
+      `index.html` への案内を出す
+- [ ] `tests/test_cli.py` を、置かれるファイルの変更に合わせて直す
+- [ ] `docs/User.md` の `ytslide init` の説明を直す
 
 `ytslide init` が置くのは `slides/template.js` だけなので、その場で
 `--slides` を省いて `ytslide measure` / `update` / `video` を叩くと、既定の
-`readme` を探して `slides/readme.js が無い` で止まる（TODO-097 の verifier が
-実測）。`player.html` を `?slides=` 無しで開いたときも同じ。
+`readme`（`paths.DEFAULT_SLIDES`）を探して `slides/readme.js が無い` で
+止まる（TODO-097 の verifier が実測）。`player.html` を `?slides=` 無しで
+開いたときも同じ。
 
-**既定の名前を実在させる方針にした**（利用者と決めた）。`init` の時点で
-`slides/readme.js` も置く。置かれるのは yt_slide 自体の紹介スライド 17 枚で、
-利用者の置き場所には無関係な中身が入る点は承知の上。動く見本が 2 つある
-状態から始められることを採った。
+**「既定の名前を実在させる」方針は取り下げた。** `init` が
+`slides/readme.js`（yt_slide 自体の紹介 17 枚）を置くのは、利用者の
+置き場所には無関係な中身が入る。**あれば使い、無ければ無視する形に寄せる。**
 
-**挙動が変わるので reviewer も入れる。** 同梱データが増えるため、
-`uv tool install` で入れた `ytslide` でも `init` が通るか（リポジトリの
-チェックアウトからではなく）を verifier に実測させる。
+- **`README.md` は `index.html` が既にそうなっている。** `fetch` して
+  404 なら何もしない（`index.html` の `.catch(() => {})`）。むしろ `init` が
+  空の `README.md` を置くと `res.ok` が通り、中身が空の README セクションが
+  開いて出る。置くのをやめる
+- **CLI は `slides/` を読めるので案内できる。** 既定の `readme` が無ければ、
+  `slides/` にあるものを挙げて `--slides` を促す
+- **`player.html` だけは受け皿を決める必要がある。** 静的でディレクトリを
+  一覧できないため、`?slides=` 省略時に読めなければ `index.html` へ案内する。
+  リンクは `textContent` とは別に要素で足す（`slidesName` は URL 由来なので
+  文字列連結で HTML を組まない）
+
+**挙動が変わるので reviewer も入れる。** verifier には、`uv tool install` で
+入れた `ytslide` でも `init` が通ることと、`player.html` の案内が実際に
+出ることを実測させる。
 
 ---
 
