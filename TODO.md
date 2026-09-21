@@ -18,6 +18,11 @@
 - [ ] 末尾の「リポジトリの外に自分のスライドを置く」と重複する記述を、
       どちらか片方へ寄せる
 - [ ] `README.md` の「自分のスライドを作る」とサブコマンドの表に、使う順序を足す
+- [ ] `slides/user.js` の「手順1〜4」を、同じ流れに組み替える
+      （1 `ytslide init` / 2 ファイルを作る / 3 中身を書く / 4 `ytslide update` /
+      5 ブラウザで開く）
+- [ ] ナレーションを変えた枚の `duration` を `ytslide update --slides user` で
+      測り直す
 
 `docs/User.md` の「手順」は `player.html` が手元にある前提で始まり、
 `ytslide init` は末尾の「公開」の節に埋もれている。`ytslide update` の
@@ -31,15 +36,18 @@
   TODO-095・TODO-096 の方向（リポジトリの外に置ける）と揃える
 - **書く範囲は `docs/User.md` と `README.md` の両方**
 
-`slides/user.js`（同じ内容のスライド版）は**今回は触らない**。
-`duration` の測り直しが要るので、必要になったら別項目にする。
+`slides/user.js`（同じ内容のスライド版）も**今回まとめて直す**
+（2026-09-21 に利用者が指示）。ナレーションを変えるので `duration` の
+測り直しが要る。`ytslide measure` はネット接続と Online TTS を使う。
 
 **分担**: 文書だけの変更だが、書いたとおりに試せるコマンド手順なので
 確認を分ける（TODO-017）。同じ内容を 2 つの文書に書くので reviewer も入れる。
 
 - main: 設計と執筆
 - reviewer: `docs/User.md` と `README.md` の食い違い、既存の節との重複の残り
-- verifier: 空のディレクトリで、書いたとおりのコマンドを実際に走らせて再現する
+- verifier: 空のディレクトリで、書いたとおりのコマンドを実際に走らせて再現する。
+  `slides/user.js` は `player.html?slides=user` を開いて、組み替えた枚が
+  欠けずに出るか、`duration` と実際の読み上げがずれていないかを見る
 
 ---
 
