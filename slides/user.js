@@ -149,11 +149,11 @@ const slideData = [
         title: 'AI に作ってもらう',
         icon: 'fa-robot',
         duration: 19,
-        narration: 'AI に作ってもらうこともできます。渡すのは 3 つ。書式を説明した User.md、型の見本の template.js、それにスライドにしたい原稿です。依頼文には、保存できる JavaScript 全体を出すことと、各スライドに書く項目を必ず入れます。',
+        narration: 'AI に作ってもらうこともできます。渡すのは 3 つ。書式を説明した User.md、テンプレート集の template.js、それにスライドにしたい原稿です。依頼文には、保存できる JavaScript 全体を出すことと、各スライドに書く項目を必ず入れます。',
         body: `
             <div class="space-y-[1cqw]" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">
-                <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-[1.2cqw] text-slate-200 font-medium"><span class="text-lime-400 font-bold">渡す 3 つ</span> — <code class="font-mono text-lime-400">docs/User.md</code>（書式）、<code class="font-mono text-lime-400">slides/template.js</code>（型 19 種）、スライドにしたい原稿</div>
-                <div class="bg-slate-900 border border-slate-800 rounded-xl p-[1.2cqw] text-slate-200 font-mono whitespace-pre-line" style="font-size: clamp(0.8rem, 1.7cqw, 1.25rem);">User.md の形式と template.js の型を使って、
+                <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-[1.2cqw] text-slate-200 font-medium"><span class="text-lime-400 font-bold">渡す 3 つ</span> — <code class="font-mono text-lime-400">docs/User.md</code>（書式）、<code class="font-mono text-lime-400">slides/template.js</code>（テンプレート 19 種）、スライドにしたい原稿</div>
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-[1.2cqw] text-slate-200 font-mono whitespace-pre-line" style="font-size: clamp(0.8rem, 1.7cqw, 1.25rem);">User.md の形式と template.js のテンプレートを使って、
 「◯◯」を △△ 向けに 3 枚のスライドにしてください。
 slides/sample.js として保存できる JavaScript 全体を、
 slidesConfig と slideData を含めて出してください。
@@ -298,7 +298,7 @@ slidesConfig と slideData を含めて出してください。
                         <a href="https://github.com/ytani01/yt_slide/blob/main/slides/template.js" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="block no-underline bg-slate-800/60 border border-slate-700 rounded-xl p-[1.8cqw] text-center">
                             <i class="fa-solid fa-shapes text-sky-400 mb-[0.8cqw]" style="font-size: clamp(1.8rem, 4cqw, 2.8rem);"></i>
                             <div class="text-slate-100 font-bold" style="font-size: clamp(1.05rem, 2.3cqw, 1.7rem);">template.js</div>
-                            <div class="text-slate-300 mt-[0.4cqw] font-medium" style="font-size: clamp(0.85rem, 1.8cqw, 1.3rem);">次の見た目を整えるときに、型の見本 19 種から選ぶ</div>
+                            <div class="text-slate-300 mt-[0.4cqw] font-medium" style="font-size: clamp(0.85rem, 1.8cqw, 1.3rem);">次の見た目を整えるときに、テンプレート 19 種から選ぶ</div>
                         </a>
                         <a href="https://github.com/ytani01/yt_slide/blob/main/docs/User.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="block no-underline bg-slate-800/60 border border-slate-700 rounded-xl p-[1.8cqw] text-center">
                             <i class="fa-solid fa-book text-lime-400 mb-[0.8cqw]" style="font-size: clamp(1.8rem, 4cqw, 2.8rem);"></i>

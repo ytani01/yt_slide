@@ -22,8 +22,8 @@ const slideData = [
     // Slide 1
     {
         title: 'yt_slide',
-        duration: 16,
-        narration: 'yt_slide は、2 つのファイルを置くだけで、ナレーション付きのプレゼンが動き出す仕組みです。スライドの中身は JavaScript ファイル 1 つ。ただし、一から書く必要はありません。19 種類の型をコピーするか、AI に書いてもらえます。',
+        duration: 17,
+        narration: 'yt_slide は、2 つのファイルを置くだけで、ナレーション付きのプレゼンが動き出す仕組みです。スライドの中身は JavaScript ファイル 1 つ。ただし、一から書く必要はありません。19 種類のテンプレートをコピーするか、AI に書いてもらえます。',
         render: function() {
             return `
                 <div class="flex flex-col items-start justify-center h-full px-[4cqw] py-[1.5cqw] space-y-[1.5cqw]">
@@ -35,7 +35,7 @@ const slideData = [
                         ナレーション付きのプレゼンが動き出す
                     </h1>
                     <p class="text-slate-200 font-medium leading-relaxed" style="font-size: clamp(1.15rem, 2.8cqw, 2.1rem);">
-                        スライドの中身は JavaScript ファイル 1 つ。ただし 1 から書かなくていい。19 種類の型をコピーするか、AI に書いてもらう。
+                        スライドの中身は JavaScript ファイル 1 つ。ただし 1 から書かなくていい。19 種類のテンプレートをコピーするか、AI に書いてもらう。
                     </p>
                 </div>
             `;
@@ -81,7 +81,7 @@ const slideData = [
     // Slide 3
     {
         title: 'すぐ試す',
-        duration: 15,
+        duration: 16,
         narration: '手元で試すには、README から ZIP を入手して展開し、player.html をブラウザで開きます。サーバーを立てる必要はなく、ファイルを直接開いても読み上げまで動きます。表示と読み上げにはネット接続が必要です。',
         render: function() {
             return `
@@ -105,7 +105,7 @@ const slideData = [
     {
         title: '自分のスライドを作る',
         duration: 19,
-        narration: '自分のスライドを作るときは、player.html は触りません。slidesディレクトリにJavaScriptを1つ足すだけです。型の見本とガイド、それに原稿を AI に渡して、書いてもらうこともできます。詳しい書き方と依頼文の例は、ユーザーズ・ガイドにあります。',
+        narration: '自分のスライドを作るときは、player.html は触りません。slidesディレクトリにJavaScriptを1つ足すだけです。テンプレートとガイド、それに原稿を AI に渡して、書いてもらうこともできます。詳しい書き方と依頼文の例は、ユーザーズ・ガイドにあります。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
@@ -139,7 +139,7 @@ const slideData = [
     {
         title: '入っているスライド',
         duration: 20,
-        narration: 'このリポジトリには、紹介用のreadme、作り方を説明するuser、内部の作りを説明するdeveloper、実例のclaude-memo、型の見本のtemplateの5つのスライド一式が入っています。名前を押すとそのスライドが開き、右の本のマークから対応する文書へ移れます。',
+        narration: 'このリポジトリには、紹介用のreadme、作り方を説明するuser、内部の作りを説明するdeveloper、実例のclaude-memo、テンプレート集のtemplateの5つのスライド一式が入っています。名前を押すとそのスライドが開き、右の本のマークから対応する文書へ移れます。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
@@ -156,7 +156,7 @@ const slideData = [
                                 <tr><td class="p-[1cqw] font-mono font-bold text-sky-400"><a href="player.html?slides=user" onclick="event.stopPropagation()" class="text-sky-400 no-underline"><i class="fa-solid fa-play mr-[0.5cqw]"></i>user</a></td><td class="p-[1cqw]">スライドの作り方 <a href="https://github.com/ytani01/yt_slide/blob/main/docs/User.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="text-sky-300 font-mono no-underline whitespace-nowrap ml-[0.6cqw]"><i class="fa-solid fa-book"></i> docs/User.md</a></td></tr>
                                 <tr><td class="p-[1cqw] font-mono font-bold text-sky-400"><a href="player.html?slides=developer" onclick="event.stopPropagation()" class="text-sky-400 no-underline"><i class="fa-solid fa-play mr-[0.5cqw]"></i>developer</a></td><td class="p-[1cqw]">player.html の作り <a href="https://github.com/ytani01/yt_slide/blob/main/docs/Developer.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="text-sky-300 font-mono no-underline whitespace-nowrap ml-[0.6cqw]"><i class="fa-solid fa-book"></i> docs/Developer.md</a></td></tr>
                                 <tr><td class="p-[1cqw] font-mono font-bold text-lime-400"><a href="player.html?slides=claude-memo" onclick="event.stopPropagation()" class="text-lime-400 no-underline"><i class="fa-solid fa-play mr-[0.5cqw]"></i>claude-memo</a></td><td class="p-[1cqw]">実例。Claude Code の使い方 17 枚</td></tr>
-                                <tr><td class="p-[1cqw] font-mono font-bold text-sky-400"><a href="player.html?slides=template" onclick="event.stopPropagation()" class="text-sky-400 no-underline"><i class="fa-solid fa-play mr-[0.5cqw]"></i>template</a></td><td class="p-[1cqw]">スライドの型の見本。コピーして使う</td></tr>
+                                <tr><td class="p-[1cqw] font-mono font-bold text-sky-400"><a href="player.html?slides=template" onclick="event.stopPropagation()" class="text-sky-400 no-underline"><i class="fa-solid fa-play mr-[0.5cqw]"></i>template</a></td><td class="p-[1cqw]">スライドのテンプレート 19 種。コピーして使う</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -168,7 +168,7 @@ const slideData = [
     {
         title: 'まとめ',
         duration: 18,
-        narration: 'まとめです。ファイル 2 つで、ナレーション付きのプレゼンが動きます。スライドは JavaScript ファイル 1 つですが、型をコピーするか AI に頼めるので、一から書く必要はありません。サーバーに置けば、URL を渡すだけで見てもらえます。ぜひ試してみてください。',
+        narration: 'まとめです。ファイル 2 つで、ナレーション付きのプレゼンが動きます。スライドは JavaScript ファイル 1 つですが、テンプレートをコピーするか AI に頼めるので、一から書く必要はありません。サーバーに置けば、URL を渡すだけで見てもらえます。ぜひ試してみてください。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
@@ -182,7 +182,7 @@ const slideData = [
                         </div>
                         <div class="bg-slate-800/60 p-[1cqw] rounded-lg border border-slate-700 flex items-center gap-[1.2cqw]">
                             <i class="fa-solid fa-plus text-sky-400 flex-shrink-0" style="font-size: clamp(1.2rem, 2.4cqw, 1.7rem);"></i>
-                            <span style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);"><strong>slides/ に JavaScript を 1 つ足す</strong> だけ。19 種の型と AI があるので 1 から書かなくていい</span>
+                            <span style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);"><strong>slides/ に JavaScript を 1 つ足す</strong> だけ。19 種のテンプレートと AI があるので 1 から書かなくていい</span>
                         </div>
                         <div class="bg-slate-800/60 p-[1cqw] rounded-lg border border-slate-700 flex items-center gap-[1.2cqw]">
                             <i class="fa-solid fa-share-nodes text-amber-400 flex-shrink-0" style="font-size: clamp(1.2rem, 2.4cqw, 1.7rem);"></i>

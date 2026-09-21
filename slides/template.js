@@ -1,15 +1,15 @@
-// スライドの型の見本。player.html?slides=template で並べて見られる。
-// 使いたい型のスライドをまるごとコピーして、中身を差し替える。
+// スライドのテンプレート集。player.html?slides=template で並べて見られる。
+// 使いたいテンプレートのスライドをまるごとコピーして、中身を差し替える。
 //
 // 19 種のうち 16 種は body だけで書ける。表紙・画像（全面）・章の区切りは render() を使う。
 // 1 枚が「// ── N. 名前 ──」のコメントから次のコメントまで。
-// 要らない型は、その範囲を丸ごと削除してよい（他の枚には影響しない）。
+// 要らないテンプレートは、その範囲を丸ごと削除してよい（他の枚には影響しない）。
 
 const slidesConfig = {
     title: 'テンプレート',
-    heading: 'スライドの型 19 種',
+    heading: 'スライドのテンプレート 19 種',
     // index.html の一覧に出す説明とアイコン（ytslide index が読む。TODO-089）
-    summary: 'スライドの型の見本。コピーして使う',
+    summary: 'スライドのテンプレート 19 種。コピーして使う',
     icon: 'fa-shapes',
     rules: [
         [/render\(\)/gi, 'レンダー'],
@@ -23,7 +23,7 @@ const slideData = [
     {
         title: '表紙',
         duration: 10,
-        narration: '表紙の型です。見出しの枠を外して全面を使いたいので、render() で書きます。題名を大きく出し、その下に副題と日付を添えます。',
+        narration: '表紙のテンプレートです。見出しの枠を外して全面を使いたいので、render() で書きます。題名を大きく出し、その下に副題と日付を添えます。',
         render: function() {
             return `
                 <div class="relative h-full flex flex-col justify-center items-center text-center px-[5cqw] overflow-hidden">
@@ -34,7 +34,7 @@ const slideData = [
                             <i class="fa-solid fa-film"></i> YT_SLIDE
                         </div>
                         <h1 class="font-extrabold leading-tight mt-[1.8cqw]" style="font-size: clamp(2rem, 6cqw, 4.6rem);">
-                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-300 via-slate-50 to-lime-300">スライドの型 19 種</span>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-300 via-slate-50 to-lime-300">スライドのテンプレート 19 種</span>
                         </h1>
                         <div class="mx-auto mt-[2cqw] h-[0.35cqw] w-[18cqw] rounded-full bg-gradient-to-r from-sky-400 to-lime-400"></div>
                         <p class="text-slate-300 font-medium mt-[2cqw]" style="font-size: clamp(1rem, 2.3cqw, 1.7rem);">
@@ -54,7 +54,7 @@ const slideData = [
         title: '箇条書き',
         icon: 'fa-list-check',
         duration: 11,
-        narration: '箇条書きの型です。項目を並べるだけのスライドは、body にリストを書くだけで作れます。印を丸いアイコンの地に置くと、行の頭が揃って見えます。',
+        narration: '箇条書きのテンプレートです。項目を並べるだけのスライドは、body にリストを書くだけで作れます。印を丸いアイコンの地に置くと、行の頭が揃って見えます。',
         body: `
             <ul class="space-y-[1.4cqw]">
                 <li class="flex items-start gap-[1.4cqw] rounded-xl bg-slate-800/40 border border-slate-700/70 px-[1.8cqw] py-[1.2cqw]">
@@ -81,7 +81,7 @@ const slideData = [
         title: '2 カラム比較',
         icon: 'fa-code-compare',
         duration: 12,
-        narration: '2 カラム比較の型です。前と後、長所と短所のように、2 つを並べて見せたいときに使います。良いほうに色を付けると、どちらを勧めているかが伝わります。',
+        narration: '2 カラム比較のテンプレートです。前と後、長所と短所のように、2 つを並べて見せたいときに使います。良いほうに色を付けると、どちらを勧めているかが伝わります。',
         body: `
             <div class="grid grid-cols-2 gap-[1.8cqw]">
                 <div class="rounded-2xl bg-gradient-to-b from-rose-950/60 to-slate-900/40 border border-rose-500/40 p-[2cqw] shadow-lg shadow-rose-900/20">
@@ -113,7 +113,7 @@ const slideData = [
         title: '表',
         icon: 'fa-table',
         duration: 13,
-        narration: '表の型です。項目が多く、揃った形で見せたいときに使います。行は 5 つまでが読みやすい目安です。必須か任意かのような短い値は、丸い札にすると見分けられます。',
+        narration: '表のテンプレートです。項目が多く、揃った形で見せたいときに使います。行は 5 つまでが読みやすい目安です。必須か任意かのような短い値は、丸い札にすると見分けられます。',
         body: `
             <div class="overflow-hidden rounded-xl border border-slate-700/80 shadow-lg shadow-slate-950/40">
                 <table class="w-full text-left text-slate-200" style="font-size: clamp(0.9rem, 1.95cqw, 1.45rem);">
@@ -136,7 +136,7 @@ const slideData = [
         title: 'コードと端末画面',
         icon: 'fa-terminal',
         duration: 11,
-        narration: 'コードと端末画面の型です。等幅の文字で、コマンドと出力をそのまま見せます。上に窓の飾りを付けると、端末の画面だと一目で分かります。',
+        narration: 'コードと端末画面のテンプレートです。等幅の文字で、コマンドと出力をそのまま見せます。上に窓の飾りを付けると、端末の画面だと一目で分かります。',
         body: `
             <div class="rounded-xl border border-slate-800 bg-slate-950 overflow-hidden shadow-xl shadow-slate-950/60">
                 <div class="flex items-center gap-[0.7cqw] bg-slate-900/80 border-b border-slate-800 px-[1.4cqw] py-[0.8cqw]">
@@ -163,7 +163,7 @@ const slideData = [
         title: '図解',
         icon: 'fa-diagram-project',
         duration: 13,
-        narration: '図解の型です。箱と矢印で流れを見せます。画像を貼らないので、画面の大きさが変わっても崩れません。矢印の上に短い言葉を添えると、何が起きるのかが分かります。',
+        narration: '図解のテンプレートです。箱と矢印で流れを見せます。画像を貼らないので、画面の大きさが変わっても崩れません。矢印の上に短い言葉を添えると、何が起きるのかが分かります。',
         body: `
             <div class="flex items-stretch justify-center gap-[1cqw] text-center">
                 <div class="flex-1 rounded-2xl bg-gradient-to-b from-sky-950/60 to-slate-900/50 border border-sky-500/40 px-[1.6cqw] py-[1.8cqw] shadow-lg shadow-sky-900/20">
@@ -198,7 +198,7 @@ const slideData = [
         title: '数字を大きく見せる',
         icon: 'fa-chart-simple',
         duration: 11,
-        narration: '数字を大きく見せる型です。文字を減らし、数字だけを残すと印象に残ります。単位を小さく添え、数字そのものは色を抜いたグラデーションで塗ります。',
+        narration: '数字を大きく見せるテンプレートです。文字を減らし、数字だけを残すと印象に残ります。単位を小さく添え、数字そのものは色を抜いたグラデーションで塗ります。',
         body: `
             <div class="grid grid-cols-3 gap-[1.8cqw] text-center">
                 <div class="rounded-2xl bg-slate-800/40 border border-slate-700 p-[2cqw] shadow-lg shadow-slate-950/40">
@@ -211,7 +211,7 @@ const slideData = [
                 </div>
                 <div class="rounded-2xl bg-slate-800/40 border border-slate-700 p-[2cqw] shadow-lg shadow-slate-950/40">
                     <div class="font-extrabold leading-none text-transparent bg-clip-text bg-gradient-to-b from-amber-300 to-amber-500" style="font-size: clamp(2.2rem, 6cqw, 4.5rem);">19<span class="text-slate-500 font-bold" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);"> 種</span></div>
-                    <div class="text-slate-200 font-medium mt-[0.8cqw]" style="font-size: clamp(0.9rem, 1.95cqw, 1.4rem);">選べる型</div>
+                    <div class="text-slate-200 font-medium mt-[0.8cqw]" style="font-size: clamp(0.9rem, 1.95cqw, 1.4rem);">選べるテンプレート</div>
                 </div>
             </div>
         `,
@@ -221,8 +221,8 @@ const slideData = [
     {
         title: '引用',
         icon: 'fa-quote-left',
-        duration: 10,
-        narration: '引用の型です。誰かの言葉や、文書の一節をそのまま見せたいときに使います。薄い引用符を後ろに敷くと、地の文と見分けられます。',
+        duration: 11,
+        narration: '引用のテンプレートです。誰かの言葉や、文書の一節をそのまま見せたいときに使います。薄い引用符を後ろに敷くと、地の文と見分けられます。',
         body: `
             <div class="relative rounded-2xl bg-slate-800/30 border border-slate-700/70 p-[2.4cqw] overflow-hidden">
                 <i class="fa-solid fa-quote-right absolute -right-[1cqw] -bottom-[2cqw] text-slate-700/30" style="font-size: clamp(4rem, 12cqw, 9rem);"></i>
@@ -246,8 +246,8 @@ const slideData = [
     {
         title: '時系列',
         icon: 'fa-timeline',
-        duration: 9,
-        narration: '時系列の型です。手順や履歴を、順番が分かる形で並べます。丸をつなぐ縦線を引くと、続きものだと分かります。',
+        duration: 10,
+        narration: '時系列のテンプレートです。手順や履歴を、順番が分かる形で並べます。丸をつなぐ縦線を引くと、続きものだと分かります。',
         body: `
             <div class="relative pl-[1cqw]">
                 <div class="absolute left-[3cqw] top-[2cqw] bottom-[2cqw] w-[0.25cqw] bg-gradient-to-b from-sky-500/60 to-lime-500/60"></div>
@@ -258,7 +258,7 @@ const slideData = [
                     </div>
                     <div class="flex items-center gap-[1.6cqw]">
                         <div class="relative shrink-0 grid place-items-center w-[4.2cqw] h-[4.2cqw] rounded-full bg-slate-900 border-2 border-sky-500/70 text-sky-300 font-bold" style="font-size: clamp(0.9rem, 2.0cqw, 1.45rem);">2</div>
-                        <div class="text-slate-200 font-medium" style="font-size: clamp(1.0rem, 2.2cqw, 1.65rem);">この見本から型をコピーして中身を差し替える</div>
+                        <div class="text-slate-200 font-medium" style="font-size: clamp(1.0rem, 2.2cqw, 1.65rem);">テンプレートをコピーして中身を差し替える</div>
                     </div>
                     <div class="flex items-center gap-[1.6cqw]">
                         <div class="relative shrink-0 grid place-items-center w-[4.2cqw] h-[4.2cqw] rounded-full bg-lime-500/20 border-2 border-lime-400 text-lime-300 font-bold shadow-lg shadow-lime-900/40" style="font-size: clamp(0.9rem, 2.0cqw, 1.45rem);">3</div>
@@ -275,7 +275,7 @@ const slideData = [
         title: 'カード（段数を混ぜる）',
         icon: 'fa-table-cells-large',
         duration: 12,
-        narration: '段数を混ぜたカードの型です。6 列の格子を土台にして、1 枚のカードがいくつ分の幅を占めるかを変えます。大事なものほど広く取ると、目が行く順を決められます。',
+        narration: '段数を混ぜたカードのテンプレートです。6 列の格子を土台にして、1 枚のカードがいくつ分の幅を占めるかを変えます。大事なものほど広く取ると、目が行く順を決められます。',
         body: `
             <div class="grid grid-cols-6 gap-[1.2cqw]">
                 <div class="col-span-6 rounded-2xl bg-gradient-to-r from-sky-950/70 to-slate-900/40 border border-sky-500/40 p-[1.4cqw] flex items-center gap-[1.4cqw]">
@@ -338,8 +338,8 @@ const slideData = [
     {
         title: '手順（横並び）',
         icon: 'fa-list-ol',
-        duration: 12,
-        narration: '手順を横に並べる型です。番号を線でつなぎ、済んだ段は色を落として、いま居る段だけ目立たせます。物の流れを矢印で見せたいときは、図解の型を使います。',
+        duration: 13,
+        narration: '手順を横に並べるテンプレートです。番号を線でつなぎ、済んだ段は色を落として、いま居る段だけ目立たせます。物の流れを矢印で見せたいときは、図解のテンプレートを使います。',
         body: `
             <div class="relative">
                 <div class="absolute left-[12.5%] right-[12.5%] top-[2.1cqw] h-[0.3cqw] -translate-y-1/2 bg-slate-700 rounded-full"></div>
@@ -381,7 +381,7 @@ const slideData = [
         title: '前後の差分',
         icon: 'fa-code-branch',
         duration: 12,
-        narration: '前後の差分の型です。書き換えの前と後を、行単位で見せたいときに使います。消す行は赤、足す行は緑にすると、コードの差分と同じ見方ができます。',
+        narration: '前後の差分のテンプレートです。書き換えの前と後を、行単位で見せたいときに使います。消す行は赤、足す行は緑にすると、コードの差分と同じ見方ができます。',
         body: `
             <div class="rounded-xl border border-slate-800 bg-slate-950 overflow-hidden shadow-xl shadow-slate-950/60 font-mono" style="font-size: clamp(0.82rem, 1.75cqw, 1.3rem);">
                 <div class="flex items-center gap-[0.8cqw] bg-slate-900/80 border-b border-slate-800 px-[1.4cqw] py-[0.8cqw] text-slate-400" style="font-size: clamp(0.75rem, 1.6cqw, 1.1rem);">
@@ -406,7 +406,7 @@ const slideData = [
         title: '割合バー',
         icon: 'fa-chart-bar',
         duration: 12,
-        narration: '割合バーの型です。内訳や進み具合を、帯の長さで見せます。数字だけよりも、どれが大きいかが一目で分かります。帯の幅はパーセントで指定します。',
+        narration: '割合バーのテンプレートです。内訳や進み具合を、帯の長さで見せます。数字だけよりも、どれが大きいかが一目で分かります。帯の幅はパーセントで指定します。',
         body: `
             <div class="space-y-[1.8cqw]">
                 <div>
@@ -442,7 +442,7 @@ const slideData = [
         title: 'Q&A',
         icon: 'fa-circle-question',
         duration: 11,
-        narration: '問いと答えの型です。想定される質問に先に答えておきたいときに使います。問いと答えで色と印を変え、上下に置くと読む順が迷いません。',
+        narration: '問いと答えのテンプレートです。想定される質問に先に答えておきたいときに使います。問いと答えで色と印を変え、上下に置くと読む順が迷いません。',
         body: `
             <div class="space-y-[1.6cqw]">
                 <div class="flex items-start gap-[1.4cqw] rounded-2xl bg-sky-950/40 border border-sky-500/40 p-[1.8cqw]">
@@ -453,7 +453,7 @@ const slideData = [
                     <span class="shrink-0 grid place-items-center w-[4cqw] h-[4cqw] rounded-full bg-lime-500/20 border border-lime-400/50 text-lime-300 font-extrabold" style="font-size: clamp(1rem, 2.2cqw, 1.6rem);">A</span>
                     <p class="text-slate-200 font-medium leading-relaxed" style="font-size: clamp(0.95rem, 2.1cqw, 1.55rem);">
                         body の中は普通の HTML。<span class="text-lime-300 font-bold">Tailwind のクラス</span>がそのまま使えるので、
-                        近い型を土台にして組み替えればよい。
+                        近いテンプレートを土台にして組み替えればよい。
                     </p>
                 </div>
             </div>
@@ -465,7 +465,7 @@ const slideData = [
         title: '本文と脚注',
         icon: 'fa-note-sticky',
         duration: 11,
-        narration: '本文と脚注の型です。左に本文、右に補足を置く二対一の分割です。本筋を止めずに、細かい断り書きを添えたいときに使います。',
+        narration: '本文と脚注のテンプレートです。左に本文、右に補足を置く二対一の分割です。本筋を止めずに、細かい断り書きを添えたいときに使います。',
         body: `
             <div class="grid grid-cols-3 gap-[1.8cqw] items-start">
                 <div class="col-span-2 space-y-[1.2cqw]">
@@ -495,8 +495,8 @@ const slideData = [
     {
         title: '画像',
         icon: 'fa-image',
-        duration: 11,
-        narration: '画像の型です。写真のように、CSS では描けない絵を見せたいときに使います。幅をシーキューダブリューで指定すると、画面の大きさに合わせて伸び縮みします。',
+        duration: 12,
+        narration: '画像のテンプレートです。写真のように、CSS では描けない絵を見せたいときに使います。幅をシーキューダブリューで指定すると、画面の大きさに合わせて伸び縮みします。',
         body: `
             <div class="grid grid-cols-5 gap-[1.8cqw] items-center">
                 <figure class="col-span-3 m-0">
@@ -520,8 +520,8 @@ const slideData = [
     // ── 18. 画像（全面）。枠いっぱいに敷くので render() で書く ─────
     {
         title: '画像（全面）',
-        duration: 10,
-        narration: '画像を全面に敷く型です。枠いっぱいに広げ、その上に文字を載せます。文字が読めるよう、画像の上に黒い膜を一枚かぶせます。',
+        duration: 11,
+        narration: '画像を全面に敷くテンプレートです。枠いっぱいに広げ、その上に文字を載せます。文字が読めるよう、画像の上に黒い膜を一枚かぶせます。',
         render: function() {
             return `
                 <div class="relative h-full overflow-hidden">
