@@ -12,15 +12,18 @@
 | 見込み | Sonnet 5 / effort medium | reviewer + verifier |
 
 - [ ] `docs/User.md` の「手順」を、`uv tool install` → `ytslide init` →
-      `slides/<名前>.js` を書く → `ytslide update` → `ytslide web` で確認、
-      の流れに書き替える
+      `slides/template.js` をコピーして名前を変える → 中身を書く →
+      ブラウザで `player.html?slides=<名前>` を開く、の流れに書き替える
+- [ ] `ytslide update --slides <名前>` は「ナレーションが固まったら 1 回」
+      として、書く・見るのループの後ろに置く
+- [ ] `ytslide web` は「スマホなど別端末から見るとき」の分岐にする
 - [ ] リポジトリを clone して中で作る道は、短い分岐として残す
 - [ ] 末尾の「リポジトリの外に自分のスライドを置く」と重複する記述を、
       どちらか片方へ寄せる
-- [ ] `README.md` の「自分のスライドを作る」とサブコマンドの表に、使う順序を足す
-- [ ] `slides/user.js` の「手順1〜4」を、同じ流れに組み替える
-      （1 `ytslide init` / 2 ファイルを作る / 3 中身を書く / 4 `ytslide update` /
-      5 ブラウザで開く）
+- [ ] `README.md` の「自分のスライドを作る」に使う順序を足し、サブコマンドの
+      表を実行順に並べて、`measure`・`index` は `update` に含まれると添える
+- [ ] `slides/user.js` の「手順1〜4」を 3 枚（準備 / 書く / 反映して見る）に
+      まとめる
 - [ ] ナレーションを変えた枚の `duration` を `ytslide update --slides user` で
       測り直す
 
@@ -40,13 +43,34 @@
 （2026-09-21 に利用者が指示）。ナレーションを変えるので `duration` の
 測り直しが要る。`ytslide measure` はネット接続と Online TTS を使う。
 
+着手前に確かめたこと（2026-09-21 実測）:
+
+- **`ytslide init` した先で `ytslide update` は落ちる。** `--slides` の既定は
+  `readme`（`paths.py` の `DEFAULT_SLIDES`）で、init した先に `readme.js` は
+  無い（TODO-098）。`slides/readme.js が無い` の UsageError で止まる。
+  文書には必ず `--slides <名前>` を添えて書く
+- **`ytslide update` は毎回走らせるものではない。** 中身は
+  `measure --all --write` → `index` で、1 枚ずつ Online TTS を叩く。
+  `docs/User.md` 自身が「`duration` はおおよそでよい、ずれてもスライドは
+  飛ばない」と書いているので、書く・見るのループには要らない
+- **`ytslide init` が置くのは `player.html`・`index.html`・`slides/template.js`。**
+  「`slides/<名前>.js` を書く」の前に、`template.js` をコピーして名前を
+  変える手順が入る
+- **`ytslide web` はブラウザを開かない。** カレントディレクトリを
+  `http.server` で配って URL を出すだけ。`file://` で `player.html` を
+  直接開いても動くので、手元の確認には要らない。また `web` の URL で出るのは
+  `index.html` の一覧で、そこに自分のスライドが出るには `slidesConfig` に
+  `summary`・`icon` が要る（無いと警告だけ出て生成は通る）
+
 **分担**: 文書だけの変更だが、書いたとおりに試せるコマンド手順なので
 確認を分ける（TODO-017）。同じ内容を 2 つの文書に書くので reviewer も入れる。
 
 - main: 設計と執筆
 - reviewer: `docs/User.md` と `README.md` の食い違い、既存の節との重複の残り
 - verifier: 空のディレクトリで、書いたとおりのコマンドを実際に走らせて再現する。
-  `slides/user.js` は `player.html?slides=user` を開いて、組み替えた枚が
+  **先に `ytslide` を入れ直す**（手元に入っているのは 0.7.2.dev6 で、
+  TODO-098 の実装より前。空の `README.md` を置いてしまい結果が食い違う）。
+  `slides/user.js` は `player.html?slides=user` を開いて、まとめた枚が
   欠けずに出るか、`duration` と実際の読み上げがずれていないかを見る
 
 ---
