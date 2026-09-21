@@ -346,7 +346,7 @@ const slideData = [
                     </div>
                     <div class="bg-rose-950/40 border border-rose-500/40 rounded-xl p-[1.1cqw] text-rose-300 flex items-center gap-[1cqw] font-medium" style="font-size: clamp(0.85rem, 1.8cqw, 1.3rem);">
                         <i class="fa-solid fa-triangle-exclamation text-rose-400 flex-shrink-0" style="font-size: clamp(1.1rem, 2.2cqw, 1.6rem);"></i>
-                        <span>変わった枚だけ表示。気に入らなければ <code class="bg-slate-950 px-[0.5cqw] py-[0.1cqw] rounded font-mono">git checkout</code> で戻せる</span>
+                        <span><code class="bg-slate-950 px-[0.5cqw] py-[0.1cqw] rounded font-mono">--write</code> を付けずに実行すれば、書き換えずに秒数だけ確認できる</span>
                     </div>
                 </div>
             `;

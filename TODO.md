@@ -1,25 +1,7 @@
 # TODO
 
-**残っている項目: TODO-094。** これまでに 93 件を決着させた。
+**残っている項目: 無し。** これまでに 94 件を決着させた。
 新しく足すときは「完了済み」の上に節を作る。**番号は `TODO-095` から。**
-
----
-
-## TODO-094. `duration` を戻す案内が git を前提にしている
-
-|      | main | 担当 |
-|------|------|------|
-| 見込み | Sonnet 5 / effort medium | verifier |
-
-- [ ] `slides/user.js` スライド 13 の「気に入らなければ `git checkout` で戻せる」を直す
-- [ ] `docs/User.md:233` の同じ文を直す
-
-一般の利用者はスライドを git で管理しないので、`git checkout` で戻す案内が
-成り立たない。`tools/measure-duration.py` は `--write` を付けなければ
-書き換えずに秒数だけ表示するので、そちらを案内する
-（`tools/measure-duration.py --slides <名前> --all`）。
-
-書いたとおりに試せるコマンド例なので、再現の確認は verifier に分ける。
 
 ---
 
@@ -28,6 +10,7 @@
 1 項目 1 ファイル。`archives/todo/` にある（新しい順）。
 **やらないと決めたものの理由も記載してある。** 蒸し返す前に読むこと。
 
+- [**TODO-094.** `duration` を戻す案内が git を前提にしている](archives/todo/TODO-094.%20duration%20を戻す案内が%20git%20を前提にしている.md)
 - [**TODO-093.** `index.html` に `README.md` を載せる](archives/todo/TODO-093.%20index.html%20に%20README.md%20を載せる.md)
 - [**TODO-092.** 消音の切り替えをヘッダーのスピーカーマークに移す](archives/todo/TODO-092.%20消音の切り替えをヘッダーのスピーカーマークに移す.md)
 - [**TODO-091.** 読み上げの声を一覧から選べるようにする](archives/todo/TODO-091.%20読み上げの声を一覧から選べるようにする.md)
