@@ -1,41 +1,7 @@
 # TODO
 
-**残っている項目: TODO-101。** これまでに 100 件を決着させた。
+**残っている項目: 無し。** これまでに 101 件を決着させた。
 新しく足すときは「完了済み」の上に節を作る。**番号は `TODO-102` から。**
-
----
-
-## TODO-101. `cmd` を `main` へマージして、README の手順で入ることを確かめる
-
-|        | main                  | 担当     |
-|--------|-----------------------|----------|
-| 見込み | Sonnet 5 / effort low | verifier |
-
-- [ ] `cmd` を `main` へマージする（`git push` は利用者）
-- [ ] `README.md` の手順どおり
-      `uv tool install 'git+https://github.com/ytani01/yt_slide'` を
-      実行し、`ytslide` が入ることを確かめる
-- [ ] `[video]` 付きも同じく確かめる
-- [ ] 入った `ytslide` の版が、`README.md` に書いてあるサブコマンドを
-      すべて持っているか確かめる
-
-`origin/main` は現在 c498d9e で、`pyproject.toml` を持たない。
-TODO-096 で `ytslide` コマンドにまとめたが、その変更は `cmd` に
-あって `main` に入っていない。TODO-099 で書き直した `README.md` は
-インストール元に `main` を指しているので、**書いたとおりに実行しても
-CLI は入らない**（2026-09-21 に `git ls-remote` で確認）。
-
-`README.md` を `@cmd` 付きにする案は、マージ後に嘘になるため採らなかった
-（2026-09-21 に利用者が決めた）。
-
-**検証方法・完了条件**: マージ後の `main` から、README のコマンドで
-`ytslide` が入る。`ytslide --version` と各サブコマンドの `--help` が動く。
-既存の利用環境を入れ直す手順にはしない。
-
-**分担**: コードは変えないが、書いたとおりに試せるコマンド手順なので
-確認を分ける（TODO-017）。
-
-- verifier: 隔離した環境で README のコマンドを実行し、結果を報告する
 
 ---
 
@@ -44,6 +10,7 @@ CLI は入らない**（2026-09-21 に `git ls-remote` で確認）。
 1 項目 1 ファイル。`archives/todo/` にある（新しい順）。
 **やらないと決めたものの理由も記載してある。** 蒸し返す前に読むこと。
 
+- [**TODO-101.** `cmd` を `main` へマージして、README の手順で入ることを確かめる](archives/todo/TODO-101.%20cmd%20を%20main%20へマージして、README%20の手順で入ることを確かめる.md)
 - [**TODO-100.** `ytslide measure --text` が `init` した先で落ちる](archives/todo/TODO-100.%20ytslide%20measure%20--text%20が%20init%20した先で落ちる.md)
 - [**TODO-099.** 自分のスライドを作り、確認して共有する手順を書く](archives/todo/TODO-099.%20自分のスライドを作り、確認して共有する手順を書く.md)
 - [**TODO-098.** `ytslide init` した先に既定の `readme` が無い](archives/todo/TODO-098.%20ytslide%20init%20した先に既定の%20readme%20が無い.md)
