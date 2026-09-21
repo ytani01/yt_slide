@@ -328,7 +328,9 @@
         <div class="flex items-center gap-3 flex-shrink-0">
             <!-- Voice Selector -->
             <div class="flex items-center gap-2">
-                <i aria-hidden="true" class="fa-solid fa-volume-high text-lime-400"></i>
+                <button id="mute-btn" aria-label="消音" title="音声を消す／戻す（M）" aria-pressed="false" class="w-9 h-9 rounded-lg bg-slate-800 hover:bg-slate-700 text-lime-400 flex items-center justify-center text-sm border border-slate-700">
+                    <i aria-hidden="true" class="fa-solid fa-volume-high" id="mute-icon"></i>
+                </button>
                 <select id="voice-select" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs text-sky-400 font-mono font-bold px-3 py-2 rounded-lg transition cursor-pointer max-w-[10rem] sm:max-w-[16rem]" title="読み上げの声" aria-label="読み上げの声">
                     <option value="online">Online Voice</option>
                     <option value="auto">Web Speech (自動)</option>
@@ -483,11 +485,6 @@
                                 <option value="2" selected>待ち 2秒</option>
                                 <option value="3">待ち 3秒</option>
                             </select>
-
-                            <!-- Mute Button -->
-                            <button id="mute-btn" aria-label="消音" title="音声を消す／戻す（M）" aria-pressed="false" class="w-9 h-9 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center text-sm border border-slate-700">
-                                <i aria-hidden="true" class="fa-solid fa-volume-high" id="mute-icon"></i>
-                            </button>
 
                             <!-- Fullscreen Button -->
                             <button id="fullscreen-btn" aria-label="フルスクリーン" title="フルスクリーン表示を切り替える（F）" aria-pressed="false" class="w-9 h-9 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center text-sm border border-slate-700">
