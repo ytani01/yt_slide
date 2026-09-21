@@ -1,48 +1,7 @@
 # TODO
 
-**残っている項目: TODO-095。** これまでに 94 件を決着させた。
+**残っている項目: 無し。** これまでに 95 件を決着させた。
 新しく足すときは「完了済み」の上に節を作る。**番号は `TODO-096` から。**
-
----
-
-## TODO-095. リポジトリの外に自分のスライドを置けるようにする
-
-|      | main | 担当 |
-|------|------|------|
-| 見込み | Opus 5 / effort high | implementer + reviewer + verifier |
-
-- [ ] 外にディレクトリを作ると実際にどこが動かないかを、着手時にまず実測する
-- [ ] `tools/` の 3 本に `--root` を足し、無ければカレントディレクトリを見るようにする
-- [ ] `docs/User.md` に「リポジトリの外に自分のスライドを置く」手順を足す
-- [ ] `tools/test_*.py` を新しい探し方に合わせる
-
-一般の利用者は `git clone` したあと、**リポジトリの外に**自分のスライド用の
-ディレクトリを作り、そこに `index.html` と `slides/` を置くことになる。
-いまの文書はこの使い方を案内しておらず、ツールも対応していない。
-
-現状:
-
-- `player.html` は `slides/<名前>.js` を自分の位置からの相対で読む
-  （`player.html:569`）。外に置くなら `player.html` もそこへコピーが要る
-- `tools/measure-duration.py`・`make-index.py`・`make-video.py` は
-  いずれも `ROOT = pathlib.Path(__file__).resolve().parent.parent` 固定で、
-  リポジトリ外の `slides/` を扱えない。`--slides` はスライド名であって
-  パスではない
-- スクリプトは PATH に無いので、`~/yt_slide/tools/measure-duration.py` の
-  ように絶対パスで呼ぶことになる
-
-決めたこと（相談済み）:
-
-- ツールを対応させ、文書も直す
-- 探し方は **`--root` を優先し、無ければカレントディレクトリに `slides/` が
-  あればそこ、それも無ければ従来どおりリポジトリ**
-
-実装で決まること:
-
-- `measure-duration.py` は `player.html` の `SPEECH_RULES` を読み、
-  `make-video.py` は `player.html` を開く。作業ディレクトリ側に
-  `player.html` のコピーが無いときにリポジトリ側へ落とすかどうかは、
-  実測の結果を見て決める
 
 ---
 
@@ -51,6 +10,7 @@
 1 項目 1 ファイル。`archives/todo/` にある（新しい順）。
 **やらないと決めたものの理由も記載してある。** 蒸し返す前に読むこと。
 
+- [**TODO-095.** リポジトリの外に自分のスライドを置けるようにする](archives/todo/TODO-095.%20リポジトリの外に自分のスライドを置けるようにする.md)
 - [**TODO-094.** `duration` を戻す案内が git を前提にしている](archives/todo/TODO-094.%20duration%20を戻す案内が%20git%20を前提にしている.md)
 - [**TODO-093.** `index.html` に `README.md` を載せる](archives/todo/TODO-093.%20index.html%20に%20README.md%20を載せる.md)
 - [**TODO-092.** 消音の切り替えをヘッダーのスピーカーマークに移す](archives/todo/TODO-092.%20消音の切り替えをヘッダーのスピーカーマークに移す.md)

@@ -5,8 +5,12 @@
 ネットワーク・ffmpeg・Playwright は使わない（TTS_MAX_CHARS を超える文の分割と、
 純粋な文字列組み立ての関数だけを見る）。
 """
+import contextlib
 import importlib.util
+import io
 import pathlib
+import sys
+import tempfile
 
 spec = importlib.util.spec_from_file_location(
     'make_video', pathlib.Path(__file__).resolve().parent / 'make-video.py')
@@ -45,5 +49,27 @@ assert srt == (
     '1\n00:00:00,000 --> 00:00:11,664\nひとつめ\n\n'
     '2\n00:00:13,664 --> 00:00:25,808\nふたつめ\n'
 ), srt
+
+# --root の配線（TODO-095 reviewer 指摘 2）: main() が md.set_root(args.root)
+# を呼んでいること。呼ばれないと存在しない `--root`/`--slides` の組でも
+# リポジトリ側の slides/ を見に行ってしまい、エラーメッセージに --root の
+# パスが出ない。src.exists() チェックで parser.error になる時点で止まる
+# ので、Playwright・ffmpeg には触れない。
+_orig_argv = sys.argv
+try:
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp = pathlib.Path(tmp).resolve()
+        (tmp / 'slides').mkdir()
+        sys.argv = ['make-video.py', '--slides', 'nope', '--root', str(tmp)]
+        buf = io.StringIO()
+        try:
+            with contextlib.redirect_stderr(buf):
+                mv.main()
+            assert False, '--root 先に無い slides/nope.js のはずなのに通った'
+        except SystemExit as e:
+            assert e.code == 2, e.code
+        assert str(tmp) in buf.getvalue(), buf.getvalue()
+finally:
+    sys.argv = _orig_argv
 
 print('OK')

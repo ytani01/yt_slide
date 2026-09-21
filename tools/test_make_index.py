@@ -2,8 +2,12 @@
 """slidesConfig から summary/icon を読む関数と、マーカー間の差し替えを確かめる。
 `tools/test_make_index.py` で実行。ネットワークは要らない。
 """
+import contextlib
 import importlib.util
+import io
 import pathlib
+import sys
+import tempfile
 
 spec = importlib.util.spec_from_file_location(
     'make_index',
@@ -89,5 +93,33 @@ try:
     assert False, 'マーカーが無いのに通った'
 except SystemExit:
     pass
+
+# --root の配線（TODO-095 reviewer 指摘 2）: set_root() が md.find_root() の
+# 結果をそのまま ROOT/SLIDES/INDEX_HTML に反映していること。
+_orig_root, _orig_slides, _orig_index = mi.ROOT, mi.SLIDES, mi.INDEX_HTML
+try:
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp = pathlib.Path(tmp).resolve()
+        mi.set_root(str(tmp))
+        assert mi.ROOT == tmp, mi.ROOT
+        assert mi.SLIDES == tmp / 'slides', mi.SLIDES
+        assert mi.INDEX_HTML == tmp / 'index.html', mi.INDEX_HTML
+
+        # index.html が無ければ parser.error（未処理の例外で落ちない。要修正 1）。
+        _orig_argv = sys.argv
+        try:
+            sys.argv = ['make-index.py', '--root', str(tmp)]
+            buf = io.StringIO()
+            try:
+                with contextlib.redirect_stderr(buf):
+                    mi.main()
+                assert False, 'index.html が無いのに通った'
+            except SystemExit as e:
+                assert e.code == 2, e.code
+            assert str(tmp) in buf.getvalue(), buf.getvalue()
+        finally:
+            sys.argv = _orig_argv
+finally:
+    mi.ROOT, mi.SLIDES, mi.INDEX_HTML = _orig_root, _orig_slides, _orig_index
 
 print('OK')

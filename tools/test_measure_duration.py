@@ -5,7 +5,9 @@
 ネットワークは要らない（測定そのものは Google TTS 任せなので見ない）。
 """
 import importlib.util
+import os
 import pathlib
+import tempfile
 
 spec = importlib.util.spec_from_file_location(
     'measure_duration',
@@ -128,5 +130,40 @@ md.fetch_duration = fake_fetch([4.2])
 spoken, raw, scaled = md.measure('テスト')
 assert len(calls) == 1, calls
 assert raw == 4.2, raw
+
+# スライドの探し方の優先順（TODO-095）: --root > cwd の slides/ > リポジトリ。
+# 後始末で必ず既定へ戻す（他のテストが md.SLIDES 等を当てにしているため）。
+_orig_root, _orig_slides, _orig_player = md.ROOT, md.SLIDES, md.PLAYER_HTML
+_cwd_before = pathlib.Path.cwd()
+try:
+    with tempfile.TemporaryDirectory() as outside, tempfile.TemporaryDirectory() as elsewhere:
+        outside = pathlib.Path(outside).resolve()
+        (outside / 'slides').mkdir()
+        elsewhere = pathlib.Path(elsewhere).resolve()
+
+        # 1. --root が最優先（cwd に slides/ が無くても関係ない）。
+        os.chdir(elsewhere)
+        assert md.find_root(str(outside)) == outside
+
+        # 2. --root が無ければ、cwd に slides/ があればそこ。
+        os.chdir(outside)
+        assert md.find_root(None) == outside
+
+        # 3. --root も cwd の slides/ も無ければリポジトリ。
+        os.chdir(elsewhere)
+        assert md.find_root(None) == md.REPO_ROOT
+
+        # player.html: ROOT 側にコピーが無ければリポジトリのものへ落とす。
+        md.set_root(str(outside))
+        assert md.PLAYER_HTML == md.REPO_ROOT / 'player.html'
+
+        # コピーがあればそちらを使う（実際の再生とずれないよう優先）。
+        own_player = outside / 'player.html'
+        own_player.write_text('dummy', encoding='utf-8')
+        md.set_root(str(outside))
+        assert md.PLAYER_HTML == own_player
+finally:
+    os.chdir(_cwd_before)
+    md.ROOT, md.SLIDES, md.PLAYER_HTML = _orig_root, _orig_slides, _orig_player
 
 print('OK')

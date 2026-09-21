@@ -15,13 +15,29 @@
 （`tools/measure-duration.py` が `rules` を読むのと同じやり方）。
 """
 import argparse
+import importlib.util
 import pathlib
 import re
 import sys
 
-ROOT = pathlib.Path(__file__).resolve().parent.parent
-SLIDES = ROOT / 'slides'
-INDEX_HTML = ROOT / 'index.html'
+# 探し方（--root > cwd の slides/ > リポジトリ）は measure-duration.py と共通
+# （TODO-095）。make-video.py と同じやり方でそちらを読み込んで使う。
+spec = importlib.util.spec_from_file_location(
+    'measure_duration', pathlib.Path(__file__).resolve().parent / 'measure-duration.py')
+md = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(md)
+
+ROOT = SLIDES = INDEX_HTML = None
+
+
+def set_root(root_arg):
+    global ROOT, SLIDES, INDEX_HTML
+    ROOT = md.find_root(root_arg)
+    SLIDES = ROOT / 'slides'
+    INDEX_HTML = ROOT / 'index.html'
+
+
+set_root(None)  # 既定（--root を渡さず呼ばれたときと同じ後方互換の場所）
 
 BEGIN_MARKER = '<!-- BEGIN GENERATED SLIDES (tools/make-index.py が書き換える。手で編集しない) -->'
 END_MARKER = '<!-- END GENERATED SLIDES -->'
@@ -102,7 +118,14 @@ def replace_marker_block(html, list_html):
 def main():
     parser = argparse.ArgumentParser(
         description='slides/*.js の slidesConfig から index.html の一覧を作る')
-    parser.parse_args()
+    parser.add_argument('--root', help='スライドの置き場所（既定はカレントディレクトリの'
+                        ' slides/、無ければリポジトリ）')
+    args = parser.parse_args()
+
+    set_root(args.root)
+
+    if not INDEX_HTML.exists():
+        parser.error(f'{INDEX_HTML} が無い。リポジトリの index.html をコピーしてから実行する')
 
     slides = [load_slide(name) for name in slide_names()]
     list_html = build_list_html(slides)

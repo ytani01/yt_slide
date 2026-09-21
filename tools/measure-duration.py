@@ -38,10 +38,37 @@ import subprocess
 import tempfile
 import urllib.parse
 
-ROOT = pathlib.Path(__file__).resolve().parent.parent
-SLIDES = ROOT / 'slides'
-PLAYER_HTML = ROOT / 'player.html'
+# リポジトリの外に自分のスライドを置く場合の探し方（TODO-095）。
+# 優先順: --root > カレントディレクトリに slides/ があればそこ > リポジトリ。
+REPO_ROOT = pathlib.Path(__file__).resolve().parent.parent
 DEFAULT_SLIDES = 'readme'
+
+
+def find_root(root_arg):
+    """`--root` の指定と探し方の優先順に沿ってスライドの置き場所を返す。"""
+    if root_arg:
+        return pathlib.Path(root_arg).resolve()
+    cwd = pathlib.Path.cwd()
+    if (cwd / 'slides').is_dir():
+        return cwd
+    return REPO_ROOT
+
+
+def set_root(root_arg):
+    """ROOT/SLIDES/PLAYER_HTML を決めて module 変数に入れる。
+
+    `player.html` は ROOT 側にコピーがあればそれを使い（実際の再生と
+    ずれないよう）、無ければリポジトリのものへ落とす。
+    """
+    global ROOT, SLIDES, PLAYER_HTML
+    ROOT = find_root(root_arg)
+    SLIDES = ROOT / 'slides'
+    own_player = ROOT / 'player.html'
+    PLAYER_HTML = own_player if own_player.exists() else REPO_ROOT / 'player.html'
+
+
+ROOT = SLIDES = PLAYER_HTML = None
+set_root(None)  # 既定（--root を渡さず呼ばれたときと同じ後方互換の場所）
 
 # player.html の写し ---------------------------------------------------
 TTS_MAX_CHARS = 180
@@ -183,7 +210,11 @@ def main():
                         help=f'slides/<名前>.js の <名前>（既定は {DEFAULT_SLIDES}）')
     parser.add_argument('-n', '--repeat', type=int, default=1,
                         help='1 枚を測る回数。中央値を採る（既定 1）')
+    parser.add_argument('--root', help='スライドの置き場所（既定はカレントディレクトリの'
+                        ' slides/、無ければリポジトリ）')
     args = parser.parse_args()
+
+    set_root(args.root)
 
     if args.repeat < 1:
         parser.error('-n は 1 以上')

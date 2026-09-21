@@ -23,8 +23,6 @@ import tempfile
 
 from playwright.sync_api import sync_playwright
 
-ROOT = pathlib.Path(__file__).resolve().parent.parent
-
 spec = importlib.util.spec_from_file_location(
     'measure_duration', pathlib.Path(__file__).resolve().parent / 'measure-duration.py')
 md = importlib.util.module_from_spec(spec)
@@ -106,7 +104,7 @@ def screenshot_slides(slides_name, indexes, out_dir):
     with sync_playwright() as p:
         browser = p.chromium.launch()
         page = browser.new_page(viewport={'width': WIDTH, 'height': HEIGHT})
-        page.goto((ROOT / 'player.html').as_uri() + f'?slides={slides_name}')
+        page.goto(md.PLAYER_HTML.as_uri() + f'?slides={slides_name}')
         page.wait_for_load_state('networkidle')
         for i in indexes:
             page.evaluate(FIT, i)
@@ -212,7 +210,11 @@ def main():
                         help=f'slides/<名前>.js の <名前>（既定は {md.DEFAULT_SLIDES}）')
     parser.add_argument('--out', default='video', help='書き出し先ディレクトリ（既定 video）')
     parser.add_argument('--only', nargs='+', type=int, help='このスライド番号だけ書き出す（確認用）')
+    parser.add_argument('--root', help='スライドの置き場所（既定はカレントディレクトリの'
+                        ' slides/、無ければリポジトリ）')
     args = parser.parse_args()
+
+    md.set_root(args.root)
 
     src = md.SLIDES / f'{args.slides_name}.js'
     if not src.exists():

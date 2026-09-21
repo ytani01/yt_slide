@@ -357,6 +357,42 @@ images/             ← 画像を使っているときだけ
 置き場所の自由度や公開 URL を保つ方法は
 [Developer.md の「場所を選ばない」](Developer.md#場所を選ばない)にある。
 
+### リポジトリの外に自分のスライドを置く
+
+このリポジトリを直接編集せず、`git clone` したあと**外に**自分専用の
+ディレクトリを作って使うこともできる。
+
+```bash
+$ git clone <このリポジトリ> ~/yt_slide
+$ mkdir -p ~/my-slides/slides
+$ cp ~/yt_slide/player.html ~/yt_slide/index.html ~/my-slides/
+$ $EDITOR ~/my-slides/slides/mine.js   # slides/template.js を元に書く
+```
+
+`player.html` は `slides/<名前>.js` を自分の位置からの相対パスで読むので、
+外に置くときは `player.html` もそこへコピーしておく。`index.html`
+（一覧。`tools/make-index.py` が書き換える）も、一覧を使わないなら
+要らないが、コピーしておけば `make-index.py --root` がそのまま動く。
+`index.html` は同じディレクトリの `README.md` を読んで表示するが、
+無くても（読み込みに失敗するだけで）README の欄が出ないだけなので、
+`README.md` は置かなくてよい。
+
+`tools/` のスクリプト（`measure-duration.py`・`make-index.py`・
+`make-video.py`）は絶対パスで呼ぶ。作業ディレクトリ（`slides/` がある方）を
+カレントディレクトリにして呼べば `--root` は要らない。
+
+```bash
+$ cd ~/my-slides
+$ ~/yt_slide/tools/measure-duration.py --slides mine --all
+```
+
+別の場所から呼ぶ・作業ディレクトリをカレントディレクトリにしないときは
+`--root` で置き場所を指定する。
+
+```bash
+$ ~/yt_slide/tools/make-index.py --root ~/my-slides
+```
+
 ## 最小の例
 
 `slides/sample.js` として保存し、`player.html?slides=sample` で開く。
