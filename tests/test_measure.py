@@ -108,6 +108,19 @@ def test_all_slides_rules_load():
     assert len(common_rules) == 23, common_rules
 
 
+def test_prepare_without_slides_file(tmp_path):
+    # `ytslide init` した先のようにスライド一式が無くても `--text` を
+    # 測れること（TODO-100）。load_slides_rules() が無条件に開いていれば
+    # FileNotFoundError で落ちるので、戻すとここが落ちる。
+    paths.set_root(str(tmp_path))
+    try:
+        assert measure.load_slides_rules(paths.DEFAULT_SLIDES) == []
+        # 共通の置換表（player.html の SPEECH_RULES）はそのまま効く。
+        assert measure.prepare('TODO を見る') == 'トゥードゥー を見る'
+    finally:
+        paths.set_root(None)
+
+
 def test_measure_takes_median(monkeypatch):
     # 測る回数と中央値（TODO-065）。fetch_duration() を差し替えるので
     # ネットワークは使わない。prepare() は実ファイルの置換表を読むだけ。

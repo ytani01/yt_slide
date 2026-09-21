@@ -283,7 +283,8 @@ const slideData = [
 **Online TTS の音声を `BASE_SPEED_MULTIPLIER` 倍で再生した実測秒数**。
 **`--text` に文章を渡すと、スライドに入れる前の下書きを測れる。**
 読みの置換は `--slides` で指定したスライド一式のものを使うので、`--text`
-だけのときも `--slides` を添える（省くと `readme.js` を探して止まる）。
+だけのときも `--slides` を添える（省くとスライド一式の読みは効かず、
+共通の置換表だけで測る）。
 
 ```bash
 $ ytslide measure --slides sample --text 'ここに読み上げる文章'
@@ -354,7 +355,8 @@ const slidesConfig = {
 - **読みを大きく変えたら `duration` も見直す**（長さが変わる）。
   測り直すなら `ytslide measure --slides <名前> --all --write`
 - `--text` で下書きを測るときは `--slides <名前>` も付ける。表はスライド一式ごとに
-  異なるため、付けないと既定の `readme` の表で測定してしまう。
+  異なるため、付けないと既定の `readme` の表（`readme.js` が無ければ
+  共通の表だけ）で測定してしまう。
 
 ## 動画に書き出す
 

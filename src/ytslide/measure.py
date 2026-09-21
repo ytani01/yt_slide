@@ -54,9 +54,15 @@ def slides_rules_from_text(text):
 
 
 def load_slides_rules(slides):
-    """`slides/<slides>.js` の slidesConfig.rules を読む（無ければ空）。"""
-    return slides_rules_from_text(
-        (paths.SLIDES / f'{slides}.js').read_text(encoding='utf-8'))
+    """`slides/<slides>.js` の slidesConfig.rules を読む。
+
+    ファイルが無ければ空を返す。`ytslide init` した先にはスライド一式が
+    無いので、`--text` だけを測るときはここで止めない（TODO-100）。
+    """
+    src = paths.SLIDES / f'{slides}.js'
+    if not src.exists():
+        return []
+    return slides_rules_from_text(src.read_text(encoding='utf-8'))
 
 
 def load_common_rules():

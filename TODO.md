@@ -1,54 +1,7 @@
 # TODO
 
-**残っている項目: TODO-100、TODO-101。** これまでに 99 件を決着させた。
+**残っている項目: TODO-101。** これまでに 100 件を決着させた。
 新しく足すときは「完了済み」の上に節を作る。**番号は `TODO-102` から。**
-
----
-
-## TODO-100. `ytslide measure --text` が `init` した先で落ちる
-
-|        | main                     | 担当                |
-|--------|--------------------------|---------------------|
-| 見込み | Sonnet 5 / effort medium | reviewer + verifier |
-
-- [ ] `load_slides_rules()` が `slides/<名前>.js` を開けないときは、
-      空の置換表を返すようにする。共通の置換表（`player.html` の
-      `SPEECH_RULES`）はそのまま使う
-- [ ] スライド一式のファイルが無い状態で `--text` だけを測れることを
-      テストで確かめる。**通るかではなく、戻すと落ちるかまで見る**
-- [ ] 番号指定・`--all` のときは今までどおり `cli.py` が UsageError で
-      止める（TODO-098 の挙動。変えない）
-- [ ] 文書側で `--slides` を添えて回避している箇所を見直す。
-      `docs/User.md` の「省くと `readme.js` を探して止まる」は直したあと
-      成り立たなくなる。`slides/user.js` 11 枚目の例も同じ
-
-`ytslide init` した先で `ytslide measure --text '文章'` を実行すると、
-`FileNotFoundError` の traceback で止まる（2026-09-21 に実測）。
-読みの置換表を読む `measure.py` の `load_slides_rules()` が
-`slides/<名前>.js` を無条件に開き、既定の `readme.js` は `init` した先に
-無いため。`cli.py` の存在チェックは `(numbers or all_)` のときだけなので、
-`--text` だけのパスはそこを通らない。
-
-TODO-098 で直したのは番号指定・`--all` のパスで、`--text` は残っていた。
-TODO-099 の引き継ぎ中に見つけ、文書側は `--slides <名前>` を添えて回避した。
-
-決めたこと（利用者と相談済み。項目にはしない）:
-
-- **無ければ空の置換表で続ける。** `--text` は「スライドに入れる前の下書きを
-  測る」ためのもので、スライド一式が無くても測れるのが自然（2026-09-21）
-
-**検証方法・完了条件**: `ytslide init` した空のディレクトリで
-`ytslide measure --text '文章'` が測定値を返す。既存の `pytest` が通る。
-番号指定・`--all` で存在しないスライド一式を指したときは、traceback では
-なく UsageError で止まる。
-
-**分担**: 分岐が変わるので reviewer を入れる（TODO-017）。
-変更は `measure.py` の 1 関数と見込まれるので実装は main が行う。
-
-- reviewer: 置換表が空になる経路で、測定値の意味が変わらないかを見る。
-  共通の置換表が効かなくなっていないか
-- verifier: 空のディレクトリと既存のリポジトリの両方で実測する。
-  テストを戻すと落ちるかも確かめる
 
 ---
 
@@ -91,6 +44,7 @@ CLI は入らない**（2026-09-21 に `git ls-remote` で確認）。
 1 項目 1 ファイル。`archives/todo/` にある（新しい順）。
 **やらないと決めたものの理由も記載してある。** 蒸し返す前に読むこと。
 
+- [**TODO-100.** `ytslide measure --text` が `init` した先で落ちる](archives/todo/TODO-100.%20ytslide%20measure%20--text%20が%20init%20した先で落ちる.md)
 - [**TODO-099.** 自分のスライドを作り、確認して共有する手順を書く](archives/todo/TODO-099.%20自分のスライドを作り、確認して共有する手順を書く.md)
 - [**TODO-098.** `ytslide init` した先に既定の `readme` が無い](archives/todo/TODO-098.%20ytslide%20init%20した先に既定の%20readme%20が無い.md)
 - [**TODO-097.** TODO-096 で残った文書と実態の食い違いを直す](archives/todo/TODO-097.%20TODO-096%20で残った文書と実態の食い違いを直す.md)
