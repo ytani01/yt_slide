@@ -66,7 +66,7 @@
 
 `?slides=` を省くと `slides/readme.js` を読む。読み込みに失敗した場合、
 白画面ではなく「スライドのデータ slides/<名前>.js を読み込めませんでした。」
-と表示して停止する。
+と、`index.html` へ戻る「一覧へ戻る」リンクを表示して停止する。
 
 ## `slides/<名前>.js` の中身
 
@@ -380,11 +380,11 @@ index.html: 1 件のスライドを書いた
 $ $EDITOR slides/template.js   # コピーして中身を書き替える。ファイル名も変える
 ```
 
-`ytslide init` は `slides/template.js`・`player.html`・空の `README.md`・
+`ytslide init` は `slides/template.js`・`player.html`・
 `index.html`（一覧。`ytslide index` が書き換える）をカレントディレクトリに
 置き、`<title>` と `<h1>` にはディレクトリ名がそのまま入る。既にある
-ファイルは上書きしない。`README.md` は同じディレクトリのものを読んで
-表示するだけなので、要らなければ空のままでよい。
+ファイルは上書きしない。`README.md` は置かないが、自分で同じ
+ディレクトリに置けば `index.html` が読んで表示する。
 
 手元の見た目は `ytslide web` で確かめられる（`http.server` を被せるだけ）。
 

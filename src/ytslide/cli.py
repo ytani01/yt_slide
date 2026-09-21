@@ -34,6 +34,19 @@ def _skip_if_exists(path):
     return False
 
 
+def _no_slides_error(src):
+    """`slides/<名前>.js` が無いときのエラーを、候補を添えて返す。
+
+    候補は `index_mod.slide_names()` と同じ並び（`readme` が先頭）にする。
+    呼び出し元で `paths.set_root()` が済んでいること（`slide_names()` は
+    `paths.SLIDES` を見る）。
+    """
+    names = index_mod.slide_names()
+    hint = (f'あるのは {", ".join(names)}。--slides で指定する' if names
+            else f'{src.parent} に .js が無い')
+    return click.UsageError(f'{src} が無い\n       {hint}')
+
+
 @cli.command()
 @click_common_opts(__version__)
 def init(ctx, debug):
@@ -55,10 +68,6 @@ def init(ctx, debug):
         player_html.write_text(
             (paths.DATA / 'player.html').read_text(encoding='utf-8'),
             encoding='utf-8')
-
-    readme = root / 'README.md'
-    if not _skip_if_exists(readme):
-        readme.write_text('', encoding='utf-8')
 
     index_html = root / 'index.html'
     if not _skip_if_exists(index_html):
@@ -88,7 +97,7 @@ def measure(ctx, numbers, text, all_, write, slides_name, repeat, root, debug):
 
     src = paths.SLIDES / f'{slides_name}.js'
     if (numbers or all_) and not src.exists():
-        raise click.UsageError(f'{src} が無い')
+        raise _no_slides_error(src)
 
     jobs = []
     if text:
@@ -164,7 +173,7 @@ def video(ctx, slides_name, out, only, root, debug):
 
     src = paths.SLIDES / f'{slides_name}.js'
     if not src.exists():
-        raise click.UsageError(f'{src} が無い')
+        raise _no_slides_error(src)
 
     video_mod.make_video(slides_name, pathlib.Path(out), list(only) or None)
 

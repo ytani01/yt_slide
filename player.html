@@ -578,6 +578,11 @@
                 + ' text-slate-200 text-sm';
             canvas.textContent =
                 `スライドのデータ slides/${slidesName}.js を読み込めませんでした。`;
+            const indexLink = document.createElement('a');
+            indexLink.href = 'index.html';
+            indexLink.textContent = '一覧へ戻る';
+            indexLink.className = 'underline ml-2';
+            canvas.appendChild(indexLink);
             throw new Error(`slides not found: ${slidesName}`);
         }
 

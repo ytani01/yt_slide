@@ -1,49 +1,7 @@
 # TODO
 
-**残っている項目: TODO-098。** これまでに 97 件を決着させた。
+**残っている項目は無い。** これまでに 98 件を決着させた。
 新しく足すときは「完了済み」の上に節を作る。**番号は `TODO-099` から。**
-
----
-
-## TODO-098. `ytslide init` した先に既定の `readme` が無い
-
-|      | main | 担当 |
-|------|------|------|
-| 見込み | Opus 5 / effort high | implementer + reviewer + verifier |
-
-- [ ] `ytslide init` が `slides/readme.js` と `README.md` を置くのをやめる
-      （置くのは `slides/template.js`・`player.html`・`index.html` の 3 つ）
-- [ ] CLI の「`<名前>.js` が無い」に、`slides/` にある候補を添える
-      （`measure` と `video` の 2 か所）
-- [ ] `player.html` が `?slides=` 省略時にデータを読めなかったとき、
-      `index.html` への案内を出す
-- [ ] `tests/test_cli.py` を、置かれるファイルの変更に合わせて直す
-- [ ] `docs/User.md` の `ytslide init` の説明を直す
-
-`ytslide init` が置くのは `slides/template.js` だけなので、その場で
-`--slides` を省いて `ytslide measure` / `update` / `video` を叩くと、既定の
-`readme`（`paths.DEFAULT_SLIDES`）を探して `slides/readme.js が無い` で
-止まる（TODO-097 の verifier が実測）。`player.html` を `?slides=` 無しで
-開いたときも同じ。
-
-**「既定の名前を実在させる」方針は取り下げた。** `init` が
-`slides/readme.js`（yt_slide 自体の紹介 17 枚）を置くのは、利用者の
-置き場所には無関係な中身が入る。**あれば使い、無ければ無視する形に寄せる。**
-
-- **`README.md` は `index.html` が既にそうなっている。** `fetch` して
-  404 なら何もしない（`index.html` の `.catch(() => {})`）。むしろ `init` が
-  空の `README.md` を置くと `res.ok` が通り、中身が空の README セクションが
-  開いて出る。置くのをやめる
-- **CLI は `slides/` を読めるので案内できる。** 既定の `readme` が無ければ、
-  `slides/` にあるものを挙げて `--slides` を促す
-- **`player.html` だけは受け皿を決める必要がある。** 静的でディレクトリを
-  一覧できないため、`?slides=` 省略時に読めなければ `index.html` へ案内する。
-  リンクは `textContent` とは別に要素で足す（`slidesName` は URL 由来なので
-  文字列連結で HTML を組まない）
-
-**挙動が変わるので reviewer も入れる。** verifier には、`uv tool install` で
-入れた `ytslide` でも `init` が通ることと、`player.html` の案内が実際に
-出ることを実測させる。
 
 ---
 
@@ -52,6 +10,7 @@
 1 項目 1 ファイル。`archives/todo/` にある（新しい順）。
 **やらないと決めたものの理由も記載してある。** 蒸し返す前に読むこと。
 
+- [**TODO-098.** `ytslide init` した先に既定の `readme` が無い](archives/todo/TODO-098.%20ytslide%20init%20した先に既定の%20readme%20が無い.md)
 - [**TODO-097.** TODO-096 で残った文書と実態の食い違いを直す](archives/todo/TODO-097.%20TODO-096%20で残った文書と実態の食い違いを直す.md)
 - [**TODO-096.** `ytslide` コマンド 1 つで扱えるようにする](archives/todo/TODO-096.%20ytslide%20コマンド%201%20つで扱えるようにする.md)
 - [**TODO-095.** リポジトリの外に自分のスライドを置けるようにする](archives/todo/TODO-095.%20リポジトリの外に自分のスライドを置けるようにする.md)
