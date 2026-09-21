@@ -5,18 +5,18 @@
 
 ---
 
-## TODO-106. 冒頭の謳い文句を「1 から書かなくていい」に変える
+## TODO-106. 冒頭の謳い文句を「1 から書かなくていい」に変え、AI で作る手順を書く
 
 |        | main                 | 担当     |
 |--------|----------------------|----------|
 | 見込み | Opus 5 / effort high | verifier |
 
+### 冒頭の謳い文句
+
 - [ ] `README.md` の冒頭を「スライドは JavaScript ファイル 1 つ。ただし 1 から
       書かなくていい」の向きに書き直す（型 19 種のコピーと、AI に書かせる話を
       冒頭へ上げる）
 - [ ] `slides/readme.js` の 1 枚目（narration・本文）とまとめの 3 つ目を揃える
-- [ ] narration を変えた枚の `duration` を測り直す
-- [ ] verifier に、測り直した `duration` と、1 枚目・まとめの描画を確かめさせる
 
 「再生にはビルドもインストールも不要」が冒頭にあると、作る側も何も書かなくて
 よいように読める。実際は `slides/<名前>.js` を書く（`player.html` は触らない）。
@@ -27,8 +27,32 @@
 残す。`docs/User.md`・`docs/Developer.md`・`CLAUDE.md` の同じ記述は、
 再生側の話として正しいので触らない。
 
-文言だけで分岐は変わらないため reviewer は立てない。`duration` の測り直しと
-描画の確認は verifier に分ける。
+### AI に作ってもらう手順
+
+- [ ] `docs/User.md` の「AI に作ってもらう」に、**渡すもの**（この文書 /
+      作業場所の `slides/template.js` / 元にしたい原稿）を箇条書きで書く
+- [ ] 依頼文の例を 2 つにする（新規に作る / 既存の `.js` を直す）
+- [ ] 依頼文に必ず書くことを一覧にする（`slides/<名前>.js` 全体を出す、
+      `slidesConfig` と `slideData`、各枚に `title`・`body`・`narration`・
+      `duration`、`player.html` は編集させない）
+- [ ] `slides/user.js` の「書いて確かめる」の後に「AI に作ってもらう」を
+      1 枚足す（渡す 3 点 → 依頼文 → 保存 → `?slides=sample` で確認）。
+      以降の枚の番号コメントもずれる
+- [ ] `README.md` と `slides/readme.js` でも軽く触れる。README は
+      「AI に書かせてもよい」の段落に渡すものを 1 行足し、`docs/User.md` の
+      依頼文の例へ誘導する。`readme.js` は 4 枚目「自分のスライドを作る」に
+      1 行足す
+
+`docs/User.md` には既に依頼文の例が 1 つあるが、`slides/user.js` には AI の話が
+1 枚も無い。
+
+### 仕上げ
+
+- [ ] narration を変えた枚・足した枚の `duration` を測り直す
+- [ ] verifier に、測り直した `duration`、新しい枚を含む描画、依頼文の例に
+      出てくる項目名が実装と合っているかを確かめさせる
+
+文言だけで分岐は変わらないため reviewer は立てない。
 
 ---
 
