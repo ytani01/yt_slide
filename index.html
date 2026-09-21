@@ -12,14 +12,42 @@
     <script>
         tailwind.config = { theme: { extend: { fontFamily: { sans: ['Noto Sans JP', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] } } } }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
     <style>
         body { background-color: #020617; color: #f8fafc; font-family: 'Noto Sans JP', sans-serif; }
+        /* README.md をレンダリングした中身の見た目 */
+        #readme-body h1 { font-size: 1.5rem; font-weight: 900; margin: 1.5rem 0 .75rem; }
+        #readme-body h2 { font-size: 1.25rem; font-weight: 700; margin: 1.5rem 0 .5rem; }
+        #readme-body h3 { font-size: 1.05rem; font-weight: 700; margin: 1.25rem 0 .5rem; }
+        #readme-body p { margin: .75rem 0; }
+        #readme-body ul, #readme-body ol { margin: .75rem 0; padding-left: 1.5rem; }
+        #readme-body ul { list-style: disc; }
+        #readme-body ol { list-style: decimal; }
+        #readme-body li { margin: .25rem 0; }
+        #readme-body a { color: #a3e635; text-decoration: underline; }
+        #readme-body code { font-family: 'JetBrains Mono', monospace; font-size: .9em;
+            background-color: #1e293b; border-radius: .25rem; padding: .1em .35em; }
+        #readme-body pre { background-color: #0f172a; border: 1px solid #334155;
+            border-radius: .5rem; padding: .75rem; margin: .75rem 0; overflow-x: auto; }
+        #readme-body pre code { background: none; padding: 0; }
+        #readme-body blockquote { border-left: 3px solid #475569; padding-left: .75rem;
+            margin: .75rem 0; color: #cbd5e1; }
+        #readme-body table { border-collapse: collapse; margin: .75rem 0; }
+        #readme-body th, #readme-body td { border: 1px solid #334155; padding: .25rem .5rem; }
+        #readme-body hr { border-color: #334155; margin: 1.5rem 0; }
+        #readme-body img { max-width: 100%; }
     </style>
 </head>
 <body class="min-h-screen">
     <main class="max-w-2xl mx-auto px-4 py-10">
         <h1 class="text-3xl font-black mb-2"><i class="fa-solid fa-film text-lime-400 mr-2"></i>yt_slide</h1>
         <p class="text-slate-400 mb-8">ナレーション付きのスライド。選ぶとプレイヤーが開く。</p>
+        <!-- README.md があれば、その中身をここに出す。無ければ隠したまま -->
+        <details id="readme" open class="hidden mb-8 rounded-xl bg-slate-900 border border-slate-700 p-4">
+            <summary class="cursor-pointer font-bold text-slate-300"><i class="fa-solid fa-book text-lime-400 mr-2"></i>README</summary>
+            <div id="readme-body" class="text-slate-300 text-sm"></div>
+        </details>
+
         <ul class="space-y-3">
             <!-- BEGIN GENERATED SLIDES (tools/make-index.py が書き換える。手で編集しない) -->
             <li>
@@ -55,5 +83,16 @@
             <!-- END GENERATED SLIDES -->
         </ul>
     </main>
+    <script>
+        // index.html と同じディレクトリの README.md を読んで表示する。
+        // 置いていなければ（fetch が失敗すれば）何も出さない。
+        fetch('README.md')
+            .then(res => res.ok ? res.text() : Promise.reject(res.status))
+            .then(text => {
+                document.getElementById('readme-body').innerHTML = marked.parse(text);
+                document.getElementById('readme').classList.remove('hidden');
+            })
+            .catch(() => {});
+    </script>
 </body>
 </html>
