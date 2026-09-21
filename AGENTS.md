@@ -21,7 +21,7 @@
 
 ## 検証
 
-変更に応じて `tests/test_measure.py` と `tests/test_video.py` を
-`uv run pytest` で確認する。プレイヤーやスライドの表示・操作の変更は、対象の
-`player.html?slides=<名前>` をブラウザで開いて確かめる。
+変更に応じて `tests/` のテストを `uv run pytest` で確認する。プレイヤーや
+スライドの表示・操作の変更は、対象の `player.html?slides=<名前>` を
+ブラウザで開いて確かめる。
 文書や指示ファイルだけの変更では、参照先と指示の整合性を確認する。

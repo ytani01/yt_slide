@@ -61,6 +61,7 @@
 2. `slidesConfig` と `slideData` を書く（下記）。一覧に出したいなら
    `summary` と `icon` も書く
 3. `ytslide index` を走らせ、`index.html` の一覧を作り直す
+   （`duration` の測り直しも要るなら `ytslide update` で両方走る）
 4. ブラウザで `player.html?slides=<名前>` を開く
 
 `?slides=` を省くと `slides/readme.js` を読む。読み込みに失敗した場合、
@@ -233,6 +234,13 @@ user.js: 1 枚を書き換えた
 変わったスライドだけ出力される。`--write` を付けずに実行すれば、
 書き換えずに秒数だけ確認できる。
 
+`ytslide update` は、この `--all --write` のあと `ytslide index` まで続けて
+走らせる。ナレーションを直したあとの測り直しと一覧の作り直しは、これ 1 つでよい。
+
+```bash
+$ ytslide update --slides user
+```
+
 `-n <回数>` を付けると、その回数だけ測って**中央値**を採る（既定は 1）。
 Online TTS の秒数は毎回同じとは限らないので、揺れが気になるときに使う。
 
@@ -385,9 +393,8 @@ $ ytslide web -p 8000
 http://localhost:8000/ で配信中（Ctrl-C で止める）
 ```
 
-`ytslide measure`・`ytslide index`・`ytslide video` はどれも
-カレントディレクトリを見る。作業ディレクトリ（`slides/` がある方）を
-カレントディレクトリにして呼べば `--root` は要らない。
+`ytslide` のサブコマンドはどれもカレントディレクトリを見る。作業ディレクトリ
+（`slides/` がある方）をカレントディレクトリにして呼べば `--root` は要らない。
 
 ```bash
 $ cd ~/my-slides
@@ -395,7 +402,8 @@ $ ytslide measure --slides mine --all
 ```
 
 別の場所から呼ぶ・作業ディレクトリをカレントディレクトリにしないときは
-`--root` で置き場所を指定する。
+`--root` で置き場所を指定する（`--root` があるのは `measure`・`index`・
+`update`・`video`。`init` と `web` はカレントディレクトリだけを見る）。
 
 ```bash
 $ ytslide index --root ~/my-slides

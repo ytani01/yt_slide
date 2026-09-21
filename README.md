@@ -41,9 +41,18 @@
 動画に書き出す `ytslide` の CLI を使うときだけ。
 
 ```bash
-uv tool install 'git+https://github.com/ytani01/yt_slide'          # measure と index
+uv tool install 'git+https://github.com/ytani01/yt_slide'          # video 以外
 uv tool install 'git+https://github.com/ytani01/yt_slide[video]'   # video も使う
 ```
+
+| サブコマンド | 何をする |
+|--------------|----------|
+| `ytslide init` | カレントディレクトリをスライドの置き場所として用意する（[User.md](docs/User.md#リポジトリの外に自分のスライドを置く)） |
+| `ytslide measure` | 読み上げ秒数を測り、`--write` で `duration` に書き戻す |
+| `ytslide index` | `slides/*.js` から `index.html` の一覧を作り直す |
+| `ytslide update` | `measure --all --write` のあと `index` まで続けて走らせる |
+| `ytslide video` | スライド一式を MP4 と `.srt` に書き出す |
+| `ytslide web` | カレントディレクトリを配り、手元のブラウザで見る |
 
 リポジトリのチェックアウトからなら `uv tool install '.[video]'`。
 `video` は Playwright（chromium）が重いので、既定の install には含めず
@@ -104,7 +113,7 @@ const slideData = [
 | `slides/<名前>.js` | スライドのデータ。`player.html?slides=<名前>` で読まれる |
 | `images/` | スライドに貼るビットマップ画像 |
 | `docs/` | 説明（下記） |
-| `src/ytslide/` | `ytslide` CLI 本体（`measure`・`index`・`video` など） |
+| `src/ytslide/` | `ytslide` CLI 本体（`init`・`measure`・`index`・`update`・`video`・`web`） |
 | `tests/` | `src/ytslide/` の自己テスト（`uv run pytest`） |
 | `pyproject.toml` | `ytslide` のパッケージ定義（`uv tool install` で使う） |
 | `archives/` | 決着した TODO 項目と、サブエージェントの報告。**現行仕様ではない** |

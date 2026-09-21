@@ -14,17 +14,19 @@
 | `slides/<名前>.js` | スライドデータ。`readme`・`user`・`developer`・`claude-memo`・`template` |
 | `images/` | スライドに貼るビットマップ画像。パスは `player.html` から見た相対 |
 | `src/ytslide/measure.py` | 読み上げ秒数の測定と `duration` への書き込み（`ytslide measure`） |
+| `src/ytslide/index.py` | `slides/*.js` から `index.html` の一覧を作る（`ytslide index`） |
 | `src/ytslide/video.py` | スライド一式を MP4 と `.srt` に書き出す（`ytslide video`） |
 | `tests/test_measure.py` | `measure.py` の書き込みと置換表の読み込みの自動確認 |
+| `tests/test_index.py` | `index.py` の `slidesConfig` の読み取りとマーカー間の差し替えの自動確認 |
 | `tests/test_video.py` | `video.py` の分割や字幕の組み立ての自動確認 |
+| `tests/test_cli.py` | `ytslide init` が置くファイルと、二度目に上書きしないことの自動確認 |
 
 **プレイヤー側（`player.html` と `slides/*.js`）はビルドも依存関係のインストールも
 不要。** インストールが要るのは `duration` の測定・`index.html` の生成・動画の
 書き出しを行う `ytslide` の CLI だけ
 （[README の「インストール」](../README.md#インストール)）。
-テストは `tests/test_measure.py` と `tests/test_video.py` の 2 本
-（`uv run pytest`）。Tailwind・Google Fonts・FontAwesome は CDN から
-読み込む（オフラインでは崩れる）。`public_html/` に置くため、ファイルを置くだけで
+テストは `tests/` の 4 本（`uv run pytest`）。
+Tailwind・Google Fonts・FontAwesome は CDN から読み込む（オフラインでは崩れる）。`public_html/` に置くため、ファイルを置くだけで
 公開される。
 
 確認はブラウザで `player.html` を開くだけ。
@@ -99,6 +101,7 @@
 そのスライド一式の `duration` に書き込む。**
 ナレーション編集後は
 `ytslide measure --slides <名前> --all --write` でまとめて更新できる。
+**`ytslide update --slides <名前>` は、これに続けて `ytslide index` まで走らせる。**
 
 置換表は `player.html` の `SPEECH_RULES` と
 スライド一式のファイルから読み込むため、複製ではない。ただし **`TTS_MAX_CHARS` と
