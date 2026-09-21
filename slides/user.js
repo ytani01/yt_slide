@@ -101,21 +101,23 @@ const slideData = [
     },
     // Slide 3
     {
-        title: '手順1 ファイルを作る',
-        duration: 11,
-        narration: 'player.html と同じディレクトリの slides フォルダに、名前.js を作ります。名前に使えるのは英数字とアンダースコアとハイフンだけです。',
+        title: '準備する',
+        duration: 15,
+        narration: 'まず ytslide をインストールします。作業用のディレクトリを作って移動し、ytslide init を実行します。これで player.html と index.html、slides フォルダが用意されます。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
                     <h2 class="font-bold text-sky-400 mb-[1.8cqw] flex items-center gap-[1cqw]" style="font-size: clamp(1.4rem, 3.2cqw, 2.5rem);">
-                        <i class="fa-solid fa-folder-plus text-lime-400"></i> 手順1: ファイルを作る
+                        <i class="fa-solid fa-screwdriver-wrench text-lime-400"></i> 準備する
                     </h2>
-                    <div class="bg-slate-900 border border-slate-800 rounded-xl p-[1.6cqw] text-center text-slate-100 font-mono font-bold mb-[1.5cqw]" style="font-size: clamp(1.0rem, 2.3cqw, 1.65rem);">
-                        slides/&lt;名前&gt;.js
+                    <div class="space-y-[0.9cqw] font-mono text-slate-100" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">
+                        <div class="bg-slate-900 border border-slate-800 rounded-xl p-[1.2cqw]">uv tool install 'git+https://github.com/ytani01/yt_slide'</div>
+                        <div class="bg-slate-900 border border-slate-800 rounded-xl p-[1.2cqw]">mkdir ~/my-slides &amp;&amp; cd ~/my-slides</div>
+                        <div class="bg-slate-900 border border-slate-800 rounded-xl p-[1.2cqw]">ytslide init</div>
                     </div>
-                    <div class="bg-amber-950/40 border border-amber-500/40 rounded-xl p-[1.3cqw] text-amber-300 flex items-center gap-[1.2cqw] font-medium" style="font-size: clamp(0.95rem, 2.0cqw, 1.5rem);">
+                    <div class="bg-amber-950/40 border border-amber-500/40 rounded-xl p-[1.3cqw] mt-[1.3cqw] text-amber-300 flex items-center gap-[1.2cqw] font-medium" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">
                         <i class="fa-solid fa-circle-info text-amber-400 flex-shrink-0" style="font-size: clamp(1.2rem, 2.4cqw, 1.8rem);"></i>
-                        <span>名前に使えるのは<strong class="text-amber-200">英数字・アンダースコア・ハイフン</strong>だけ。その他は無視される</span>
+                        <span><code>uv</code> が未導入なら、先に README の「インストール」を見る</span>
                     </div>
                 </div>
             `;
@@ -123,19 +125,20 @@ const slideData = [
     },
     // Slide 4
     {
-        title: '手順2 slidesConfig と slideData を書く',
-        duration: 4,
-        narration: 'ファイルの中に slidesConfig と slideData を書きます。',
+        title: '書いて確かめる',
+        duration: 17,
+        narration: 'User.md の最小例を slides/sample.js に保存し、まず 1 枚だけ自分の内容に直します。保存したら player.html?slides=sample をブラウザで開き、再読み込みして見た目と読み上げを確かめます。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
                     <h2 class="font-bold text-sky-400 mb-[1.8cqw] flex items-center gap-[1cqw]" style="font-size: clamp(1.4rem, 3.2cqw, 2.5rem);">
-                        <i class="fa-solid fa-list-ol text-lime-400"></i> 手順2: 中身を書く
+                        <i class="fa-solid fa-pen-to-square text-lime-400"></i> 書いて確かめる
                     </h2>
-                    <div class="bg-slate-800/80 border border-sky-500/50 p-[1.8cqw] rounded-xl text-center">
-                        <div class="text-sky-400 font-bold mb-[0.6cqw]" style="font-size: clamp(1.05rem, 2.2cqw, 1.6rem);">ファイルの中に 2 つ書く</div>
-                        <div class="text-slate-100 font-mono font-bold" style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);">slidesConfig</div>
-                        <div class="text-slate-100 font-mono font-bold" style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);">slideData</div>
+                    <div class="space-y-[1cqw]" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">
+                        <div class="bg-slate-900 border border-slate-800 rounded-xl p-[1.2cqw] text-slate-100 font-mono">slides/sample.js を作る</div>
+                        <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-[1.2cqw] text-slate-200 font-medium">題名・本文・ナレーションを自分用に直す。<code class="font-mono text-lime-400">duration</code> は省略せず、おおよその秒数でよい</div>
+                        <div class="bg-sky-950/40 border border-sky-500/40 rounded-xl p-[1.2cqw] text-sky-300 font-mono break-all">player.html?slides=sample</div>
+                        <div class="text-slate-300 font-medium flex items-center gap-[0.8cqw]"><i class="fa-solid fa-arrows-rotate text-lime-400"></i> 保存 → 再読み込み → 見た目と読み上げを確認 → 修正</div>
                     </div>
                 </div>
             `;
@@ -143,38 +146,18 @@ const slideData = [
     },
     // Slide 5
     {
-        title: '手順3 index.html を作り直す',
-        icon: 'fa-file-circle-plus',
-        duration: 10,
-        narration: 'slidesConfigにsummaryとiconを書いて、ytslide indexを走らせると、index.htmlの一覧が作り直されます。',
+        title: '一覧・仕上げ・共有',
+        duration: 15,
+        narration: '一覧から開きたいときは ytslide index を実行します。時間表示を合わせたいときだけ、ナレーションが固まってから update を 1 回実行します。共有は Web サーバーへ置くか、MP4 に書き出します。',
         body: `
-            <div class="bg-slate-800/80 border border-lime-500 p-[1.6cqw] rounded-xl shadow-lg shadow-lime-500/10 mb-[1.4cqw]">
-                <div class="text-lime-400 font-bold mb-[0.5cqw]" style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);">slidesConfig に summary と icon を書く</div>
-                <div class="text-slate-200 font-medium" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);"><code class="font-mono text-sky-300">summary</code> は一覧に出す説明文、<code class="font-mono text-sky-300">icon</code> は FontAwesome のクラス名</div>
-            </div>
-            <div class="bg-sky-950/40 border border-sky-500/40 rounded-xl p-[1.2cqw] text-sky-300 font-medium" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">
-                <code class="font-mono">ytslide index</code> を走らせると <code class="font-mono">index.html</code> の一覧が作り直される。走らせなくても
-                <code class="font-mono">player.html?slides=&lt;名前&gt;</code> で直接開ける
+            <div class="space-y-[1cqw]" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">
+                <div class="bg-slate-800/80 border border-lime-500 p-[1.2cqw] rounded-xl text-slate-200 font-medium"><code class="font-mono text-lime-400">ytslide index</code> — ファイルや一覧の説明・アイコンを変えたら、一覧を作り直す</div>
+                <div class="bg-sky-950/40 border border-sky-500/40 rounded-xl p-[1.2cqw] text-sky-300 font-medium"><code class="font-mono">ytslide update --slides sample</code> — 時間表示を合わせたいときだけ。測定して一覧も作り直す</div>
+                <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-[1.2cqw] text-slate-200 font-medium"><i class="fa-solid fa-share-nodes text-lime-400 mr-[0.7cqw]"></i>共有は Web サーバーへ置くか、<code class="font-mono">ytslide video</code> で MP4 にする</div>
             </div>
         `,
     },
     // Slide 6
-    {
-        title: '手順4 ブラウザで開く',
-        icon: 'fa-play',
-        duration: 6,
-        narration: 'ブラウザで player.html に slides パラメータを付けて開けば再生されます。',
-        body: `
-            <div class="bg-slate-800/80 border border-lime-500 p-[1.8cqw] rounded-xl text-center">
-                <div class="text-lime-400 font-bold mb-[0.6cqw]" style="font-size: clamp(1.05rem, 2.2cqw, 1.6rem);">ブラウザで開く</div>
-                <div class="text-slate-100 font-mono font-bold break-all" style="font-size: clamp(0.95rem, 2.0cqw, 1.5rem);">player.html?slides=&lt;名前&gt;</div>
-            </div>
-            <div class="mt-[1.5cqw] text-slate-400 font-medium" style="font-size: clamp(0.85rem, 1.7cqw, 1.25rem);">
-                <code class="bg-slate-900 px-[0.6cqw] py-[0.2cqw] rounded text-slate-300 font-mono">?slides=</code> を省くと <code class="bg-slate-900 px-[0.6cqw] py-[0.2cqw] rounded text-slate-300 font-mono">slides/readme.js</code> が読まれる
-            </div>
-        `,
-    },
-    // Slide 7
     {
         title: 'slideData の中身',
         duration: 10,
@@ -193,7 +176,7 @@ const slideData = [
                         </div>
                         <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-[1.1cqw] flex items-center gap-[1.2cqw]">
                             <span class="font-mono font-bold text-lime-400 w-[15cqw] flex-shrink-0" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">duration</span>
-                            <span class="text-slate-200 font-medium" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">このスライドの秒数（実測値を入れる）</span>
+                            <span class="text-slate-200 font-medium" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">このスライドのおおよその秒数。省略しない</span>
                         </div>
                         <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-[1.1cqw] flex items-center gap-[1.2cqw]">
                             <span class="font-mono font-bold text-amber-400 w-[15cqw] flex-shrink-0" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">narration</span>
@@ -208,7 +191,7 @@ const slideData = [
             `;
         }
     },
-    // Slide 8
+    // Slide 7
     {
         title: '番号と枚数は自動',
         duration: 9,
@@ -220,7 +203,7 @@ const slideData = [
                         <i class="fa-solid fa-wand-magic-sparkles text-lime-400"></i> 番号と枚数は自動
                     </h2>
                     <div class="bg-slate-900 border border-slate-800 rounded-xl p-[1.6cqw] text-center text-slate-200 font-mono font-bold mb-[1.6cqw]" style="font-size: clamp(1.0rem, 2.2cqw, 1.6rem);">
-                        SLIDE 01 / 17
+                        SLIDE 01 / 16
                     </div>
                     <div class="grid grid-cols-2 gap-[1.6cqw]">
                         <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-[1.4cqw] text-center">
@@ -236,7 +219,7 @@ const slideData = [
             `;
         }
     },
-    // Slide 9
+    // Slide 8
     {
         title: 'body で書く',
         icon: 'fa-pen',
@@ -253,7 +236,7 @@ const slideData = [
             </div>
         `,
     },
-    // Slide 10
+    // Slide 9
     {
         title: 'render() の書き方',
         duration: 14,
@@ -282,7 +265,7 @@ const slideData = [
             `;
         }
     },
-    // Slide 11
+    // Slide 10
     {
         title: '近い見た目をコピーする',
         duration: 9,
@@ -297,7 +280,7 @@ const slideData = [
                         <a href="https://github.com/ytani01/yt_slide/blob/main/slides/template.js" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="block no-underline bg-slate-800/60 border border-slate-700 rounded-xl p-[1.8cqw] text-center">
                             <i class="fa-solid fa-shapes text-sky-400 mb-[0.8cqw]" style="font-size: clamp(1.8rem, 4cqw, 2.8rem);"></i>
                             <div class="text-slate-100 font-bold" style="font-size: clamp(1.05rem, 2.3cqw, 1.7rem);">template.js</div>
-                            <div class="text-slate-300 mt-[0.4cqw] font-medium" style="font-size: clamp(0.85rem, 1.8cqw, 1.3rem);">型の見本 15 種から近いものを選ぶ</div>
+                            <div class="text-slate-300 mt-[0.4cqw] font-medium" style="font-size: clamp(0.85rem, 1.8cqw, 1.3rem);">次の見た目を整えるときに、型の見本 19 種から選ぶ</div>
                         </a>
                         <a href="https://github.com/ytani01/yt_slide/blob/main/docs/User.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="block no-underline bg-slate-800/60 border border-slate-700 rounded-xl p-[1.8cqw] text-center">
                             <i class="fa-solid fa-book text-lime-400 mb-[0.8cqw]" style="font-size: clamp(1.8rem, 4cqw, 2.8rem);"></i>
@@ -309,11 +292,11 @@ const slideData = [
             `;
         }
     },
-    // Slide 12
+    // Slide 11
     {
         title: 'duration の測り方',
-        duration: 9,
-        narration: 'duration には、読み上げ音声を測った秒数を入れます。ytslide measure に文章を渡すと、そのまま使える秒数が出ます。',
+        duration: 11,
+        narration: 'duration はおおよその秒数でよく、最初から測定は要りません。時間表示を合わせたいときは、ナレーションが固まってから ytslide measure で測れます。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
@@ -321,38 +304,38 @@ const slideData = [
                         <i class="fa-solid fa-stopwatch text-lime-400"></i> duration の測り方
                     </h2>
                     <div class="bg-slate-900 border border-slate-800 rounded-xl p-[1.4cqw] font-mono text-slate-200 mb-[1.4cqw] break-all" style="font-size: clamp(0.8rem, 1.7cqw, 1.25rem);">
-                        ytslide measure --text '文章'
+                        ytslide measure --slides sample --text '文章'
                     </div>
                     <div class="bg-slate-800/60 border border-slate-700/80 rounded-xl p-[1.3cqw] text-slate-200 font-medium" style="font-size: clamp(0.95rem, 2.0cqw, 1.5rem);">
-                        <i class="fa-solid fa-arrow-right text-lime-400 mr-[0.6cqw]"></i>出てきた <span class="font-mono text-lime-400 font-bold">duration: 2</span> の値をそのまま書けばよい
+                        <i class="fa-solid fa-arrow-right text-lime-400 mr-[0.6cqw]"></i>出てきた <span class="font-mono text-lime-400 font-bold">duration: 2</span> の値を、必要ならそのまま書けばよい
+                    </div>
+                </div>
+            `;
+        }
+    },
+    // Slide 12
+    {
+        title: '仕上げでまとめて書き換える',
+        duration: 11,
+        narration: 'ナレーションが固まって時間表示を合わせたいときは、ytslide update を 1 回実行します。測った結果で duration を直接書き換え、一覧も作り直します。',
+        render: function() {
+            return `
+                <div class="flex flex-col h-full justify-center px-[3cqw]">
+                    <h2 class="font-bold text-sky-400 mb-[1.6cqw] flex items-center gap-[1cqw]" style="font-size: clamp(1.4rem, 3.2cqw, 2.5rem);">
+                        <i class="fa-solid fa-rotate text-lime-400"></i> 仕上げでまとめて書き換える
+                    </h2>
+                    <div class="bg-slate-900 border border-slate-800 rounded-xl p-[1.4cqw] font-mono text-slate-200 mb-[1.4cqw] break-all" style="font-size: clamp(0.85rem, 1.8cqw, 1.3rem);">
+                        ytslide update --slides sample
+                    </div>
+                    <div class="bg-rose-950/40 border border-rose-500/40 rounded-xl p-[1.1cqw] text-rose-300 flex items-center gap-[1cqw] font-medium" style="font-size: clamp(0.85rem, 1.8cqw, 1.3rem);">
+                        <i class="fa-solid fa-triangle-exclamation text-rose-400 flex-shrink-0" style="font-size: clamp(1.1rem, 2.2cqw, 1.6rem);"></i>
+                        <span>Online TTS で測定するため <code class="bg-slate-950 px-[0.5cqw] py-[0.1cqw] rounded font-mono">curl</code> と <code class="bg-slate-950 px-[0.5cqw] py-[0.1cqw] rounded font-mono">ffprobe</code> が要る</span>
                     </div>
                 </div>
             `;
         }
     },
     // Slide 13
-    {
-        title: 'まとめて書き換える',
-        duration: 9,
-        narration: 'ytslide measure に write を付けて実行すると、測った結果で duration を直接書き換えてくれます。変わった枚だけ表示されます。',
-        render: function() {
-            return `
-                <div class="flex flex-col h-full justify-center px-[3cqw]">
-                    <h2 class="font-bold text-sky-400 mb-[1.6cqw] flex items-center gap-[1cqw]" style="font-size: clamp(1.4rem, 3.2cqw, 2.5rem);">
-                        <i class="fa-solid fa-rotate text-lime-400"></i> まとめて書き換える
-                    </h2>
-                    <div class="bg-slate-900 border border-slate-800 rounded-xl p-[1.4cqw] font-mono text-slate-200 mb-[1.4cqw] break-all" style="font-size: clamp(0.85rem, 1.8cqw, 1.3rem);">
-                        ytslide measure --slides &lt;名前&gt; --all --write
-                    </div>
-                    <div class="bg-rose-950/40 border border-rose-500/40 rounded-xl p-[1.1cqw] text-rose-300 flex items-center gap-[1cqw] font-medium" style="font-size: clamp(0.85rem, 1.8cqw, 1.3rem);">
-                        <i class="fa-solid fa-triangle-exclamation text-rose-400 flex-shrink-0" style="font-size: clamp(1.1rem, 2.2cqw, 1.6rem);"></i>
-                        <span><code class="bg-slate-950 px-[0.5cqw] py-[0.1cqw] rounded font-mono">--write</code> を付けずに実行すれば、書き換えずに秒数だけ確認できる</span>
-                    </div>
-                </div>
-            `;
-        }
-    },
-    // Slide 14
     {
         title: 'まとめ',
         duration: 10,
@@ -381,7 +364,7 @@ const slideData = [
             `;
         }
     },
-    // Slide 15
+    // Slide 14
     {
         title: 'アイコン名の例 1 - 一覧・注意・手順',
         icon: 'fa-icons',
@@ -389,7 +372,7 @@ const slideData = [
         narration: 'ここからは icon に書けるアイコン名の例です。まずは箇条書き、注意や禁止、手順を示すものです。',
         body: iconTable(ICON_GROUPS.slice(0, 3)),
     },
-    // Slide 16
+    // Slide 15
     {
         title: 'アイコン名の例 2 - コード・文書・時間',
         icon: 'fa-icons',
@@ -397,7 +380,7 @@ const slideData = [
         narration: 'コードや端末の画面、ファイルや文書、時間と計測を表すものです。名前を間違えるとアイコンは何も出ません。',
         body: iconTable(ICON_GROUPS.slice(3, 6)),
     },
-    // Slide 17
+    // Slide 16
     {
         title: 'アイコン名の例 3 - 人・図解・強調',
         icon: 'fa-icons',

@@ -28,37 +28,43 @@
 `player.html?slides=<名前>` で `slides/<名前>.js` を読む。`?slides=` を省くと
 このリポジトリの紹介（`slides/readme.js`）が流れる。
 
-自分で作ったスライドも `player.html?slides=<名前>` で開ける。ただし
-スライドの一覧（`index.html`）には自動では出ない。出すには
-`slidesConfig` に `summary` と `icon` を書いて `ytslide index` を
-走らせる（[User.md の手順](docs/User.md#手順)）。
+自分のスライドを作るときは、下の[「自分のスライドを作る」](#自分のスライドを作る)へ進む。
 
 ## インストール
 
 **見るだけならブラウザだけ。** インストールは要らない（ネット接続は要る）。
 
-インストールが要るのは、`duration` を測る・`index.html` を作り直す・
-動画に書き出す `ytslide` の CLI を使うときだけ。
+自分の作業場所を用意する手順では、`ytslide` CLI を使う。
+[uv の公式手順](https://docs.astral.sh/uv/getting-started/installation/)で
+`uv` を入れ、次を実行する。Python 3.13 以上が必要。
 
 ```bash
 uv tool install 'git+https://github.com/ytani01/yt_slide'          # video 以外
 uv tool install 'git+https://github.com/ytani01/yt_slide[video]'   # video も使う
 ```
 
-| サブコマンド | 何をする |
+| サブコマンド | 使う場面 |
 |--------------|----------|
-| `ytslide init` | カレントディレクトリをスライドの置き場所として用意する（[User.md](docs/User.md#リポジトリの外に自分のスライドを置く)） |
-| `ytslide measure` | 読み上げ秒数を測り、`--write` で `duration` に書き戻す |
-| `ytslide index` | `slides/*.js` から `index.html` の一覧を作り直す |
-| `ytslide update` | `measure --all --write` のあと `index` まで続けて走らせる |
-| `ytslide video` | スライド一式を MP4 と `.srt` に書き出す |
-| `ytslide web` | カレントディレクトリを配り、手元のブラウザで見る |
+| `ytslide init` | 最初に、自分の作業ディレクトリへプレイヤーと型の見本を用意する |
+| `ytslide index` | 一覧から開きたいとき、`slides/*.js` から `index.html` を作り直す |
+| `ytslide measure` | 読み上げ秒数だけを測る。`--write` で `duration` に書き戻せる |
+| `ytslide update` | 時間表示を合わせる仕上げに、`measure --all --write` と `index` を続けて実行する |
+| `ytslide web` | HTTP で確認したいとき、作業ディレクトリを配信する（ブラウザは自分で開く） |
+| `ytslide video` | 動画で渡したいとき、MP4 と `.srt` に書き出す |
+
+`measure`・`update`・`video` には `--slides sample` のように対象を指定する。
+省略すると `readme` を探すが、`init` した場所には `readme.js` は無い。
+`update` は `measure` と `index` を続けて実行するだけなので、
+測定だけ・一覧だけが要るときは `measure`・`index` を単独で使う。
 
 リポジトリのチェックアウトからなら `uv tool install '.[video]'`。
 `video` は Playwright（chromium）が重いので、既定の install には含めず
 extra に分けている。
 
 ## 必要なもの
+
+最初の 1 枚を作ってブラウザで見る段階では、以下の追加準備は要らない。
+測定や動画書き出しを使うときに用意する。
 
 - `ytslide measure` — `curl`・`ffprobe`
 - `ytslide video` — 加えて `ffmpeg`・Playwright（Python, chromium）。
@@ -74,23 +80,63 @@ playwright 1.63.0 で確認した。他の OS では入れ方を読み替える�
 
 ## 自分のスライドを作る
 
-**`player.html` は触らない。** `slides/` に JavaScript を 1 つ足すだけ。
+[インストール](#インストール)を済ませ、ターミナルで自分の作業場所を作る。
+以下のコマンドは `~/my-slides` で実行する。
 
-```javascript
-const slidesConfig = { title: 'ブラウザのタブに出る名前', heading: '画面上部の見出し' };
+```bash
+mkdir ~/my-slides
+cd ~/my-slides
+ytslide init
+```
+
+`player.html`・`index.html`・`slides/template.js` ができる。
+テキストエディターで `~/my-slides/slides/sample.js` を新規作成し、
+次を貼り付けて保存する。本文とナレーションを自分の内容に直せば、最初の 1 枚になる。
+
+```js
+const slidesConfig = {
+    title: 'サンプル',
+    heading: 'サンプルのスライド',
+};
 
 const slideData = [
     {
-        title: '1 枚目',                 // 見出しに出る
-        duration: 10,                    // 読み上げにかかる秒数
-        narration: 'ここが読み上げられ、字幕にも出ます。',
-        body: `<p class="text-2xl">好きな HTML を書く</p>`,
+        title: 'はじめに',
+        icon: 'fa-flag-checkered',
+        duration: 5,
+        narration: 'これはサンプルのスライドです。',
+        body: `
+            <p class="text-slate-200"
+               style="font-size: clamp(1.15rem, 2.8cqw, 2.1rem);">
+                本文はここに書く
+            </p>
+        `,
     },
 ];
 ```
 
-`duration` は目分量で決めず、`ytslide measure --slides <名前> --all --write`
-で実測値を入れる。手順は [docs/User.md](docs/User.md) にある。
+`duration` は省略せず、最初はおおよその秒数でよい。
+`~/my-slides/player.html` をブラウザで開き、アドレス末尾に
+`?slides=sample` を付けて Enter を押す。再生ボタンで読み上げを確認する。
+**表示確認にもネット接続が要る。**
+
+普段は `sample.js` を編集・保存し、ブラウザを再読み込みして確かめる。
+見た目を整えるなら、`slides/template.js` の使いたい型をコピーする。
+以下は必要になったときだけ行う。
+
+- 一覧から開く: `ytslide index` を実行し、`index.html` を開く。
+  `summary`・`icon` を省いても一覧に載る（警告が出る）。
+- 時間表示を合わせる: [追加準備](#必要なもの)のあと
+  `ytslide update --slides sample`。Online TTS で全枚を測って `duration` を
+  書き換え、一覧も作り直す。本文だけの修正には測定も一覧更新も要らない。
+- HTTP で確認する: `ytslide web` を実行し、自分で
+  `http://localhost:8000/player.html?slides=sample` を開く。終了は Ctrl-C。
+- 共有する: [Web サーバーへの公開](docs/User.md#公開)か、
+  [動画への書き出し](#動画に書き出す)へ進む。
+
+詳しい操作と、同じ LAN の別端末での確認は [docs/User.md](docs/User.md#手順)にある。
+リポジトリを clone して中で作る場合は、そこにある `player.html` と `slides/`
+をそのまま使い、`slides/sample.js` の作成から始められる。
 
 ## 入っているスライド
 
@@ -130,7 +176,7 @@ Tailwind・Google Fonts・FontAwesome・読み上げの音声は外部から取�
 URL を渡せない相手（メール添付、YouTube、オフラインの上映）には、MP4 に書き出して渡す。
 
 ```bash
-ytslide video --slides readme   # video/readme.mp4 と video/readme.srt
+ytslide video --slides sample   # video/sample.mp4 と video/sample.srt
 ```
 
 前提のパッケージは[「必要なもの」](#必要なもの)にある。書き出しには
