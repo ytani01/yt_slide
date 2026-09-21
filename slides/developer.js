@@ -5,7 +5,7 @@
 const slidesConfig = {
     title: 'player.html を直す人へ - 開発者向けガイド',
     heading: 'player.html を直す人へ',
-    // index.html の一覧に出す説明とアイコン（tools/make-index.py が読む。TODO-089）
+    // index.html の一覧に出す説明とアイコン（ytslide index が読む。TODO-089）
     summary: '<span class="font-mono">player.html</span> の作り',
     icon: 'fa-code',
     // このスライド一式だけの読みの置換表（TODO-054）。共通は player.html
@@ -51,8 +51,8 @@ const slideData = [
     // Slide 2
     {
         title: 'リポジトリの構成',
-        duration: 17,
-        narration: 'リポジトリの中身は player.html が本体、slides の下にスライドデータ、tools に duration を測るスクリプトと、動画に書き出すスクリプトがあります。ビルドも依存関係のインストールも不要で、CDN から Tailwind などを読み込みます。',
+        duration: 21,
+        narration: 'リポジトリの中身は player.html が本体、slides の下にスライドデータがあります。duration を測ったり動画に書き出したりするコマンドは、ytslide という CLI をインストールして使います。プレイヤー自体はビルドも依存関係のインストールも不要で、CDN から Tailwind などを読み込みます。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
@@ -62,13 +62,13 @@ const slideData = [
                     <div class="overflow-x-auto rounded-xl border border-slate-700/80 mb-[1.2cqw]">
                         <table class="w-full text-left text-slate-200" style="font-size: clamp(0.9rem, 1.95cqw, 1.4rem);">
                             <thead class="bg-slate-800 text-sky-400 font-bold border-b border-slate-700">
-                                <tr><th class="p-[1cqw]">ファイル</th><th class="p-[1cqw]">役割</th></tr>
+                                <tr><th class="p-[1cqw]">ファイル・コマンド</th><th class="p-[1cqw]">役割</th></tr>
                             </thead>
                             <tbody class="divide-y divide-slate-800 bg-slate-900/40 font-medium">
                                 <tr><td class="p-[1cqw] font-mono text-lime-400">player.html</td><td class="p-[1cqw]">外枠の HTML・CSS と再生ロジック。これ1つが本体</td></tr>
                                 <tr><td class="p-[1cqw] font-mono text-lime-400">slides/&lt;名前&gt;.js</td><td class="p-[1cqw]">スライドのデータ</td></tr>
-                                <tr><td class="p-[1cqw] font-mono text-sky-400">tools/measure-duration.py</td><td class="p-[1cqw]">読み上げ秒数を測り duration に書き込む</td></tr>
-                                <tr><td class="p-[1cqw] font-mono text-sky-400">tools/make-video.py</td><td class="p-[1cqw]">スライド一式を MP4 と .srt に書き出す</td></tr>
+                                <tr><td class="p-[1cqw] font-mono text-sky-400">ytslide measure</td><td class="p-[1cqw]">読み上げ秒数を測り duration に書き込む</td></tr>
+                                <tr><td class="p-[1cqw] font-mono text-sky-400">ytslide video</td><td class="p-[1cqw]">スライド一式を MP4 と .srt に書き出す</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -172,7 +172,7 @@ const slideData = [
     {
         title: 'duration は実測値',
         duration: 12,
-        narration: 'durationにはOnline TTSの音声を実際に測った秒数を入れています。読み上げの置換表を直したら、対象のスライドのdurationをmeasure-duration.pyで測り直してください。',
+        narration: 'durationにはOnline TTSの音声を実際に測った秒数を入れています。読み上げの置換表を直したら、対象のスライドのdurationをytslide measureで測り直してください。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
@@ -183,7 +183,7 @@ const slideData = [
                         Online TTS の音声を BASE_SPEED_MULTIPLIER 倍で再生した実測秒数を入れる。目分量ではない。
                     </p>
                     <div class="bg-slate-900 border border-slate-800 rounded-xl p-[1.2cqw] font-mono text-slate-200 mb-[1.2cqw]" style="font-size: clamp(0.85rem, 1.8cqw, 1.3rem);">
-                        tools/measure-duration.py --slides &lt;名前&gt; --all --write
+                        ytslide measure --slides &lt;名前&gt; --all --write
                     </div>
                     <div class="bg-amber-950/40 border border-amber-500/40 rounded-xl p-[1.2cqw] text-amber-300 font-medium flex items-center gap-[1cqw]" style="font-size: clamp(0.9rem, 1.85cqw, 1.35rem);">
                         <i class="fa-solid fa-triangle-exclamation text-amber-400 flex-shrink-0"></i>

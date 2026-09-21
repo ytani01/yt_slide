@@ -790,7 +790,7 @@
         // 全スライド共通の読みの置換表（TODO-054）。
         // スライド一式だけの語は slides/<名前>.js の slidesConfig.rules に書く。
         // 当てる順はスライド一式側が先、ここが後（スライド一式側で読みを上書きできる）。
-        // tools/measure-duration.py もこの表を読む。
+        // ytslide measure もこの表を読む。
         const SPEECH_RULES = [
             [/TODO\.md/gi, 'トゥードゥー ドット エムディー'],
             [/TODO-([0-9]+)/gi, 'トゥードゥー $1'],
@@ -800,7 +800,7 @@
             [/Claude/gi, 'クロード'],
             [/考え方/g, 'かんがえかた'],
             [/使い方/g, 'つかいかた'],
-            [/measure-duration\.py/gi, 'メジャー デュレーション ドット パイ'],
+            [/ytslide/gi, 'ワイティー スライド'],
             [/player\.html/gi, 'プレイヤー ドット エイチティーエムエル'],
             [/User\.md/gi, 'ユーザー ドット エムディー'],
             [/slideData/gi, 'スライドデータ'],

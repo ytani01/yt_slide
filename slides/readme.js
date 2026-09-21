@@ -4,7 +4,7 @@
 const slidesConfig = {
     title: 'yt_slide - ファイル 2 つで動くナレーション付きプレゼン',
     heading: 'yt_slide の紹介',
-    // index.html の一覧に出す説明とアイコン（tools/make-index.py が読む。TODO-089）
+    // index.html の一覧に出す説明とアイコン（ytslide index が読む。TODO-089）
     summary: 'このリポジトリの紹介',
     icon: 'fa-book-open',
     // このスライド一式だけの読みの置換表（TODO-054）。共通は player.html
@@ -213,7 +213,7 @@ const slideData = [
     {
         title: 'duration の測り方',
         duration: 7,
-        narration: 'duration は目分量で決めません。measure-duration.py というツールで実際の読み上げ秒数を測って入れます。',
+        narration: 'duration は目分量で決めません。ytslide measure というコマンドで実際の読み上げ秒数を測って入れます。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
@@ -221,7 +221,7 @@ const slideData = [
                         <i class="fa-solid fa-stopwatch text-lime-400"></i> duration の測り方
                     </h2>
                     <div class="bg-slate-950 border border-slate-800 rounded-xl p-[1.4cqw] font-mono text-slate-200 space-y-[0.5cqw]" style="font-size: clamp(0.82rem, 1.75cqw, 1.3rem);">
-                        <div><span class="text-lime-400">$</span> tools/measure-duration.py --slides user --all --write</div>
+                        <div><span class="text-lime-400">$</span> ytslide measure --slides user --all --write</div>
                         <div class="text-slate-400">スライド 7: duration 23 -&gt; 12</div>
                         <div class="text-slate-400">user.js: 1 枚を書き換えた</div>
                     </div>

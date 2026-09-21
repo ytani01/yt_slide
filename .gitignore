@@ -9,5 +9,9 @@ __pycache__/
 *.py[cod]
 .venv/
 
-# make-video.py の書き出し先
+# ytslide のビルド成果物
+/dist/
+*.egg-info/
+
+# ytslide video の書き出し先
 /video/

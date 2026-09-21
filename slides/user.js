@@ -5,7 +5,7 @@
 const slidesConfig = {
     title: 'player.html で別のスライドを作る - 使い方',
     heading: '新しいスライドを作る手順',
-    // index.html の一覧に出す説明とアイコン（tools/make-index.py が読む。TODO-089）
+    // index.html の一覧に出す説明とアイコン（ytslide index が読む。TODO-089）
     summary: 'スライドの作り方',
     icon: 'fa-pen-ruler',
     // このスライド一式だけの読みの置換表（TODO-054）。共通は player.html
@@ -145,15 +145,15 @@ const slideData = [
     {
         title: '手順3 index.html を作り直す',
         icon: 'fa-file-circle-plus',
-        duration: 11,
-        narration: 'slidesConfigにsummaryとiconを書いて、tools/make-index.pyを走らせると、index.htmlの一覧が作り直されます。',
+        duration: 10,
+        narration: 'slidesConfigにsummaryとiconを書いて、ytslide indexを走らせると、index.htmlの一覧が作り直されます。',
         body: `
             <div class="bg-slate-800/80 border border-lime-500 p-[1.6cqw] rounded-xl shadow-lg shadow-lime-500/10 mb-[1.4cqw]">
                 <div class="text-lime-400 font-bold mb-[0.5cqw]" style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);">slidesConfig に summary と icon を書く</div>
                 <div class="text-slate-200 font-medium" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);"><code class="font-mono text-sky-300">summary</code> は一覧に出す説明文、<code class="font-mono text-sky-300">icon</code> は FontAwesome のクラス名</div>
             </div>
             <div class="bg-sky-950/40 border border-sky-500/40 rounded-xl p-[1.2cqw] text-sky-300 font-medium" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">
-                <code class="font-mono">tools/make-index.py</code> を走らせると <code class="font-mono">index.html</code> の一覧が作り直される。走らせなくても
+                <code class="font-mono">ytslide index</code> を走らせると <code class="font-mono">index.html</code> の一覧が作り直される。走らせなくても
                 <code class="font-mono">player.html?slides=&lt;名前&gt;</code> で直接開ける
             </div>
         `,
@@ -312,8 +312,8 @@ const slideData = [
     // Slide 12
     {
         title: 'duration の測り方',
-        duration: 10,
-        narration: 'duration には、読み上げ音声を測った秒数を入れます。measure-duration.py に文章を渡すと、そのまま使える秒数が出ます。',
+        duration: 9,
+        narration: 'duration には、読み上げ音声を測った秒数を入れます。ytslide measure に文章を渡すと、そのまま使える秒数が出ます。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
@@ -321,7 +321,7 @@ const slideData = [
                         <i class="fa-solid fa-stopwatch text-lime-400"></i> duration の測り方
                     </h2>
                     <div class="bg-slate-900 border border-slate-800 rounded-xl p-[1.4cqw] font-mono text-slate-200 mb-[1.4cqw] break-all" style="font-size: clamp(0.8rem, 1.7cqw, 1.25rem);">
-                        tools/measure-duration.py --text '文章'
+                        ytslide measure --text '文章'
                     </div>
                     <div class="bg-slate-800/60 border border-slate-700/80 rounded-xl p-[1.3cqw] text-slate-200 font-medium" style="font-size: clamp(0.95rem, 2.0cqw, 1.5rem);">
                         <i class="fa-solid fa-arrow-right text-lime-400 mr-[0.6cqw]"></i>出てきた <span class="font-mono text-lime-400 font-bold">duration: 2</span> の値をそのまま書けばよい
@@ -334,7 +334,7 @@ const slideData = [
     {
         title: 'まとめて書き換える',
         duration: 9,
-        narration: 'measure-duration.py に write を付けて実行すると、測った結果で duration を直接書き換えてくれます。変わった枚だけ表示されます。',
+        narration: 'ytslide measure に write を付けて実行すると、測った結果で duration を直接書き換えてくれます。変わった枚だけ表示されます。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
@@ -342,7 +342,7 @@ const slideData = [
                         <i class="fa-solid fa-rotate text-lime-400"></i> まとめて書き換える
                     </h2>
                     <div class="bg-slate-900 border border-slate-800 rounded-xl p-[1.4cqw] font-mono text-slate-200 mb-[1.4cqw] break-all" style="font-size: clamp(0.85rem, 1.8cqw, 1.3rem);">
-                        tools/measure-duration.py --slides &lt;名前&gt; --all --write
+                        ytslide measure --slides &lt;名前&gt; --all --write
                     </div>
                     <div class="bg-rose-950/40 border border-rose-500/40 rounded-xl p-[1.1cqw] text-rose-300 flex items-center gap-[1cqw] font-medium" style="font-size: clamp(0.85rem, 1.8cqw, 1.3rem);">
                         <i class="fa-solid fa-triangle-exclamation text-rose-400 flex-shrink-0" style="font-size: clamp(1.1rem, 2.2cqw, 1.6rem);"></i>

@@ -1,81 +1,14 @@
 # TODO
 
-**残っている項目: TODO-096。** これまでに 95 件を決着させた。
+**残っている項目は無い。** これまでに 96 件を決着させた。
 新しく足すときは「完了済み」の上に節を作る。**番号は `TODO-097` から。**
-
----
-
-## TODO-096. `ytslide` コマンド 1 つで扱えるようにする
-
-|      | main | 担当 |
-|------|------|------|
-| 見込み | Opus 5 / effort high | implementer + reviewer + verifier |
-
-- [ ] `src/ytslide/` に click のサブコマンドとして作り直す
-- [ ] `tools/*.py` と `tools/test_*.py` を移して `tools/` を消す
-- [ ] `uv tool install .` で `ytslide` が入るようにする
-- [ ] `tools/` を指す記述を書き換える
-
-### きっかけ
-
-スライドを作る側は `tools/measure-duration.py`、`tools/make-index.py`、
-`tools/make-video.py` を別々に、リポジトリからの相対パスで呼んでいる。
-TODO-095 でリポジトリの外に置けるようにしたので、外から使うときは
-スクリプトの場所を知っている必要がある。`uv tool install .` で入る
-1 つのコマンドにまとめる。
-
-### サブコマンド
-
-- `ytslide init` — カレントディレクトリを初期化する
-  - `slides/` を作る
-  - `slides/template.js` を置く
-  - `player.html` をコピーする
-  - `index.html` を生成する
-  - 空の `README.md` を作る
-- `ytslide measure` — `tools/measure-duration.py` 相当
-- `ytslide index` — `tools/make-index.py` 相当
-- `ytslide update` — `measure` と `index` を続けて実行する
-- `ytslide video` — `tools/make-video.py` 相当
-- `ytslide web` — ローカルの web サーバーを起動する（`http.server` で足りる）。
-  確認用で、公開は外部のサーバーへ必要なファイルを上げる想定
-
-### 決めたこと
-
-`~/work/tmr/` に倣う。`src/ytslide/` を作り、`click_utils.py` と `mylog.py` は
-そちらから持ってくる。バージョンは hatch-vcs で git のタグと連携させる
-（このリポジトリのタグは 14 個、最新は 0.7.1）。
-
-- **CLI は click に書き直す。** 今の 3 本は argparse。`--root` `--slides`
-  `--write` `-n` などの既存のオプションは、名前と意味をそのまま移す
-- **`tools/*.py` は `src/ytslide/` へ移し、`tools/` は消す。**
-  `tools/test_*.py` 3 本も一緒に移す。同じ処理が 2 か所に残らないようにする
-- **`init` は `player.html` のコピーと `index.html` の生成までやる。**
-  TODO-095 では「書いていないファイルが出来上がるより、利用者がコピーする
-  ほうが分かりやすい」として自動生成を見送った。ここではその判断を覆す。
-  `init` という名前のコマンドを明示的に叩いたときに一式そろうなら、
-  勝手に出来上がったことにはならない。`player.html` と `index.html` は
-  パッケージのデータとして同梱する
-
-### 巻き込む範囲
-
-`tools/` を指す記述が archives の外に 61 か所ある。
-
-```
-grep -rn "tools/" --include="*.md" --include="*.js" --include="*.html" . | grep -v archives/
-```
-
-`AGENTS.md`、`CLAUDE.md`、`README.md`、`docs/User.md`、`docs/Developer.md`、
-`index.html`、`player.html`、`slides/` の 5 本（`readme.js`、`user.js`、
-`developer.js`、`template.js`、`claude-memo.js`）。スライドは読み上げの
-`duration` を持つので、文言を変えたら測り直しが要る。
-
----
 
 ## 完了済み
 
 1 項目 1 ファイル。`archives/todo/` にある（新しい順）。
 **やらないと決めたものの理由も記載してある。** 蒸し返す前に読むこと。
 
+- [**TODO-096.** `ytslide` コマンド 1 つで扱えるようにする](archives/todo/TODO-096.%20ytslide%20コマンド%201%20つで扱えるようにする.md)
 - [**TODO-095.** リポジトリの外に自分のスライドを置けるようにする](archives/todo/TODO-095.%20リポジトリの外に自分のスライドを置けるようにする.md)
 - [**TODO-094.** `duration` を戻す案内が git を前提にしている](archives/todo/TODO-094.%20duration%20を戻す案内が%20git%20を前提にしている.md)
 - [**TODO-093.** `index.html` に `README.md` を載せる](archives/todo/TODO-093.%20index.html%20に%20README.md%20を載せる.md)

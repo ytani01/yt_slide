@@ -60,7 +60,7 @@
    （`<名前>` は英数字・`_`・`-` のみ。その他は無視される）
 2. `slidesConfig` と `slideData` を書く（下記）。一覧に出したいなら
    `summary` と `icon` も書く
-3. `tools/make-index.py` を走らせ、`index.html` の一覧を作り直す
+3. `ytslide index` を走らせ、`index.html` の一覧を作り直す
 4. ブラウザで `player.html?slides=<名前>` を開く
 
 `?slides=` を省くと `slides/readme.js` を読む。読み込みに失敗した場合、
@@ -105,7 +105,7 @@ const slideData = [
 `duration` の合計から自動で計算される。
 
 `slidesConfig` の `summary`・`icon` は `index.html` の一覧専用で、
-`player.html` の再生には関わらない。`tools/make-index.py` を走らせると、
+`player.html` の再生には関わらない。`ytslide index` を走らせると、
 `slides/` にある `_` で始まらないファイルすべてから読み、
 `index.html` のマーカーコメントの間の `<li>` を作り直す（並びは
 `readme` を先頭、残りはファイル名の辞書順）。一覧に出したくないスライドは
@@ -208,12 +208,12 @@ const slideData = [
 **ただし、省略はしない。** 1 枚でも `duration` が無いと総時間の計算が崩れ、
 そのスライド一式の残り時間と進行バーが**すべて表示されなくなる**。
 
-ぴったり合わせたいときは `tools/measure-duration.py` で測る。出るのは
+ぴったり合わせたいときは `ytslide measure` で測る。出るのは
 **Online TTS の音声を `BASE_SPEED_MULTIPLIER` 倍で再生した実測秒数**。
 **`--text` に文章を渡すと、どのスライド一式でも測定できる。**
 
 ```bash
-$ tools/measure-duration.py --text 'ここに読み上げる文章'
+$ ytslide measure --text 'ここに読み上げる文章'
 下書き: 原文 10 字 / 読み 10 字 / 実測 2.376s / BASE_SPEED_MULTIPLIER=1.4 倍速 1.70s -> duration: 2
 ```
 
@@ -224,7 +224,7 @@ $ tools/measure-duration.py --text 'ここに読み上げる文章'
 （省くと `readme`）。`--write` を付けると、`duration` を直接書き換える。
 
 ```bash
-$ tools/measure-duration.py --slides user --all --write
+$ ytslide measure --slides user --all --write
 （11 枚の測定結果）
 スライド 7: duration 23 -> 12
 user.js: 1 枚を書き換えた
@@ -239,7 +239,7 @@ Online TTS の秒数は毎回同じとは限らないので、揺れが気にな
 書くときの注意:
 
 - **1 文が長いと `TTS_MAX_CHARS` で切れる**（Online TTS の制限）。
-  `measure-duration.py` は超えると `★TTS_MAX_CHARS=180 字で切れる` と出力する
+  `ytslide measure` は超えると `★TTS_MAX_CHARS=180 字で切れる` と出力する
 - 記号や英単語の読みは置換表を通してから読み上げられる。読みがおかしい
   ときは下の「読みを直す」を参照する
 
@@ -267,7 +267,7 @@ const slidesConfig = {
 
 `rules` は省いてもよい（共通の表だけを使う）。形式は
 **1 行 1 ルール `[/パターン/フラグ, '読み']`**。
-`tools/measure-duration.py` が同じファイルを読むため、この形を崩すと
+`ytslide measure` が同じファイルを読むため、この形を崩すと
 測定値がずれる。
 
 - **短い語が先に当たると、長い語に届かない。** 長いほうを先に書く。
@@ -275,17 +275,17 @@ const slidesConfig = {
 - **複数のスライド一式で使う語は共通に足す。** 1 つのスライド一式にだけ書くと、別のスライド一式で
   同じ語を使ったときに読みがずれる。
 - **読みを大きく変えたら `duration` も見直す**（長さが変わる）。
-  測り直すなら `tools/measure-duration.py --slides <名前> --all --write`
+  測り直すなら `ytslide measure --slides <名前> --all --write`
 - `--text` で下書きを測るときは `--slides <名前>` も付ける。表はスライド一式ごとに
   異なるため、付けないと既定の `readme` の表で測定してしまう。
 
 ## 動画に書き出す
 
 URL を渡せない相手（メール添付、YouTube、オフラインの上映）には、
-`tools/make-video.py` で MP4 と `.srt` に書き出して渡す。
+`ytslide video` で MP4 と `.srt` に書き出して渡す。
 
 ```bash
-$ tools/make-video.py --slides readme
+$ ytslide video --slides readme
 スライド 1: 撮影済み。読み上げ音声を取得中…
 スライド 1: 11.66s
 （…枚数ぶん…）
@@ -293,7 +293,7 @@ video/readme.mp4 と video/readme.srt に書き出した
 ```
 
 `--out <ディレクトリ>`（既定 `video/`）で書き出し先を変えられる。
-`--only 1 2` のように番号を渡すと、その枚だけ書き出す（確認用。全部より速い）。
+`--only 1 --only 2` のように番号を渡すと、その枚だけ書き出す（確認用。全部より速い）。
 
 - 各スライドの PNG（1920×1080）と読み上げの mp3 を作り、`ffmpeg` で連結する
   組み立て方式。画面録画ではないので実時間ぶん待たない
@@ -341,15 +341,16 @@ images/             ← 画像を使っているときだけ
 読み上げの音声）はすべて外部から取得する。
 
 - **`index.html` を持っていくなら、持っていかないスライドの `.js` を
-  `slides/` から消してから `tools/make-index.py` を走らせ直す。**
+  `slides/` から消してから `ytslide index` を走らせ直す。**
   `index.html` は `slides/` を見て作った静的なファイルで、渡す側で
   自動的に絞り込まれるわけではない。消さずに持っていくと無いスライドへの
   リンクが残り、開いたときに「スライドのデータ `slides/<名前>.js` を
   読み込めませんでした。」と出る
-- `docs/`・`archives/`・`README.md`・`TODO.md` は**要らない**。`tools/` も
-  持っていかなくてよいが、`index.html` を作り直すなら `tools/make-index.py`
-  が要る（`python3` があればよい）。`tools/measure-duration.py` は
-  `duration` を測るためのもので、どちらも再生には関わらない
+- `docs/`・`archives/`・`README.md`・`TODO.md` は**要らない**。
+  `index.html` を作り直すなら `ytslide index` が要る（`uv tool install` で
+  入れる。[README の「インストール」](../README.md#インストール)）。
+  `ytslide measure` は `duration` を測るためのもので、どちらも再生には
+  関わらない
 - **ネット接続が要る。** オフラインでは見た目が崩れ、音声も出ない
 - **`file://` でも動く。** サーバーに置かず、ファイルを直接開いても表示から
   読み上げまで動く（Online Voice で確かめた）。HTTP で配信しても同じ
@@ -359,38 +360,45 @@ images/             ← 画像を使っているときだけ
 
 ### リポジトリの外に自分のスライドを置く
 
-このリポジトリを直接編集せず、`git clone` したあと**外に**自分専用の
-ディレクトリを作って使うこともできる。
+このリポジトリを直接編集せず、**外に**自分専用のディレクトリを作って
+使うこともできる。リポジトリの場所を覚えておく必要は無い。
+`ytslide` を入れておけば（[README の「インストール」](../README.md#インストール)）、
+`ytslide init` 1 つで置き場所が揃う。
 
 ```bash
-$ git clone <このリポジトリ> ~/yt_slide
-$ mkdir -p ~/my-slides/slides
-$ cp ~/yt_slide/player.html ~/yt_slide/index.html ~/my-slides/
-$ $EDITOR ~/my-slides/slides/mine.js   # slides/template.js を元に書く
+$ mkdir ~/my-slides && cd ~/my-slides
+$ ytslide init
+index.html: 1 件のスライドを書いた
+$ $EDITOR slides/template.js   # コピーして中身を書き替える。ファイル名も変える
 ```
 
-`player.html` は `slides/<名前>.js` を自分の位置からの相対パスで読むので、
-外に置くときは `player.html` もそこへコピーしておく。`index.html`
-（一覧。`tools/make-index.py` が書き換える）も、一覧を使わないなら
-要らないが、コピーしておけば `make-index.py --root` がそのまま動く。
-`index.html` は同じディレクトリの `README.md` を読んで表示するが、
-無くても（読み込みに失敗するだけで）README の欄が出ないだけなので、
-`README.md` は置かなくてよい。
+`ytslide init` は `slides/template.js`・`player.html`・空の `README.md`・
+`index.html`（一覧。`ytslide index` が書き換える）をカレントディレクトリに
+置き、`<title>` と `<h1>` にはディレクトリ名がそのまま入る。既にある
+ファイルは上書きしない。`README.md` は同じディレクトリのものを読んで
+表示するだけなので、要らなければ空のままでよい。
 
-`tools/` のスクリプト（`measure-duration.py`・`make-index.py`・
-`make-video.py`）は絶対パスで呼ぶ。作業ディレクトリ（`slides/` がある方）を
+手元の見た目は `ytslide web` で確かめられる（`http.server` を被せるだけ）。
+
+```bash
+$ ytslide web -p 8000
+http://localhost:8000/ で配信中（Ctrl-C で止める）
+```
+
+`ytslide measure`・`ytslide index`・`ytslide video` はどれも
+カレントディレクトリを見る。作業ディレクトリ（`slides/` がある方）を
 カレントディレクトリにして呼べば `--root` は要らない。
 
 ```bash
 $ cd ~/my-slides
-$ ~/yt_slide/tools/measure-duration.py --slides mine --all
+$ ytslide measure --slides mine --all
 ```
 
 別の場所から呼ぶ・作業ディレクトリをカレントディレクトリにしないときは
 `--root` で置き場所を指定する。
 
 ```bash
-$ ~/yt_slide/tools/make-index.py --root ~/my-slides
+$ ytslide index --root ~/my-slides
 ```
 
 ## 最小の例

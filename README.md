@@ -30,23 +30,35 @@
 
 自分で作ったスライドも `player.html?slides=<名前>` で開ける。ただし
 スライドの一覧（`index.html`）には自動では出ない。出すには
-`slidesConfig` に `summary` と `icon` を書いて `tools/make-index.py` を
+`slidesConfig` に `summary` と `icon` を書いて `ytslide index` を
 走らせる（[User.md の手順](docs/User.md#手順)）。
 
-## 必要なもの
+## インストール
 
 **見るだけならブラウザだけ。** インストールは要らない（ネット接続は要る）。
 
-前提が要るのは `tools/` のスクリプトを使うときだけ。
+インストールが要るのは、`duration` を測る・`index.html` を作り直す・
+動画に書き出す `ytslide` の CLI を使うときだけ。
+
+```bash
+uv tool install 'git+https://github.com/ytani01/yt_slide'          # measure と index
+uv tool install 'git+https://github.com/ytani01/yt_slide[video]'   # video も使う
+```
+
+リポジトリのチェックアウトからなら `uv tool install '.[video]'`。
+`video` は Playwright（chromium）が重いので、既定の install には含めず
+extra に分けている。
+
+## 必要なもの
+
+- `ytslide measure` — `curl`・`ffprobe`
+- `ytslide video` — 加えて `ffmpeg`・Playwright（Python, chromium）。
+  `uv tool install '...[video]'` で入る
 
 ```bash
 sudo apt install curl ffmpeg   # curl・ffmpeg・ffprobe
-pip install playwright         # make-video.py だけが使う
-playwright install chromium
+playwright install chromium    # ytslide video だけが使う
 ```
-
-- `tools/measure-duration.py` — `curl`・`ffprobe`
-- `tools/make-video.py` — 加えて `ffmpeg`・Playwright（Python, chromium）
 
 Debian 12 (bookworm) / curl 7.88.1 / ffmpeg 5.1.9 / Python 3.14.7 /
 playwright 1.63.0 で確認した。他の OS では入れ方を読み替える。
@@ -68,7 +80,7 @@ const slideData = [
 ];
 ```
 
-`duration` は目分量で決めず、`tools/measure-duration.py --slides <名前> --all --write`
+`duration` は目分量で決めず、`ytslide measure --slides <名前> --all --write`
 で実測値を入れる。手順は [docs/User.md](docs/User.md) にある。
 
 ## 入っているスライド
@@ -88,16 +100,13 @@ const slideData = [
 | ファイル・ディレクトリ | 中身 |
 |------------------------|------|
 | `player.html` | 外枠の HTML・CSS と再生ロジック。**これ 1 つが本体** |
-| `index.html` | スライドの一覧。`tools/make-index.py` が生成する（`docs/User.md` の「手順」） |
+| `index.html` | スライドの一覧。`ytslide index` が生成する（`docs/User.md` の「手順」） |
 | `slides/<名前>.js` | スライドのデータ。`player.html?slides=<名前>` で読まれる |
 | `images/` | スライドに貼るビットマップ画像 |
 | `docs/` | 説明（下記） |
-| `tools/make-index.py` | `slides/*.js` の `slidesConfig` から `index.html` の一覧を作る |
-| `tools/test_make_index.py` | 一覧の差し替えを確かめる自己テスト |
-| `tools/measure-duration.py` | 読み上げ秒数を測り、`duration` に書き戻す |
-| `tools/test_measure_duration.py` | 書き戻しの置換を確かめる自己テスト |
-| `tools/make-video.py` | スライド一式を MP4 と `.srt` に書き出す |
-| `tools/test_make_video.py` | 分割や字幕の組み立てを確かめる自己テスト |
+| `src/ytslide/` | `ytslide` CLI 本体（`measure`・`index`・`video` など） |
+| `tests/` | `src/ytslide/` の自己テスト（`uv run pytest`） |
+| `pyproject.toml` | `ytslide` のパッケージ定義（`uv tool install` で使う） |
 | `archives/` | 決着した TODO 項目と、サブエージェントの報告。**現行仕様ではない** |
 | `TODO.md` | 進行中の項目と、完了済みの目次 |
 | `CLAUDE.md` | Claude Code 向けのプロジェクト規約 |
@@ -112,7 +121,7 @@ Tailwind・Google Fonts・FontAwesome・読み上げの音声は外部から取�
 URL を渡せない相手（メール添付、YouTube、オフラインの上映）には、MP4 に書き出して渡す。
 
 ```bash
-tools/make-video.py --slides readme   # video/readme.mp4 と video/readme.srt
+ytslide video --slides readme   # video/readme.mp4 と video/readme.srt
 ```
 
 前提のパッケージは[「必要なもの」](#必要なもの)にある。書き出しには

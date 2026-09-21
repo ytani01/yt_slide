@@ -1,0 +1,38 @@
+[project]
+name = "ytslide"
+dynamic = ["version"]
+description = "ナレーション付きスライドを作る・測る・書き出す CLI"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Yoichi Tanibayashi", email = "yoichi@tanibayashi.jp" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "click",
+    "loguru",
+]
+
+[project.optional-dependencies]
+video = ["playwright"]
+
+[project.scripts]
+ytslide = "ytslide.cli:cli"
+
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.targets.wheel.force-include]
+"player.html" = "ytslide/data/player.html"
+"index.html" = "ytslide/data/index.html"
+"slides/template.js" = "ytslide/data/slides/template.js"
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "ruff",
+]

@@ -1,50 +1,32 @@
-#!/usr/bin/env python3
 """`slides/*.js` の `slidesConfig` から `index.html` の一覧を作る。
 
 `slidesConfig` に持たせた `summary`（一覧に出す説明）と `icon`
 （FontAwesome のクラス名）を読み、`index.html` のマーカーコメントの間の
 `<li>` を差し替える。マーカーの外は触らない。
 
-    tools/make-index.py
-
 並びは `readme` を先頭、残りはファイル名の辞書順。`_` で始まるファイルは
 無視する。`summary`・`icon` が無いスライドは標準エラーに警告を出し、
 空文字（`icon` は既定 `fa-file`）で埋める。
 
 `slidesConfig` の中身は JS のパーサを使わず、正規表現で拾う
-（`tools/measure-duration.py` が `rules` を読むのと同じやり方）。
+（`measure.py` が `rules` を読むのと同じやり方）。
 """
-import argparse
-import importlib.util
-import pathlib
 import re
 import sys
 
-# 探し方（--root > cwd の slides/ > リポジトリ）は measure-duration.py と共通
-# （TODO-095）。make-video.py と同じやり方でそちらを読み込んで使う。
-spec = importlib.util.spec_from_file_location(
-    'measure_duration', pathlib.Path(__file__).resolve().parent / 'measure-duration.py')
-md = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(md)
+import click
 
-ROOT = SLIDES = INDEX_HTML = None
+from . import paths
 
-
-def set_root(root_arg):
-    global ROOT, SLIDES, INDEX_HTML
-    ROOT = md.find_root(root_arg)
-    SLIDES = ROOT / 'slides'
-    INDEX_HTML = ROOT / 'index.html'
-
-
-set_root(None)  # 既定（--root を渡さず呼ばれたときと同じ後方互換の場所）
-
-BEGIN_MARKER = '<!-- BEGIN GENERATED SLIDES (tools/make-index.py が書き換える。手で編集しない) -->'
+# 開始側は正規表現でゆるく照合する（古いコメント文のまま持っている
+# index.html でも通るように）。書き戻すときは常にこの正本の文にする。
+BEGIN_MARKER_RE = re.compile(r'<!-- BEGIN GENERATED SLIDES.*?-->')
+BEGIN_MARKER = '<!-- BEGIN GENERATED SLIDES (ytslide index が書き換える。手で編集しない) -->'
 END_MARKER = '<!-- END GENERATED SLIDES -->'
 
 DEFAULT_ICON = 'fa-file'
 
-SLIDES_CONFIG_RE = re.compile(r'const slidesConfig = \{(.*?)\n\};', re.S)
+SLIDES_CONFIG_RE = re.compile(r'const slidesConfig = \{(.*?)\n\};', re.DOTALL)
 SUMMARY_RE = re.compile(r"summary:\s*'((?:\\.|[^'\\])*)'")
 ICON_RE = re.compile(r"icon:\s*'((?:\\.|[^'\\])*)'")
 
@@ -55,7 +37,7 @@ def slide_names():
     `readme` を先頭、残りはファイル名の辞書順。
     """
     names = sorted(
-        p.stem for p in SLIDES.glob('*.js') if not p.stem.startswith('_'))
+        p.stem for p in paths.SLIDES.glob('*.js') if not p.stem.startswith('_'))
     if 'readme' in names:
         names.remove('readme')
         names.insert(0, 'readme')
@@ -65,7 +47,7 @@ def slide_names():
 def parse_slide_config(text):
     """`slidesConfig` の本文から `summary` と `icon` を読む（無ければ None）。
 
-    `\\'` は `'` に戻す（`measure-duration.py` の `load_rules()` と同じ）。
+    `\\'` は `'` に戻す（`measure.py` の `load_rules()` と同じ）。
     """
     m = SLIDES_CONFIG_RE.search(text)
     body = m.group(1) if m else ''
@@ -78,7 +60,7 @@ def parse_slide_config(text):
 
 def load_slide(name):
     """`slides/<name>.js` を読み、(name, summary, icon) を返す。無い分は警告する。"""
-    text = (SLIDES / f'{name}.js').read_text(encoding='utf-8')
+    text = (paths.SLIDES / f'{name}.js').read_text(encoding='utf-8')
     summary, icon = parse_slide_config(text)
     if summary is None:
         print(f'警告: {name}: slidesConfig.summary が無い', file=sys.stderr)
@@ -106,34 +88,23 @@ def build_list_html(slides):
 
 
 def replace_marker_block(html, list_html):
-    pattern = re.compile(
-        re.escape(BEGIN_MARKER) + r'.*?' + re.escape(END_MARKER), re.S)
+    pattern = re.compile(BEGIN_MARKER_RE.pattern + r'.*?' + re.escape(END_MARKER), re.DOTALL)
     if not pattern.search(html):
-        raise SystemExit(
-            f'{INDEX_HTML} にマーカー（{BEGIN_MARKER} 〜 {END_MARKER}）が見つからない')
+        raise click.ClickException(
+            f'{paths.INDEX_HTML} にマーカー（{BEGIN_MARKER} 〜 {END_MARKER}）が見つからない')
     replacement = f'{BEGIN_MARKER}\n{list_html}\n            {END_MARKER}'
     return pattern.sub(replacement, html)
 
 
-def main():
-    parser = argparse.ArgumentParser(
-        description='slides/*.js の slidesConfig から index.html の一覧を作る')
-    parser.add_argument('--root', help='スライドの置き場所（既定はカレントディレクトリの'
-                        ' slides/、無ければリポジトリ）')
-    args = parser.parse_args()
-
-    set_root(args.root)
-
-    if not INDEX_HTML.exists():
-        parser.error(f'{INDEX_HTML} が無い。リポジトリの index.html をコピーしてから実行する')
+def build_index():
+    """`index.html` の一覧を作り直す。書いたスライドの件数を返す。"""
+    if not paths.INDEX_HTML.exists():
+        raise click.ClickException(
+            f'{paths.INDEX_HTML} が無い。ytslide init でディレクトリを初期化してから実行する')
 
     slides = [load_slide(name) for name in slide_names()]
     list_html = build_list_html(slides)
-    html = INDEX_HTML.read_text(encoding='utf-8')
+    html = paths.INDEX_HTML.read_text(encoding='utf-8')
     written = replace_marker_block(html, list_html)
-    INDEX_HTML.write_text(written, encoding='utf-8')
-    print(f'{INDEX_HTML.name}: {len(slides)} 件のスライドを書いた')
-
-
-if __name__ == '__main__':
-    main()
+    paths.INDEX_HTML.write_text(written, encoding='utf-8')
+    return len(slides)

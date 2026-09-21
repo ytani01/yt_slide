@@ -13,15 +13,17 @@
 | `player.html` | 外枠の HTML・CSS と再生ロジック。本体 |
 | `slides/<名前>.js` | スライドデータ。`readme`・`user`・`developer`・`claude-memo`・`template` |
 | `images/` | スライドに貼るビットマップ画像。パスは `player.html` から見た相対 |
-| `tools/measure-duration.py` | 読み上げ秒数の測定と `duration` への書き込み |
-| `tools/test_measure_duration.py` | 書き込みと置換表の読み込みの自動確認 |
-| `tools/make-video.py` | スライド一式を MP4 と `.srt` に書き出す |
-| `tools/test_make_video.py` | 分割や字幕の組み立ての自動確認 |
+| `src/ytslide/measure.py` | 読み上げ秒数の測定と `duration` への書き込み（`ytslide measure`） |
+| `src/ytslide/video.py` | スライド一式を MP4 と `.srt` に書き出す（`ytslide video`） |
+| `tests/test_measure.py` | `measure.py` の書き込みと置換表の読み込みの自動確認 |
+| `tests/test_video.py` | `video.py` の分割や字幕の組み立ての自動確認 |
 
-**ビルドも依存関係のインストールも不要。**
-（`tools/` のスクリプトだけは前提が要る。[README の「必要なもの」](../README.md#必要なもの)）
-テストは `tools/test_measure_duration.py` と `tools/test_make_video.py` の 2 本
-（`python3` だけあれば十分）。Tailwind・Google Fonts・FontAwesome は CDN から
+**プレイヤー側（`player.html` と `slides/*.js`）はビルドも依存関係のインストールも
+不要。** インストールが要るのは `duration` の測定・`index.html` の生成・動画の
+書き出しを行う `ytslide` の CLI だけ
+（[README の「インストール」](../README.md#インストール)）。
+テストは `tests/test_measure.py` と `tests/test_video.py` の 2 本
+（`uv run pytest`）。Tailwind・Google Fonts・FontAwesome は CDN から
 読み込む（オフラインでは崩れる）。`public_html/` に置くため、ファイルを置くだけで
 公開される。
 
@@ -92,11 +94,11 @@
 
 **読み置換表を変えると読み上げの長さも変わる。**
 対象スライドの `duration` を測り直す。測定には
-`tools/measure-duration.py` を使う（`--slides <名前>` でスライド一式を指定、
+`ytslide measure` を使う（`--slides <名前>` でスライド一式を指定、
 下書き確認は `--text`）。**`--write` を付けると、測定値を
 そのスライド一式の `duration` に書き込む。**
 ナレーション編集後は
-`tools/measure-duration.py --slides <名前> --all --write` でまとめて更新できる。
+`ytslide measure --slides <名前> --all --write` でまとめて更新できる。
 
 置換表は `player.html` の `SPEECH_RULES` と
 スライド一式のファイルから読み込むため、複製ではない。ただし **`TTS_MAX_CHARS` と

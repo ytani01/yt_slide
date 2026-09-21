@@ -5,11 +5,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## 構成
 
 `player.html`（外枠と再生エンジン）、`index.html`（スライドの一覧。入口。
-`tools/make-index.py` が `slides/*.js` から生成する）、`slides/*.js`（スライドのデータ。
-`readme`・`user`・`developer`・`claude-memo`・`template` の 5 つのスライド一式）と、
-`tools/` の補助スクリプトだけ。ビルドも依存関係のインストールも不要。
-テストは `tools/test_make_index.py`・`tools/test_measure_duration.py`・
-`tools/test_make_video.py` の 3 本。
+`ytslide index` が `slides/*.js` から生成する）、`slides/*.js`（スライドのデータ。
+`readme`・`user`・`developer`・`claude-memo`・`template` の 5 つのスライド一式）。
+**プレイヤー側（`player.html` と `slides/*.js`）はビルドも依存関係のインストールも
+不要**で、ブラウザで開くだけで動く。インストールが要るのは、`duration` を測る・
+`index.html` を作り直す・動画に書き出す `ytslide`（`src/ytslide/`）だけ
+（`uv tool install`。README の「インストール」）。
+テストは `tests/test_index.py`・`tests/test_measure.py`・`tests/test_video.py`
+の 3 本（`uv run pytest`）。
 配置場所が `public_html/` なので、ファイルがそのまま公開される。
 確認はブラウザで `player.html` を開くだけ。
 

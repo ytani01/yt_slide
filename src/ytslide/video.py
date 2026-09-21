@@ -1,32 +1,24 @@
-#!/usr/bin/env python3
 """スライド一式を MP4 と `.srt` に書き出す。
 
-    tools/make-video.py --slides readme            # video/readme.mp4 と video/readme.srt
-    tools/make-video.py --slides readme --only 1 2  # 1 枚目と 2 枚目だけ（確認用）
-
 各スライドを Playwright（chromium）で 1920×1080 の PNG に撮り、
-`tools/measure-duration.py` と同じ TTS で読み上げ音声を取り、
-静止画 + 音声 + 末尾の無音を 1 枚ぶんのクリップにして `ffmpeg` で連結する。
-再生速度は `BASE_SPEED_MULTIPLIER`（player.html の既定の倍速）に揃える。
-字幕は焼き込まず、`.srt` を別に出す。
+`measure.py` と同じ TTS で読み上げ音声を取り、静止画 + 音声 + 末尾の無音を
+1 枚ぶんのクリップにして `ffmpeg` で連結する。再生速度は
+`BASE_SPEED_MULTIPLIER`（player.html の既定の倍速）に揃える。字幕は
+焼き込まず、`.srt` を別に出す。
 
 **画面録画はしない。** 実時間ぶん待たずに済み、音ズレも出ない。
 
-`ffmpeg`・`ffprobe`・`curl`・Playwright（Python, chromium）が要る。
+`ffmpeg`・`ffprobe`・`curl`・Playwright（Python, chromium）が要る
+（`uv tool install '.[video]'` で入る）。
 """
-import argparse
-import importlib.util
 import pathlib
 import re
 import subprocess
 import tempfile
 
-from playwright.sync_api import sync_playwright
+import click
 
-spec = importlib.util.spec_from_file_location(
-    'measure_duration', pathlib.Path(__file__).resolve().parent / 'measure-duration.py')
-md = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(md)
+from . import measure, paths
 
 # player.html の待ちの既定（自動再生で次へ進むまでの秒数）。
 TAIL_SILENCE_SECONDS = 2
@@ -34,6 +26,8 @@ TAIL_SILENCE_SECONDS = 2
 WIDTH, HEIGHT = 1920, 1080
 
 # スライドを撮るときに操作系を隠し、ビューポートを画面いっぱいに広げる。
+# 中身が JS なので `{` が至るところに出る。str.format() では全部を `{{` に
+# 直さないと使えないため、% 書式のままにする。
 FIT = """(i) => {
   renderSlide(i);
   document.getElementById('slide-canvas').classList.remove('slide-fade-enter');
@@ -44,7 +38,7 @@ FIT = """(i) => {
                           borderRadius:'0', border:'none', margin:'0', display:'flex'});
   v.querySelector('#slide-num').closest('div.flex').style.display = 'none';
   document.getElementById('tap-feedback-icon').parentElement.style.display = 'none';
-}""" % {'width': WIDTH, 'height': HEIGHT}
+}""" % {'width': WIDTH, 'height': HEIGHT}  # noqa: UP031
 
 
 def split_for_tts(text, max_chars):
@@ -73,13 +67,13 @@ def fetch_speech(text, out_mp3):
 
     分割した分は個別に mp3 で取り、`ffmpeg concat` で 1 本につなぐ。
     """
-    chunks = split_for_tts(text, md.TTS_MAX_CHARS)
+    chunks = split_for_tts(text, measure.TTS_MAX_CHARS)
     with tempfile.TemporaryDirectory() as tmp:
         tmp = pathlib.Path(tmp)
         parts = []
         for i, chunk in enumerate(chunks):
             part = tmp / f'part{i}.mp3'
-            subprocess.run(['curl', '-sS', '-f', '-o', str(part), md.tts_url(chunk)], check=True)
+            subprocess.run(['curl', '-sS', '-f', '-o', str(part), measure.tts_url(chunk)], check=True)
             parts.append(part)
         if len(parts) == 1:
             parts[0].rename(out_mp3)
@@ -101,10 +95,18 @@ def probe_duration(path):
 
 def screenshot_slides(slides_name, indexes, out_dir):
     """`indexes`（0 始まり）の PNG を `out_dir/slide{番号}.png` に撮る。"""
+    try:
+        from playwright.sync_api import sync_playwright
+    except ImportError as e:
+        raise click.ClickException(
+            "playwright が入っていない。"
+            "uv tool install '.[video]' で入れる"
+        ) from e
+
     with sync_playwright() as p:
         browser = p.chromium.launch()
         page = browser.new_page(viewport={'width': WIDTH, 'height': HEIGHT})
-        page.goto(md.PLAYER_HTML.as_uri() + f'?slides={slides_name}')
+        page.goto(paths.PLAYER_HTML.as_uri() + f'?slides={slides_name}')
         page.wait_for_load_state('networkidle')
         for i in indexes:
             page.evaluate(FIT, i)
@@ -158,9 +160,9 @@ def concat_clips(clips, out_mp4):
 
 def make_video(slides_name, out_dir, only=None):
     """スライド一式 `slides_name` を `out_dir/<名前>.mp4` と `.srt` に書き出す。"""
-    src = md.SLIDES / f'{slides_name}.js'
+    src = paths.SLIDES / f'{slides_name}.js'
     text = src.read_text(encoding='utf-8')
-    all_narrations = md.narrations(text)
+    all_narrations = measure.narrations(text)
     numbers = only if only else list(range(1, len(all_narrations) + 1))
 
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -174,13 +176,13 @@ def make_video(slides_name, out_dir, only=None):
         for number in numbers:
             narration = all_narrations[number - 1]
             print(f'スライド {number}: 撮影済み。読み上げ音声を取得中…')
-            spoken = md.prepare(narration, slides_name)
+            spoken = measure.prepare(narration, slides_name)
             mp3 = tmp / f'slide{number}.mp3'
             fetch_speech(spoken, mp3)
 
             sped_mp3 = tmp / f'slide{number}_sped.mp3'
             subprocess.run(['ffmpeg', '-y', '-i', str(mp3), '-filter:a',
-                             f'atempo={md.BASE_SPEED_MULTIPLIER}', str(sped_mp3)],
+                             f'atempo={measure.BASE_SPEED_MULTIPLIER}', str(sped_mp3)],
                             check=True, capture_output=True)
             duration = probe_duration(sped_mp3)
 
@@ -201,27 +203,3 @@ def make_video(slides_name, out_dir, only=None):
     out_srt = out_dir / f'{slides_name}.srt'
     out_srt.write_text(build_srt(srt_entries), encoding='utf-8')
     print(f'{out_mp4} と {out_srt} に書き出した')
-
-
-def main():
-    parser = argparse.ArgumentParser(
-        description='スライド一式を MP4 と .srt に書き出す')
-    parser.add_argument('--slides', dest='slides_name', default=md.DEFAULT_SLIDES,
-                        help=f'slides/<名前>.js の <名前>（既定は {md.DEFAULT_SLIDES}）')
-    parser.add_argument('--out', default='video', help='書き出し先ディレクトリ（既定 video）')
-    parser.add_argument('--only', nargs='+', type=int, help='このスライド番号だけ書き出す（確認用）')
-    parser.add_argument('--root', help='スライドの置き場所（既定はカレントディレクトリの'
-                        ' slides/、無ければリポジトリ）')
-    args = parser.parse_args()
-
-    md.set_root(args.root)
-
-    src = md.SLIDES / f'{args.slides_name}.js'
-    if not src.exists():
-        parser.error(f'{src} が無い')
-
-    make_video(args.slides_name, pathlib.Path(args.out), args.only)
-
-
-if __name__ == '__main__':
-    main()

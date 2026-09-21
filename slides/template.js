@@ -8,7 +8,7 @@
 const slidesConfig = {
     title: 'テンプレート',
     heading: 'スライドの型 19 種',
-    // index.html の一覧に出す説明とアイコン（tools/make-index.py が読む。TODO-089）
+    // index.html の一覧に出す説明とアイコン（ytslide index が読む。TODO-089）
     summary: 'スライドの型の見本。コピーして使う',
     icon: 'fa-shapes',
     rules: [
@@ -146,7 +146,7 @@ const slideData = [
                     <span class="ml-[1cqw] text-slate-500 font-mono" style="font-size: clamp(0.75rem, 1.6cqw, 1.1rem);">bash</span>
                 </div>
                 <div class="p-[1.6cqw] font-mono text-slate-200 space-y-[0.6cqw]" style="font-size: clamp(0.82rem, 1.75cqw, 1.3rem);">
-                    <div><span class="text-lime-400">$</span> tools/measure-duration.py --slides template --all --write</div>
+                    <div><span class="text-lime-400">$</span> ytslide measure --slides template --all --write</div>
                     <div class="text-slate-400">スライド 4: duration 12 -&gt; 9</div>
                     <div class="-mx-[1.6cqw] px-[1.6cqw] bg-lime-500/10 border-l-2 border-lime-400 text-lime-300">template.js: 1 枚を書き換えた</div>
                 </div>
@@ -482,7 +482,7 @@ const slideData = [
                         <i class="fa-solid fa-circle-info"></i> 補足
                     </div>
                     <p class="text-slate-300 font-medium leading-relaxed" style="font-size: clamp(0.78rem, 1.65cqw, 1.2rem);">
-                        秒数は <span class="font-mono text-slate-100">measure-duration.py</span> で測る。
+                        秒数は <span class="font-mono text-slate-100">ytslide measure</span> で測る。
                         ナレーションを直したら測り直す。
                     </p>
                 </aside>
