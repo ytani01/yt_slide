@@ -324,12 +324,9 @@
             <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-sky-400 to-lime-400 flex items-center justify-center text-slate-950 font-bold">
                 <i class="fa-solid fa-play text-sm"></i>
             </div>
-            <div>
-                <h1 class="font-bold text-sm sm:text-base text-slate-100 flex items-center gap-2">
-                    <span id="slides-heading"></span>
-                    <span class="hidden sm:inline text-xs font-normal bg-sky-500/20 text-sky-400 border border-sky-500/30 px-2 py-0.5 rounded-full">AI Presentation Video</span>
-                </h1>
-                <p class="hidden sm:block text-xs text-slate-400">インタラクティブ・プレゼンテーション動画プレイヤー</p>
+            <div class="min-w-0">
+                <h1 id="slides-heading" class="font-bold text-sm sm:text-base text-slate-100 truncate"></h1>
+                <p id="slides-file" class="text-xs text-slate-400 font-mono truncate"></p>
             </div>
         </div>
 
@@ -1662,6 +1659,8 @@
         function startApp() {
             document.title = slidesConfig.title;
             document.getElementById('slides-heading').textContent = slidesConfig.heading;
+            document.getElementById('slides-file').textContent =
+                `slides/${slidesName}.js`;
             setupViewportScale();
             initPlaylist();
             applyCaptions();
