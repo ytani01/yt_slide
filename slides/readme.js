@@ -23,7 +23,7 @@ const slideData = [
     {
         title: 'yt_slide',
         duration: 13,
-        narration: 'yt_slide は、2 つのファイルを置くだけで、ナレーション付きのプレゼンが動き出す仕組みです。ビルドもインストールも不要。Webサーバーに置けば、URLを渡すだけで見てもらえます。',
+        narration: 'yt_slide は、2 つのファイルを置くだけで、ナレーション付きのプレゼンが動き出す仕組みです。再生にはビルドもインストールも不要。Webサーバーに置けば、URLを渡すだけで見てもらえます。',
         render: function() {
             return `
                 <div class="flex flex-col items-start justify-center h-full px-[4cqw] py-[1.5cqw] space-y-[1.5cqw]">
@@ -35,7 +35,7 @@ const slideData = [
                         ナレーション付きのプレゼンが動き出す
                     </h1>
                     <p class="text-slate-200 font-medium leading-relaxed" style="font-size: clamp(1.15rem, 2.8cqw, 2.1rem);">
-                        ビルドもインストールも不要。サーバーに置けば、URL を渡すだけで見てもらえる。
+                        再生にはビルドもインストールも不要。サーバーに置けば、URL を渡すだけで見てもらえる。
                     </p>
                 </div>
             `;
@@ -82,7 +82,7 @@ const slideData = [
     {
         title: 'すぐ試す',
         duration: 15,
-        narration: 'すぐ試すには、player.html をブラウザで開くだけです。サーバーを立てる必要はなく、ファイルを直接開いても読み上げまで動きます。URLにスライドの名前を指定すると、そのスライドが再生されます。',
+        narration: '手元で試すには、README から ZIP を入手して展開し、player.html をブラウザで開きます。サーバーを立てる必要はなく、ファイルを直接開いても読み上げまで動きます。表示と読み上げにはネット接続が必要です。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
@@ -90,7 +90,7 @@ const slideData = [
                         <i class="fa-solid fa-play text-lime-400"></i> すぐ試す
                     </h2>
                     <div class="bg-slate-950 border border-slate-800 rounded-xl p-[1.6cqw] font-mono text-slate-200 space-y-[0.6cqw] mb-[1.5cqw]" style="font-size: clamp(0.95rem, 2.0cqw, 1.5rem);">
-                        <div>player.html <span class="text-slate-400"># ブラウザで開くだけ</span></div>
+                        <div>player.html <span class="text-slate-400"># ZIP を展開して開く</span></div>
                         <div>player.html?slides=user <span class="text-slate-400"># 名前を指定して開く</span></div>
                     </div>
                     <p class="text-slate-200 font-medium" style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);">

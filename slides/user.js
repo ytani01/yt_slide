@@ -103,7 +103,7 @@ const slideData = [
     {
         title: '準備する',
         duration: 15,
-        narration: 'まず ytslide をインストールします。作業用のディレクトリを作って移動し、ytslide init を実行します。これで player.html と index.html、slides フォルダが用意されます。',
+        narration: '一覧や時間の測定も使うなら、ytslide をインストールします。作業用のディレクトリを作って移動し、ytslide init を実行します。コピーだけで始める手順も、User.md にあります。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
@@ -117,7 +117,7 @@ const slideData = [
                     </div>
                     <div class="bg-amber-950/40 border border-amber-500/40 rounded-xl p-[1.3cqw] mt-[1.3cqw] text-amber-300 flex items-center gap-[1.2cqw] font-medium" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">
                         <i class="fa-solid fa-circle-info text-amber-400 flex-shrink-0" style="font-size: clamp(1.2rem, 2.4cqw, 1.8rem);"></i>
-                        <span><code>uv</code> が未導入なら、先に README の「インストール」を見る</span>
+                        <span>導入は README の「インストール」へ。コピーだけで始める手順は User.md にある</span>
                     </div>
                 </div>
             `;

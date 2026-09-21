@@ -14,6 +14,7 @@
 
 ### 1. 自分の作業場所を用意する
 
+**後で一覧の生成や時間の測定も使うなら、次の CLI の手順で始める。**
 [README の「インストール」](../README.md#インストール)に従って `ytslide` を入れる。
 `uv` の導入先と Python の条件もそこにある。測定・動画用の追加準備は後でよい。
 ターミナルで次を実行する。
@@ -35,6 +36,18 @@ ytslide init
 リポジトリを clone して中で作る場合は、そのディレクトリを作業場所にして
 次の手順から始める（`init` は不要）。
 
+**まずコピー・編集だけで試すなら、CLI は不要。**
+[リポジトリの ZIP](https://github.com/ytani01/yt_slide/archive/refs/heads/main.zip) を
+ダウンロードして展開する。ホームフォルダーに `my-slides` フォルダーを作り、
+その中に `slides` フォルダーを作る。展開したファイルから `player.html` を
+`my-slides/` へ、`slides/template.js` を `my-slides/slides/` へコピーして、
+次の手順へ進む。Python・uv は要らない。
+以下の `~/my-slides` は、このホームフォルダー内の作業場所を指す。
+
+後で `ytslide` のコマンドを使いたくなったら、README の手順でインストールし、
+ターミナルで `cd ~/my-slides` を実行する。続けて `ytslide init` を実行すると、
+既存のプレイヤーと型を保ったまま、一覧生成に必要な `index.html` も用意できる。
+
 ### 2. 最初の 1 枚を書いて再生する
 
 テキストエディターで `~/my-slides/slides/sample.js` を新規作成し、
@@ -49,7 +62,7 @@ ytslide init
 再生ボタンを押して、自分の本文と読み上げを確認する。
 **表示に使う CSS・フォントなども外部から取得するので、ネット接続が要る。**
 
-`?slides=` を省くと `slides/readme.js` を探す。`init` した場所には無いので、
+`?slides=` を省くと `slides/readme.js` を探す。上の手順で用意した場所には無いので、
 必ず `?slides=sample` を付ける。読み込みに失敗した場合は
 「スライドのデータ slides/<名前>.js を読み込めませんでした。」と表示される。
 ファイルの保存先と、URL の名前が一致しているか確かめる。
@@ -58,9 +71,8 @@ ytslide init
 入っているので、`player.html?slides=template` で見て近い型を選び、その
 1 枚をコピーして中身を差し替えるほうが、1 から書くより早い（手順は次の 3.）。
 
-**AI に書かせてもよい。** `slides/template.js` とこの文書を渡して、
-作りたい内容を伝えれば `.js` を書いてくれる。出てきたものを `slides/` に
-保存し、同じように `?slides=` を付けて開いて確かめる。
+**AI に書かせてもよい。** [依頼文の例](#ai-に作ってもらう)を使い、
+生成されたファイルを保存して同じように確認する。
 
 ### 3. 編集して確かめる
 
@@ -74,6 +86,30 @@ ytslide init
 最初の 1 枚と置き換えるか、その後ろへ足し、題名・本文・ナレーションを直す。
 型の区切りは `// ── N. 名前 ──` のコメントが目印になる。
 詳しくは[「body で書く」](#body-で書く標準)へ。
+
+### AI に作ってもらう
+
+`docs/User.md`（この文書）と作業場所の `slides/template.js`、
+スライドにしたい原稿や資料を AI に渡す。この文書は
+[Markdown ファイル](https://raw.githubusercontent.com/ytani01/yt_slide/main/docs/User.md)
+をブラウザで開いて保存するか、内容をコピーして渡せる。
+ZIP を展開してあれば、その中の `docs/User.md` を使ってもよい。
+次の例のテーマ・聞き手・枚数を
+自分の用途に置き換える。
+
+```text
+添付した User.md の形式と template.js の型を使って、
+「地域の読書会の紹介」を、初めて参加する人向けに 3 枚のスライドにしてください。
+内容は添付の原稿に沿ってください。
+slides/sample.js として保存できる JavaScript 全体を出してください。
+slidesConfig と slideData を含め、各スライドに title・body・narration・duration を書き、
+duration はおおよその秒数にしてください。player.html は編集しません。
+```
+
+出力された JavaScript を、前後の説明やコードブロックの囲みを含めずに
+`~/my-slides/slides/sample.js` へ保存する。上の[最小の 1 枚を再生する手順](#2-最初の-1-枚を書いて再生する)
+と同じく `player.html?slides=sample` を開き、本文・読み上げ・スライド送りを確認する。
+直したい箇所はスライド番号と変更内容を AI に伝え、修正後に保存・再読み込みして確かめる。
 
 ### 一覧から開きたいとき
 
