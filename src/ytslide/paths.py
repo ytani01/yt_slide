@@ -9,7 +9,7 @@ import pathlib
 # 同梱データ（player.html・index.html・slides/template.js）の場所。
 # パッケージ配布物には `ytslide/data/` に入っている。
 # リポジトリのチェックアウトから直接動かしたとき（`uv run` / 開発中）は
-# `ytslide/data/` が無いので、リポジトリ直下（src/ytslide から 2 つ上）へ
+# `ytslide/data/` が無いので、リポジトリ直下（src/ytslide から 2つ上）へ
 # 落とす。
 DATA = pathlib.Path(__file__).resolve().parent / "data"
 if not DATA.is_dir():

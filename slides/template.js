@@ -1,15 +1,15 @@
 // スライドのテンプレート集。player.html?slides=template で並べて見られる。
 // 使いたいテンプレートのスライドをまるごとコピーして、中身を差し替える。
 //
-// 19 種のうち 16 種は body だけで書ける。表紙・画像（全面）・章の区切りは render() を使う。
-// 1 枚が「// ── N. 名前 ──」のコメントから次のコメントまで。
-// 要らないテンプレートは、その範囲を丸ごと削除してよい（他の枚には影響しない）。
+// 19種のうち 16種は body だけで書ける。表紙・画像（全面）・章の区切りは render() を使う。
+// 1枚が「// ── N. 名前 ──」のコメントから次のコメントまで。
+// 要らないテンプレートは、その範囲を丸ごと削除してよい（他のスライドには影響しない）。
 
 const slidesConfig = {
     title: 'テンプレート',
-    heading: 'スライドのテンプレート 19 種',
+    heading: 'スライドのテンプレート 19種',
     // index.html の一覧に出す説明とアイコン（ytslide index が読む。TODO-089）
-    summary: 'スライドのテンプレート 19 種。コピーして使う',
+    summary: 'スライドのテンプレート 19種。コピーして使う',
     icon: 'fa-shapes',
     rules: [
         [/render\(\)/gi, 'レンダー'],
@@ -34,7 +34,7 @@ const slideData = [
                             <i class="fa-solid fa-film"></i> YT_SLIDE
                         </div>
                         <h1 class="font-extrabold leading-tight mt-[1.8cqw]" style="font-size: clamp(2rem, 6cqw, 4.6rem);">
-                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-300 via-slate-50 to-lime-300">スライドのテンプレート 19 種</span>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-300 via-slate-50 to-lime-300">スライドのテンプレート 19種</span>
                         </h1>
                         <div class="mx-auto mt-[2cqw] h-[0.35cqw] w-[18cqw] rounded-full bg-gradient-to-r from-sky-400 to-lime-400"></div>
                         <p class="text-slate-300 font-medium mt-[2cqw]" style="font-size: clamp(1rem, 2.3cqw, 1.7rem);">
@@ -67,7 +67,7 @@ const slideData = [
                 </li>
                 <li class="flex items-start gap-[1.4cqw] rounded-xl bg-slate-800/40 border border-slate-700/70 px-[1.8cqw] py-[1.2cqw]">
                     <span class="shrink-0 grid place-items-center w-[3.4cqw] h-[3.4cqw] rounded-lg bg-lime-500/15 text-lime-400 border border-lime-500/40" style="font-size: clamp(0.85rem, 1.8cqw, 1.3rem);"><i class="fa-solid fa-check"></i></span>
-                    <span class="text-slate-100 font-medium leading-snug" style="font-size: clamp(1.05rem, 2.4cqw, 1.8rem);">項目は 5 つまでが読みやすい</span>
+                    <span class="text-slate-100 font-medium leading-snug" style="font-size: clamp(1.05rem, 2.4cqw, 1.8rem);">項目は 5つまでが読みやすい</span>
                 </li>
             </ul>
             <p class="text-slate-400 mt-[1.4cqw] flex items-center gap-[0.8cqw] font-medium" style="font-size: clamp(0.85rem, 1.8cqw, 1.3rem);">
@@ -76,12 +76,12 @@ const slideData = [
         `,
     },
 
-    // ── 3. 2 カラム比較 ────────────────────────────────────────────
+    // ── 3. 2カラム比較 ────────────────────────────────────────────
     {
-        title: '2 カラム比較',
+        title: '2カラム比較',
         icon: 'fa-code-compare',
         duration: 12,
-        narration: '2 カラム比較のテンプレートです。前と後、長所と短所のように、2 つを並べて見せたいときに使います。良いほうに色を付けると、どちらを勧めているかが伝わります。',
+        narration: '2カラム比較のテンプレートです。前と後、長所と短所のように、2つを並べて見せたいときに使います。良いほうに色を付けると、どちらを勧めているかが伝わります。',
         body: `
             <div class="grid grid-cols-2 gap-[1.8cqw]">
                 <div class="rounded-2xl bg-gradient-to-b from-rose-950/60 to-slate-900/40 border border-rose-500/40 p-[2cqw] shadow-lg shadow-rose-900/20">
@@ -92,7 +92,7 @@ const slideData = [
                     <p class="text-slate-300 font-medium leading-relaxed" style="font-size: clamp(0.95rem, 2.0cqw, 1.45rem);">
                         外枠・見出し・本文を毎回すべて書く。自由度は高いが、枚数ぶん同じ定型が並ぶ。
                     </p>
-                    <div class="mt-[1.4cqw] inline-block rounded-md bg-rose-500/10 text-rose-300 px-[1cqw] py-[0.3cqw] font-mono" style="font-size: clamp(0.8rem, 1.7cqw, 1.2rem);">20 行</div>
+                    <div class="mt-[1.4cqw] inline-block rounded-md bg-rose-500/10 text-rose-300 px-[1cqw] py-[0.3cqw] font-mono" style="font-size: clamp(0.8rem, 1.7cqw, 1.2rem);">20行</div>
                 </div>
                 <div class="rounded-2xl bg-gradient-to-b from-lime-950/60 to-slate-900/40 border border-lime-500/50 p-[2cqw] shadow-lg shadow-lime-900/20 ring-1 ring-lime-400/20">
                     <div class="flex items-center gap-[1cqw] text-lime-300 font-bold mb-[1.2cqw]" style="font-size: clamp(1.15rem, 2.5cqw, 1.85rem);">
@@ -102,7 +102,7 @@ const slideData = [
                     <p class="text-slate-300 font-medium leading-relaxed" style="font-size: clamp(0.95rem, 2.0cqw, 1.45rem);">
                         本文だけを書く。見出しは title と icon から作られ、枚数が増えても揃う。
                     </p>
-                    <div class="mt-[1.4cqw] inline-block rounded-md bg-lime-500/10 text-lime-300 px-[1cqw] py-[0.3cqw] font-mono" style="font-size: clamp(0.8rem, 1.7cqw, 1.2rem);">6 行</div>
+                    <div class="mt-[1.4cqw] inline-block rounded-md bg-lime-500/10 text-lime-300 px-[1cqw] py-[0.3cqw] font-mono" style="font-size: clamp(0.8rem, 1.7cqw, 1.2rem);">6行</div>
                 </div>
             </div>
         `,
@@ -113,7 +113,7 @@ const slideData = [
         title: '表',
         icon: 'fa-table',
         duration: 13,
-        narration: '表のテンプレートです。項目が多く、揃った形で見せたいときに使います。行は 5 つまでが読みやすい目安です。必須か任意かのような短い値は、丸い札にすると見分けられます。',
+        narration: '表のテンプレートです。項目が多く、揃った形で見せたいときに使います。行は 5つまでが読みやすい目安です。必須か任意かのような短い値は、丸い札にすると見分けられます。',
         body: `
             <div class="overflow-hidden rounded-xl border border-slate-700/80 shadow-lg shadow-slate-950/40">
                 <table class="w-full text-left text-slate-200" style="font-size: clamp(0.9rem, 1.95cqw, 1.45rem);">
@@ -148,7 +148,7 @@ const slideData = [
                 <div class="p-[1.6cqw] font-mono text-slate-200 space-y-[0.6cqw]" style="font-size: clamp(0.82rem, 1.75cqw, 1.3rem);">
                     <div><span class="text-lime-400">$</span> ytslide measure --slides template --all --write</div>
                     <div class="text-slate-400">スライド 4: duration 12 -&gt; 9</div>
-                    <div class="-mx-[1.6cqw] px-[1.6cqw] bg-lime-500/10 border-l-2 border-lime-400 text-lime-300">template.js: 1 枚を書き換えた</div>
+                    <div class="-mx-[1.6cqw] px-[1.6cqw] bg-lime-500/10 border-l-2 border-lime-400 text-lime-300">template.js: 1枚を書き換えた</div>
                 </div>
             </div>
             <p class="text-slate-300 mt-[1.4cqw] font-medium" style="font-size: clamp(0.95rem, 2.0cqw, 1.5rem);">
@@ -270,24 +270,24 @@ const slideData = [
     },
 
     // ── 10. カード（段数を混ぜる） ─────────────────────────────────
-    // 6 列の格子に置き、col-span-6 / col-span-3 / col-span-2 で幅を変える。
+    // 6列の格子に置き、col-span-6 / col-span-3 / col-span-2 で幅を変える。
     {
         title: 'カード（段数を混ぜる）',
         icon: 'fa-table-cells-large',
         duration: 12,
-        narration: '段数を混ぜたカードのテンプレートです。6 列の格子を土台にして、1 枚のカードがいくつ分の幅を占めるかを変えます。大事なものほど広く取ると、目が行く順を決められます。',
+        narration: '段数を混ぜたカードのテンプレートです。6列の格子を土台にして、1枚のカードがいくつ分の幅を占めるかを変えます。大事なものほど広く取ると、目が行く順を決められます。',
         body: `
             <div class="grid grid-cols-6 gap-[1.2cqw]">
                 <div class="col-span-6 rounded-2xl bg-gradient-to-r from-sky-950/70 to-slate-900/40 border border-sky-500/40 p-[1.4cqw] flex items-center gap-[1.4cqw]">
                     <span class="shrink-0 grid place-items-center w-[4.4cqw] h-[4.4cqw] rounded-xl bg-sky-500/15 border border-sky-400/40 text-sky-300" style="font-size: clamp(1rem, 2.3cqw, 1.7rem);"><i class="fa-solid fa-star"></i></span>
                     <div>
                         <div class="text-slate-50 font-bold" style="font-size: clamp(1rem, 2.3cqw, 1.7rem);">一番伝えたいことを全幅で</div>
-                        <div class="text-slate-300 font-medium" style="font-size: clamp(0.8rem, 1.7cqw, 1.25rem);">6 列ぶんを占める</div>
+                        <div class="text-slate-300 font-medium" style="font-size: clamp(0.8rem, 1.7cqw, 1.25rem);">6列ぶんを占める</div>
                     </div>
                 </div>
                 <div class="col-span-3 rounded-xl bg-slate-800/50 border border-slate-700 p-[1.3cqw]">
                     <div class="text-lime-300 font-bold" style="font-size: clamp(0.95rem, 2.1cqw, 1.55rem);"><i class="fa-solid fa-check mr-[0.6cqw]"></i>半分の幅</div>
-                    <p class="text-slate-300 font-medium mt-[0.4cqw]" style="font-size: clamp(0.78rem, 1.65cqw, 1.2rem);">3 列ぶん。対になる 2 つを並べる。</p>
+                    <p class="text-slate-300 font-medium mt-[0.4cqw]" style="font-size: clamp(0.78rem, 1.65cqw, 1.2rem);">3列ぶん。対になる 2つを並べる。</p>
                 </div>
                 <div class="col-span-3 rounded-xl bg-slate-800/50 border border-slate-700 p-[1.3cqw]">
                     <div class="text-lime-300 font-bold" style="font-size: clamp(0.95rem, 2.1cqw, 1.55rem);"><i class="fa-solid fa-check mr-[0.6cqw]"></i>半分の幅</div>
@@ -295,7 +295,7 @@ const slideData = [
                 </div>
                 <div class="col-span-2 rounded-xl bg-slate-800/50 border border-slate-700 p-[1.2cqw] text-center">
                     <div class="text-amber-300 font-bold" style="font-size: clamp(0.88rem, 1.9cqw, 1.4rem);">3 分の 1</div>
-                    <p class="text-slate-400 font-medium mt-[0.3cqw]" style="font-size: clamp(0.72rem, 1.55cqw, 1.12rem);">2 列ぶん</p>
+                    <p class="text-slate-400 font-medium mt-[0.3cqw]" style="font-size: clamp(0.72rem, 1.55cqw, 1.12rem);">2列ぶん</p>
                 </div>
                 <div class="col-span-2 rounded-xl bg-slate-800/50 border border-slate-700 p-[1.2cqw] text-center">
                     <div class="text-amber-300 font-bold" style="font-size: clamp(0.88rem, 1.9cqw, 1.4rem);">3 分の 1</div>
@@ -314,7 +314,7 @@ const slideData = [
         title: 'ポイント・注意の帯',
         icon: 'fa-bullhorn',
         duration: 13,
-        narration: 'ポイントと注意の帯です。横幅いっぱいの 1 行に、アイコンと短い文を入れます。強めたいところは緑、断り書きや気をつけることは赤にすると、役割が伝わります。',
+        narration: 'ポイントと注意の帯です。横幅いっぱいの 1行に、アイコンと短い文を入れます。強めたいところは緑、断り書きや気をつけることは赤にすると、役割が伝わります。',
         body: `
             <div class="space-y-[1.4cqw]">
                 <div class="rounded-xl bg-lime-950/50 border border-lime-500/50 p-[1.4cqw] flex items-center gap-[1.4cqw] shadow-lg shadow-lime-900/20">
@@ -322,7 +322,7 @@ const slideData = [
                     <span class="text-lime-200 font-bold" style="font-size: clamp(1rem, 2.2cqw, 1.65rem);">ポイント: 帯は本文の前後どちらに置いてもよい</span>
                 </div>
                 <p class="text-slate-200 font-medium leading-relaxed px-[0.4cqw]" style="font-size: clamp(0.92rem, 2.0cqw, 1.45rem);">
-                    本文はここに書く。帯は 1 枚に 1 本までにすると効く。2 本以上並べると、
+                    本文はここに書く。帯は 1枚に 1本までにすると効く。2本以上並べると、
                     どれも目立たなくなる。
                 </p>
                 <div class="rounded-xl bg-rose-950/40 border border-rose-500/40 p-[1.2cqw] flex items-center gap-[1.2cqw]">
@@ -447,7 +447,7 @@ const slideData = [
             <div class="space-y-[1.6cqw]">
                 <div class="flex items-start gap-[1.4cqw] rounded-2xl bg-sky-950/40 border border-sky-500/40 p-[1.8cqw]">
                     <span class="shrink-0 grid place-items-center w-[4cqw] h-[4cqw] rounded-full bg-sky-500/20 border border-sky-400/50 text-sky-300 font-extrabold" style="font-size: clamp(1rem, 2.2cqw, 1.6rem);">Q</span>
-                    <p class="text-slate-100 font-bold leading-snug" style="font-size: clamp(1.05rem, 2.4cqw, 1.8rem);">用意された 19 種で足りないときは？</p>
+                    <p class="text-slate-100 font-bold leading-snug" style="font-size: clamp(1.05rem, 2.4cqw, 1.8rem);">用意された 19種で足りないときは？</p>
                 </div>
                 <div class="flex items-start gap-[1.4cqw] rounded-2xl bg-lime-950/30 border border-lime-500/40 p-[1.8cqw]">
                     <span class="shrink-0 grid place-items-center w-[4cqw] h-[4cqw] rounded-full bg-lime-500/20 border border-lime-400/50 text-lime-300 font-extrabold" style="font-size: clamp(1rem, 2.2cqw, 1.6rem);">A</span>

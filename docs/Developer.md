@@ -31,8 +31,9 @@
 不要。** インストールが要るのは `duration` の測定・`index.html` の生成・動画の
 書き出しを行う `ytslide` の CLI だけ
 （[README の「インストール」](../README.md#インストール)）。
-テストは `tests/` の 4 本（`uv run pytest`）。
-Tailwind・Google Fonts・FontAwesome は CDN から読み込む（オフラインでは崩れる）。`public_html/` に置くため、ファイルを置くだけで
+テストは `tests/` の 4本（`uv run pytest`）。
+Tailwind・Google Fonts・FontAwesome は CDN から読み込む（オフラインでは崩れる）。
+このリポジトリは `public_html/` の下にあるので、ファイルを置けばそのまま
 公開される。
 
 確認はブラウザで `player.html` を開くだけ。
@@ -50,7 +51,7 @@ Tailwind・Google Fonts・FontAwesome は CDN から読み込む（オフライ�
 - **`file://` でも表示と読み上げが動く**（TODO-088 で実測）。相対
   `<script>` の読み込みと CDN の読み込みは通り、Online Voice の
   `translate_tts` も `file://` から 200 で取れて再生できた。コンソール
-  エラー・失敗したリクエストは 0 件で、`http://` との差は無かった
+  エラー・失敗したリクエストは 0件で、`http://` との差は無かった
 - **Web Speech API は `file://` でも `http://` でも確かめられていない。**
   実測に使ったヘッドレスの Chromium には音声合成エンジンが無く、
   どちらでも `synthesis-failed` になる。`file://` 固有の制約かどうかは
@@ -61,7 +62,7 @@ Tailwind・Google Fonts・FontAwesome は CDN から読み込む（オフライ�
 
 ## 全体の作り
 
-**HTML → `slideData` → 再生ロジック** の 3 段。データは別ファイルに分かれている。
+**HTML → `slideData` → 再生ロジック** の 3段。データは別ファイルに分かれている。
 
 `player.html` は `?slides=<名前>` から `slides/<名前>.js` を読み込む
 （既定は `readme`）。読み込みは `</main>` 直後の `document.write` で、
@@ -97,10 +98,10 @@ Tailwind・Google Fonts・FontAwesome は CDN から読み込む（オフライ�
 ### `duration` は実測値
 
 `duration` には **Online TTS の音声を `BASE_SPEED_MULTIPLIER` 倍で再生した
-実測秒数**を入れる。`slides/claude-memo.js` の 17 枚は `ffprobe` で測定し、
+実測秒数**を入れる。`slides/claude-memo.js` の 17枚は `ffprobe` で測って
 入れた値（合計 324 秒）で、目分量ではない。
 
-**読み置換表を変えると読み上げの長さも変わる。**
+**読みの置換表を変えると読み上げの長さも変わる。**
 対象スライドの `duration` を測り直す。測定には
 `ytslide measure` を使う（`--slides <名前>` でスライド一式を指定、
 下書き確認は `--text`）。**`--write` を付けると、測定値を
@@ -111,14 +112,14 @@ Tailwind・Google Fonts・FontAwesome は CDN から読み込む（オフライ�
 
 置換表は `player.html` の `SPEECH_RULES` と
 スライド一式のファイルから読み込むため、複製ではない。ただし **`TTS_MAX_CHARS` と
-`BASE_SPEED_MULTIPLIER` は `player.html` と同じ値**なため、どちらか一方を変えたら
+`BASE_SPEED_MULTIPLIER` は `player.html` と同じ値**なので、どちらか一方を変えたら
 もう一方も変える。片方だけ変えると測定値が実際とずれる。
 
 ## 再生の設定を覚える
 
 再生速度・字幕・音声エンジン・待ち秒数は `localStorage` に覚え、
 読み込み時に復元する。スライド一式（`?slides=`）ごとには
-分けず、全体で 1 組の設定を使う。
+分けず、全体で 1組の設定を使う。
 
 | 設定 | 変数 | 保存キー | 既定値 |
 |------|------|----------|--------|
@@ -144,17 +145,17 @@ Tailwind・Google Fonts・FontAwesome は CDN から読み込む（オフライ�
 `renderSlide()` の末尾で `history.replaceState(null, '', '#N')` を呼び、
 表示が変わるたびに番号（1 始まり）をハッシュへ書く。自動送り・手動送り・
 シークバー・チャプター一覧はすべて `renderSlide()` を通るので、書き換える
-場所は 1 箇所。`replaceState` なので戻るボタンの履歴は増えない。
+場所は 1箇所。`replaceState` なので戻るボタンの履歴は増えない。
 クエリ（`?slides=`）はそのまま残る。
 
 起動時は `startIndexFromHash()` が `location.hash` を読む。`#` 直後が
-数字だけで、枚数の範囲内なら、その枚から始める。ハッシュが無い・数値でない・
-0 以下・枚数超過は 1 枚目に寄せる（URL から来る値は信用しない）。
+数字だけで、枚数の範囲内なら、そのスライドから始める。ハッシュが無い・数値でない・
+0 以下・枚数超過は 1枚目に寄せる（URL から来る値は信用しない）。
 起動後にハッシュを手で書き換えても追従しない（`hashchange` は聞かない）。
 
 ## 読み上げ
 
-2 系統をヘッダーのプルダウン `#voice-select` で切り替える。既定は `online`。
+2系統をヘッダーのプルダウン `#voice-select` で切り替える。既定は `online`。
 消音の `#mute-btn` はそのプルダウンの左に置き、音に関する操作をヘッダーに
 まとめてある。アイコンの色はボタン側（`text-lime-400`）に持たせる
 （`muteIcon.className` を書き換えるため、アイコンに持たせると消えるため）。
@@ -214,13 +215,13 @@ Online TTS の `onerror` と `play()` の reject で、`#audio-error-notice`
 
 ### 副作用のある実装
 
-次の 3 つは実機で音声が出なくなった原因。理由を知らずに「整理」すると再発する。
+次の 3つは実機で音声が出なくなった原因。理由を知らずに「整理」すると再発する。
 
-- **`Audio` 要素（`fallbackAudioElement`）は 1 個を使い回す。**
+- **`Audio` 要素（`fallbackAudioElement`）は 1個を使い回す。**
   再生ボタンのクリック内で unlock しているため、`null` にして作り直すと
   Android Chrome で自動再生がブロックされ、音声が出なくなる。
 - **Web Speech は `splitForSpeech()` で `maxLen` の既定値分に分けて順に読ませる。**
-  Chrome（PC・Android 両方）は長い発話を 15 秒ほどで打ち切る。1 つにまとめると
+  Chrome（PC・Android 両方）は長い発話を 15 秒ほどで打ち切る。1つにまとめると
   途中で切れる。
 - **`<meta name="referrer" content="no-referrer">` を外さない。**
   Google Translate TTS は Referer 付きの要求に 404 を返すため、外すと
@@ -263,7 +264,7 @@ PC 扱いになり、レターボックス内では `clamp()` の下限 px が�
 
 通常表示はクラスの `mt-3` で十分なため、CSS に書いているのは擬似
 フルスクリーン中の位置（`position: absolute; top: 100%`）だけ。ラッパーが
-レターボックスそのものなため、`top: 100%` がそのまま枠の下端になる。
+レターボックスそのものなので、`top: 100%` がそのまま枠の下端になる。
 
 ### 擬似フルスクリーン
 
@@ -274,7 +275,7 @@ PC 扱いになり、レターボックス内では `clamp()` の下限 px が�
 
 内容（`.video-viewport.pseudo-fullscreen`、縮小経路では `#viewport-frame`）
 も字幕も、このラッパーを基準に配置。**比率とサイズの変更は
-ここ 1 か所だけ。**
+ここ 1か所だけ。**
 
 字幕はフルスクリーン中、`top: 100%` で枠下（暗幕上）に表示。
 
@@ -307,4 +308,4 @@ click で、`e.target` がラッパー自身のときだけ応答する（枠内
 ---
 
 個々の変更の経緯（条件式の理由、試した内容）は
-`archives/todo/` に 1 件 1 ファイルで記録されている。
+`archives/todo/` に 1件 1ファイルで記録されている。

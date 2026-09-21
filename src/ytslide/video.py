@@ -2,7 +2,7 @@
 
 各スライドを Playwright（chromium）で 1920×1080 の PNG に撮り、
 `measure.py` と同じ TTS で読み上げ音声を取り、静止画 + 音声 + 末尾の無音を
-1 枚ぶんのクリップにして `ffmpeg` で連結する。再生速度は
+1枚ぶんのクリップにして `ffmpeg` で連結する。再生速度は
 `BASE_SPEED_MULTIPLIER`（player.html の既定の倍速）に揃える。字幕は
 焼き込まず、`.srt` を別に出す。
 
@@ -44,8 +44,8 @@ FIT = """(i) => {
 def split_for_tts(text, max_chars):
     """`max_chars` を超える文を `。、！？` の位置で分け、切り捨てずに全部返す。
 
-    1 つの区切りだけでも max_chars を超える場合は、それ以上分けようが無いので
-    そのまま 1 つとして返す。
+    1つの区切りだけでも max_chars を超える場合は、それ以上分けようが無いので
+    そのまま 1つとして返す。
     """
     pieces = re.findall(r'[^。、！？]*[。、！？]|[^。、！？]+$', text)
     pieces = [p for p in pieces if p]
@@ -65,7 +65,7 @@ def split_for_tts(text, max_chars):
 def fetch_speech(text, out_mp3):
     """読み上げ文（180 字を超える分は分割）の音声を取り、`out_mp3` に書く。
 
-    分割した分は個別に mp3 で取り、`ffmpeg concat` で 1 本につなぐ。
+    分割した分は個別に mp3 で取り、`ffmpeg concat` で 1本につなぐ。
     """
     chunks = split_for_tts(text, measure.TTS_MAX_CHARS)
     with tempfile.TemporaryDirectory() as tmp:
@@ -135,7 +135,7 @@ def build_srt(entries):
 
 
 def make_clip(png, mp3, mp3_duration, out_mp4):
-    """PNG の静止画 + mp3 + 末尾の無音を 1 本の MP4 にする。"""
+    """PNG の静止画 + mp3 + 末尾の無音を 1本の MP4 にする。"""
     subprocess.run([
         'ffmpeg', '-y',
         '-loop', '1', '-i', str(png),

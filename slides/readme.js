@@ -2,7 +2,7 @@
 // このリポジトリ自体の紹介スライド一式。共通の再生エンジンは player.html の中にある。
 
 const slidesConfig = {
-    title: 'yt_slide - ファイル 2 つで動くナレーション付きプレゼン',
+    title: 'yt_slide - ファイル 2つで動くナレーション付きプレゼン',
     heading: 'yt_slide の紹介',
     // index.html の一覧に出す説明とアイコン（ytslide index が読む。TODO-089）
     summary: 'このリポジトリの紹介',
@@ -23,7 +23,7 @@ const slideData = [
     {
         title: 'yt_slide',
         duration: 17,
-        narration: 'yt_slide は、2 つのファイルを置くだけで、ナレーション付きのプレゼンが動き出す仕組みです。スライドの中身は JavaScript ファイル 1 つ。ただし、一から書く必要はありません。19 種類のテンプレートをコピーするか、AI に書いてもらえます。',
+        narration: 'yt_slide は、2つのファイルを置くだけで、ナレーション付きのプレゼンが動き出す仕組みです。スライドの中身は JavaScript ファイル 1つ。ただし、一から書く必要はありません。19種類のテンプレートをコピーするか、AI に書いてもらえます。',
         render: function() {
             return `
                 <div class="flex flex-col items-start justify-center h-full px-[4cqw] py-[1.5cqw] space-y-[1.5cqw]">
@@ -31,11 +31,11 @@ const slideData = [
                         <i class="fa-solid fa-clapperboard text-lime-400"></i> yt_slide
                     </span>
                     <h1 class="font-extrabold text-slate-50 leading-tight" style="font-size: clamp(1.8rem, 5cqw, 3.8rem);">
-                        ファイル <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-lime-400">2 つ</span> で、
+                        ファイル <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-lime-400">2つ</span> で、
                         ナレーション付きのプレゼンが動き出す
                     </h1>
                     <p class="text-slate-200 font-medium leading-relaxed" style="font-size: clamp(1.15rem, 2.8cqw, 2.1rem);">
-                        スライドの中身は JavaScript ファイル 1 つ。ただし 1 から書かなくていい。19 種類のテンプレートをコピーするか、AI に書いてもらう。
+                        スライドの中身は JavaScript ファイル 1つ。ただし 1 から書かなくていい。19種類のテンプレートをコピーするか、AI に書いてもらう。
                     </p>
                 </div>
             `;
@@ -114,7 +114,7 @@ const slideData = [
                     </h2>
                     <div class="bg-sky-950/40 border border-sky-500/40 rounded-xl p-[1.6cqw] text-sky-300 font-bold flex items-center gap-[1.2cqw]" style="font-size: clamp(1.1rem, 2.4cqw, 1.8rem);">
                         <i class="fa-solid fa-lightbulb text-lime-400" style="font-size: clamp(1.4rem, 3cqw, 2.2rem);"></i>
-                        <span>player.html は触らない。slides/ に JavaScript を 1 つ足すだけ</span>
+                        <span>player.html は触らない。slides/ に JavaScript を 1つ足すだけ</span>
                     </div>
                     <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-[1.3cqw] mt-[1.2cqw] text-slate-200 font-medium flex items-center gap-[1.2cqw]" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">
                         <i class="fa-solid fa-robot text-sky-400 flex-shrink-0" style="font-size: clamp(1.2rem, 2.4cqw, 1.8rem);"></i>
@@ -155,8 +155,8 @@ const slideData = [
                                 <tr><td class="p-[1cqw] font-mono font-bold text-lime-400"><a href="player.html?slides=readme" onclick="event.stopPropagation()" class="text-lime-400 no-underline"><i class="fa-solid fa-play mr-[0.5cqw]"></i>readme</a></td><td class="p-[1cqw]">このリポジトリの紹介（既定） <a href="https://github.com/ytani01/yt_slide/blob/main/README.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="text-sky-300 font-mono no-underline whitespace-nowrap ml-[0.6cqw]"><i class="fa-solid fa-book"></i> README.md</a></td></tr>
                                 <tr><td class="p-[1cqw] font-mono font-bold text-sky-400"><a href="player.html?slides=user" onclick="event.stopPropagation()" class="text-sky-400 no-underline"><i class="fa-solid fa-play mr-[0.5cqw]"></i>user</a></td><td class="p-[1cqw]">スライドの作り方 <a href="https://github.com/ytani01/yt_slide/blob/main/docs/User.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="text-sky-300 font-mono no-underline whitespace-nowrap ml-[0.6cqw]"><i class="fa-solid fa-book"></i> docs/User.md</a></td></tr>
                                 <tr><td class="p-[1cqw] font-mono font-bold text-sky-400"><a href="player.html?slides=developer" onclick="event.stopPropagation()" class="text-sky-400 no-underline"><i class="fa-solid fa-play mr-[0.5cqw]"></i>developer</a></td><td class="p-[1cqw]">player.html の作り <a href="https://github.com/ytani01/yt_slide/blob/main/docs/Developer.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="text-sky-300 font-mono no-underline whitespace-nowrap ml-[0.6cqw]"><i class="fa-solid fa-book"></i> docs/Developer.md</a></td></tr>
-                                <tr><td class="p-[1cqw] font-mono font-bold text-lime-400"><a href="player.html?slides=claude-memo" onclick="event.stopPropagation()" class="text-lime-400 no-underline"><i class="fa-solid fa-play mr-[0.5cqw]"></i>claude-memo</a></td><td class="p-[1cqw]">実例。Claude Code の使い方 17 枚</td></tr>
-                                <tr><td class="p-[1cqw] font-mono font-bold text-sky-400"><a href="player.html?slides=template" onclick="event.stopPropagation()" class="text-sky-400 no-underline"><i class="fa-solid fa-play mr-[0.5cqw]"></i>template</a></td><td class="p-[1cqw]">スライドのテンプレート 19 種。コピーして使う</td></tr>
+                                <tr><td class="p-[1cqw] font-mono font-bold text-lime-400"><a href="player.html?slides=claude-memo" onclick="event.stopPropagation()" class="text-lime-400 no-underline"><i class="fa-solid fa-play mr-[0.5cqw]"></i>claude-memo</a></td><td class="p-[1cqw]">実例。Claude Code の使い方 17枚</td></tr>
+                                <tr><td class="p-[1cqw] font-mono font-bold text-sky-400"><a href="player.html?slides=template" onclick="event.stopPropagation()" class="text-sky-400 no-underline"><i class="fa-solid fa-play mr-[0.5cqw]"></i>template</a></td><td class="p-[1cqw]">スライドのテンプレート 19種。コピーして使う</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -168,7 +168,7 @@ const slideData = [
     {
         title: 'まとめ',
         duration: 18,
-        narration: 'まとめです。ファイル 2 つで、ナレーション付きのプレゼンが動きます。スライドは JavaScript ファイル 1 つですが、テンプレートをコピーするか AI に頼めるので、一から書く必要はありません。サーバーに置けば、URL を渡すだけで見てもらえます。ぜひ試してみてください。',
+        narration: 'まとめです。ファイル 2つで、ナレーション付きのプレゼンが動きます。スライドは JavaScript ファイル 1つですが、テンプレートをコピーするか AI に頼めるので、一から書く必要はありません。サーバーに置けば、URL を渡すだけで見てもらえます。ぜひ試してみてください。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
@@ -178,11 +178,11 @@ const slideData = [
                     <div class="space-y-[1cqw] text-slate-200 font-medium mb-[1.5cqw]">
                         <div class="bg-slate-800/60 p-[1cqw] rounded-lg border border-slate-700 flex items-center gap-[1.2cqw]">
                             <i class="fa-solid fa-file-code text-lime-400 flex-shrink-0" style="font-size: clamp(1.2rem, 2.4cqw, 1.7rem);"></i>
-                            <span style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);"><strong>ファイル 2 つ</strong> を置くだけで、ナレーション付きプレゼンが動く</span>
+                            <span style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);"><strong>ファイル 2つ</strong> を置くだけで、ナレーション付きプレゼンが動く</span>
                         </div>
                         <div class="bg-slate-800/60 p-[1cqw] rounded-lg border border-slate-700 flex items-center gap-[1.2cqw]">
                             <i class="fa-solid fa-plus text-sky-400 flex-shrink-0" style="font-size: clamp(1.2rem, 2.4cqw, 1.7rem);"></i>
-                            <span style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);"><strong>slides/ に JavaScript を 1 つ足す</strong> だけ。19 種のテンプレートと AI があるので 1 から書かなくていい</span>
+                            <span style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);"><strong>slides/ に JavaScript を 1つ足す</strong> だけ。19種のテンプレートと AI があるので 1 から書かなくていい</span>
                         </div>
                         <div class="bg-slate-800/60 p-[1cqw] rounded-lg border border-slate-700 flex items-center gap-[1.2cqw]">
                             <i class="fa-solid fa-share-nodes text-amber-400 flex-shrink-0" style="font-size: clamp(1.2rem, 2.4cqw, 1.7rem);"></i>

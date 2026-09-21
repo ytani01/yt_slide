@@ -11,14 +11,14 @@ from ytslide import measure, paths
 SAMPLE = """        const slideData = [
             // Slide 1
             {
-                title: '1 枚目',
+                title: '1枚目',
                 duration: 10,
                 narration: 'ひとつめ',
                 render: function() { return `duration: 99,`; }
             },
             // Slide 2
             {
-                title: '2 枚目',
+                title: '2枚目',
                 duration: 7,
                 narration: 'ふたつめ',
             },
@@ -97,8 +97,8 @@ def test_slides_rules_from_text_without_rules():
 
 
 def test_all_slides_rules_load():
-    # リポジトリ直下（既定の場所）の 5 つのスライド一式が全部読めること
-    # （スライド一式だけの語があるものは 1 つ以上）。
+    # リポジトリ直下（既定の場所）の 5つのスライド一式が全部読めること
+    # （スライド一式だけの語があるものは 1つ以上）。
     paths.set_root(None)
     for slides in ('readme', 'user', 'developer', 'claude-memo'):
         slides_rules = measure.load_slides_rules(slides)
@@ -140,13 +140,13 @@ def test_measure_takes_median(monkeypatch):
     assert raw == 5.0, raw           # 並びの真ん中ではなく、値の中央値
     assert scaled == 5.0 / measure.BASE_SPEED_MULTIPLIER, scaled
 
-    # 偶数回のときは真ん中 2 つの平均（statistics.median のふるまい）。
+    # 偶数回のときは真ん中 2つの平均（statistics.median のふるまい）。
     calls.clear()
     monkeypatch.setattr(measure, 'fetch_duration', fake_fetch([3.0, 6.0]))
     _spoken, raw, scaled = measure.measure('テスト', repeat=2)
     assert raw == 4.5, raw
 
-    # 既定は 1 回（今までと同じ挙動）。
+    # 既定は 1回（今までと同じ挙動）。
     calls.clear()
     monkeypatch.setattr(measure, 'fetch_duration', fake_fetch([4.2]))
     _spoken, raw, scaled = measure.measure('テスト')

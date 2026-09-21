@@ -630,7 +630,7 @@
         const SPEECH_SAFETY_MARGIN_MS = 3000;
         // Online TTS の onended が来ないときの受け皿に足す余裕
         const TTS_END_MARGIN_MS = 3000;
-        // Google の translate_tts が 1 回で読める長さの上限
+        // Google の translate_tts が 1回で読める長さの上限
         const TTS_MAX_CHARS = 180;
 
         let voiceEngineMode = 'online'; // 'online' or 'speech'
@@ -767,7 +767,7 @@
             voices.forEach(v => voiceSelect.add(new Option(v.name, v.name)));
             const found = Array.from(voiceSelect.options).some(o => o.value === want);
             voiceSelect.value = found ? want : 'auto';
-            // 声が 1 つも取れていないときは、まだ揃っていないだけかもしれない。
+            // 声が 1つも取れていないときは、まだ揃っていないだけかもしれない。
             // 覚えている名前を消すのは、声が並んだ上で見つからなかったときだけ
             if (!found && voices.length) selectedVoiceName = '';
         }
@@ -967,7 +967,7 @@
 
                     const voices = window.speechSynthesis.getVoices();
                     // プルダウンで選ばれた声があればそれを使う（TODO-091）。
-                    // 自動のときは、落ち着いた優艶な日本語女性音声を優先検索
+                    // 自動のときは、落ち着いた日本語の女性音声を優先して探す
                     // （Nanami, Haruka, Kyoko, Yuka, Sakura, Ayumi, Google 日本語 等）
                     const femaleJaVoice = (selectedVoiceName
                         && voices.find(v => v.name === selectedVoiceName)) || voices.find(v => 
@@ -1015,7 +1015,7 @@
                         utterance.onerror = (e) => {
                             console.warn("SpeechSynthesis error, falling back to Online TTS:", e);
                             if (finished || runId !== speechRunId) return;
-                            finished = true; // 分割した数だけ落ちないように 1 回だけ
+                            finished = true; // 分割した数だけ落ちないように 1回だけ
                             speakOnlineTTS(textToSpeak);
                         };
 
@@ -1160,8 +1160,8 @@
             // Sync sidebar list state
             updatePlaylistSelection();
 
-            // 見ている枚を URL に載せる（TODO-074）。履歴は増やさない
-            // Safari は 30 秒に 100 回を超えると例外を投げる。URL が更新できなくても再生は止めない
+            // 見ているスライドを URL に載せる（TODO-074）。履歴は増やさない
+            // Safari は 30 秒に 100回を超えると例外を投げる。URL が更新できなくても再生は止めない
             try {
                 history.replaceState(null, '', `#${currentIndex + 1}`);
             } catch (e) {
@@ -1456,7 +1456,7 @@
             // 無いので、どこを押しても切り替えてよい。暗幕のハンドラは
             // #viewport-stage 自身の click なので、こことは当たらない。
             // 切り替えそのものは再生ボタンに投げる。枠タップが最初の操作に
-            // なることがあるので、読み上げの解錠（unlockFallbackAudio）まで
+            // なることがあるので、読み上げの unlock（unlockFallbackAudio）まで
             // 通す必要がある。ユーザー操作の中から同期で呼ぶので、Android
             // Chrome の自動再生ブロックにも掛からない（TODO-002）。
             const tapFeedbackIcon = document.getElementById('tap-feedback-icon');

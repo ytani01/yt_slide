@@ -8,12 +8,12 @@
 
 # ``getLogger`` と ``loggerInit`` の役割の違い
 
-この 2 つは別の場所で・別の目的で呼ぶ。
+この 2つは別の場所で・別の目的で呼ぶ。
 
 | | ``getLogger(name)`` | ``loggerInit(debug)`` |
 |---|---|---|
 | 呼ぶ場所 | クラス本体（import 時） | CLI コマンドの先頭（実行時） |
-| 呼ぶ回数 | クラス・モジュールごとに 1 回 | プロセスごとに 1 回 |
+| 呼ぶ回数 | クラス・モジュールごとに 1回 | プロセスごとに 1回 |
 | すること | 名前タグを付ける | loguru 本体を設定する |
 | 決まるもの | その名前の水準（``level`` を渡したとき） | 出力先と既定水準 |
 | 呼ばないと | 名前付きの logger が無い | 出力先が無く、何も出ない |
@@ -96,7 +96,7 @@ def setLevel(name: str, level: str | None = None) -> None:
 def getLogger(name: str, level: str | None = None):
     """名前付きの logger を返す。
 
-    クラス本体に 1 つ置いて使う
+    クラス本体に 1つ置いて使う
     （``__log = getLogger(__qualname__)``）。返り値は ``logger.bind()``
     した束縛オブジェクトで、``extra["log_name"]`` にこの名前が入る。
     ``level`` を渡すと、そのままこの名前の水準になる
@@ -120,7 +120,7 @@ def _filter(record) -> bool:
 def loggerInit(debug: bool = False, out: TextIO = sys.stderr) -> None:
     """logger を初期化する
 
-    各 CLI コマンドの先頭で 1 度だけ呼ぶ。名前ごとの水準は
+    各 CLI コマンドの先頭で 1度だけ呼ぶ。名前ごとの水準は
     ``getLogger(name, level)`` や ``setLevel(name, level)`` で
     コードから指定する。
 
@@ -137,5 +137,5 @@ def loggerInit(debug: bool = False, out: TextIO = sys.stderr) -> None:
 
 
 def exmsg(ex: Exception) -> str:
-    """例外を 1 行の文字列にする（``ValueError: 使えない名前です`` の形）。"""
+    """例外を 1行の文字列にする（``ValueError: 使えない名前です`` の形）。"""
     return f"{type(ex).__name__}: {ex}"

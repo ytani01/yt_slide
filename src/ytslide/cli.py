@@ -86,7 +86,7 @@ def init(ctx, debug):
 @click.option('--slides', 'slides_name', default=None,
               help=f'slides/<名前>.js の <名前>（既定は {paths.DEFAULT_SLIDES}）')
 @click.option('-n', '--repeat', type=click.IntRange(min=1), default=1,
-              help='1 枚を測る回数。中央値を採る（既定 1）')
+              help='1枚を測る回数。中央値を採る（既定 1）')
 @click.option('--root', help='スライドの置き場所（既定はカレントディレクトリ）')
 @click_common_opts(__version__)
 def measure(ctx, numbers, text, all_, write, slides_name, repeat, root, debug):
@@ -148,7 +148,7 @@ def index(ctx, root, debug):
 @click.option('--slides', 'slides_name', default=None,
               help=f'slides/<名前>.js の <名前>（既定は {paths.DEFAULT_SLIDES}）')
 @click.option('-n', '--repeat', type=click.IntRange(min=1), default=1,
-              help='1 枚を測る回数。中央値を採る（既定 1）')
+              help='1枚を測る回数。中央値を採る（既定 1）')
 @click.option('--root', help='スライドの置き場所（既定はカレントディレクトリ）')
 @click_common_opts(__version__)
 def update(ctx, slides_name, repeat, root, debug):

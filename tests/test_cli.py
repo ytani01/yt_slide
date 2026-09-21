@@ -22,7 +22,7 @@ def test_init_creates_files_and_index(tmp_path, monkeypatch):
         assert index_html.exists()
 
         html = index_html.read_text(encoding='utf-8')
-        # 一覧に template が 1 件だけ入っている。
+        # 一覧に template が 1件だけ入っている。
         assert html.count('slides=template') == 1, html
         # <title> と <h1> がカレントディレクトリ名になる。
         assert f'<title>{tmp_path.name} - スライド一覧</title>' in html, html
@@ -61,7 +61,7 @@ def test_init_second_run_does_not_overwrite(tmp_path, monkeypatch):
     runner.invoke(cli, ['init'])
 
     # 既存の中身をセンチネル文字列に差し替える。index.html はマーカー構造
-    # だけ残し、タイトルと見出しをセンチネルにする（2 回目の init が内部で
+    # だけ残し、タイトルと見出しをセンチネルにする（2回目の init が内部で
     # 呼ぶ `index` が、マーカーの中だけ書き換えるのは正常な挙動のため）。
     template_sentinel = '// SENTINEL template.js\n'
     (tmp_path / 'slides' / 'template.js').write_text(template_sentinel, encoding='utf-8')

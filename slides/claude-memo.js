@@ -261,7 +261,7 @@ const slidesConfig = {
                                     <span># TODO.md - Claude Code Task Board</span>
                                     <span class="text-slate-400 font-normal" style="font-size: clamp(0.75rem, 1.5cqw, 1.1rem);">v2.4</span>
                                 </div>
-                                <div class="text-slate-300" style="font-size: clamp(0.75rem, 1.5cqw, 1.1rem);">ステータス: 進行中 (残1件 / 累計 55 件完了) · 次回 ID: TODO-057</div>
+                                <div class="text-slate-300" style="font-size: clamp(0.75rem, 1.5cqw, 1.1rem);">ステータス: 進行中 (残1件 / 累計 55件完了) · 次回 ID: TODO-057</div>
                                 
                                 <div class="text-lime-400 font-bold pt-[0.2cqw]">## [進行中] TODO-056 モジュール構成とクラス構成の刷新</div>
                                 <div class="text-sky-300 bg-slate-900/80 px-[0.7cqw] py-[0.15cqw] rounded border border-slate-800 inline-block" style="font-size: clamp(0.75rem, 1.5cqw, 1.1rem);">
@@ -272,7 +272,7 @@ const slidesConfig = {
                                     <div class="flex items-center gap-[0.5cqw]"><span class="text-lime-400 font-bold">[x]</span> <span>責務・依存関係の抽出と設計書作成 (<code class="text-amber-300">docs/design-4.md</code>)</span></div>
                                     <div class="flex items-center gap-[0.5cqw]"><span class="text-lime-400 font-bold">[x]</span> <span>インターフェース定義とリファクタリング実施 (<code class="text-sky-300">pyright-lsp</code> にて型検証)</span></div>
                                     <div class="flex items-center gap-[0.5cqw]"><span class="text-amber-400 font-bold">[/]</span> <span>単体テスト実行と結果検証 (<code class="text-lime-300 font-bold">pytest tests/ --cov</code>)</span></div>
-                                    <div class="flex items-center gap-[0.5cqw]"><span class="text-slate-400">[ ]</span> <span>旧 API 呼び出し箇所の追随修正 (<code class="text-amber-300">src/</code> 配下 12 箇所)</span></div>
+                                    <div class="flex items-center gap-[0.5cqw]"><span class="text-slate-400">[ ]</span> <span>旧 API 呼び出し箇所の追随修正 (<code class="text-amber-300">src/</code> 配下 12箇所)</span></div>
                                 </div>
 
                                 <div class="text-slate-300 font-bold pt-[0.2cqw] border-t border-slate-800/80">## 完了済みアーカイブ</div>
@@ -409,11 +409,11 @@ const slidesConfig = {
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-slate-800 bg-slate-900/40 font-medium">
-                                        <tr><td class="p-[1cqw]">plugin</td><td class="p-[1cqw] font-mono font-bold text-lime-400">pyright-lsp</td><td class="p-[1cqw]">Python の型と定義を渡す</td><td class="p-[1cqw] font-mono">1173 回</td></tr>
-                                        <tr><td class="p-[1cqw]">plugin</td><td class="p-[1cqw] font-mono font-bold text-lime-400">ponytail</td><td class="p-[1cqw]">過剰な実装を止める (YAGNI)</td><td class="p-[1cqw] font-mono">651 回</td></tr>
+                                        <tr><td class="p-[1cqw]">plugin</td><td class="p-[1cqw] font-mono font-bold text-lime-400">pyright-lsp</td><td class="p-[1cqw]">Python の型と定義を渡す</td><td class="p-[1cqw] font-mono">1173回</td></tr>
+                                        <tr><td class="p-[1cqw]">plugin</td><td class="p-[1cqw] font-mono font-bold text-lime-400">ponytail</td><td class="p-[1cqw]">過剰な実装を止める (YAGNI)</td><td class="p-[1cqw] font-mono">651回</td></tr>
                                         <tr><td class="p-[1cqw]">MCP</td><td class="p-[1cqw] font-mono font-bold text-sky-400">codegraph</td><td class="p-[1cqw]">コード構造を引く。grepより安い</td><td class="p-[1cqw] font-mono">常用</td></tr>
                                         <tr><td class="p-[1cqw]">MCP</td><td class="p-[1cqw] font-mono font-bold text-sky-400">Claude Docs</td><td class="p-[1cqw]">資料作成</td><td class="p-[1cqw] font-mono">常用</td></tr>
-                                        <tr><td class="p-[1cqw]">plugin</td><td class="p-[1cqw] font-mono text-slate-400">claude-code-setup</td><td class="p-[1cqw]">設定の相談</td><td class="p-[1cqw] font-mono">2 回</td></tr>
+                                        <tr><td class="p-[1cqw]">plugin</td><td class="p-[1cqw] font-mono text-slate-400">claude-code-setup</td><td class="p-[1cqw]">設定の相談</td><td class="p-[1cqw] font-mono">2回</td></tr>
                                     </tbody>
                                 </table>
                             </div>

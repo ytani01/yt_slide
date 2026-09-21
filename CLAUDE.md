@@ -6,12 +6,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 `player.html`（外枠と再生エンジン）、`index.html`（スライドの一覧。入口。
 `ytslide index` が `slides/*.js` から生成する）、`slides/*.js`（スライドのデータ。
-`readme`・`user`・`developer`・`claude-memo`・`template` の 5 つのスライド一式）。
+`readme`・`user`・`developer`・`claude-memo`・`template` の 5つのスライド一式）。
 **プレイヤー側（`player.html` と `slides/*.js`）はビルドも依存関係のインストールも
 不要**で、ブラウザで開くだけで動く。インストールが要るのは、`duration` を測る・
 `index.html` を作り直す・動画に書き出す `ytslide`（`src/ytslide/`）だけ
 （`uv tool install`。README の「インストール」）。
-テストは `tests/` の 4 本（`test_cli`・`test_index`・`test_measure`・`test_video`。
+テストは `tests/` の 4本（`test_cli`・`test_index`・`test_measure`・`test_video`。
 `uv run pytest`）。
 配置場所が `public_html/` なので、ファイルがそのまま公開される。
 確認はブラウザで `player.html` を開くだけ。
@@ -26,7 +26,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ため。TODO-043）。
 
 - **`player.html` を直すなら [`docs/Developer.md`](docs/Developer.md)。**
-  再生ロジックと `duration` の決まり、読み上げの 2 系統と安全タイマー、
+  再生ロジックと `duration` の決まり、読み上げの 2系統と安全タイマー、
   container query と狭い画面の縮小経路、擬似フルスクリーン、副作用のある
   変更など。**直す前に必ず目を通すこと**
 - **スライドを足す・作るだけなら [`docs/User.md`](docs/User.md)。**

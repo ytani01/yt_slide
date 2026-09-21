@@ -2,7 +2,7 @@
 
 `slideData` の `duration` には「Online TTS の音声を `BASE_SPEED_MULTIPLIER`
 倍で再生した実測秒数」が入っている（TODO-018）。ナレーションや読みの置換表を
-変えると長さが変わるので、当たるスライドを測り直す必要がある。
+変えると長さが変わるので、対象のスライドを測り直す必要がある。
 
 読みの置換表は `player.html` の `SPEECH_RULES`（共通）と `slides/<スライド一式名>.js` の
 `slidesConfig.rules`（スライド一式だけの語）から読む。`prepareSpeechText()` と同じく
@@ -25,8 +25,8 @@ from . import paths
 TTS_MAX_CHARS = 180
 BASE_SPEED_MULTIPLIER = 1.4
 
-# JS の `[/pattern/flags, 'replacement'],` を 1 つずつ拾う。
-# 置換文の `'(?:\\.|[^'\\])*'` は、`\'` を含む文字列も 1 つの引用符として読む。
+# JS の `[/pattern/flags, 'replacement'],` を 1つずつ拾う。
+# 置換文の `'(?:\\.|[^'\\])*'` は、`\'` を含む文字列も 1つの引用符として読む。
 JS_RULE_RE = re.compile(r"\[/(.+?)/([gi]*), '((?:\\.|[^'\\])*)'\]")
 
 

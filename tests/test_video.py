@@ -23,7 +23,7 @@ def test_split_for_tts_splits_long_text_without_losing_chars():
 
 
 def test_split_for_tts_without_punctuation_stays_one_piece():
-    # 区切りが無いまま max_chars を超える場合は、それ以上分けようが無いので 1 つ。
+    # 区切りが無いまま max_chars を超える場合は、それ以上分けようが無いので 1つ。
     no_punct = 'あ' * 200
     assert video.split_for_tts(no_punct, 180) == [no_punct]
 

@@ -3,7 +3,7 @@
 // 共通の再生エンジンは player.html の中にある。
 
 const slidesConfig = {
-    title: 'player.html で別のスライドを作る - 使い方',
+    title: 'player.html で自分のスライドを作る - 使い方',
     heading: '新しいスライドを作る手順',
     // index.html の一覧に出す説明とアイコン（ytslide index が読む。TODO-089）
     summary: 'スライドの作り方',
@@ -15,7 +15,7 @@ const slidesConfig = {
     ],
 };
 
-// 巻末のアイコン一覧（TODO-069）。用途ごとに 3〜4 件、FontAwesome 6.5.1 の
+// 巻末のアイコン一覧（TODO-069）。用途ごとに 3〜4件、FontAwesome 6.5.1 の
 // 無料の solid から選んである。docs/User.md の付録と同じ内容。
 const ICON_GROUPS = [
     ['箇条書き・一覧', ['fa-list-check', 'fa-list-ol', 'fa-table-list']],
@@ -29,7 +29,7 @@ const ICON_GROUPS = [
     ['強調・ひらめき', ['fa-lightbulb', 'fa-star', 'fa-wand-magic-sparkles']],
 ];
 
-// 1 枚ぶん（3 グループ）を 3 カラムに並べる
+// 1枚ぶん（3グループ）を 3カラムに並べる
 function iconTable(groups) {
     return `
         <div class="grid grid-cols-3 gap-[1.2cqw]">
@@ -53,9 +53,9 @@ function iconTable(groups) {
 const slideData = [
     // Slide 1
     {
-        title: 'player.html で別のスライドを作る',
+        title: 'player.html で自分のスライドを作る',
         duration: 7,
-        narration: 'このプレゼンでは、player.html を触らずに自分のスライドを作成する手順をご紹介します。',
+        narration: 'このプレゼンでは、player.html を触らずに自分のスライドを作る手順を紹介します。',
         render: function() {
             return `
                 <div class="flex flex-col items-start justify-center h-full px-[4cqw] py-[1.5cqw] space-y-[1.5cqw]">
@@ -63,7 +63,7 @@ const slideData = [
                         <i class="fa-solid fa-clapperboard text-lime-400"></i> USAGE GUIDE
                     </span>
                     <h1 class="font-extrabold text-slate-50 leading-tight" style="font-size: clamp(1.6rem, 4.6cqw, 3.4rem);">
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-lime-400">player.html</span> で別のスライドを作る
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-lime-400">player.html</span> で自分のスライドを作る
                     </h1>
                     <p class="text-slate-200 font-medium leading-relaxed" style="font-size: clamp(1.05rem, 2.5cqw, 1.9rem);">
                         スライド作成者向けの手順
@@ -127,7 +127,7 @@ const slideData = [
     {
         title: '書いて確かめる',
         duration: 17,
-        narration: 'User.md の最小例を slides/sample.js に保存し、まず 1 枚だけ自分の内容に直します。保存したら player.html?slides=sample をブラウザで開き、再読み込みして見た目と読み上げを確かめます。',
+        narration: 'User.md の最小例を slides/sample.js に保存し、まず 1枚だけ自分の内容に直します。保存したら player.html?slides=sample をブラウザで開き、再読み込みして見た目と読み上げを確かめます。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
@@ -149,12 +149,12 @@ const slideData = [
         title: 'AI に作ってもらう',
         icon: 'fa-robot',
         duration: 19,
-        narration: 'AI に作ってもらうこともできます。渡すのは 3 つ。書式を説明した User.md、テンプレート集の template.js、それにスライドにしたい原稿です。依頼文には、保存できる JavaScript 全体を出すことと、各スライドに書く項目を必ず入れます。',
+        narration: 'AI に作ってもらうこともできます。渡すのは 3つ。書式を説明した User.md、テンプレート集の template.js、それにスライドにしたい原稿です。依頼文には、保存できる JavaScript 全体を出すことと、各スライドに書く項目を必ず入れます。',
         body: `
             <div class="space-y-[1cqw]" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">
-                <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-[1.2cqw] text-slate-200 font-medium"><span class="text-lime-400 font-bold">渡す 3 つ</span> — <code class="font-mono text-lime-400">docs/User.md</code>（書式）、<code class="font-mono text-lime-400">slides/template.js</code>（テンプレート 19 種）、スライドにしたい原稿</div>
+                <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-[1.2cqw] text-slate-200 font-medium"><span class="text-lime-400 font-bold">渡す 3つ</span> — <code class="font-mono text-lime-400">docs/User.md</code>（書式）、<code class="font-mono text-lime-400">slides/template.js</code>（テンプレート 19種）、スライドにしたい原稿</div>
                 <div class="bg-slate-900 border border-slate-800 rounded-xl p-[1.2cqw] text-slate-200 font-mono whitespace-pre-line" style="font-size: clamp(0.8rem, 1.7cqw, 1.25rem);">User.md の形式と template.js のテンプレートを使って、
-「◯◯」を △△ 向けに 3 枚のスライドにしてください。
+「◯◯」を △△ 向けに 3枚のスライドにしてください。
 slides/sample.js として保存できる JavaScript 全体を、
 slidesConfig と slideData を含めて出してください。
 各スライドに title・body・narration・duration を書いてください。</div>
@@ -166,7 +166,7 @@ slidesConfig と slideData を含めて出してください。
     {
         title: '一覧・仕上げ・共有',
         duration: 15,
-        narration: '一覧から開きたいときは ytslide index を実行します。時間表示を合わせたいときだけ、ナレーションが固まってから update を 1 回実行します。共有は Web サーバーへ置くか、MP4 に書き出します。',
+        narration: '一覧から開きたいときは ytslide index を実行します。時間表示を合わせたいときだけ、ナレーションが固まってから update を 1回実行します。共有は Web サーバーへ置くか、MP4 に書き出します。',
         body: `
             <div class="space-y-[1cqw]" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">
                 <div class="bg-slate-800/80 border border-lime-500 p-[1.2cqw] rounded-xl text-slate-200 font-medium"><code class="font-mono text-lime-400">ytslide index</code> — ファイルや一覧の説明・アイコンを変えたら、一覧を作り直す</div>
@@ -298,7 +298,7 @@ slidesConfig と slideData を含めて出してください。
                         <a href="https://github.com/ytani01/yt_slide/blob/main/slides/template.js" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="block no-underline bg-slate-800/60 border border-slate-700 rounded-xl p-[1.8cqw] text-center">
                             <i class="fa-solid fa-shapes text-sky-400 mb-[0.8cqw]" style="font-size: clamp(1.8rem, 4cqw, 2.8rem);"></i>
                             <div class="text-slate-100 font-bold" style="font-size: clamp(1.05rem, 2.3cqw, 1.7rem);">template.js</div>
-                            <div class="text-slate-300 mt-[0.4cqw] font-medium" style="font-size: clamp(0.85rem, 1.8cqw, 1.3rem);">次の見た目を整えるときに、テンプレート 19 種から選ぶ</div>
+                            <div class="text-slate-300 mt-[0.4cqw] font-medium" style="font-size: clamp(0.85rem, 1.8cqw, 1.3rem);">次の見た目を整えるときに、テンプレート 19種から選ぶ</div>
                         </a>
                         <a href="https://github.com/ytani01/yt_slide/blob/main/docs/User.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="block no-underline bg-slate-800/60 border border-slate-700 rounded-xl p-[1.8cqw] text-center">
                             <i class="fa-solid fa-book text-lime-400 mb-[0.8cqw]" style="font-size: clamp(1.8rem, 4cqw, 2.8rem);"></i>
@@ -335,7 +335,7 @@ slidesConfig と slideData を含めて出してください。
     {
         title: '仕上げでまとめて書き換える',
         duration: 11,
-        narration: 'ナレーションが固まって時間表示を合わせたいときは、ytslide update を 1 回実行します。測った結果で duration を直接書き換え、一覧も作り直します。',
+        narration: 'ナレーションが固まって時間表示を合わせたいときは、ytslide update を 1回実行します。測った結果で duration を直接書き換え、一覧も作り直します。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
