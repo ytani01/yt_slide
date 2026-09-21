@@ -2,7 +2,7 @@
 // このリポジトリ自体の紹介スライド一式。共通の再生エンジンは player.html の中にある。
 
 const slidesConfig = {
-    title: 'yt_slide - ファイル 2つで動くナレーション付きプレゼン',
+    title: 'yt_slide - AI に書かせて、そのまま再生できるナレーション付きスライド',
     heading: 'yt_slide の紹介',
     // index.html の一覧に出す説明とアイコン（ytslide index が読む。TODO-089）
     summary: 'このリポジトリの紹介',
@@ -22,8 +22,8 @@ const slideData = [
     // Slide 1
     {
         title: 'yt_slide',
-        duration: 17,
-        narration: 'yt_slide は、2つのファイルを置くだけで、ナレーション付きのプレゼンが動き出す仕組みです。スライドの中身は JavaScript ファイル 1つ。ただし、一から書く必要はありません。19種類のテンプレートをコピーするか、AI に書いてもらえます。',
+        duration: 19,
+        narration: 'yt_slide は、AI に書かせたスライドを、そのまま再生できる仕組みです。スライドの中身は、JavaScript のテキストファイル 1つ。AI が書いたものを保存するだけで、読み上げと字幕が付いて動き出します。テンプレートをコピーして、自分で書いてもかまいません。',
         render: function() {
             return `
                 <div class="flex flex-col items-start justify-center h-full px-[4cqw] py-[1.5cqw] space-y-[1.5cqw]">
@@ -31,17 +31,54 @@ const slideData = [
                         <i class="fa-solid fa-clapperboard text-lime-400"></i> yt_slide
                     </span>
                     <h1 class="font-extrabold text-slate-50 leading-tight" style="font-size: clamp(1.8rem, 5cqw, 3.8rem);">
-                        ファイル <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-lime-400">2つ</span> で、
-                        ナレーション付きのプレゼンが動き出す
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-lime-400">AI に書かせて</span>、
+                        そのまま再生できる<span class="whitespace-nowrap">ナレーション付きスライド</span>
                     </h1>
                     <p class="text-slate-200 font-medium leading-relaxed" style="font-size: clamp(1.15rem, 2.8cqw, 2.1rem);">
-                        スライドの中身は JavaScript ファイル 1つ。ただし 1 から書かなくていい。19種類のテンプレートをコピーするか、AI に書いてもらう。
+                        中身はテキストファイル 1つ。AI が書いたものを保存すれば動く。19種類のテンプレートをコピーして自分で書いてもいい。
                     </p>
                 </div>
             `;
         }
     },
     // Slide 2
+    {
+        title: '他に無い点',
+        duration: 21,
+        narration: '他に無い点は 5つです。AI に書かせられること。見る側も作る側もブラウザだけで済むこと。読み上げと字幕と自動送りが最初から付いていること。MP4 に書き出せること。そして、スライドがテキストファイルなので、どこを直したかが差分で分かり、用語や製品名を全スライドまとめて直せることです。',
+        render: function() {
+            return `
+                <div class="flex flex-col h-full justify-center px-[3cqw]">
+                    <h2 class="font-bold text-sky-400 mb-[1.2cqw] flex items-center gap-[1cqw]" style="font-size: clamp(1.4rem, 3.2cqw, 2.5rem);">
+                        <i class="fa-solid fa-star text-lime-400"></i> 他に無い点
+                    </h2>
+                    <div class="space-y-[0.8cqw] text-slate-200 font-medium">
+                        <div class="bg-slate-800/60 p-[0.9cqw] rounded-lg border border-slate-700 flex items-center gap-[1.2cqw]">
+                            <i class="fa-solid fa-robot text-lime-400 flex-shrink-0 w-[2.6cqw] text-center" style="font-size: clamp(1.1rem, 2.2cqw, 1.6rem);"></i>
+                            <span style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);"><strong>AI に書かせられる。</strong>書いたものをそのまま保存すれば動く。直すのも文章で頼める</span>
+                        </div>
+                        <div class="bg-slate-800/60 p-[0.9cqw] rounded-lg border border-slate-700 flex items-center gap-[1.2cqw]">
+                            <i class="fa-solid fa-feather text-sky-400 flex-shrink-0 w-[2.6cqw] text-center" style="font-size: clamp(1.1rem, 2.2cqw, 1.6rem);"></i>
+                            <span style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);"><strong>依存関係が無い。</strong>見る側はブラウザだけ。作る側も書き換えて開くだけで進む</span>
+                        </div>
+                        <div class="bg-slate-800/60 p-[0.9cqw] rounded-lg border border-slate-700 flex items-center gap-[1.2cqw]">
+                            <i class="fa-solid fa-volume-high text-lime-400 flex-shrink-0 w-[2.6cqw] text-center" style="font-size: clamp(1.1rem, 2.2cqw, 1.6rem);"></i>
+                            <span style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);"><strong>読み上げ・字幕・自動送りが最初から付く。</strong>音声を録る作業が要らない</span>
+                        </div>
+                        <div class="bg-slate-800/60 p-[0.9cqw] rounded-lg border border-slate-700 flex items-center gap-[1.2cqw]">
+                            <i class="fa-solid fa-film text-amber-400 flex-shrink-0 w-[2.6cqw] text-center" style="font-size: clamp(1.1rem, 2.2cqw, 1.6rem);"></i>
+                            <span style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);"><strong>MP4（＋.srt）に書き出せる。</strong>URL を渡せない相手には動画と字幕で渡せる</span>
+                        </div>
+                        <div class="bg-sky-950/40 border border-sky-500/40 p-[0.9cqw] rounded-lg flex items-center gap-[1.2cqw]">
+                            <i class="fa-solid fa-code-compare text-sky-300 flex-shrink-0 w-[2.6cqw] text-center" style="font-size: clamp(1.1rem, 2.2cqw, 1.6rem);"></i>
+                            <span class="text-sky-100" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);"><strong>スライドがテキストファイル。</strong>直した箇所が差分で分かり、用語は全スライドまとめて直せる</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+    },
+    // Slide 3
     {
         title: 'できること',
         duration: 12,
@@ -78,7 +115,7 @@ const slideData = [
             `;
         }
     },
-    // Slide 3
+    // Slide 4
     {
         title: 'すぐ試す',
         duration: 16,
@@ -101,7 +138,7 @@ const slideData = [
             `;
         }
     },
-    // Slide 4
+    // Slide 5
     {
         title: '自分のスライドを作る',
         duration: 19,
@@ -135,7 +172,7 @@ const slideData = [
             `;
         }
     },
-    // Slide 5
+    // Slide 6
     {
         title: '入っているスライド',
         duration: 20,
@@ -164,11 +201,11 @@ const slideData = [
             `;
         }
     },
-    // Slide 6
+    // Slide 7
     {
         title: 'まとめ',
         duration: 18,
-        narration: 'まとめです。ファイル 2つで、ナレーション付きのプレゼンが動きます。スライドは JavaScript ファイル 1つですが、テンプレートをコピーするか AI に頼めるので、一から書く必要はありません。サーバーに置けば、URL を渡すだけで見てもらえます。ぜひ試してみてください。',
+        narration: 'まとめです。AI に書かせたスライドが、そのまま再生できます。中身はテキストファイル 1つなので、どこを直したかが差分で分かり、用語や製品名は全スライドまとめて直せます。サーバーに置けば、URL を渡すだけで見てもらえます。ぜひ試してみてください。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
@@ -177,12 +214,12 @@ const slideData = [
                     </h2>
                     <div class="space-y-[1cqw] text-slate-200 font-medium mb-[1.5cqw]">
                         <div class="bg-slate-800/60 p-[1cqw] rounded-lg border border-slate-700 flex items-center gap-[1.2cqw]">
-                            <i class="fa-solid fa-file-code text-lime-400 flex-shrink-0" style="font-size: clamp(1.2rem, 2.4cqw, 1.7rem);"></i>
-                            <span style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);"><strong>ファイル 2つ</strong> を置くだけで、ナレーション付きプレゼンが動く</span>
+                            <i class="fa-solid fa-robot text-lime-400 flex-shrink-0" style="font-size: clamp(1.2rem, 2.4cqw, 1.7rem);"></i>
+                            <span style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);"><strong>AI に書かせて、そのまま再生できる</strong>。保存すれば読み上げも字幕も付く</span>
                         </div>
                         <div class="bg-slate-800/60 p-[1cqw] rounded-lg border border-slate-700 flex items-center gap-[1.2cqw]">
-                            <i class="fa-solid fa-plus text-sky-400 flex-shrink-0" style="font-size: clamp(1.2rem, 2.4cqw, 1.7rem);"></i>
-                            <span style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);"><strong>slides/ に JavaScript を 1つ足す</strong> だけ。19種のテンプレートと AI があるので 1 から書かなくていい</span>
+                            <i class="fa-solid fa-code-compare text-sky-400 flex-shrink-0" style="font-size: clamp(1.2rem, 2.4cqw, 1.7rem);"></i>
+                            <span style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);"><strong>中身はテキストファイル 1つ</strong>。直した箇所が差分で分かり、用語は全スライドまとめて直せる</span>
                         </div>
                         <div class="bg-slate-800/60 p-[1cqw] rounded-lg border border-slate-700 flex items-center gap-[1.2cqw]">
                             <i class="fa-solid fa-share-nodes text-amber-400 flex-shrink-0" style="font-size: clamp(1.2rem, 2.4cqw, 1.7rem);"></i>
