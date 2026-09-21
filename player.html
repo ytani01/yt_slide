@@ -326,13 +326,14 @@
         </div>
 
         <div class="flex items-center gap-3 flex-shrink-0">
-            <!-- Voice Selector / Engine Toggle Button -->
-            <button id="toggle-voice-engine-btn" class="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 px-3 py-1.5 rounded-lg text-xs transition cursor-pointer">
+            <!-- Voice Selector -->
+            <div class="flex items-center gap-2">
                 <i aria-hidden="true" class="fa-solid fa-volume-high text-lime-400"></i>
-                <span class="hidden sm:inline text-slate-300 font-medium">音声エンジン:</span>
-                <span id="speech-status-indicator" class="text-sky-400 font-bold font-mono">Online Voice</span>
-                <span class="hidden sm:inline text-[10px] bg-slate-950 text-sky-400 px-1.5 py-0.5 rounded border border-slate-800">切替</span>
-            </button>
+                <select id="voice-select" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs text-sky-400 font-mono font-bold px-3 py-2 rounded-lg transition cursor-pointer max-w-[10rem] sm:max-w-[16rem]" title="読み上げの声" aria-label="読み上げの声">
+                    <option value="online">Online Voice</option>
+                    <option value="auto">Web Speech (自動)</option>
+                </select>
+            </div>
         </div>
     </header>
 
@@ -626,6 +627,8 @@
         const TTS_MAX_CHARS = 180;
 
         let voiceEngineMode = 'online'; // 'online' or 'speech'
+        // Web Speech で使う声の名前。'' なら端末に合わせて自動で選ぶ（TODO-091）
+        let selectedVoiceName = '';
         let fallbackAudioElement = null;
         // Bumped by stopSpeech(); an in-flight chunk queue with an old id stops.
         let speechRunId = 0;
@@ -699,8 +702,7 @@
         const playlistItemsContainer = document.getElementById('playlist-items');
         const playlistSearch = document.getElementById('playlist-search');
         const playlistEmpty = document.getElementById('playlist-empty');
-        const speechStatusIndicator = document.getElementById('speech-status-indicator');
-        const toggleVoiceEngineBtn = document.getElementById('toggle-voice-engine-btn');
+        const voiceSelect = document.getElementById('voice-select');
         const subtitleBanner = document.getElementById('subtitle-banner');
         const audioErrorNotice = document.getElementById('audio-error-notice');
         const toggleCaptionBtn = document.getElementById('toggle-caption-btn');
@@ -739,11 +741,28 @@
             captionIcon.classList.toggle('text-lime-400', showCaptions);
         }
 
+        function japaneseVoices() {
+            if (!('speechSynthesis' in window)) return [];
+            return window.speechSynthesis.getVoices()
+                .filter(v => v.lang && (v.lang.includes('ja') || v.lang.includes('JP')));
+        }
+
+        // 端末の日本語音声をプルダウンに並べ、いまの選択を反映する（TODO-091）。
+        // getVoices() は後から揃うことがあるので onvoiceschanged で呼び直す。
+        // 覚えている声が端末に無いときは「Web Speech (自動)」へ戻す。
         function applyVoiceEngine() {
-            const online = voiceEngineMode === 'online';
-            speechStatusIndicator.textContent = online ? "Online Voice" : "Web Speech API";
-            speechStatusIndicator.className =
-                `${online ? 'text-sky-400' : 'text-lime-400'} font-bold font-mono`;
+            const want = voiceEngineMode === 'online'
+                ? 'online' : (selectedVoiceName || 'auto');
+            const voices = japaneseVoices();
+            Array.from(voiceSelect.options)
+                .filter(o => o.value !== 'online' && o.value !== 'auto')
+                .forEach(o => o.remove());
+            voices.forEach(v => voiceSelect.add(new Option(v.name, v.name)));
+            const found = Array.from(voiceSelect.options).some(o => o.value === want);
+            voiceSelect.value = found ? want : 'auto';
+            // 声が 1 つも取れていないときは、まだ揃っていないだけかもしれない。
+            // 覚えている名前を消すのは、声が並んだ上で見つからなかったときだけ
+            if (!found && voices.length) selectedVoiceName = '';
         }
 
         // 保存した値も信用しない。プルダウンの選択肢に無い値や、想定外の
@@ -768,6 +787,8 @@
 
         voiceEngineMode = loadSetting(
             'voiceEngineMode', voiceEngineMode, v => v === 'online' || v === 'speech');
+
+        selectedVoiceName = loadSetting('voiceName', '', () => true);
 
         // 全スライド共通の読みの置換表（TODO-054）。
         // スライド一式だけの語は slides/<名前>.js の slidesConfig.rules に書く。
@@ -938,8 +959,11 @@
                     } catch(e) {}
 
                     const voices = window.speechSynthesis.getVoices();
-                    // 落ち着いた優艶な日本語女性音声を優先検索（Nanami, Haruka, Kyoko, Yuka, Sakura, Ayumi, Google 日本語 等）
-                    const femaleJaVoice = voices.find(v => 
+                    // プルダウンで選ばれた声があればそれを使う（TODO-091）。
+                    // 自動のときは、落ち着いた優艶な日本語女性音声を優先検索
+                    // （Nanami, Haruka, Kyoko, Yuka, Sakura, Ayumi, Google 日本語 等）
+                    const femaleJaVoice = (selectedVoiceName
+                        && voices.find(v => v.name === selectedVoiceName)) || voices.find(v => 
                         v.lang && (v.lang.includes('ja') || v.lang.includes('JP')) &&
                         /nanami|haruka|kyoko|yuka|sakura|ayumi|mayu|mizuki|female|女性|google/i.test(v.name) &&
                         !/ichiro|otoya|hattori|keita|daichi|takumi|male|男性/i.test(v.name)
@@ -1340,13 +1364,19 @@
             });
 
             document.getElementById('audio-retry-btn').addEventListener('click', speakCurrentNarration);
-            document.getElementById('audio-switch-engine-btn').addEventListener('click', () => toggleVoiceEngineBtn.click());
+            // 失敗したときは、もう一方のエンジンへ移す（声の指定は自動に戻す）
+            document.getElementById('audio-switch-engine-btn').addEventListener('click', () => {
+                voiceSelect.value = voiceEngineMode === 'online' ? 'auto' : 'online';
+                voiceSelect.dispatchEvent(new Event('change'));
+            });
 
-            // Toggle Audio Engine Mode (Web Speech API <-> Online Voice)
-            toggleVoiceEngineBtn.addEventListener('click', () => {
-                voiceEngineMode = voiceEngineMode === 'speech' ? 'online' : 'speech';
-                applyVoiceEngine();
+            // 声の切り替え。'online' 以外はすべて Web Speech（TODO-091）
+            voiceSelect.addEventListener('change', () => {
+                const choice = voiceSelect.value;
+                voiceEngineMode = choice === 'online' ? 'online' : 'speech';
+                selectedVoiceName = (choice === 'online' || choice === 'auto') ? '' : choice;
                 saveSetting('voiceEngineMode', voiceEngineMode);
+                saveSetting('voiceName', selectedVoiceName);
                 if (isPlaying) {
                     speakCurrentNarration();
                 }
@@ -1566,7 +1596,7 @@
         // Preload voices for Web Speech API
         if ('speechSynthesis' in window) {
             window.speechSynthesis.onvoiceschanged = () => {
-                window.speechSynthesis.getVoices();
+                applyVoiceEngine();
             };
         }
 

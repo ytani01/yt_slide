@@ -114,6 +114,7 @@
 | 再生速度 | `playbackRate` | `ytSlidePlayer.speed` | `1` |
 | 字幕 | `showCaptions` | `ytSlidePlayer.showCaptions` | `false` |
 | 音声エンジン | `voiceEngineMode` | `ytSlidePlayer.voiceEngineMode` | `online` |
+| 読み上げの声 | `selectedVoiceName` | `ytSlidePlayer.voiceName` | `` （自動） |
 | 待ち秒数 | `pauseSeconds` | `ytSlidePlayer.pauseSeconds` | `2` |
 
 読み書きは `loadSetting()` / `saveSetting()` に集約し、`try`/`catch` は
@@ -142,7 +143,23 @@
 
 ## 読み上げ
 
-2 系統を `toggle-voice-engine-btn` で切り替える。既定は `online`。
+2 系統をヘッダーのプルダウン `#voice-select` で切り替える。既定は `online`。
+
+| 選択肢 | モード | 声 |
+|--------|--------|-----|
+| `Online Voice` | `online` | Google Translate TTS |
+| `Web Speech (自動)` | `speech` | 端末の日本語音声から自動で選ぶ |
+| 端末の音声の名前 | `speech` | その声（Nanami、Kyoko など） |
+
+端末の音声は `applyVoiceEngine()` が `speechSynthesis.getVoices()` から
+`ja` / `JP` の声だけを拾って並べる。**`getVoices()` は空で返ることがある**ため、
+`onvoiceschanged` でも `applyVoiceEngine()` を呼び直して並べ直す。
+覚えている声がその端末に無ければ `Web Speech (自動)` に戻す。
+
+Chrome の日本語音声は「Google 日本語」で、これは Online Voice と同じ
+Google の音声なので、**その端末に他の声が入っていないと切り替えても
+声は変わらない**。Nanami・Haruka（Windows）、Kyoko（macOS）、Android の
+追加音声は、いずれも OS 側に入っていれば一覧に出る。
 
 | モード | 実装 | 制限 |
 |--------|------|------|
@@ -166,7 +183,8 @@
 Online TTS の `onerror` と `play()` の reject で、`#audio-error-notice`
 （`role="status"`）を出し、状態表示を「音声エラー」にする（`showAudioError()`）。
 「もう一度再生」は `speakCurrentNarration()`、「音声エンジンを切り替える」は
-`toggle-voice-engine-btn` の click を呼ぶ。切り替えのロジックは複製しない。
+`#voice-select` の値をもう一方（`online` ⇔ `auto`）に変えて `change` を
+発火させる。切り替えのロジックは複製しない。
 
 - **消すのは `stopSpeech()`**。スライド移動・一時停止・消音・エンジン切替・
   再試行はすべてここを通る。再生が始まったとき（`playing`）と読み終わったとき
