@@ -1,7 +1,35 @@
 # TODO
 
-**残っている項目は無い。** これまでに 97 件を決着させた。
-新しく足すときは「完了済み」の上に節を作る。**番号は `TODO-098` から。**
+**残っている項目: TODO-098。** これまでに 97 件を決着させた。
+新しく足すときは「完了済み」の上に節を作る。**番号は `TODO-099` から。**
+
+---
+
+## TODO-098. `ytslide init` した先に既定の `readme` が無い
+
+|      | main | 担当 |
+|------|------|------|
+| 見込み | Opus 5 / effort high | implementer + reviewer + verifier |
+
+- [ ] `ytslide init` が `slides/readme.js` も置くようにする
+- [ ] `slides/readme.js` をパッケージの同梱データに入れる
+      （`pyproject.toml` の `force-include`）
+- [ ] `tests/test_cli.py` を、置かれるファイルの増加に合わせて直す
+- [ ] `docs/User.md` の `ytslide init` の説明（置かれるファイルの一覧）を直す
+
+`ytslide init` が置くのは `slides/template.js` だけなので、その場で
+`--slides` を省いて `ytslide measure` / `update` / `video` を叩くと、既定の
+`readme` を探して `slides/readme.js が無い` で止まる（TODO-097 の verifier が
+実測）。`player.html` を `?slides=` 無しで開いたときも同じ。
+
+**既定の名前を実在させる方針にした**（利用者と決めた）。`init` の時点で
+`slides/readme.js` も置く。置かれるのは yt_slide 自体の紹介スライド 17 枚で、
+利用者の置き場所には無関係な中身が入る点は承知の上。動く見本が 2 つある
+状態から始められることを採った。
+
+**挙動が変わるので reviewer も入れる。** 同梱データが増えるため、
+`uv tool install` で入れた `ytslide` でも `init` が通るか（リポジトリの
+チェックアウトからではなく）を verifier に実測させる。
 
 ---
 
