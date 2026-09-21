@@ -1,42 +1,7 @@
 # TODO
 
-**残っている項目: TODO-102。** これまでに 101 件を決着させた。
+**残っている項目: 無し。** これまでに 102 件を決着させた。
 新しく足すときは「完了済み」の上に節を作る。**番号は `TODO-103` から。**
-
----
-
-## TODO-102. README とスライドを特徴中心にし、詳細は docs へ寄せる
-
-|      | main | 担当 |
-|------|------|------|
-| 見込み | Opus 5 / effort high | reviewer + verifier |
-
-- [ ] `README.md` を「できること」「すぐ試す」「インストール」「入っているスライド」「説明へのリンク」に絞る
-- [ ] 「自分のスライドを作る」「必要なもの」「ファイル構成」「動画に書き出す」を `docs/User.md`・`docs/Developer.md` へ集約し、README からはリンクで指す
-- [ ] 移す前に、移す先に同じ内容があるか・古くなっていないかを突き合わせる
-- [ ] `docs/User.md` の `#必要なもの` 参照 3 か所を移動先に合わせる
-- [ ] `slides/readme.js` を 10 枚から 6 枚にする
-- [ ] `ytslide measure --slides readme --all --write` で `duration` を測り直す
-
-README.md が 191 行、`slides/readme.js` が 10 枚あり、どちらも細かすぎる。
-README は大きな特徴とアピールが主で、細かい説明は他の文書に任せる。
-
-`slides/readme.js` から落とすのは、`user.js` の担当範囲と重なる 4 枚
-（slidesConfig と slideData／1 枚の要素／`render()` の書き方／`duration` の
-測り方）。残す 6 枚は 紹介・できること・すぐ試す・自分のスライドを作る・
-入っているスライド・まとめ。「自分のスライドを作る」の枚に
-`player.html?slides=user` への案内を足す。
-
-決まっていること:
-
-- 「インストール」は README に残す（TODO-067 で、前提になるパッケージは
-  README に書いて他の文書から指すと決めた）。`docs/User.md`・
-  `docs/Developer.md`・`slides/user.js` からの `#インストール` 参照 4 か所は
-  そのまま使える
-- `video/readme.mp4` の作り直しは範囲外（`.gitignore` に入っており、
-  リポジトリには無い）
-- reviewer を入れるのは、README と `docs/` に同じ主張が 2 か所あるのを
-  片付ける項目だから。reviewer が先、verifier が後
 
 ---
 
@@ -45,6 +10,7 @@ README は大きな特徴とアピールが主で、細かい説明は他の文�
 1 項目 1 ファイル。`archives/todo/` にある（新しい順）。
 **やらないと決めたものの理由も記載してある。** 蒸し返す前に読むこと。
 
+- [**TODO-102.** README とスライドを特徴中心にし、詳細は docs へ寄せる](archives/todo/TODO-102.%20README%20とスライドを特徴中心にし、詳細は%20docs%20へ寄せる.md)
 - [**TODO-101.** `cmd` を `main` へマージして、README の手順で入ることを確かめる](archives/todo/TODO-101.%20cmd%20を%20main%20へマージして、README%20の手順で入ることを確かめる.md)
 - [**TODO-100.** `ytslide measure --text` が `init` した先で落ちる](archives/todo/TODO-100.%20ytslide%20measure%20--text%20が%20init%20した先で落ちる.md)
 - [**TODO-099.** 自分のスライドを作り、確認して共有する手順を書く](archives/todo/TODO-099.%20自分のスライドを作り、確認して共有する手順を書く.md)

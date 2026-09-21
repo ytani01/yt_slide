@@ -92,7 +92,7 @@ const slidesConfig = {
 
 ### 時間表示を合わせたいとき
 
-[README の「必要なもの」](../README.md#必要なもの)で `curl`・`ffprobe` を用意し、
+[「測定と動画に要るパッケージ」](#測定と動画に要るパッケージ)で `curl`・`ffprobe` を用意し、
 仕上げに次を実行する。
 
 ```bash
@@ -136,6 +136,41 @@ LAN 内の IP アドレスを確認し、`http://<LAN内IP>:8000/` を開く。
 ```bash
 ytslide index --root ~/my-slides
 ```
+
+## `ytslide` のサブコマンド
+
+| サブコマンド | 使う場面 |
+|--------------|----------|
+| `ytslide init` | 最初に、自分の作業ディレクトリへプレイヤーと型の見本を用意する |
+| `ytslide index` | 一覧から開きたいとき、`slides/*.js` から `index.html` を作り直す |
+| `ytslide measure` | 読み上げ秒数だけを測る。`--write` で `duration` に書き戻せる |
+| `ytslide update` | 時間表示を合わせる仕上げに、`measure --all --write` と `index` を続けて実行する |
+| `ytslide web` | HTTP で確認したいとき、作業ディレクトリを配信する（ブラウザは自分で開く） |
+| `ytslide video` | 動画で渡したいとき、MP4 と `.srt` に書き出す |
+
+`measure`・`update`・`video` には `--slides sample` のように対象を指定する。
+省略すると `readme` を探すが、`init` した場所には `readme.js` は無い。
+`update` は `measure` と `index` を続けて実行するだけなので、
+測定だけ・一覧だけが要るときは `measure`・`index` を単独で使う。
+
+インストールは [README の「インストール」](../README.md#インストール)にある。
+
+### 測定と動画に要るパッケージ
+
+最初の 1 枚を作ってブラウザで見る段階では、以下の追加準備は要らない。
+測定や動画書き出しを使うときに用意する。
+
+- `ytslide measure`・`ytslide update` — `curl`・`ffprobe`
+- `ytslide video` — 加えて `ffmpeg`・Playwright（Python, chromium）。
+  `uv tool install '...[video]'` で入る
+
+```bash
+sudo apt install curl ffmpeg   # curl・ffmpeg・ffprobe
+playwright install chromium    # ytslide video だけが使う
+```
+
+Debian 12 (bookworm) / curl 7.88.1 / ffmpeg 5.1.9 / Python 3.14.7 /
+playwright 1.63.0 で確認した。他の OS では入れ方を読み替える。
 
 ## `slides/<名前>.js` の中身
 
@@ -292,7 +327,7 @@ $ ytslide measure --slides sample --text 'ここに読み上げる文章'
 ```
 
 最後に出る `duration: 2` をそのまま書く。前提のパッケージは
-[README の「必要なもの」](../README.md#必要なもの)にある。
+[「測定と動画に要るパッケージ」](#測定と動画に要るパッケージ)にある。
 
 `--slides <名前>` を付けると、どのスライド一式のスライドでも指定できる
 （省くと `readme`）。`--write` を付けると、`duration` を直接書き換える。
@@ -380,7 +415,7 @@ video/sample.mp4 と video/sample.srt に書き出した
 - 字幕は映像に焼き込まず、`.srt` を別に出す
 - 進行バー・残り時間・ボタンは映らない。動画では操作できないため
 - `animate-bounce` のようなアニメーションは静止画になる
-- 前提のパッケージは [README の「必要なもの」](../README.md#必要なもの)にある
+- 前提のパッケージは [「測定と動画に要るパッケージ」](#測定と動画に要るパッケージ)にある
 - 書き出し先の `video/` は `.gitignore` に入っており、リポジトリには入れない。
   要るときに作り直す
 

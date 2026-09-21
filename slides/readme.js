@@ -104,8 +104,8 @@ const slideData = [
     // Slide 4
     {
         title: '自分のスライドを作る',
-        duration: 9,
-        narration: '自分のスライドを作るときは、player.html は触りません。slidesディレクトリにJavaScriptを1つ足すだけです。',
+        duration: 14,
+        narration: '自分のスライドを作るときは、player.html は触りません。slidesディレクトリにJavaScriptを1つ足すだけです。詳しい書き方は、作り方のスライドと、ユーザーズ・ガイドにまとめてあります。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
@@ -116,123 +116,22 @@ const slideData = [
                         <i class="fa-solid fa-lightbulb text-lime-400" style="font-size: clamp(1.4rem, 3cqw, 2.2rem);"></i>
                         <span>player.html は触らない。slides/ に JavaScript を 1 つ足すだけ</span>
                     </div>
+                    <p class="text-slate-400 mt-[1.4cqw] mb-[0.8cqw] font-medium" style="font-size: clamp(0.9rem, 1.8cqw, 1.3rem);">書き方はこちら</p>
+                    <div class="grid grid-cols-2 gap-[1.2cqw]">
+                        <a href="player.html?slides=user" onclick="event.stopPropagation()" class="block no-underline bg-slate-800/60 border border-slate-700 rounded-xl p-[1.3cqw] text-center">
+                            <i class="fa-solid fa-chalkboard-user text-lime-400" style="font-size: clamp(1.2rem, 2.4cqw, 1.8rem);"></i>
+                            <div class="text-slate-100 font-medium mt-[0.4cqw]" style="font-size: clamp(0.9rem, 1.9cqw, 1.35rem);">スライドの作り方（user）</div>
+                        </a>
+                        <a href="https://github.com/ytani01/yt_slide/blob/main/docs/User.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="block no-underline bg-slate-800/60 border border-slate-700 rounded-xl p-[1.3cqw] text-center">
+                            <i class="fa-solid fa-book text-sky-400" style="font-size: clamp(1.2rem, 2.4cqw, 1.8rem);"></i>
+                            <div class="text-slate-100 font-medium mt-[0.4cqw]" style="font-size: clamp(0.9rem, 1.9cqw, 1.35rem);">docs/User.md</div>
+                        </a>
+                    </div>
                 </div>
             `;
         }
     },
     // Slide 5
-    {
-        title: 'slidesConfig と slideData',
-        duration: 10,
-        narration: '足すファイルには、タブに出る名前を書く slidesConfig と、スライドを並べた slideData を定義します。番号や総枚数は自動で数えられます。',
-        render: function() {
-            return `
-                <div class="flex flex-col h-full justify-center px-[3cqw]">
-                    <h2 class="font-bold text-sky-400 mb-[1.4cqw] flex items-center gap-[1cqw]" style="font-size: clamp(1.4rem, 3.2cqw, 2.5rem);">
-                        <i class="fa-solid fa-code text-lime-400"></i> slidesConfig と slideData
-                    </h2>
-                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-[1.4cqw] font-mono text-slate-200 leading-normal" style="font-size: clamp(0.85rem, 1.9cqw, 1.35rem);">
-<pre class="whitespace-pre-wrap"><span class="text-sky-400">const</span> slidesConfig = { title: <span class="text-lime-300">'...'</span>, heading: <span class="text-lime-300">'...'</span> };
-
-<span class="text-sky-400">const</span> slideData = [
-  { title: <span class="text-lime-300">'1枚目'</span>, duration: <span class="text-amber-300">10</span>, narration: <span class="text-lime-300">'...'</span>, body: <span class="text-lime-300">&#96;...&#96;</span> },
-];</pre>
-                    </div>
-                    <p class="text-slate-400 mt-[1cqw] font-medium" style="font-size: clamp(0.85rem, 1.7cqw, 1.25rem);">スライドの番号も総枚数もどこにも書かない。並び順と duration の合計から自動で出る。</p>
-                </div>
-            `;
-        }
-    },
-    // Slide 6
-    {
-        title: '1枚のスライドの要素',
-        duration: 8,
-        narration: '1枚ごとに、題名と、読み上げにかかる秒数と、読み上げる文章と、本文のHTMLを書きます。',
-        render: function() {
-            return `
-                <div class="flex flex-col h-full justify-center px-[3cqw]">
-                    <h2 class="font-bold text-sky-400 mb-[1.8cqw] flex items-center gap-[1cqw]" style="font-size: clamp(1.4rem, 3.2cqw, 2.5rem);">
-                        <i class="fa-solid fa-layer-group text-lime-400"></i> 1枚のスライドの要素
-                    </h2>
-                    <div class="grid grid-cols-2 gap-[1.4cqw]">
-                        <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-[1.4cqw]">
-                            <div class="text-lime-400 font-mono font-bold" style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);">title</div>
-                            <div class="text-slate-200 font-medium mt-[0.3cqw]" style="font-size: clamp(0.9rem, 1.9cqw, 1.35rem);">プレイリストに出る題名</div>
-                        </div>
-                        <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-[1.4cqw]">
-                            <div class="text-sky-400 font-mono font-bold" style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);">duration</div>
-                            <div class="text-slate-200 font-medium mt-[0.3cqw]" style="font-size: clamp(0.9rem, 1.9cqw, 1.35rem);">読み上げの実測秒数</div>
-                        </div>
-                        <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-[1.4cqw]">
-                            <div class="text-lime-400 font-mono font-bold" style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);">narration</div>
-                            <div class="text-slate-200 font-medium mt-[0.3cqw]" style="font-size: clamp(0.9rem, 1.9cqw, 1.35rem);">読み上げる文章。字幕にも出る</div>
-                        </div>
-                        <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-[1.4cqw]">
-                            <div class="text-sky-400 font-mono font-bold" style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);">body <span class="text-slate-500 font-sans font-medium" style="font-size: clamp(0.7rem, 1.5cqw, 1.05rem);">(icon も)</span></div>
-                            <div class="text-slate-200 font-medium mt-[0.3cqw]" style="font-size: clamp(0.9rem, 1.9cqw, 1.35rem);">本文の HTML を文字列で書く</div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-    },
-    // Slide 7
-    {
-        title: 'render() の書き方',
-        duration: 10,
-        narration: '見た目は Tailwind と cqw 単位の clamp で書きます。枠が拡大縮小しても崩れないようにするためです。body で足りないときだけ使う書き方です。',
-        render: function() {
-            return `
-                <div class="flex flex-col h-full justify-center px-[3cqw]">
-                    <h2 class="font-bold text-sky-400 mb-[1.5cqw] flex items-center gap-[1cqw]" style="font-size: clamp(1.4rem, 3.2cqw, 2.5rem);">
-                        <i class="fa-solid fa-ruler-combined text-lime-400"></i> render() の書き方
-                    </h2>
-                    <div class="bg-sky-950/40 border border-sky-500/40 rounded-xl p-[1.2cqw] mb-[1.2cqw] text-sky-300 font-bold" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">
-                        <i class="fa-solid fa-circle-info text-lime-400 mr-[0.6cqw]"></i>
-                        body で足りないときだけ使う、高度な書き方
-                    </div>
-                    <div class="space-y-[1.2cqw] text-slate-200 font-medium">
-                        <div class="bg-slate-800/60 border border-slate-700/80 rounded-xl p-[1.4cqw] flex items-center gap-[1.2cqw]">
-                            <i class="fa-solid fa-expand-alt text-lime-400 flex-shrink-0" style="font-size: clamp(1.2rem, 2.6cqw, 1.8rem);"></i>
-                            <div style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);">サイズは <code class="font-mono text-lime-300">cqw</code> と <code class="font-mono text-lime-300">clamp()</code> で書く。px や rem の直書きは崩れる</div>
-                        </div>
-                        <div class="bg-slate-800/60 border border-slate-700/80 rounded-xl p-[1.4cqw] flex items-center gap-[1.2cqw]">
-                            <i class="fa-solid fa-ban text-rose-400 flex-shrink-0" style="font-size: clamp(1.2rem, 2.6cqw, 1.8rem);"></i>
-                            <div style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);"><code class="font-mono text-rose-300">md:</code> などのブレークポイントは枠の中では使わない</div>
-                        </div>
-                        <div class="bg-slate-800/60 border border-slate-700/80 rounded-xl p-[1.4cqw] flex items-center gap-[1.2cqw]">
-                            <i class="fa-solid fa-clone text-sky-400 flex-shrink-0" style="font-size: clamp(1.2rem, 2.6cqw, 1.8rem);"></i>
-                            <div style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);">既存の <code class="font-mono text-sky-300">slides/claude-memo.js</code> をコピーして差し替えるのが早い</div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-    },
-    // Slide 8
-    {
-        title: 'duration の測り方',
-        duration: 7,
-        narration: 'duration は目分量で決めません。ytslide measure というコマンドで実際の読み上げ秒数を測って入れます。',
-        render: function() {
-            return `
-                <div class="flex flex-col h-full justify-center px-[3cqw]">
-                    <h2 class="font-bold text-sky-400 mb-[1.5cqw] flex items-center gap-[1cqw]" style="font-size: clamp(1.4rem, 3.2cqw, 2.5rem);">
-                        <i class="fa-solid fa-stopwatch text-lime-400"></i> duration の測り方
-                    </h2>
-                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-[1.4cqw] font-mono text-slate-200 space-y-[0.5cqw]" style="font-size: clamp(0.82rem, 1.75cqw, 1.3rem);">
-                        <div><span class="text-lime-400">$</span> ytslide measure --slides user --all --write</div>
-                        <div class="text-slate-400">スライド 7: duration 23 -&gt; 12</div>
-                        <div class="text-slate-400">user.js: 1 枚を書き換えた</div>
-                    </div>
-                    <p class="text-slate-200 mt-[1.4cqw] font-medium" style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);">
-                        目分量ではなく、<span class="text-lime-400 font-bold">Online TTS の実測秒数</span>を入れる。
-                    </p>
-                </div>
-            `;
-        }
-    },
-    // Slide 9
     {
         title: '入っているスライド',
         duration: 14,
@@ -261,7 +160,7 @@ const slideData = [
             `;
         }
     },
-    // Slide 10
+    // Slide 6
     {
         title: 'まとめ',
         duration: 13,

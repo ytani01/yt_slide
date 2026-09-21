@@ -11,8 +11,10 @@
 | ファイル | 役割 |
 |----------|------|
 | `player.html` | 外枠の HTML・CSS と再生ロジック。本体 |
+| `index.html` | スライドの一覧。`ytslide index` が生成する |
 | `slides/<名前>.js` | スライドデータ。`readme`・`user`・`developer`・`claude-memo`・`template` |
 | `images/` | スライドに貼るビットマップ画像。パスは `player.html` から見た相対 |
+| `docs/` | 説明。[User.md](User.md)（作る人向け）とこのファイル |
 | `src/ytslide/measure.py` | 読み上げ秒数の測定と `duration` への書き込み（`ytslide measure`） |
 | `src/ytslide/index.py` | `slides/*.js` から `index.html` の一覧を作る（`ytslide index`） |
 | `src/ytslide/video.py` | スライド一式を MP4 と `.srt` に書き出す（`ytslide video`） |
@@ -20,6 +22,10 @@
 | `tests/test_index.py` | `index.py` の `slidesConfig` の読み取りとマーカー間の差し替えの自動確認 |
 | `tests/test_video.py` | `video.py` の分割や字幕の組み立ての自動確認 |
 | `tests/test_cli.py` | `ytslide init` が置くファイルと、二度目に上書きしないことの自動確認 |
+| `pyproject.toml` | `ytslide` のパッケージ定義（`uv tool install` で使う） |
+| `TODO.md` | 進行中の項目と、完了済みの目次 |
+| `archives/` | 決着した TODO 項目と、サブエージェントの報告。**現行仕様ではない** |
+| `CLAUDE.md` | Claude Code 向けのプロジェクト規約 |
 
 **プレイヤー側（`player.html` と `slides/*.js`）はビルドも依存関係のインストールも
 不要。** インストールが要るのは `duration` の測定・`index.html` の生成・動画の
