@@ -146,6 +146,24 @@ const slideData = [
     },
     // Slide 5
     {
+        title: 'AI に作ってもらう',
+        icon: 'fa-robot',
+        duration: 19,
+        narration: 'AI に作ってもらうこともできます。渡すのは 3 つ。書式を説明した User.md、型の見本の template.js、それにスライドにしたい原稿です。依頼文には、保存できる JavaScript 全体を出すことと、各スライドに書く項目を必ず入れます。',
+        body: `
+            <div class="space-y-[1cqw]" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">
+                <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-[1.2cqw] text-slate-200 font-medium"><span class="text-lime-400 font-bold">渡す 3 つ</span> — <code class="font-mono text-lime-400">docs/User.md</code>（書式）、<code class="font-mono text-lime-400">slides/template.js</code>（型 19 種）、スライドにしたい原稿</div>
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-[1.2cqw] text-slate-200 font-mono whitespace-pre-line" style="font-size: clamp(0.8rem, 1.7cqw, 1.25rem);">User.md の形式と template.js の型を使って、
+「◯◯」を △△ 向けに 3 枚のスライドにしてください。
+slides/sample.js として保存できる JavaScript 全体を、
+slidesConfig と slideData を含めて出してください。
+各スライドに title・body・narration・duration を書いてください。</div>
+                <div class="bg-sky-950/40 border border-sky-500/40 rounded-xl p-[1.2cqw] text-sky-300 font-medium"><i class="fa-solid fa-floppy-disk text-lime-400 mr-[0.7cqw]"></i>出てきた <code class="font-mono">.js</code> を保存 → <code class="font-mono">player.html?slides=sample</code> で確認。依頼文の全文と、直してもらうときの例は User.md に</div>
+            </div>
+        `,
+    },
+    // Slide 6
+    {
         title: '一覧・仕上げ・共有',
         duration: 15,
         narration: '一覧から開きたいときは ytslide index を実行します。時間表示を合わせたいときだけ、ナレーションが固まってから update を 1 回実行します。共有は Web サーバーへ置くか、MP4 に書き出します。',
@@ -157,7 +175,7 @@ const slideData = [
             </div>
         `,
     },
-    // Slide 6
+    // Slide 7
     {
         title: 'slideData の中身',
         duration: 10,
@@ -191,7 +209,7 @@ const slideData = [
             `;
         }
     },
-    // Slide 7
+    // Slide 8
     {
         title: '番号と枚数は自動',
         duration: 9,
@@ -219,7 +237,7 @@ const slideData = [
             `;
         }
     },
-    // Slide 8
+    // Slide 9
     {
         title: 'body で書く',
         icon: 'fa-pen',
@@ -236,7 +254,7 @@ const slideData = [
             </div>
         `,
     },
-    // Slide 9
+    // Slide 10
     {
         title: 'render() の書き方',
         duration: 14,
@@ -265,7 +283,7 @@ const slideData = [
             `;
         }
     },
-    // Slide 10
+    // Slide 11
     {
         title: '近い見た目をコピーする',
         duration: 9,
@@ -292,7 +310,7 @@ const slideData = [
             `;
         }
     },
-    // Slide 11
+    // Slide 12
     {
         title: 'duration の測り方',
         duration: 11,
@@ -313,7 +331,7 @@ const slideData = [
             `;
         }
     },
-    // Slide 12
+    // Slide 13
     {
         title: '仕上げでまとめて書き換える',
         duration: 11,
@@ -335,7 +353,7 @@ const slideData = [
             `;
         }
     },
-    // Slide 13
+    // Slide 14
     {
         title: 'まとめ',
         duration: 10,
@@ -364,7 +382,7 @@ const slideData = [
             `;
         }
     },
-    // Slide 14
+    // Slide 15
     {
         title: 'アイコン名の例 1 - 一覧・注意・手順',
         icon: 'fa-icons',
@@ -372,7 +390,7 @@ const slideData = [
         narration: 'ここからは icon に書けるアイコン名の例です。まずは箇条書き、注意や禁止、手順を示すものです。',
         body: iconTable(ICON_GROUPS.slice(0, 3)),
     },
-    // Slide 15
+    // Slide 16
     {
         title: 'アイコン名の例 2 - コード・文書・時間',
         icon: 'fa-icons',
@@ -380,7 +398,7 @@ const slideData = [
         narration: 'コードや端末の画面、ファイルや文書、時間と計測を表すものです。名前を間違えるとアイコンは何も出ません。',
         body: iconTable(ICON_GROUPS.slice(3, 6)),
     },
-    // Slide 16
+    // Slide 17
     {
         title: 'アイコン名の例 3 - 人・図解・強調',
         icon: 'fa-icons',

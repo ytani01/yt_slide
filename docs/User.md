@@ -89,13 +89,28 @@ ytslide init
 
 ### AI に作ってもらう
 
-`docs/User.md`（この文書）と作業場所の `slides/template.js`、
-スライドにしたい原稿や資料を AI に渡す。この文書は
-[Markdown ファイル](https://raw.githubusercontent.com/ytani01/yt_slide/main/docs/User.md)
-をブラウザで開いて保存するか、内容をコピーして渡せる。
-ZIP を展開してあれば、その中の `docs/User.md` を使ってもよい。
-次の例のテーマ・聞き手・枚数を
-自分の用途に置き換える。
+**渡すものは 3 つ。**
+
+- **`docs/User.md`（この文書）** — 書式の説明。
+  [Markdown ファイル](https://raw.githubusercontent.com/ytani01/yt_slide/main/docs/User.md)
+  をブラウザで開いて保存するか、内容をコピーして渡す。ZIP を展開してあれば、
+  その中の `docs/User.md` でよい
+- **作業場所の `slides/template.js`** — 型の見本 19 種。渡すと、近い型に
+  沿った見た目で返ってくる
+- **スライドにしたい原稿や資料** — 無ければ、テーマと聞き手を文章で伝える
+
+**依頼文には次を書く。** 書かないと、説明文や断片だけが返ってきて、
+そのままでは保存できない。
+
+- `slides/<名前>.js` として保存できる **JavaScript 全体**を出すこと
+- `slidesConfig` と `slideData` を含めること
+- 各スライドに `title`・`body`・`narration`・`duration` を書くこと
+- `duration` はおおよその秒数でよいこと（[あとで測れる](#時間表示を合わせたいとき)）
+- `player.html` は編集しないこと
+
+**例 1。新しく作ってもらう。** テーマ・聞き手・枚数を自分の用途に置き換える。
+原稿が無ければ「内容は添付の原稿に沿ってください。」の行を外し、
+盛り込みたいことを文章で書く。
 
 ```text
 添付した User.md の形式と template.js の型を使って、
@@ -104,6 +119,16 @@ ZIP を展開してあれば、その中の `docs/User.md` を使ってもよい
 slides/sample.js として保存できる JavaScript 全体を出してください。
 slidesConfig と slideData を含め、各スライドに title・body・narration・duration を書き、
 duration はおおよその秒数にしてください。player.html は編集しません。
+```
+
+**例 2。できたものを直してもらう。** 直す枚をスライド番号で指し、
+変えないものも書く。
+
+```text
+添付した sample.js の 3 枚目を、箇条書きから 2 カラムの比較に変えてください。
+型は添付した template.js の中から近いものを選んでください。
+narration と duration はそのままにして、
+3 枚目のオブジェクトだけを差し替える形で出してください。
 ```
 
 出力された JavaScript を、前後の説明やコードブロックの囲みを含めずに

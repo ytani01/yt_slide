@@ -22,8 +22,8 @@ const slideData = [
     // Slide 1
     {
         title: 'yt_slide',
-        duration: 13,
-        narration: 'yt_slide は、2 つのファイルを置くだけで、ナレーション付きのプレゼンが動き出す仕組みです。再生にはビルドもインストールも不要。Webサーバーに置けば、URLを渡すだけで見てもらえます。',
+        duration: 16,
+        narration: 'yt_slide は、2 つのファイルを置くだけで、ナレーション付きのプレゼンが動き出す仕組みです。スライドの中身は JavaScript ファイル 1 つ。ただし、一から書く必要はありません。19 種類の型をコピーするか、AI に書いてもらえます。',
         render: function() {
             return `
                 <div class="flex flex-col items-start justify-center h-full px-[4cqw] py-[1.5cqw] space-y-[1.5cqw]">
@@ -35,7 +35,7 @@ const slideData = [
                         ナレーション付きのプレゼンが動き出す
                     </h1>
                     <p class="text-slate-200 font-medium leading-relaxed" style="font-size: clamp(1.15rem, 2.8cqw, 2.1rem);">
-                        再生にはビルドもインストールも不要。サーバーに置けば、URL を渡すだけで見てもらえる。
+                        スライドの中身は JavaScript ファイル 1 つ。ただし 1 から書かなくていい。19 種類の型をコピーするか、AI に書いてもらう。
                     </p>
                 </div>
             `;
@@ -104,8 +104,8 @@ const slideData = [
     // Slide 4
     {
         title: '自分のスライドを作る',
-        duration: 14,
-        narration: '自分のスライドを作るときは、player.html は触りません。slidesディレクトリにJavaScriptを1つ足すだけです。詳しい書き方は、作り方のスライドと、ユーザーズ・ガイドにまとめてあります。',
+        duration: 19,
+        narration: '自分のスライドを作るときは、player.html は触りません。slidesディレクトリにJavaScriptを1つ足すだけです。型の見本とガイド、それに原稿を AI に渡して、書いてもらうこともできます。詳しい書き方と依頼文の例は、ユーザーズ・ガイドにあります。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
@@ -116,7 +116,11 @@ const slideData = [
                         <i class="fa-solid fa-lightbulb text-lime-400" style="font-size: clamp(1.4rem, 3cqw, 2.2rem);"></i>
                         <span>player.html は触らない。slides/ に JavaScript を 1 つ足すだけ</span>
                     </div>
-                    <p class="text-slate-400 mt-[1.4cqw] mb-[0.8cqw] font-medium" style="font-size: clamp(0.9rem, 1.8cqw, 1.3rem);">書き方はこちら</p>
+                    <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-[1.3cqw] mt-[1.2cqw] text-slate-200 font-medium flex items-center gap-[1.2cqw]" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">
+                        <i class="fa-solid fa-robot text-sky-400 flex-shrink-0" style="font-size: clamp(1.2rem, 2.4cqw, 1.8rem);"></i>
+                        <span><strong>AI に書かせてもよい。</strong><code class="font-mono text-lime-400">template.js</code>・<code class="font-mono text-lime-400">User.md</code>・原稿を渡す。依頼文の例はガイドに</span>
+                    </div>
+                    <p class="text-slate-400 mt-[1.2cqw] mb-[0.8cqw] font-medium" style="font-size: clamp(0.9rem, 1.8cqw, 1.3rem);">書き方はこちら</p>
                     <div class="grid grid-cols-2 gap-[1.2cqw]">
                         <a href="player.html?slides=user" onclick="event.stopPropagation()" class="block no-underline bg-slate-800/60 border border-slate-700 rounded-xl p-[1.3cqw] text-center">
                             <i class="fa-solid fa-chalkboard-user text-lime-400" style="font-size: clamp(1.2rem, 2.4cqw, 1.8rem);"></i>
@@ -134,8 +138,8 @@ const slideData = [
     // Slide 5
     {
         title: '入っているスライド',
-        duration: 14,
-        narration: 'このリポジトリには、紹介用のreadme、作り方を説明するuser、内部の作りを説明するdeveloper、実例のclaude-memo、型の見本のtemplateの5つのスライド一式が入っています。',
+        duration: 20,
+        narration: 'このリポジトリには、紹介用のreadme、作り方を説明するuser、内部の作りを説明するdeveloper、実例のclaude-memo、型の見本のtemplateの5つのスライド一式が入っています。名前を押すとそのスライドが開き、右の本のマークから対応する文書へ移れます。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
@@ -148,11 +152,11 @@ const slideData = [
                                 <tr><th class="p-[1cqw]">名前</th><th class="p-[1cqw]">中身</th></tr>
                             </thead>
                             <tbody class="divide-y divide-slate-800 bg-slate-900/40 font-medium">
-                                <tr><td class="p-[1cqw] font-mono font-bold text-lime-400">readme</td><td class="p-[1cqw]">このリポジトリの紹介（既定）</td></tr>
-                                <tr><td class="p-[1cqw] font-mono font-bold text-sky-400">user</td><td class="p-[1cqw]">スライドの作り方</td></tr>
-                                <tr><td class="p-[1cqw] font-mono font-bold text-sky-400">developer</td><td class="p-[1cqw]">player.html の作り</td></tr>
-                                <tr><td class="p-[1cqw] font-mono font-bold text-lime-400">claude-memo</td><td class="p-[1cqw]">実例。Claude Code の使い方 17 枚</td></tr>
-                                <tr><td class="p-[1cqw] font-mono font-bold text-sky-400">template</td><td class="p-[1cqw]">スライドの型の見本。コピーして使う</td></tr>
+                                <tr><td class="p-[1cqw] font-mono font-bold text-lime-400"><a href="player.html?slides=readme" onclick="event.stopPropagation()" class="text-lime-400 no-underline"><i class="fa-solid fa-play mr-[0.5cqw]"></i>readme</a></td><td class="p-[1cqw]">このリポジトリの紹介（既定） <a href="https://github.com/ytani01/yt_slide/blob/main/README.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="text-sky-300 font-mono no-underline whitespace-nowrap ml-[0.6cqw]"><i class="fa-solid fa-book"></i> README.md</a></td></tr>
+                                <tr><td class="p-[1cqw] font-mono font-bold text-sky-400"><a href="player.html?slides=user" onclick="event.stopPropagation()" class="text-sky-400 no-underline"><i class="fa-solid fa-play mr-[0.5cqw]"></i>user</a></td><td class="p-[1cqw]">スライドの作り方 <a href="https://github.com/ytani01/yt_slide/blob/main/docs/User.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="text-sky-300 font-mono no-underline whitespace-nowrap ml-[0.6cqw]"><i class="fa-solid fa-book"></i> docs/User.md</a></td></tr>
+                                <tr><td class="p-[1cqw] font-mono font-bold text-sky-400"><a href="player.html?slides=developer" onclick="event.stopPropagation()" class="text-sky-400 no-underline"><i class="fa-solid fa-play mr-[0.5cqw]"></i>developer</a></td><td class="p-[1cqw]">player.html の作り <a href="https://github.com/ytani01/yt_slide/blob/main/docs/Developer.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="text-sky-300 font-mono no-underline whitespace-nowrap ml-[0.6cqw]"><i class="fa-solid fa-book"></i> docs/Developer.md</a></td></tr>
+                                <tr><td class="p-[1cqw] font-mono font-bold text-lime-400"><a href="player.html?slides=claude-memo" onclick="event.stopPropagation()" class="text-lime-400 no-underline"><i class="fa-solid fa-play mr-[0.5cqw]"></i>claude-memo</a></td><td class="p-[1cqw]">実例。Claude Code の使い方 17 枚</td></tr>
+                                <tr><td class="p-[1cqw] font-mono font-bold text-sky-400"><a href="player.html?slides=template" onclick="event.stopPropagation()" class="text-sky-400 no-underline"><i class="fa-solid fa-play mr-[0.5cqw]"></i>template</a></td><td class="p-[1cqw]">スライドの型の見本。コピーして使う</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -163,8 +167,8 @@ const slideData = [
     // Slide 6
     {
         title: 'まとめ',
-        duration: 13,
-        narration: 'まとめです。yt_slide を使えば、ファイル 2 つを置くだけで、ナレーション付きのプレゼンをすぐに作れます。Webサーバーに置けば、URLを渡すだけで見てもらえます。ぜひ試してみてください。',
+        duration: 18,
+        narration: 'まとめです。ファイル 2 つで、ナレーション付きのプレゼンが動きます。スライドは JavaScript ファイル 1 つですが、型をコピーするか AI に頼めるので、一から書く必要はありません。サーバーに置けば、URL を渡すだけで見てもらえます。ぜひ試してみてください。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
@@ -178,11 +182,11 @@ const slideData = [
                         </div>
                         <div class="bg-slate-800/60 p-[1cqw] rounded-lg border border-slate-700 flex items-center gap-[1.2cqw]">
                             <i class="fa-solid fa-plus text-sky-400 flex-shrink-0" style="font-size: clamp(1.2rem, 2.4cqw, 1.7rem);"></i>
-                            <span style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);"><strong>slides/ に JavaScript を 1 つ足す</strong> だけで新しいスライドを作れる</span>
+                            <span style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);"><strong>slides/ に JavaScript を 1 つ足す</strong> だけ。19 種の型と AI があるので 1 から書かなくていい</span>
                         </div>
                         <div class="bg-slate-800/60 p-[1cqw] rounded-lg border border-slate-700 flex items-center gap-[1.2cqw]">
                             <i class="fa-solid fa-share-nodes text-amber-400 flex-shrink-0" style="font-size: clamp(1.2rem, 2.4cqw, 1.7rem);"></i>
-                            <span style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);"><strong>ビルド不要</strong>。サーバーに置けば URL を渡すだけで見てもらえる</span>
+                            <span style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);"><strong>見る側はブラウザだけ</strong>。サーバーに置けば URL を渡すだけで見てもらえる</span>
                         </div>
                     </div>
                     <div class="bg-sky-950/60 border border-sky-500/60 rounded-xl p-[1cqw] text-center text-sky-300 font-bold" style="font-size: clamp(0.95rem, 2.0cqw, 1.4rem);">
