@@ -1,7 +1,36 @@
 # TODO
 
-**残っている項目は無い。** これまでに 96 件を決着させた。
-新しく足すときは「完了済み」の上に節を作る。**番号は `TODO-097` から。**
+**残っている項目: TODO-097。** これまでに 96 件を決着させた。
+新しく足すときは「完了済み」の上に節を作る。**番号は `TODO-098` から。**
+
+---
+
+## TODO-097. TODO-096 で残った文書と実態の食い違いを直す
+
+|      | main | 担当 |
+|------|------|------|
+| 見込み | Opus 5 / effort high | verifier |
+
+- [ ] テストの本数を 4 本（`test_cli`・`test_index`・`test_measure`・`test_video`）に直す
+      — `CLAUDE.md`「3 本」、`docs/Developer.md`「2 本」、`AGENTS.md`（2 本を名指し）
+- [ ] `docs/Developer.md` の構成表に `src/ytslide/index.py`・`tests/test_index.py`・
+      `tests/test_cli.py` を足す
+- [ ] `ytslide update` を文書に載せる（`cli.py` にも `--help` にもあるが、
+      `README.md`・`docs/User.md`・`docs/Developer.md`・`CLAUDE.md` のどこにも無い）
+- [ ] `docs/User.md`「どれもカレントディレクトリを見る」の列挙に `init`・`update`・`web`
+      を含める（`web` は `--root` を持たないことも書く）
+- [ ] `README.md`「インストール」のコメント `# measure と index` を実態に合わせ、
+      `ytslide init` から `docs/User.md` の該当節へ辿れるようにする
+
+TODO-096 で `tools/*.py` 3 本を `src/ytslide/` へ移し、サブコマンドを 3 つ
+（`init`・`update`・`web`）足したが、文書の追随が一部漏れた。`tools/` を指す
+記述は archives 以外に残っていない。
+
+**確認は verifier に分ける。** 書き足すコマンド例（`ytslide update` など）は
+書いたとおりに試せるものなので、その再現は実装した本人にさせない（TODO-017）。
+挙動は変えないのでレビューの担当は立てない。
+
+---
 
 ## 完了済み
 
