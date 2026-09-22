@@ -201,7 +201,7 @@ LAN 内の IP アドレスを確認し、`http://<LAN内IP>:8000/` を開く。
 
 ### 別のディレクトリからコマンドを使う
 
-`measure`・`index`・`update`・`video` は `--root` で作業場所を指定できる。
+`measure`・`index`・`update`・`video`・`check` は `--root` で作業場所を指定できる。
 `init` と `web` はカレントディレクトリだけを見る。
 
 ```bash
@@ -217,6 +217,7 @@ ytslide index --root ~/my-slides
 | `ytslide measure` | 読み上げ秒数だけを測る。`--write` で `duration` に書き戻せる |
 | `ytslide update` | 時間表示を合わせる仕上げに、`measure --all --write` と `index` を続けて実行する |
 | `ytslide web` | HTTP で確認したいとき、作業ディレクトリを配信する（ブラウザは自分で開く） |
+| `ytslide check` | 書き間違いが無いか検査する（構文エラー・必須キーの欠け・存在しない画像パス） |
 | `ytslide video` | 動画で渡したいとき、MP4 と `.srt` に書き出す |
 
 `measure`・`update`・`video` には `--slides sample` のように対象を指定する。
@@ -232,12 +233,12 @@ ytslide index --root ~/my-slides
 測定や動画書き出しを使うときに用意する。
 
 - `ytslide measure`・`ytslide update` — `curl`・`ffprobe`
-- `ytslide video` — 加えて `ffmpeg`・Playwright（Python, chromium）。
+- `ytslide video`・`ytslide check` — 加えて `ffmpeg`・Playwright（Python, chromium）。
   `uv tool install '...[video]'` で入る
 
 ```bash
 sudo apt install curl ffmpeg   # curl・ffmpeg・ffprobe
-playwright install chromium    # ytslide video だけが使う
+playwright install chromium    # ytslide video・ytslide check だけが使う
 ```
 
 Debian 12 (bookworm) / curl 7.88.1 / ffmpeg 5.1.9 / Python 3.14.7 /

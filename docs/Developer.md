@@ -77,6 +77,16 @@ Tailwind・Google Fonts・FontAwesome は CDN から読み込む（オフライ�
 スライド番号は持たず、並び順から計算する。
 各キーの意味は [UsersGuide.md](UsersGuide.md) にある。
 
+### 書き間違いの検査（`ytslide check`）
+
+構文エラー・必須キー（`title`・`narration`・`duration`・`body`/`render`）の
+欠け・存在しない画像パスの検査は、`player.html` の `window.runSlideCheck`
+（末尾の `<script>`）に 1か所だけ置く。`ytslide check`（`src/ytslide/check.py`）
+は Playwright で `player.html` を開き、この関数を呼んで結果を読み出すだけで、
+検査の基準を持たない。**検査の中身を増やすときはここだけを直す**（`check.py`
+側に基準を重複させない）。`duration` と実測の食い違いはここでは見ない
+（`ytslide measure` と役割が重なるため）。
+
 ## 再生ロジック
 
 `requestAnimationFrame` の `playbackLoop` が経過時間を進め、`duration` が

@@ -571,6 +571,17 @@
         const params = new URLSearchParams(location.search);
         const slidesName = (params.get('slides') || params.get('deck')
             || 'readme').replace(/[^\w-]/g, '');
+        // slides/<名前>.js の構文エラーを行番号付きで捕まえる（TODO-117）。
+        // document.write より前に仕込まないと間に合わない
+        let slidesSyntaxError = null;
+        window.addEventListener('error', (e) => {
+            if (e.filename && e.filename.endsWith(`/slides/${slidesName}.js`)) {
+                slidesSyntaxError = {
+                    filename: `slides/${slidesName}.js`,
+                    lineno: e.lineno, colno: e.colno, message: e.message,
+                };
+            }
+        }, true);
         document.write(`<script src="slides/${slidesName}.js"><\/script>`);
     </script>
 
@@ -582,7 +593,11 @@
             canvas.className = 'flex-grow z-10 flex items-center justify-center'
                 + ' text-slate-200 text-sm';
             canvas.textContent =
-                `スライドのデータ slides/${slidesName}.js を読み込めませんでした。`;
+                `スライドのデータ slides/${slidesName}.js を読み込めませんでした。`
+                + (slidesSyntaxError
+                    ? ` ${slidesSyntaxError.filename}:${slidesSyntaxError.lineno}:`
+                        + `${slidesSyntaxError.colno} でエラー: ${slidesSyntaxError.message}`
+                    : '');
             const indexLink = document.createElement('a');
             indexLink.href = 'index.html';
             indexLink.textContent = '一覧へ戻る';
@@ -1676,5 +1691,64 @@
         } else {
             startApp();
         }
+    </script>
+
+    <script>
+        // slides/<名前>.js の書き間違いを検査する（TODO-117）。
+        // `ytslide check` が page.evaluate() で呼ぶ。検査の基準はここだけに置く。
+        window.runSlideCheck = async function () {
+            if (typeof slideData === 'undefined') {
+                return { ok: false, syntaxError: slidesSyntaxError, missingKeys: [], missingImages: [] };
+            }
+
+            const REQUIRED_KEYS = ['title', 'narration', 'duration'];
+            const missingKeys = [];
+            const missingImages = [];
+            const checkedSrc = new Set();
+
+            for (let i = 0; i < slideData.length; i++) {
+                const slide = slideData[i];
+                const number = i + 1;
+
+                const keys = REQUIRED_KEYS.filter((k) => slide[k] === undefined);
+                if (slide.body === undefined && typeof slide.render !== 'function') {
+                    keys.push('body/render');
+                }
+                if (keys.length) {
+                    missingKeys.push({ number, keys });
+                }
+
+                let html;
+                try {
+                    html = typeof slide.render === 'function' ? slide.render() : slide.body;
+                } catch (e) {
+                    continue; // render() が例外を投げたら、このスライドの画像チェックは諦める
+                }
+                if (!html) continue;
+
+                const container = document.createElement('div');
+                container.innerHTML = html;
+                for (const img of container.querySelectorAll('img[src]')) {
+                    const src = img.getAttribute('src');
+                    if (!src || checkedSrc.has(src)) continue;
+                    checkedSrc.add(src);
+                    try {
+                        const res = await fetch(src, { method: 'HEAD' });
+                        if (!res.ok) {
+                            missingImages.push({ number, src, status: res.status });
+                        }
+                    } catch (e) {
+                        missingImages.push({ number, src, status: 'error' });
+                    }
+                }
+            }
+
+            return {
+                ok: missingKeys.length === 0 && missingImages.length === 0,
+                syntaxError: null,
+                missingKeys,
+                missingImages,
+            };
+        };
     </script>
 </body>

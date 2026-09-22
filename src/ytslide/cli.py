@@ -8,6 +8,7 @@ import pathlib
 import click
 
 from . import __version__, paths
+from . import check as check_mod
 from . import index as index_mod
 from . import measure as measure_mod
 from . import video as video_mod
@@ -176,6 +177,38 @@ def video(ctx, slides_name, out, only, root, debug):
         raise _no_slides_error(src)
 
     video_mod.make_video(slides_name, pathlib.Path(out), list(only) or None)
+
+
+@cli.command()
+@click.option('--slides', 'slides_name', default=None,
+              help=f'slides/<名前>.js の <名前>（既定は {paths.DEFAULT_SLIDES}）')
+@click.option('--root', help='スライドの置き場所（既定はカレントディレクトリ）')
+@click_common_opts(__version__)
+def check(ctx, slides_name, root, debug):
+    """構文エラー・必須キーの欠け・存在しない画像パスを検査する（playwright が要る）。"""
+    loggerInit(debug)
+    paths.set_root(root)
+    slides_name = slides_name or paths.DEFAULT_SLIDES
+
+    src = paths.SLIDES / f'{slides_name}.js'
+    if not src.exists():
+        raise _no_slides_error(src)
+
+    result = check_mod.check(slides_name)
+    js_name = f'slides/{slides_name}.js'
+
+    if result['syntaxError']:
+        e = result['syntaxError']
+        click.echo(f"{e['filename']}:{e['lineno']}:{e['colno']} でエラー: {e['message']}")
+    for item in result['missingKeys']:
+        click.echo(f"スライド {item['number']}: {', '.join(item['keys'])} が無い")
+    for item in result['missingImages']:
+        click.echo(f"スライド {item['number']}: {item['src']} が見つからない ({item['status']})")
+
+    if result['ok']:
+        click.echo(f'{js_name}: 問題なし')
+    else:
+        ctx.exit(1)
 
 
 @cli.command()

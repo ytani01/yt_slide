@@ -11,8 +11,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 不要**で、ブラウザで開くだけで動く。インストールが要るのは、`duration` を測る・
 `index.html` を作り直す・動画に書き出す `ytslide`（`src/ytslide/`）だけ
 （`uv tool install`。README の「インストール」）。
-テストは `tests/` の 4本（`test_cli`・`test_index`・`test_measure`・`test_video`。
-`uv run pytest`）。
+テストは `tests/` の 5本（`test_cli`・`test_check`・`test_index`・`test_measure`・
+`test_video`。`uv run pytest`）。
 配置場所が `public_html/` なので、ファイルがそのまま公開される。
 確認はブラウザで `player.html` を開くだけ。
 

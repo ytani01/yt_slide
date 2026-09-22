@@ -1,6 +1,6 @@
 # TODO
 
-**残っている項目: TODO-112・117。** これまでに 115 件を決着させた。
+**残っている項目: TODO-112。** これまでに 116 件を決着させた。
 新しく足すときは「完了済み」の上に節を作る。**番号は `TODO-118` から。**
 
 ---
@@ -28,43 +28,6 @@ Playwright が要るため、extra は `video` に相乗りさせるか `pdf` �
 合わせられるか、スライドの縮小経路（container query）が印刷時にどう効くかを、
 1 枚で実際に出して見てから全体を組む。
 
-## TODO-117. スライドの書き間違いを事前に見つけ、失敗の理由を画面に出す
-
-|      | main | 担当 |
-|------|------|------|
-| 見込み | Sonnet 5 / effort medium | implementer + reviewer + verifier |
-
-- [ ] `player.html`: 構文エラーを捕まえ、ファイル名・行番号・エラーの内容を
-      既存の「読み込めませんでした」の案内に足す
-- [ ] `player.html`: 必須キーの欠け（`title`・`narration`・`duration`・
-      `body`/`render`）と存在しない画像パスを検査し、結果を `window` に残す
-- [ ] `ytslide check`: Playwright で `player.html` を開き、検査の結果を
-      端末に出す。問題があれば終了ステータスを 0 以外にする
-- [ ] `docs/UsersGuide.md` の「`ytslide` のサブコマンド」と README に足す
-
-TODO-113 で 9 通りに壊して実測した結果に基づく。今は構文エラーだと
-「スライドのデータ slides/x.js を読み込めませんでした。」しか出ず、行番号が
-分からない。キーの欠けだと画面に `undefined` や `NaN:NaN` が出たり、
-`narration` が無いスライドで再生が止まったりする。非プログラマが書く前提
-（TODO-103）では、どのファイルの何行目が怪しいかが分かる必要がある。
-
-**方針は TODO-113 で決まっている。**
-
-- 検査の中身は `player.html` に 1 か所だけ置く。`ytslide check` は
-  Playwright で `player.html` を開いてその結果を読み出すだけにする
-  （検査の基準が 2 箇所に分かれないようにする）
-- 見るのは構文エラー・必須キーの欠け・存在しない画像パスの 3 つ。
-  `duration` と実測の食い違いは見ない（`ytslide measure` と役割が重なる）
-- 案内は既存のものに足す。TODO-078 の音声の失敗通知の帯は使わない
-
-**実装の前に確かめること** — 構文エラーの行番号は、`document.write` の前に
-`window.addEventListener('error', …, true)` を置けば取れる（TODO-113 で実測済み。
-`slides/x.js:12:9 Uncaught SyntaxError: …`）。画像の 404 は HTTP 経由でないと
-分からないので、`check` は `ytslide web` と同じようにサーバーを立てて開く。
-Playwright が要るため、extra は `video` に相乗りさせる。
-
----
-
 ---
 
 ## 完了済み
@@ -72,6 +35,7 @@ Playwright が要るため、extra は `video` に相乗りさせる。
 1 項目 1 ファイル。`archives/todo/` にある（新しい順）。
 **やらないと決めたものの理由も記載してある。** 蒸し返す前に読むこと。
 
+- [**TODO-117.** スライドの書き間違いを事前に見つけ、失敗の理由を画面に出す](archives/todo/TODO-117.%20スライドの書き間違いを事前に見つけ、失敗の理由を画面に出す.md)
 - [**TODO-113.** 書き間違いの事前チェックと、失敗したときの案内を検討する](archives/todo/TODO-113.%20書き間違いの事前チェックと、失敗したときの案内を検討する.md)
 - [**TODO-116.** `User.md`・`user.js` を `UsersGuide.md`・`users-guide.js` に改名する](archives/todo/TODO-116.%20User.md・user.js%20を%20UsersGuide.md・users-guide.js%20に改名する.md)
 - [**TODO-115.** `index.html` の `README.md` 埋め込みをやめる](archives/todo/TODO-115.%20index.html%20の%20README.md%20埋め込みをやめる.md)
