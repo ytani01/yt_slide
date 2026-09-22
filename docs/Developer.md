@@ -23,7 +23,7 @@
 | `tests/test_video.py` | `video.py` の分割や字幕の組み立ての自動確認 |
 | `tests/test_cli.py` | `ytslide init` が置くファイルと、二度目に上書きしないことの自動確認 |
 | `pyproject.toml` | `ytslide` のパッケージ定義（`uv tool install` で使う） |
-| `TODO.md` | 進行中の項目と、完了済みの目次 |
+| `TODO.md` | 進行中の項目（完了済みの目次は置かない） |
 | `archives/` | 決着した TODO 項目と、サブエージェントの報告。**現行仕様ではない** |
 | `CLAUDE.md` | Claude Code 向けのプロジェクト規約 |
 
