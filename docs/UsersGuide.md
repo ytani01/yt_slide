@@ -1,6 +1,6 @@
 # ユーザーズ・ガイド
 
-**同じ内容をスライドでも見られる**（`player.html?slides=user`）。
+**同じ内容をスライドでも見られる**（`player.html?slides=users-guide`）。
 
 `player.html` は再生エンジンだけで、スライドのデータは
 `slides/<名前>.js` に分かれている。新しいスライドを作るときは、
@@ -93,10 +93,10 @@ ytslide init
 
 **渡すものは 3つ。**
 
-- **`docs/User.md`（この文書）** — 書式の説明。
-  [Markdown ファイル](https://raw.githubusercontent.com/ytani01/yt_slide/main/docs/User.md)
+- **`docs/UsersGuide.md`（この文書）** — 書式の説明。
+  [Markdown ファイル](https://raw.githubusercontent.com/ytani01/yt_slide/main/docs/UsersGuide.md)
   をブラウザで開いて保存するか、内容をコピーして渡す。ZIP を展開してあれば、
-  その中の `docs/User.md` でよい
+  その中の `docs/UsersGuide.md` でよい
 - **作業場所の `slides/template.js`** — テンプレート 19種。渡すと、
   近いものに沿った見た目で返ってくる
 - **スライドにしたい原稿や資料** — 無ければ、テーマと聞き手を文章で伝える
@@ -115,7 +115,7 @@ ytslide init
 盛り込みたいことを文章で書く。
 
 ```text
-添付した User.md の形式と template.js のテンプレートを使って、
+添付した UsersGuide.md の形式と template.js のテンプレートを使って、
 「地域の読書会の紹介」を、初めて参加する人向けに 3枚のスライドにしてください。
 内容は添付の原稿に沿ってください。
 slides/sample.js として保存できる JavaScript 全体を出してください。
@@ -551,7 +551,7 @@ images/             ← 画像を使っているときだけ
 
 ### AI に書かせられる
 
-渡すのは `slides/template.js`（テンプレート 19種）、この `docs/User.md`（書式の説明）、
+渡すのは `slides/template.js`（テンプレート 19種）、この `docs/UsersGuide.md`（書式の説明）、
 スライドにしたい原稿の 3つ。**AI が書いたものをそのまま `slides/<名前>.js` として
 保存すれば、`player.html?slides=<名前>` で再生できる。** 取り込みも変換も要らない。
 
@@ -740,4 +740,4 @@ CDN から読む **FontAwesome 6.5.1 の無料の solid** から、用途別に 
 （`fa-brands`）は `fa-solid` では出ない）。**名前を間違えても何も言われず、
 アイコンが出ないだけ**なので、足したら画面で確かめる。
 
-同じ一覧がスライドの巻末にもある（`player.html?slides=user`）。
+同じ一覧がスライドの巻末にもある（`player.html?slides=users-guide`）。

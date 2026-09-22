@@ -3,7 +3,7 @@
 **同じ内容をスライドでも見られる**（`player.html?slides=developer`）。
 
 再生エンジン `player.html` を直すときに、先に知っておきたいことをまとめる。
-**スライドを足したい・作りたいだけなら [User.md](User.md) を読む。**
+**スライドを足したい・作りたいだけなら [UsersGuide.md](UsersGuide.md) を読む。**
 こちらを読む必要はない。
 
 ## リポジトリの構成
@@ -12,9 +12,9 @@
 |----------|------|
 | `player.html` | 外枠の HTML・CSS と再生ロジック。本体 |
 | `index.html` | スライドの一覧。`ytslide index` が生成する |
-| `slides/<名前>.js` | スライドデータ。`readme`・`user`・`developer`・`claude-memo`・`template` |
+| `slides/<名前>.js` | スライドデータ。`readme`・`users-guide`・`developer`・`claude-memo`・`template` |
 | `images/` | スライドに貼るビットマップ画像。パスは `player.html` から見た相対 |
-| `docs/` | 説明。[User.md](User.md)（作る人向け）とこのファイル |
+| `docs/` | 説明。[UsersGuide.md](UsersGuide.md)（作る人向け）とこのファイル |
 | `src/ytslide/measure.py` | 読み上げ秒数の測定と `duration` への書き込み（`ytslide measure`） |
 | `src/ytslide/index.py` | `slides/*.js` から `index.html` の一覧を作る（`ytslide index`） |
 | `src/ytslide/video.py` | スライド一式を MP4 と `.srt` に書き出す（`ytslide video`） |
@@ -75,7 +75,7 @@ Tailwind・Google Fonts・FontAwesome は CDN から読み込む（オフライ�
 `render()` があればそれを呼び、無ければ `title` と `icon` から見出しを
 作って `body` を枠で包む。
 スライド番号は持たず、並び順から計算する。
-各キーの意味は [User.md](User.md) にある。
+各キーの意味は [UsersGuide.md](UsersGuide.md) にある。
 
 ## 再生ロジック
 
@@ -183,7 +183,7 @@ Google の音声なので、**その端末に他の声が入っていないと�
 
 `narration` は `prepareSpeechText()` を通してから読み上げられる。置換表は
 **スライド一式の `slidesConfig.rules` が先、`player.html` の `SPEECH_RULES` が後**
-の順に適用される。方法は `docs/User.md` の「読みを直す」にある。
+の順に適用される。方法は `docs/UsersGuide.md` の「読みを直す」にある。
 
 どちらにも安全タイマーがある。読み終わりのイベントが来ない場合に備える。
 

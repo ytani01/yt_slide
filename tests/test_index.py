@@ -56,7 +56,7 @@ def test_load_slide_and_slide_names():
     paths.set_root(None)
 
     # 実在の 5つのスライド一式が全部読めること（summary/icon あり）。
-    for name in ('readme', 'user', 'template', 'developer', 'claude-memo'):
+    for name in ('readme', 'users-guide', 'template', 'developer', 'claude-memo'):
         _, summary, icon = index.load_slide(name)
         assert summary, f'{name}: summary が読めていない'
         assert icon, f'{name}: icon が読めていない'

@@ -1,5 +1,5 @@
-// スライドのデータ。player.html?slides=user から読まれる（TODO-051、TODO-053）。
-// docs/User.md（スライドを作る人向けの手順）の要点をスライドにしたもの。
+// スライドのデータ。player.html?slides=users-guide から読まれる（TODO-051、TODO-053）。
+// docs/UsersGuide.md（スライドを作る人向けの手順）の要点をスライドにしたもの。
 // 共通の再生エンジンは player.html の中にある。
 
 const slidesConfig = {
@@ -16,7 +16,7 @@ const slidesConfig = {
 };
 
 // 巻末のアイコン一覧（TODO-069）。用途ごとに 3〜4件、FontAwesome 6.5.1 の
-// 無料の solid から選んである。docs/User.md の付録と同じ内容。
+// 無料の solid から選んである。docs/UsersGuide.md の付録と同じ内容。
 const ICON_GROUPS = [
     ['箇条書き・一覧', ['fa-list-check', 'fa-list-ol', 'fa-table-list']],
     ['注意・禁止', ['fa-triangle-exclamation', 'fa-circle-exclamation', 'fa-ban', 'fa-circle-info']],
@@ -103,7 +103,7 @@ const slideData = [
     {
         title: '準備する',
         duration: 15,
-        narration: '一覧や時間の測定も使うなら、ytslide をインストールします。作業用のディレクトリを作って移動し、ytslide init を実行します。コピーだけで始める手順も、User.md にあります。',
+        narration: '一覧や時間の測定も使うなら、ytslide をインストールします。作業用のディレクトリを作って移動し、ytslide init を実行します。コピーだけで始める手順も、UsersGuide.md にあります。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
@@ -117,7 +117,7 @@ const slideData = [
                     </div>
                     <div class="bg-amber-950/40 border border-amber-500/40 rounded-xl p-[1.3cqw] mt-[1.3cqw] text-amber-300 flex items-center gap-[1.2cqw] font-medium" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">
                         <i class="fa-solid fa-circle-info text-amber-400 flex-shrink-0" style="font-size: clamp(1.2rem, 2.4cqw, 1.8rem);"></i>
-                        <span>導入は README の「インストール」へ。コピーだけで始める手順は User.md にある</span>
+                        <span>導入は README の「インストール」へ。コピーだけで始める手順は UsersGuide.md にある</span>
                     </div>
                 </div>
             `;
@@ -127,7 +127,7 @@ const slideData = [
     {
         title: '書いて確かめる',
         duration: 17,
-        narration: 'User.md の最小例を slides/sample.js に保存し、まず 1枚だけ自分の内容に直します。保存したら player.html?slides=sample をブラウザで開き、再読み込みして見た目と読み上げを確かめます。',
+        narration: 'UsersGuide.md の最小例を slides/sample.js に保存し、まず 1枚だけ自分の内容に直します。保存したら player.html?slides=sample をブラウザで開き、再読み込みして見た目と読み上げを確かめます。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
@@ -149,16 +149,16 @@ const slideData = [
         title: 'AI に作ってもらう',
         icon: 'fa-robot',
         duration: 19,
-        narration: 'AI に作ってもらうこともできます。渡すのは 3つ。書式を説明した User.md、テンプレート集の template.js、それにスライドにしたい原稿です。依頼文には、保存できる JavaScript 全体を出すことと、各スライドに書く項目を必ず入れます。',
+        narration: 'AI に作ってもらうこともできます。渡すのは 3つ。書式を説明した UsersGuide.md、テンプレート集の template.js、それにスライドにしたい原稿です。依頼文には、保存できる JavaScript 全体を出すことと、各スライドに書く項目を必ず入れます。',
         body: `
             <div class="space-y-[1cqw]" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">
-                <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-[1.2cqw] text-slate-200 font-medium"><span class="text-lime-400 font-bold">渡す 3つ</span> — <code class="font-mono text-lime-400">docs/User.md</code>（書式）、<code class="font-mono text-lime-400">slides/template.js</code>（テンプレート 19種）、スライドにしたい原稿</div>
-                <div class="bg-slate-900 border border-slate-800 rounded-xl p-[1.2cqw] text-slate-200 font-mono whitespace-pre-line" style="font-size: clamp(0.8rem, 1.7cqw, 1.25rem);">User.md の形式と template.js のテンプレートを使って、
+                <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-[1.2cqw] text-slate-200 font-medium"><span class="text-lime-400 font-bold">渡す 3つ</span> — <code class="font-mono text-lime-400">docs/UsersGuide.md</code>（書式）、<code class="font-mono text-lime-400">slides/template.js</code>（テンプレート 19種）、スライドにしたい原稿</div>
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-[1.2cqw] text-slate-200 font-mono whitespace-pre-line" style="font-size: clamp(0.8rem, 1.7cqw, 1.25rem);">UsersGuide.md の形式と template.js のテンプレートを使って、
 「◯◯」を △△ 向けに 3枚のスライドにしてください。
 slides/sample.js として保存できる JavaScript 全体を、
 slidesConfig と slideData を含めて出してください。
 各スライドに title・body・narration・duration を書いてください。</div>
-                <div class="bg-sky-950/40 border border-sky-500/40 rounded-xl p-[1.2cqw] text-sky-300 font-medium"><i class="fa-solid fa-floppy-disk text-lime-400 mr-[0.7cqw]"></i>出てきた <code class="font-mono">.js</code> を保存 → <code class="font-mono">player.html?slides=sample</code> で確認。依頼文の全文と、直してもらうときの例は User.md に</div>
+                <div class="bg-sky-950/40 border border-sky-500/40 rounded-xl p-[1.2cqw] text-sky-300 font-medium"><i class="fa-solid fa-floppy-disk text-lime-400 mr-[0.7cqw]"></i>出てきた <code class="font-mono">.js</code> を保存 → <code class="font-mono">player.html?slides=sample</code> で確認。依頼文の全文と、直してもらうときの例は UsersGuide.md に</div>
             </div>
         `,
     },
@@ -287,7 +287,7 @@ slidesConfig と slideData を含めて出してください。
     {
         title: '近い見た目をコピーする',
         duration: 9,
-        narration: '近い見た目の既存スライドをコピーして、中身を差し替えるのが早い方法です。細かい書き方は User.md に書いてあります。',
+        narration: '近い見た目の既存スライドをコピーして、中身を差し替えるのが早い方法です。細かい書き方は UsersGuide.md に書いてあります。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
@@ -300,9 +300,9 @@ slidesConfig と slideData を含めて出してください。
                             <div class="text-slate-100 font-bold" style="font-size: clamp(1.05rem, 2.3cqw, 1.7rem);">template.js</div>
                             <div class="text-slate-300 mt-[0.4cqw] font-medium" style="font-size: clamp(0.85rem, 1.8cqw, 1.3rem);">次の見た目を整えるときに、テンプレート 19種から選ぶ</div>
                         </a>
-                        <a href="https://github.com/ytani01/yt_slide/blob/main/docs/User.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="block no-underline bg-slate-800/60 border border-slate-700 rounded-xl p-[1.8cqw] text-center">
+                        <a href="https://github.com/ytani01/yt_slide/blob/main/docs/UsersGuide.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="block no-underline bg-slate-800/60 border border-slate-700 rounded-xl p-[1.8cqw] text-center">
                             <i class="fa-solid fa-book text-lime-400 mb-[0.8cqw]" style="font-size: clamp(1.8rem, 4cqw, 2.8rem);"></i>
-                            <div class="text-slate-100 font-bold" style="font-size: clamp(1.05rem, 2.3cqw, 1.7rem);">docs/User.md</div>
+                            <div class="text-slate-100 font-bold" style="font-size: clamp(1.05rem, 2.3cqw, 1.7rem);">docs/UsersGuide.md</div>
                             <div class="text-slate-300 mt-[0.4cqw] font-medium" style="font-size: clamp(0.85rem, 1.8cqw, 1.3rem);">細かい書き方はこちらを見る</div>
                         </a>
                     </div>
@@ -357,7 +357,7 @@ slidesConfig と slideData を含めて出してください。
     {
         title: 'まとめ',
         duration: 10,
-        narration: 'player.html は触らず、slides に名前.js を1つ足すだけです。細かい注意点は User.md を見てください。',
+        narration: 'player.html は触らず、slides に名前.js を1つ足すだけです。細かい注意点は UsersGuide.md を見てください。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
@@ -375,7 +375,7 @@ slidesConfig と slideData を含めて出してください。
                         </div>
                         <div class="bg-slate-800/60 p-[1.1cqw] rounded-lg border border-slate-700 flex items-center gap-[1.2cqw]">
                             <i class="fa-solid fa-book text-sky-400 flex-shrink-0" style="font-size: clamp(1.2rem, 2.4cqw, 1.7rem);"></i>
-                            <span style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);">細かい注意点は <strong>docs/User.md</strong> へ</span>
+                            <span style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);">細かい注意点は <strong>docs/UsersGuide.md</strong> へ</span>
                         </div>
                     </div>
                 </div>
@@ -403,7 +403,7 @@ slidesConfig と slideData を含めて出してください。
         title: 'アイコン名の例 3 - 人・図解・強調',
         icon: 'fa-icons',
         duration: 12,
-        narration: '人や対話、図解と設定、強調に使うものです。ここに無いものは FontAwesome のサイトで探せます。同じ一覧が User.md の巻末にもあります。',
+        narration: '人や対話、図解と設定、強調に使うものです。ここに無いものは FontAwesome のサイトで探せます。同じ一覧が UsersGuide.md の巻末にもあります。',
         body: iconTable(ICON_GROUPS.slice(6, 9)),
     },
 ];

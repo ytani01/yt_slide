@@ -231,9 +231,9 @@ const slideData = [
                         サイズは cqw と clamp() で書く。px や rem の直書きは、16:9 を縮めたときに崩れる。
                     </p>
                     <footer class="mt-[1.6cqw]" style="font-size: clamp(0.85rem, 1.85cqw, 1.35rem);">
-                        <a href="https://github.com/ytani01/yt_slide/blob/main/docs/User.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="inline-flex items-center gap-[1cqw] text-slate-400 no-underline">
+                        <a href="https://github.com/ytani01/yt_slide/blob/main/docs/UsersGuide.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="inline-flex items-center gap-[1cqw] text-slate-400 no-underline">
                             <span class="grid place-items-center w-[3cqw] h-[3cqw] rounded-full bg-sky-500/15 border border-sky-500/40 text-sky-300"><i class="fa-solid fa-book" style="font-size: clamp(0.75rem, 1.6cqw, 1.1rem);"></i></span>
-                            <span class="underline decoration-slate-600 underline-offset-4">docs/User.md「render() の書き方」</span>
+                            <span class="underline decoration-slate-600 underline-offset-4">docs/UsersGuide.md「render() の書き方」</span>
                             <i class="fa-solid fa-arrow-up-right-from-square text-slate-500" style="font-size: clamp(0.65rem, 1.4cqw, 1rem);"></i>
                         </a>
                     </footer>

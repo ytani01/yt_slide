@@ -29,7 +29,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
   再生ロジックと `duration` の決まり、読み上げの 2系統と安全タイマー、
   container query と狭い画面の縮小経路、擬似フルスクリーン、副作用のある
   変更など。**直す前に必ず目を通すこと**
-- **スライドを足す・作るだけなら [`docs/User.md`](docs/User.md)。**
+- **スライドを足す・作るだけなら [`docs/UsersGuide.md`](docs/UsersGuide.md)。**
   `slides/<名前>.js` の書き方と `duration` の測り方
 
 個々の変更の経緯は `archives/todo/` にある。`docs/` は利用者向けなので

@@ -20,7 +20,7 @@
 - **MP4（＋`.srt`）に書き出せる。** URL を渡せない相手にも、動画と字幕で渡せる
 - **スライドがテキストファイル。** どこを直したかが差分で分かり、用語や製品名は
   全スライドまとめて直せる。データから機械的に作ることもできる
-  （[テキストで書く利点](docs/User.md#テキストで書く利点)）
+  （[テキストで書く利点](docs/UsersGuide.md#テキストで書く利点)）
 
 ## できること
 
@@ -47,16 +47,16 @@
 このリポジトリの紹介（`slides/readme.js`）が流れる。
 同じディレクトリを開くと、スライドの一覧（`index.html`）から選べる。
 
-声は相手の端末によって異なる（[声の選び方](docs/User.md#読み上げの声を選ぶ)）。
+声は相手の端末によって異なる（[声の選び方](docs/UsersGuide.md#読み上げの声を選ぶ)）。
 音が出ないときは消音と端末の音量を確認し、
-[音声の再試行・切り替え](docs/User.md#音が出ないとき)を試す。
+[音声の再試行・切り替え](docs/UsersGuide.md#音が出ないとき)を試す。
 
 ## 入っているスライド
 
 | 名前 | 中身 |
 |--------|------|
 | `readme` | このリポジトリの紹介（既定） |
-| `user` | スライドの作り方 |
+| `users-guide` | スライドの作り方 |
 | `developer` | `player.html` の作り |
 | `claude-memo` | 実例。「私の Claude Code の使い方」17枚 |
 | `template` | スライドのテンプレート 19種。コピーして使う |
@@ -65,15 +65,15 @@
 
 ## 自分のスライドを作る
 
-**[用意する](docs/User.md#1-自分の作業場所を用意する) →
-[テンプレートや AI で作る](docs/User.md#2-最初の-1枚を書いて再生する) →
-[手元で確認する](docs/User.md#3-編集して確かめる) →
-[公開先に置く](docs/User.md#他のサーバーへ持っていくとき) →
-[URL を渡す](docs/User.md#公開)。**
+**[用意する](docs/UsersGuide.md#1-自分の作業場所を用意する) →
+[テンプレートや AI で作る](docs/UsersGuide.md#2-最初の-1枚を書いて再生する) →
+[手元で確認する](docs/UsersGuide.md#3-編集して確かめる) →
+[公開先に置く](docs/UsersGuide.md#他のサーバーへ持っていくとき) →
+[URL を渡す](docs/UsersGuide.md#公開)。**
 
 **`player.html` は触らず、`slides/<名前>.js` を 1つ足すだけ。**
 1枚は、題名・読み上げる文章・本文を並べただけのもの。次は 1枚分の断片で、
-保存して動くファイル全体は [ガイドの「最小の例」](docs/User.md#最小の例)にある。
+保存して動くファイル全体は [ガイドの「最小の例」](docs/UsersGuide.md#最小の例)にある。
 
 ```js
 {
@@ -92,18 +92,18 @@
 
 **AI に書かせてもよい。** 渡すのは 3つ —
 `slides/template.js`（テンプレート 19種）、
-[docs/User.md](docs/User.md)（書式の説明）、スライドにしたい原稿や資料。
+[docs/UsersGuide.md](docs/UsersGuide.md)（書式の説明）、スライドにしたい原稿や資料。
 作りたい内容を伝えれば `.js` を書いてくれる（このリポジトリのスライドも
 そうやって作った）。そのまま使える
-[依頼文の例と、保存・確認の手順](docs/User.md#ai-に作ってもらう)がガイドにある。
+[依頼文の例と、保存・確認の手順](docs/UsersGuide.md#ai-に作ってもらう)がガイドにある。
 
-手順は [docs/User.md の「手順」](docs/User.md#手順)にある。作業場所の用意、
+手順は [docs/UsersGuide.md の「手順」](docs/UsersGuide.md#手順)にある。作業場所の用意、
 一覧の生成、読み上げ秒数の測定、HTTP での確認、公開と動画への書き出しまで、
 そこにまとめてある。
 
 公開するときは `player.html` と `slides/<名前>.js`（画像を使う場合は画像も）を
 同じ位置関係で置き、相手に `https://<公開先>/player.html?slides=<名前>` を渡す。
-一覧も置く場合の説明は [ガイドの「公開」](docs/User.md#公開)へ。
+一覧も置く場合の説明は [ガイドの「公開」](docs/UsersGuide.md#公開)へ。
 
 ## インストール
 
@@ -127,11 +127,11 @@ uv tool install 'git+https://github.com/ytani01/yt_slide[video]'   # video も�
 extra に分けている。
 
 サブコマンドの一覧と、測定・動画の書き出しに要るパッケージは
-[docs/User.md の「`ytslide` のサブコマンド」](docs/User.md#ytslide-のサブコマンド)にある。
+[docs/UsersGuide.md の「`ytslide` のサブコマンド」](docs/UsersGuide.md#ytslide-のサブコマンド)にある。
 
 ## 説明
 
-- [docs/User.md](docs/User.md) — **スライド作成者向け。**
+- [docs/UsersGuide.md](docs/UsersGuide.md) — **スライド作成者向け。**
   `player.html` は編集せず、`slides/<名前>.js` を足す手順
 - [docs/Developer.md](docs/Developer.md) — **開発者向け。**
   全体の作り、再生ロジック、読み上げ、レイアウトの設計。

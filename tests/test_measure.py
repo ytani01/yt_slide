@@ -100,7 +100,7 @@ def test_all_slides_rules_load():
     # リポジトリ直下（既定の場所）の 5つのスライド一式が全部読めること
     # （スライド一式だけの語があるものは 1つ以上）。
     paths.set_root(None)
-    for slides in ('readme', 'user', 'developer', 'claude-memo'):
+    for slides in ('readme', 'users-guide', 'developer', 'claude-memo'):
         slides_rules = measure.load_slides_rules(slides)
         assert slides_rules, f'{slides}: slidesConfig.rules が読めていない'
 

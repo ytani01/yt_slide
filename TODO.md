@@ -1,6 +1,6 @@
 # TODO
 
-**残っている項目: TODO-112・113・116。** これまでに 113 件を決着させた。
+**残っている項目: TODO-112・113。** これまでに 114 件を決着させた。
 新しく足すときは「完了済み」の上に節を作る。**番号は `TODO-117` から。**
 
 ---
@@ -54,36 +54,12 @@ Playwright が要るため、extra は `video` に相乗りさせるか `pdf` �
 
 ---
 
-## TODO-116. `User.md`・`user.js` を `UsersGuide.md`・`users-guide.js` に改名する
-
-|      | main | 担当 |
-|------|------|------|
-| 見込み | Sonnet 5 / effort medium | implementer + verifier |
-
-- [ ] `docs/User.md` → `docs/UsersGuide.md`、`slides/user.js` → `slides/users-guide.js`（`git mv`）
-- [ ] 文書からのリンクを直す（`README.md`・`CLAUDE.md`・`docs/Developer.md`・`docs/UsersGuide.md` 自身）
-- [ ] スライド内の参照を直す（`slides/readme.js`・`slides/template.js`・`slides/developer.js`・`slides/users-guide.js`。GitHub への URL とナレーションを含む）
-- [ ] スライド名 `user` を `users-guide` に変える（`index.html`・`slides/readme.js` の一覧・`README.md` の表・`player.html?slides=users-guide`）
-- [ ] `tests/test_index.py`・`tests/test_measure.py` の名前を直す
-- [ ] テストを通し、`player.html?slides=users-guide` が再生できることを確かめる
-
-`user` は「利用者向け」なのか「利用者が作る」なのか読み取りにくい。
-`UsersGuide.md` / `users-guide` なら、スライド作成者向けのガイドだと名前で分かる。
-
-- ファイル名が URL になるので、`player.html?slides=user` は `?slides=users-guide` に変わる。
-  一覧の表示名もファイル名と同じものが出るため、`users-guide` に揃える（利用者と確認済み）
-- `archives/` の過去の記録は直さない。当時の記録であり、現行仕様ではない
-- 見出しのアンカー（`#公開` など）は変わらないので、リンクはファイル名部分だけ直す
-- 対象範囲の確認には
-  `rg -n 'User\.md|user\.js|slides=user' --glob '!archives/**' .` を使う
-
----
-
 ## 完了済み
 
 1 項目 1 ファイル。`archives/todo/` にある（新しい順）。
 **やらないと決めたものの理由も記載してある。** 蒸し返す前に読むこと。
 
+- [**TODO-116.** `User.md`・`user.js` を `UsersGuide.md`・`users-guide.js` に改名する](archives/todo/TODO-116.%20User.md・user.js%20を%20UsersGuide.md・users-guide.js%20に改名する.md)
 - [**TODO-115.** `index.html` の `README.md` 埋め込みをやめる](archives/todo/TODO-115.%20index.html%20の%20README.md%20埋め込みをやめる.md)
 - [**TODO-114.** 他に無い点を README とスライドではっきり書く](archives/todo/TODO-114.%20他に無い点を%20README%20とスライドではっきり書く.md)
 - [**TODO-111.** 文書とソースコメントの不自然な日本語を直す](archives/todo/TODO-111.%20文書とソースコメントの不自然な日本語を直す.md)

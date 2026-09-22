@@ -30,7 +30,7 @@ const slideData = [
     {
         title: 'player.html を直す人へ',
         duration: 12,
-        narration: 'これはplayer.htmlの再生エンジンを直す人向けの説明です。スライドを足したいだけならUser.mdで足ります。こちらはコードを触るときに読んでください。',
+        narration: 'これはplayer.htmlの再生エンジンを直す人向けの説明です。スライドを足したいだけならUsersGuide.mdで足ります。こちらはコードを触るときに読んでください。',
         render: function() {
             return `
                 <div class="flex flex-col items-start justify-center h-full px-[4cqw] py-[1.5cqw] space-y-[1.5cqw]">

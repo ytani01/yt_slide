@@ -128,7 +128,7 @@ const slideData = [
                     </h2>
                     <div class="bg-slate-950 border border-slate-800 rounded-xl p-[1.6cqw] font-mono text-slate-200 space-y-[0.6cqw] mb-[1.5cqw]" style="font-size: clamp(0.95rem, 2.0cqw, 1.5rem);">
                         <div>player.html <span class="text-slate-400"># ZIP を展開して開く</span></div>
-                        <div>player.html?slides=user <span class="text-slate-400"># 名前を指定して開く</span></div>
+                        <div>player.html?slides=users-guide <span class="text-slate-400"># 名前を指定して開く</span></div>
                     </div>
                     <p class="text-slate-200 font-medium" style="font-size: clamp(1.0rem, 2.1cqw, 1.55rem);">
                         <code class="bg-slate-900 px-[0.6cqw] py-[0.2cqw] rounded text-sky-300 font-mono">player.html?slides=&lt;名前&gt;</code>
@@ -155,17 +155,17 @@ const slideData = [
                     </div>
                     <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-[1.3cqw] mt-[1.2cqw] text-slate-200 font-medium flex items-center gap-[1.2cqw]" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">
                         <i class="fa-solid fa-robot text-sky-400 flex-shrink-0" style="font-size: clamp(1.2rem, 2.4cqw, 1.8rem);"></i>
-                        <span><strong>AI に書かせてもよい。</strong><code class="font-mono text-lime-400">template.js</code>・<code class="font-mono text-lime-400">User.md</code>・原稿を渡す。依頼文の例はガイドに</span>
+                        <span><strong>AI に書かせてもよい。</strong><code class="font-mono text-lime-400">template.js</code>・<code class="font-mono text-lime-400">UsersGuide.md</code>・原稿を渡す。依頼文の例はガイドに</span>
                     </div>
                     <p class="text-slate-400 mt-[1.2cqw] mb-[0.8cqw] font-medium" style="font-size: clamp(0.9rem, 1.8cqw, 1.3rem);">書き方はこちら</p>
                     <div class="grid grid-cols-2 gap-[1.2cqw]">
-                        <a href="player.html?slides=user" onclick="event.stopPropagation()" class="block no-underline bg-slate-800/60 border border-slate-700 rounded-xl p-[1.3cqw] text-center">
+                        <a href="player.html?slides=users-guide" onclick="event.stopPropagation()" class="block no-underline bg-slate-800/60 border border-slate-700 rounded-xl p-[1.3cqw] text-center">
                             <i class="fa-solid fa-chalkboard-user text-lime-400" style="font-size: clamp(1.2rem, 2.4cqw, 1.8rem);"></i>
-                            <div class="text-slate-100 font-medium mt-[0.4cqw]" style="font-size: clamp(0.9rem, 1.9cqw, 1.35rem);">スライドの作り方（user）</div>
+                            <div class="text-slate-100 font-medium mt-[0.4cqw]" style="font-size: clamp(0.9rem, 1.9cqw, 1.35rem);">スライドの作り方（users-guide）</div>
                         </a>
-                        <a href="https://github.com/ytani01/yt_slide/blob/main/docs/User.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="block no-underline bg-slate-800/60 border border-slate-700 rounded-xl p-[1.3cqw] text-center">
+                        <a href="https://github.com/ytani01/yt_slide/blob/main/docs/UsersGuide.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="block no-underline bg-slate-800/60 border border-slate-700 rounded-xl p-[1.3cqw] text-center">
                             <i class="fa-solid fa-book text-sky-400" style="font-size: clamp(1.2rem, 2.4cqw, 1.8rem);"></i>
-                            <div class="text-slate-100 font-medium mt-[0.4cqw]" style="font-size: clamp(0.9rem, 1.9cqw, 1.35rem);">docs/User.md</div>
+                            <div class="text-slate-100 font-medium mt-[0.4cqw]" style="font-size: clamp(0.9rem, 1.9cqw, 1.35rem);">docs/UsersGuide.md</div>
                         </a>
                     </div>
                 </div>
@@ -176,7 +176,7 @@ const slideData = [
     {
         title: '入っているスライド',
         duration: 20,
-        narration: 'このリポジトリには、紹介用のreadme、作り方を説明するuser、内部の作りを説明するdeveloper、実例のclaude-memo、テンプレート集のtemplateの5つのスライド一式が入っています。名前を押すとそのスライドが開き、右の本のマークから対応する文書へ移れます。',
+        narration: 'このリポジトリには、紹介用のreadme、作り方を説明するusers-guide、内部の作りを説明するdeveloper、実例のclaude-memo、テンプレート集のtemplateの5つのスライド一式が入っています。名前を押すとそのスライドが開き、右の本のマークから対応する文書へ移れます。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
@@ -190,7 +190,7 @@ const slideData = [
                             </thead>
                             <tbody class="divide-y divide-slate-800 bg-slate-900/40 font-medium">
                                 <tr><td class="p-[1cqw] font-mono font-bold text-lime-400"><a href="player.html?slides=readme" onclick="event.stopPropagation()" class="text-lime-400 no-underline"><i class="fa-solid fa-play mr-[0.5cqw]"></i>readme</a></td><td class="p-[1cqw]">このリポジトリの紹介（既定） <a href="https://github.com/ytani01/yt_slide/blob/main/README.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="text-sky-300 font-mono no-underline whitespace-nowrap ml-[0.6cqw]"><i class="fa-solid fa-book"></i> README.md</a></td></tr>
-                                <tr><td class="p-[1cqw] font-mono font-bold text-sky-400"><a href="player.html?slides=user" onclick="event.stopPropagation()" class="text-sky-400 no-underline"><i class="fa-solid fa-play mr-[0.5cqw]"></i>user</a></td><td class="p-[1cqw]">スライドの作り方 <a href="https://github.com/ytani01/yt_slide/blob/main/docs/User.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="text-sky-300 font-mono no-underline whitespace-nowrap ml-[0.6cqw]"><i class="fa-solid fa-book"></i> docs/User.md</a></td></tr>
+                                <tr><td class="p-[1cqw] font-mono font-bold text-sky-400"><a href="player.html?slides=users-guide" onclick="event.stopPropagation()" class="text-sky-400 no-underline"><i class="fa-solid fa-play mr-[0.5cqw]"></i>users-guide</a></td><td class="p-[1cqw]">スライドの作り方 <a href="https://github.com/ytani01/yt_slide/blob/main/docs/UsersGuide.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="text-sky-300 font-mono no-underline whitespace-nowrap ml-[0.6cqw]"><i class="fa-solid fa-book"></i> docs/UsersGuide.md</a></td></tr>
                                 <tr><td class="p-[1cqw] font-mono font-bold text-sky-400"><a href="player.html?slides=developer" onclick="event.stopPropagation()" class="text-sky-400 no-underline"><i class="fa-solid fa-play mr-[0.5cqw]"></i>developer</a></td><td class="p-[1cqw]">player.html の作り <a href="https://github.com/ytani01/yt_slide/blob/main/docs/Developer.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="text-sky-300 font-mono no-underline whitespace-nowrap ml-[0.6cqw]"><i class="fa-solid fa-book"></i> docs/Developer.md</a></td></tr>
                                 <tr><td class="p-[1cqw] font-mono font-bold text-lime-400"><a href="player.html?slides=claude-memo" onclick="event.stopPropagation()" class="text-lime-400 no-underline"><i class="fa-solid fa-play mr-[0.5cqw]"></i>claude-memo</a></td><td class="p-[1cqw]">実例。Claude Code の使い方 17枚</td></tr>
                                 <tr><td class="p-[1cqw] font-mono font-bold text-sky-400"><a href="player.html?slides=template" onclick="event.stopPropagation()" class="text-sky-400 no-underline"><i class="fa-solid fa-play mr-[0.5cqw]"></i>template</a></td><td class="p-[1cqw]">スライドのテンプレート 19種。コピーして使う</td></tr>
