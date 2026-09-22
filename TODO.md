@@ -1,6 +1,6 @@
 # TODO
 
-**残っている項目: TODO-112・113・115。** これまでに 112 件を決着させた。
+**残っている項目: TODO-112・113。** これまでに 113 件を決着させた。
 新しく足すときは「完了済み」の上に節を作る。**番号は `TODO-116` から。**
 
 ---
@@ -54,27 +54,12 @@ Playwright が要るため、extra は `video` に相乗りさせるか `pdf` �
 
 ---
 
-## TODO-115. `index.html` の `README.md` 埋め込みをやめる
-
-|      | main | 担当 |
-|------|------|------|
-| 見込み | Opus 5 / effort low | main + verifier |
-
-- [ ] `index.html` から README 表示（スタイル・`<details id="readme">`・`fetch`・marked.js）を削る
-- [ ] `docs/User.md:33` の「自分で同じ場所に置けば一覧ページに表示される」を実態に合わせる
-- [ ] 一覧ページがこれまでどおり出ることを確かめる
-
-README を埋め込むと、`README.md` 内の `docs/User.md` などへの相対リンクが
-`index.html` から見た位置で解決されず、リンクが効かない。一覧だけの
-ページ（TODO-093 より前の形）に戻す。TODO-093 は archives に残す。
-
----
-
 ## 完了済み
 
 1 項目 1 ファイル。`archives/todo/` にある（新しい順）。
 **やらないと決めたものの理由も記載してある。** 蒸し返す前に読むこと。
 
+- [**TODO-115.** `index.html` の `README.md` 埋め込みをやめる](archives/todo/TODO-115.%20index.html%20の%20README.md%20埋め込みをやめる.md)
 - [**TODO-114.** 他に無い点を README とスライドではっきり書く](archives/todo/TODO-114.%20他に無い点を%20README%20とスライドではっきり書く.md)
 - [**TODO-111.** 文書とソースコメントの不自然な日本語を直す](archives/todo/TODO-111.%20文書とソースコメントの不自然な日本語を直す.md)
 - [**TODO-110.** User.md の「直す枚」を「直すスライド」に直す](archives/todo/TODO-110.%20User.md%20の「直す枚」を「直すスライド」に直す.md)
