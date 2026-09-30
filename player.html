@@ -542,7 +542,7 @@
         <div class="guide-body">
             <p>Tab でボタンへ移動し、Enter または Space で操作できます。ガイドは「閉じる」または Escape で閉じます。</p>
             <h3>キー操作</h3>
-            <p>Space・矢印・Home・End・F・M は、ボタンや選択欄、チャプター一覧の検索欄を操作していないときに使えます。</p>
+            <p>矢印・Home・End・F・M は、選択欄やチャプター一覧の検索欄を操作していないときに使えます。Space は、ボタンの上ではそのボタンを押す操作になります。</p>
             <dl>
                 <dt>Space</dt><dd>再生／一時停止</dd>
                 <dt>← / →</dt><dd>前／次のスライド</dd>
@@ -1556,15 +1556,19 @@
             // Listen for keyboard shortcuts (Space, Arrow keys, Fullscreen, Mute, Escape)
             document.addEventListener('keydown', (e) => {
                 // モーダル中は Escape も含めてブラウザに任せる。
-                // ボタンの Space を再生操作で奪わない。
                 if (guide.open || e.defaultPrevented || e.isComposing) return;
+                // Alt+← や Ctrl+F などブラウザの操作は奪わない。
+                if (e.ctrlKey || e.altKey || e.metaKey) return;
                 if (e.key === 'Escape') {
                     // 検索欄では絞り込みの解除に譲る（TODO-077）。
                     if (e.target === playlistSearch) return;
                     if (playerViewport.classList.contains('pseudo-fullscreen')) setFullscreen(false);
                     return;
                 }
-                if (e.target.closest('button, input, textarea, select, a, [contenteditable]:not([contenteditable="false"])')) return;
+                // 入力欄はすべてのキーを任せる。ボタンは Space だけ任せ、
+                // ←→ などは効かせる。リンクはフォーカスが残っても止めない（TODO-118）。
+                if (e.target.closest('input, textarea, select, [contenteditable]:not([contenteditable="false"])')) return;
+                if ((e.key === ' ' || e.code === 'Space') && e.target.closest('button')) return;
 
                 if (e.key === ' ' || e.code === 'Space') {
                     e.preventDefault();
