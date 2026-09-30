@@ -1,7 +1,7 @@
 # TODO
 
-**残っている項目: TODO-112。** これまでに 119 件を決着させた。
-新しく足すときは「完了済み」の上に節を作る。**番号は `TODO-121` から。**
+**残っている項目: TODO-112、TODO-121。** これまでに 119 件を決着させた。
+新しく足すときは「完了済み」の上に節を作る。**番号は `TODO-122` から。**
 
 ---
 
@@ -27,6 +27,23 @@ Playwright が要るため、extra は `video` に相乗りさせるか `pdf` �
 動かず、背景色は `print_background=True` が要る。ページサイズを 16:9 に
 合わせられるか、スライドの縮小経路（container query）が印刷時にどう効くかを、
 1 枚で実際に出して見てから全体を組む。
+
+---
+
+## TODO-121. `test_all_slides_rules_load` の失敗を直す
+
+|      | main | 担当 |
+|------|------|------|
+| 見込み | Opus 5.5 / effort medium | main（実装）+ verifier（Sonnet 5.5 / medium） |
+
+- [ ] `uv run pytest` の `tests/test_measure.py::test_all_slides_rules_load` を通す
+
+`assert len(common_rules) == 23` が `25 == 23` で落ちる（2026-10-01、TODO-120 の
+確認で見つかった。TODO-120 の変更を外した HEAD でも同じ）。共通の置換表
+（`player.html` の `SPEECH_RULES`）が 25 件に増えたのに、テストの件数が
+古いままになっている、という見立て。着手時に、増えた 2 件がいつ・どの項目で
+入ったかを確かめてから、テストと置換表のどちらを直すかを決める。
+件数を決め打ちで比べるテストのままでよいかも、そこで見る。
 
 ---
 
