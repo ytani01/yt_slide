@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Google Translate TTS returns 404 when a Referer is sent (TODO-002) -->
     <meta name="referrer" content="no-referrer">
+    <!-- iPhone の Safari は Fullscreen API を持たないので、ホーム画面から
+         起動したときだけブラウザの UI を消す（TODO-119） -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <!-- slidesConfig.title で上書きされる（TODO-041） -->
     <title>プレゼン動画プレイヤー</title>
     <!-- Tailwind CSS -->
@@ -1537,7 +1541,26 @@
                 stage.classList.toggle('is-fullscreen', on);
                 document.body.classList.toggle('fs-lock', on);
                 fullscreenBtn.querySelector('i').className = on ? 'fa-solid fa-compress' : 'fa-solid fa-expand';
+                // ブラウザの UI も消す。対象はページ全体にして、レターボックスは
+                // 上の CSS に任せる（要素を対象にすると UA の :fullscreen が
+                // 幅と高さを 100% に固定する）。API が無い iPhone では擬似だけ（TODO-119）。
+                if (on && !document.fullscreenElement) {
+                    document.documentElement.requestFullscreen?.().catch(() => {});
+                } else if (!on && document.fullscreenElement) {
+                    document.exitFullscreen().catch(() => {});
+                }
             };
+
+            // ブラウザ側で抜けたとき（Esc・戻るジェスチャー）は擬似の方も解除する。
+            // 要求が通る前に擬似を切ったとき（素早い 2 度押し）は本物の方を抜ける。
+            document.addEventListener('fullscreenchange', () => {
+                const pseudo = stage.classList.contains('is-fullscreen');
+                if (!document.fullscreenElement && pseudo) {
+                    setFullscreen(false);
+                } else if (document.fullscreenElement && !pseudo) {
+                    document.exitFullscreen().catch(() => {});
+                }
+            });
 
             fullscreenBtn.addEventListener('click', () => {
                 setFullscreen(!playerViewport.classList.contains('pseudo-fullscreen'));
@@ -1594,7 +1617,7 @@
                 } else if (e.key === 'End') {
                     e.preventDefault();
                     renderSlide(slideData.length - 1, true);
-                } else if (e.key === 'f' || e.key === 'F') {
+                } else if ((e.key === 'f' || e.key === 'F') && !e.repeat) {
                     e.preventDefault();
                     fullscreenBtn.click();
                 } else if (e.key === 'm' || e.key === 'M') {

@@ -289,6 +289,27 @@ PC 扱いになり、レターボックス内では `clamp()` の下限 px が�
 
 字幕はフルスクリーン中、`top: 100%` で枠下（暗幕上）に表示。
 
+`setFullscreen` はクラスの切り替えに加えて、**ページ全体
+（`document.documentElement`）に** `requestFullscreen()` を呼び、ブラウザの
+UI も消す。スライドの枠や `#viewport-stage` を対象にしないのは、ブラウザ既定の
+`:fullscreen` のスタイルが幅と高さを 100% に固定し、レターボックスが崩れるため。
+API が無い環境（iPhone の Safari）では擬似フルスクリーンだけになる。
+Esc や戻るジェスチャーでブラウザ側が抜けたときは、`fullscreenchange` を受けて
+擬似フルスクリーンも解除する。
+
+```mermaid
+flowchart LR
+    A[ボタン・F キー] --> B[setFullscreen]
+    B --> C[クラスを切り替える<br>レターボックス・暗幕]
+    B --> D{requestFullscreen<br>がある?}
+    D -- ある --> E[ブラウザの UI も消える]
+    D -- 無い --> F[擬似だけ]
+    G[Esc・戻る] --> H[fullscreenchange] --> B
+```
+
+iPhone 向けには `apple-mobile-web-app-capable` などの meta を置いてある。
+ホーム画面に追加したページ（`?slides=` を含む URL）は、ブラウザの UI 無しで開く。
+
 ### `body.fs-lock` と暗幕
 
 裏のスクロール禁止（`body.fs-lock`）と暗幕（`::before`）は
