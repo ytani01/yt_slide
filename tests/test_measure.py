@@ -104,8 +104,14 @@ def test_all_slides_rules_load():
         slides_rules = measure.load_slides_rules(slides)
         assert slides_rules, f'{slides}: slidesConfig.rules が読めていない'
 
+    # 共通の置換表は player.html の SPEECH_RULES の行数と比べる。件数を
+    # 決め打ちすると、表に足すたびにここが落ちる（TODO-121）。
+    lines = paths.PLAYER_HTML.read_text(encoding='utf-8').splitlines()
+    start = lines.index('        const SPEECH_RULES = [')
+    end = lines.index('        ];', start)
+    expected = sum(1 for line in lines[start + 1:end] if line.lstrip().startswith('[/'))
     common_rules = measure.load_common_rules()
-    assert len(common_rules) == 23, common_rules
+    assert len(common_rules) == expected, common_rules
 
 
 def test_prepare_without_slides_file(tmp_path):
