@@ -1711,6 +1711,9 @@
             applyVoiceEngine();
             renderSlide(startIndexFromHash(), true);
             setupEventListeners();
+            // 開いたまま #N だけ書き換えても N 枚目へ移る（TODO-120）。
+            // replaceState は hashchange を起こさないので繰り返さない
+            window.addEventListener('hashchange', () => renderSlide(startIndexFromHash(), true));
         }
 
         if (document.readyState === 'loading') {

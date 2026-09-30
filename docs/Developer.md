@@ -161,7 +161,11 @@ Tailwind・Google Fonts・FontAwesome は CDN から読み込む（オフライ�
 起動時は `startIndexFromHash()` が `location.hash` を読む。`#` 直後が
 数字だけで、枚数の範囲内なら、そのスライドから始める。ハッシュが無い・数値でない・
 0 以下・枚数超過は 1枚目に寄せる（URL から来る値は信用しない）。
-起動後にハッシュを手で書き換えても追従しない（`hashchange` は聞かない）。
+起動後にアドレスバーでハッシュだけを書き換えたときは、`hashchange` を受けて
+同じ規則でスライドを移す。`replaceState` は `hashchange` を起こさないので、
+`renderSlide()` の書き換えで繰り返し呼ばれることはない。
+アドレスバーでの書き換えは履歴を 1 件増やすので、戻る・進むでも `hashchange` が
+起きて表示が移る。
 
 ## 読み上げ
 
