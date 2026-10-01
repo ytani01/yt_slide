@@ -1,15 +1,17 @@
-"""`browser.chromium()` の確かめ（TODO-122）。
+"""`browser.chromium()` と `browser.serve_root()` の確かめ（TODO-122・TODO-128）。
 
 Playwright は使わない。パッケージが無いときと、chromium を起動できないときに、
-入れ方を添えた `ClickException` で止まるかを見る。
+入れ方を添えた `ClickException` で止まるかを見る。`serve_root()` は
+`urllib` で取り出して、`player.html` の出どころを見る。
 """
 import sys
 import types
+import urllib.request
 
 import click
 import pytest
 
-from ytslide import browser
+from ytslide import browser, paths
 
 
 def test_no_playwright_shows_install_hint(monkeypatch):
@@ -78,3 +80,32 @@ def test_browser_closed_on_exit(monkeypatch):
     with pytest.raises(RuntimeError), browser.chromium():
         raise RuntimeError  # 途中で例外が出ても閉じる
     assert closed == [True]
+
+
+def _get(url):
+    with urllib.request.urlopen(url) as r:
+        return r.read()
+
+
+def test_serve_root_falls_back_to_bundled_player(tmp_path):
+    # 作業場所に player.html が無くても、slides/ と画像は作業場所から配る（TODO-128）。
+    (tmp_path / 'slides').mkdir()
+    (tmp_path / 'slides' / 'sample.js').write_text('// mine', encoding='utf-8')
+    paths.set_root(str(tmp_path))
+    try:
+        with browser.serve_root() as base:
+            assert _get(f'{base}/player.html?slides=sample') == \
+                (paths.DATA / 'player.html').read_bytes()
+            assert _get(f'{base}/slides/sample.js') == b'// mine'
+    finally:
+        paths.set_root(None)
+
+
+def test_serve_root_prefers_own_player(tmp_path):
+    (tmp_path / 'player.html').write_text('mine', encoding='utf-8')
+    paths.set_root(str(tmp_path))
+    try:
+        with browser.serve_root() as base:
+            assert _get(f'{base}/player.html') == b'mine'
+    finally:
+        paths.set_root(None)

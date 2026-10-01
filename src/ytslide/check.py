@@ -3,13 +3,10 @@
 検査の中身は `player.html` の `window.runSlideCheck` に 1 か所だけ置き、
 ここは Playwright で `player.html` を開いてその結果を読み出すだけにする
 （検査の基準が 2 箇所に分かれないように）。画像の 404 は HTTP 経由でないと
-分からないので、`ytslide web` と同じように一時的にサーバーを立てて開く。
+分からないので、`video`・`pdf` と同じく `browser.open_player()` で
+一時的にサーバーを立てて開く。
 """
-import functools
-import http.server
-import threading
-
-from . import browser, paths
+from . import browser
 
 
 def check(slides_name):
@@ -17,20 +14,5 @@ def check(slides_name):
 
     `paths.set_root()` は呼び出し側で済んでいる前提。
     """
-    handler = functools.partial(
-        http.server.SimpleHTTPRequestHandler, directory=str(paths.ROOT))
-    with http.server.ThreadingHTTPServer(('127.0.0.1', 0), handler) as httpd:
-        port = httpd.server_address[1]
-        thread = threading.Thread(target=httpd.serve_forever, daemon=True)
-        thread.start()
-        try:
-            with browser.chromium() as b:
-                page = b.new_page()
-                page.goto(f'http://127.0.0.1:{port}/player.html?slides={slides_name}')
-                page.wait_for_load_state('networkidle')
-                result = page.evaluate('() => window.runSlideCheck()')
-        finally:
-            httpd.shutdown()
-            thread.join()
-
-    return result
+    with browser.open_player(slides_name) as page:
+        return page.evaluate('() => window.runSlideCheck()')

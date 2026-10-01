@@ -93,10 +93,7 @@ def probe_duration(path):
 
 def screenshot_slides(slides_name, indexes, out_dir):
     """`indexes`（0 始まり）の PNG を `out_dir/slide{番号}.png` に撮る。"""
-    with browser.chromium() as b:
-        page = b.new_page(viewport={'width': WIDTH, 'height': HEIGHT})
-        page.goto(paths.PLAYER_HTML.as_uri() + f'?slides={slides_name}')
-        page.wait_for_load_state('networkidle')
+    with browser.open_player(slides_name, viewport={'width': WIDTH, 'height': HEIGHT}) as page:
         for i in indexes:
             page.evaluate(FIT, i)
             page.screenshot(path=str(out_dir / f'slide{i + 1}.png'))

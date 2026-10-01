@@ -10,7 +10,7 @@ import io
 
 import click
 
-from . import browser, paths, video
+from . import browser, video
 
 
 def make_pdf(slides_name, out_dir):
@@ -22,10 +22,8 @@ def make_pdf(slides_name, out_dir):
 
     out_dir.mkdir(parents=True, exist_ok=True)
     out_pdf = out_dir / f'{slides_name}.pdf'
-    with browser.chromium() as b:
-        page = b.new_page(viewport={'width': video.WIDTH, 'height': video.HEIGHT})
-        page.goto(paths.PLAYER_HTML.as_uri() + f'?slides={slides_name}')
-        page.wait_for_load_state('networkidle')
+    with browser.open_player(
+            slides_name, viewport={'width': video.WIDTH, 'height': video.HEIGHT}) as page:
         page.emulate_media(media='screen')
         # 枚数はページが読み込んだ一式から取る（narration の書き方に左右されない）
         count = page.evaluate('slideData.length')
