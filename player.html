@@ -187,6 +187,18 @@
             right: 0;
         }
 
+        /* フルスクリーンの終了ボタン。暗幕は画面比率で 0px になり、Android の
+           ジェスチャーナビゲーションでは［戻る］ボタンも出ないので、見える出口を
+           常に置く（TODO-123）。ラッパーは transform を持たないので、fixed は
+           画面の左上隅になる。右上は枠内の枚数表示と重なるので避けた。 */
+        #viewport-stage.is-fullscreen > #fullscreen-exit-btn {
+            display: flex;
+            position: fixed;
+            top: 0.75rem;
+            left: 0.75rem;
+            z-index: 40;
+        }
+
         /* 再生失敗の通知は、擬似フルスクリーン中は枠の下に余白が無いことがある
            ため、字幕と違い枠の下端に重ねる（TODO-078）。 */
         #viewport-stage.is-fullscreen > #audio-error-notice {
@@ -264,11 +276,11 @@
 
             /* 暗幕と裏のスクロール止めも同じ条件。
                フルスクリーン中のボタンは箱の裏で押せず、物理キーボードも
-               無いので、暗幕が出ないと再読み込みしか出口が無くなる（TODO-003）。
+               無いので、暗幕が出口になる（TODO-003。今は左上の終了ボタンもある。TODO-123）。
                マウスの PC には掛けない。PC で裏をスクロール禁止にするとスクロール
                バーが消え、裏のページとレターボックスが横に動く（TODO-003）。
                なお暗幕の帯は画面の比率で決まり、16:9 ちょうどの画面では 0px に
-               なる。そこでは抜けられないままだが、対応しないと決めた（TODO-003）。 */
+               なる。そこでは左上の終了ボタンで抜ける（TODO-123）。 */
             /* 擬似フルスクリーン中は裏のページをスクロールさせない。 */
             body.fs-lock {
                 overflow: hidden;
@@ -386,6 +398,11 @@
 
                         </div>
                     </div>
+
+                    <!-- フルスクリーン中だけ画面の左上隅に出す（TODO-123） -->
+                    <button id="fullscreen-exit-btn" type="button" aria-label="フルスクリーンを終了" title="フルスクリーンを終了（Esc）" class="hidden w-10 h-10 rounded-full bg-slate-900/85 hover:bg-slate-800/95 text-slate-200 items-center justify-center border border-slate-600/60">
+                        <i aria-hidden="true" class="fa-solid fa-xmark"></i>
+                    </button>
 
                     <div id="audio-error-notice" role="status" class="z-30 bg-slate-950/95 border border-amber-500/50 rounded-xl p-3 shadow-2xl flex flex-wrap items-center gap-2 mt-3 hidden">
                         <span class="text-xs md:text-sm text-amber-300 font-bold flex-grow"><i aria-hidden="true" class="fa-solid fa-triangle-exclamation"></i> 音声を再生できませんでした</span>
@@ -561,7 +578,7 @@
                 <dt>左へスワイプ</dt><dd>次のスライド</dd>
                 <dt>右へスワイプ</dt><dd>前のスライド</dd>
             </dl>
-            <p>タッチ画面では、フルスクリーン中の枠の外にある暗幕をタップすると通常表示に戻ります。画面比率によって暗幕がない場合は、F または Escape を使ってください。</p>
+            <p>フルスクリーン中は、画面の左上の × で通常表示に戻ります。タッチ画面では、枠の外にある暗幕のタップや、Android の［戻る］操作（画面の端からのスワイプ）でも戻れます。</p>
             <h3>その他のボタン</h3>
             <p>送りのボタンは左から「先頭のスライド」「前のスライド」「再生」「次のスライド」「最後のスライド」の順に並んでいます。「字幕」でナレーションの全文を表示します。「速度」と「待ち」で再生速度と読み上げ後の待ち時間を選べます。</p>
             <p>ガイドを開閉しても再生状態は変わりません。再生中はスライドが進みます。</p>
@@ -1565,6 +1582,7 @@
             fullscreenBtn.addEventListener('click', () => {
                 setFullscreen(!playerViewport.classList.contains('pseudo-fullscreen'));
             });
+            document.getElementById('fullscreen-exit-btn').addEventListener('click', () => setFullscreen(false));
 
             // 暗幕（#viewport-stage::before）のタップで抜ける。スマホでは
             // フルスクリーン中のボタンが暗幕に覆われ、Esc も押せないため。
