@@ -49,13 +49,13 @@ def _no_slides_error(src):
     return click.UsageError(f'{src} が無い\n       {hint}')
 
 
-# `init --claude` で置く CLAUDE.md。テンプレートのファイルにすると Claude Code が
+# `init` が置く CLAUDE.md（`--no-claude` で外す）。テンプレートのファイルにすると Claude Code が
 # 自分への指示と取り違えるおそれがあるので、ここに文字列で持つ（TODO-122）。
 CLAUDE_MD = """\
 # CLAUDE.md
 
 ナレーション付きで自動再生するスライドを作る作業場所。
-`ytslide init --claude` で生成した。
+`ytslide init` で生成した。
 
 ## 触る前に読むもの
 
@@ -102,7 +102,8 @@ def _copy_data(rel, dst):
 
 
 @cli.command()
-@click.option('--claude', is_flag=True, help='Claude Code 向けの CLAUDE.md も置く')
+@click.option('--claude/--no-claude', default=True,
+              help='Claude Code 向けの CLAUDE.md を置く（既定）か、置かないか')
 @click_common_opts(__version__)
 def init(ctx, claude, debug):
     """カレントディレクトリを、スライド一式の置き場所として初期化する。"""

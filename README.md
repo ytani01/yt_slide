@@ -70,8 +70,8 @@
 ## 自分のスライドを作る
 
 **[用意する](docs/UsersGuide.md#1-自分の作業場所を用意する) →
-[テンプレートや AI で作る](docs/UsersGuide.md#2-最初の-1枚を書いて再生する) →
-[手元で確認する](docs/UsersGuide.md#3-編集して確かめる) →
+[Claude Code に作ってもらう](docs/UsersGuide.md#2-claude-code-に作ってもらう) →
+[手元で確認する](docs/UsersGuide.md#3-確かめる) →
 [公開先に置く](docs/UsersGuide.md#他のサーバーへ持っていくとき) →
 [URL を渡す](docs/UsersGuide.md#公開)。**
 
@@ -94,16 +94,12 @@
 が `slides/template.js` に入っている。近いテンプレートをまるごとコピーして、
 題名・読み上げる文章・本文を差し替えるのが早い。
 
-**AI に書かせてもよい。** 渡すのは 3つ —
-`slides/template.js`（テンプレート 19種）、
-[docs/UsersGuide.md](docs/UsersGuide.md)（書式の説明）、スライドにしたい原稿や資料。
-作りたい内容を伝えれば `.js` を書いてくれる（このリポジトリのスライドも
-そうやって作った）。そのまま使える
-[依頼文の例と、保存・確認の手順](docs/UsersGuide.md#ai-に作ってもらう)がガイドにある。
-Claude Code を使うなら `ytslide init --claude` で作業場所を用意する。
-決まりごとを書いた `CLAUDE.md` が置かれ、Claude Code が `.js` を書き、
-`ytslide check` での検査まで自分で進める
-（[Claude Code で作る](docs/UsersGuide.md#claude-code-で作る)）。
+**標準のやり方は、Claude Code に書かせること。** `ytslide init` で作業場所を
+用意すると、決まりごとを書いた `CLAUDE.md` も置かれる。作りたい内容を伝えれば、
+Claude Code がテンプレートに沿って `.js` を書き、`ytslide check` での検査まで
+自分で進める（このリポジトリのスライドもそうやって作った）。
+手で書く・他の AI に頼むやり方も
+[ガイドの「別のやり方」](docs/UsersGuide.md#別のやり方)にある。
 
 手順は [docs/UsersGuide.md の「手順」](docs/UsersGuide.md#手順)にある。作業場所の用意、
 一覧の生成、読み上げ秒数の測定、HTTP での確認、公開と動画への書き出しまで、
@@ -120,8 +116,8 @@ Claude Code を使うなら `ytslide init --claude` で作業場所を用意す�
 ファイルのコピー・編集とブラウザでの確認だけなら、Python・uv・`ytslide` は不要。
 公開先にもこれらを入れる必要はない。
 
-作業場所をコマンドで用意する（プレイヤー・テンプレート・`docs/UsersGuide.md`、
-`--claude` で `CLAUDE.md` も置く）、一覧を生成する、読み上げ秒数を測る、
+作業場所をコマンドで用意する（プレイヤー・テンプレート・`docs/UsersGuide.md`・
+`CLAUDE.md` を置く）、一覧を生成する、読み上げ秒数を測る、
 HTTP で確認する、動画や PDF に書き出す場合は `ytslide` CLI を使う。
 [uv の公式手順](https://docs.astral.sh/uv/getting-started/installation/)で
 `uv` を入れ、次を実行する。Python 3.13 以上が必要。

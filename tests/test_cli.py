@@ -21,10 +21,10 @@ def test_init_creates_files_and_index(tmp_path, monkeypatch):
 
         assert (tmp_path / 'slides' / 'template.js').exists()
         assert (tmp_path / 'player.html').exists()
-        # UsersGuide.md は --claude が無くても置き、CLAUDE.md は置かない。
+        # 既定で UsersGuide.md も CLAUDE.md も置く。
         guide = (paths.DATA / 'docs' / 'UsersGuide.md').read_text(encoding='utf-8')
         assert (tmp_path / 'docs' / 'UsersGuide.md').read_text(encoding='utf-8') == guide
-        assert not (tmp_path / 'CLAUDE.md').exists()
+        assert (tmp_path / 'CLAUDE.md').read_text(encoding='utf-8') == CLAUDE_MD
         assert not (tmp_path / 'README.md').exists()
         index_html = (tmp_path / 'index.html')
         assert index_html.exists()
@@ -39,12 +39,12 @@ def test_init_creates_files_and_index(tmp_path, monkeypatch):
         paths.set_root(None)
 
 
-def test_init_claude_writes_claude_md(tmp_path, monkeypatch):
+def test_init_no_claude_skips_claude_md(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
     try:
-        result = CliRunner().invoke(cli, ['init', '--claude'])
+        result = CliRunner().invoke(cli, ['init', '--no-claude'])
         assert result.exit_code == 0, result.output
-        assert (tmp_path / 'CLAUDE.md').read_text(encoding='utf-8') == CLAUDE_MD
+        assert not (tmp_path / 'CLAUDE.md').exists()
         assert (tmp_path / 'docs' / 'UsersGuide.md').exists()
     finally:
         paths.set_root(None)
@@ -108,6 +108,7 @@ def test_init_second_run_does_not_overwrite(tmp_path, monkeypatch):
     index_html.write_text(html, encoding='utf-8')
 
     try:
+        # 旧来の `--claude` も受け付ける（既定と同じ）。
         result = runner.invoke(cli, ['init', '--claude'])
         assert result.exit_code == 0, result.output
         assert 'すでにある: UsersGuide.md' in result.output, result.output

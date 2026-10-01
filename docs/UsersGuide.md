@@ -9,168 +9,17 @@
 
 ## 手順
 
-まず自分の内容を 1枚作って再生する。その後は、編集して確認する作業を繰り返す。
-一覧の更新、時間の測定、HTTP での確認は、必要なときだけ行う。
-
-### 1. 自分の作業場所を用意する
-
-**後で一覧の生成や時間の測定も使うなら、次の CLI の手順で始める。**
-[README の「インストール」](https://github.com/ytani01/yt_slide#インストール)に従って `ytslide` を入れる。
-`uv` の導入先と Python の条件もそこにある。測定・動画用の追加準備は後でよい。
-ターミナルで次を実行する。
-
-```bash
-mkdir ~/my-slides
-cd ~/my-slides
-ytslide init
-```
-
-`player.html`・`index.html`・`slides/template.js`・`docs/UsersGuide.md`（この文書）
-ができる。`template.js` はテンプレートで、最初の一覧には `template` が 1件載る
-（開くと 19種類が並ぶ）。`UsersGuide.md` は AI に書式を読ませるときに使う。
-Claude Code で作るなら `ytslide init --claude` とし、`CLAUDE.md` も置く
-（[Claude Code で作る](#claude-code-で作る)）。
-`init` は既存のファイルをコピーで上書きせず、最後に一覧を再生成する。
-新しく置く `index.html` のタイトルと見出しにはディレクトリ名が入る。
-
-**以降のコマンドは `~/my-slides` で実行する。** `slides/` の中へは移動しない。
-リポジトリを clone して中で作る場合は、そのディレクトリを作業場所にして
-次の手順から始める（`init` は不要）。
-
-**まずコピー・編集だけで試すなら、CLI は不要。**
-[リポジトリの ZIP](https://github.com/ytani01/yt_slide/archive/refs/heads/main.zip) を
-ダウンロードして展開する。ホームフォルダーに `my-slides` フォルダーを作り、
-その中に `slides` フォルダーを作る。展開したファイルから `player.html` を
-`my-slides/` へ、`slides/template.js` を `my-slides/slides/` へコピーして、
-次の手順へ進む。Python・uv は要らない。
-以下の `~/my-slides` は、このホームフォルダー内の作業場所を指す。
-
-後で `ytslide` のコマンドを使いたくなったら、README の手順でインストールし、
-ターミナルで `cd ~/my-slides` を実行する。続けて `ytslide init` を実行すると、
-既存のプレイヤーとテンプレートを保ったまま、一覧生成に必要な
-`index.html` も用意できる。
-
-### 2. 最初の 1枚を書いて再生する
-
-テキストエディターで `~/my-slides/slides/sample.js` を新規作成し、
-[最小の例](#最小の例)を貼り付ける。`title`、`body`（本文）、
-`narration`（読み上げる文章）を自分の内容に直し、保存する。
-`duration` は省略せず、最初はおおよその秒数でよい。
-ファイル名には英数字・`_`・`-` を使う。
-
-`~/my-slides/player.html` をブラウザで開く。アドレス欄の末尾に
-`?slides=sample` を付け、Enter を押す。ファイルの URL は
-`file:///…/my-slides/player.html?slides=sample` の形になる。
-再生ボタンを押して、自分の本文と読み上げを確認する。
-**表示に使う CSS・フォントなども外部から取得するので、ネット接続が要る。**
-
-`?slides=` を省くと `slides/readme.js` を探す。上の手順で用意した場所には無いので、
-必ず `?slides=sample` を付ける。読み込みに失敗した場合は
-「スライドのデータ slides/<名前>.js を読み込めませんでした。」と表示される。
-ファイルの保存先と、URL の名前が一致しているか確かめる。
-
-**`slides/template.js` からコピーして始めてもよい。** 19種類の
-テンプレートが入っているので、`player.html?slides=template` で見て
-近いものを選び、その 1枚をコピーして中身を差し替えるほうが、
-1 から書くより早い（手順は次の 3.）。
-
-**AI に書かせてもよい。** [依頼文の例](#ai-に作ってもらう)を使い、
-生成されたファイルを保存して同じように確認する。Claude Code なら
-ファイルの保存も検査も任せられる（[Claude Code で作る](#claude-code-で作る)）。
-
-### 3. 編集して確かめる
-
-`sample.js` を編集 → 保存 → ブラウザを再読み込み → 見た目と読み上げを確認、
-を繰り返す。本文だけを直したときは、一覧の再生成も時間の測定も要らない。
-操作や音声の切り替えは[プレイヤーの操作ガイド](#プレイヤーの操作ガイド)以降を参照する。
-
-テンプレートをコピーするときは、同じプレイヤーを `?slides=template` で
-開いて選ぶ。エディターで `slides/template.js` を開き、使いたい 1枚の
-オブジェクト（`{` から対応する `},` まで）を `sample.js` の `slideData` の
-中へコピーする。
-最初の 1枚と置き換えるか、その後ろへ足し、題名・本文・ナレーションを直す。
-テンプレートの区切りは `// ── N. 名前 ──` のコメントが目印になる。
-詳しくは[「body で書く」](#body-で書く標準)へ。
-
-### AI に作ってもらう
-
-**渡すものは 3つ。**
-
-- **`docs/UsersGuide.md`（この文書）** — 書式の説明。`ytslide init` した
-  作業場所には `docs/UsersGuide.md` がある。ZIP を展開してあれば、その中の
-  `docs/UsersGuide.md` でよい。どちらも無ければ
-  [Markdown ファイル](https://raw.githubusercontent.com/ytani01/yt_slide/main/docs/UsersGuide.md)
-  をブラウザで開いて保存するか、内容をコピーして渡す
-- **作業場所の `slides/template.js`** — テンプレート 19種。渡すと、
-  近いものに沿った見た目で返ってくる
-- **スライドにしたい原稿や資料** — 無ければ、テーマと聞き手を文章で伝える
-
-**依頼文には次を書く。** 書かないと、説明文や断片だけが返ってきて、
-そのままでは保存できない。
-
-- `slides/<名前>.js` として保存できる **JavaScript 全体**を出すこと
-- `slidesConfig` と `slideData` を含めること
-- 各スライドに `title`・`body`・`narration`・`duration` を書くこと
-- `duration` はおおよその秒数でよいこと（[あとで測れる](#時間表示を合わせたいとき)）
-- `player.html` は編集しないこと
-
-**例 1。新しく作ってもらう。** テーマ・聞き手・枚数を自分の用途に置き換える。
-原稿が無ければ「内容は添付の原稿に沿ってください。」の行を外し、
-盛り込みたいことを文章で書く。
-
-```text
-添付した UsersGuide.md の形式と template.js のテンプレートを使って、
-「地域の読書会の紹介」を、初めて参加する人向けに 3枚のスライドにしてください。
-内容は添付の原稿に沿ってください。
-slides/sample.js として保存できる JavaScript 全体を出してください。
-slidesConfig と slideData を含め、各スライドに title・body・narration・duration を書き、
-duration はおおよその秒数にしてください。player.html は編集しません。
-```
-
-**例 2。できたものを直してもらう。** 直すスライドを番号で指し、
-変えないものも書く。
-
-```text
-添付した sample.js の 3枚目を、箇条書きから 2カラムの比較に変えてください。
-テンプレートは添付した template.js の中から近いものを選んでください。
-narration と duration はそのままにして、
-3枚目のオブジェクトだけを差し替える形で出してください。
-```
-
-出力された JavaScript を、前後の説明やコードブロックの囲みを含めずに
-`~/my-slides/slides/sample.js` へ保存する。上の[最小の 1枚を再生する手順](#2-最初の-1枚を書いて再生する)
-と同じく `player.html?slides=sample` を開き、本文・読み上げ・スライド送りを確認する。
-直したい箇所はスライド番号と変更内容を AI に伝え、修正後に保存・再読み込みして確かめる。
-
-### Claude Code で作る
-
-[Claude Code](https://docs.claude.com/ja/docs/claude-code/overview) は、作業場所の
-ファイルを直接読み書きし、`ytslide check`・`measure`・`update` も自分で実行する。
-上の「AI に作ってもらう」と違い、ファイルを添付したり、返ってきたコードを
-保存したりする手間が無い。
-
-作業場所は `--claude` を付けて用意する。
-
-```bash
-mkdir ~/my-slides
-cd ~/my-slides
-ytslide init --claude
-claude
-```
-
-`CLAUDE.md` ができる。Claude Code は起動するとこのファイルを読むので、
-「`docs/UsersGuide.md` を読む」「`player.html` は編集しない」「先に構成案を出す」
-「書いたら `ytslide check` を実行する」といった決まりごとを、依頼のたびに
-書かなくてよい。中身は自分の用途に合わせて書き換えてよい
-（`init` をやり直しても上書きしない）。
-
-進め方は次のとおり。
+[Claude Code](https://docs.claude.com/ja/docs/claude-code/overview) に
+`slides/<名前>.js` を書かせ、自分は内容を伝えて、できたものを確かめる。
+Claude Code は作業場所のファイルを直接読み書きし、`ytslide check`・`measure`・
+`update` も自分で実行する。手で書くやり方、他の AI に頼むやり方は
+[別のやり方](#別のやり方)にある。
 
 ```mermaid
 flowchart TD
-    A[作りたい内容を伝える] --> B[構成案を出させる]
-    B -->|承認| C[slides/名前.js を書かせる]
-    C --> D[ytslide check で検査させる]
+    A[ytslide init で作業場所を用意する] --> B[claude を起動して作りたい内容を伝える]
+    B --> C[構成案を確かめる]
+    C -->|承認| D[slides/名前.js を書かせ ytslide check で検査させる]
     D --> E[見た目を確かめる]
     E --> F[再生して読みを聞く]
     F -->|直しがある| G[番号で直しを伝える]
@@ -179,28 +28,82 @@ flowchart TD
     H --> I[必要なら ytslide video]
 ```
 
-1. 作りたい内容を伝え、**先に構成案だけを出させる**（各スライドの題名・
-   使うテンプレート・ナレーションの要旨）。よければ書かせる
-2. Claude Code が `slides/<名前>.js` を書き、`ytslide check` でエラーが
-   無くなるまで直す
-3. 見た目を確かめる。Claude Code がブラウザを操作できれば
-   `player.html?slides=<名前>#N` を開いてスクリーンショットで見る。
-   できなければ自分で開いて見る
-4. **読み上げは自分で再生して聞く。** 読み違いは「3枚目の『◯◯』を
-   『△△』と読ませて」のように番号と語で伝える（[読みを直す](#読みを直す)）
-5. 直しはスライド番号で伝える。指定した番号のスライドだけが変わる
-6. 仕上げに `ytslide update --slides <名前>` を実行させる。動画にするなら
-   `ytslide video --slides <名前>`（PDF なら `ytslide pdf --slides <名前>`）も
+### 1. 自分の作業場所を用意する
 
-依頼文は短くてよい。
+[README の「インストール」](https://github.com/ytani01/yt_slide#インストール)に従って
+`ytslide` を入れる。`uv` の導入先と Python の条件もそこにある。測定・動画用の
+追加準備は後でよい。Claude Code も入れておく（上のリンク先に入れ方がある）。
+ターミナルで次を実行する。
+
+```bash
+mkdir ~/my-slides
+cd ~/my-slides
+ytslide init
+```
+
+`player.html`・`index.html`・`slides/template.js`・`docs/UsersGuide.md`（この文書）・
+`CLAUDE.md` ができる。`template.js` はテンプレートで、最初の一覧には `template` が
+1件載る（開くと 19種類が並ぶ）。
+`init` は既存のファイルをコピーで上書きせず、最後に一覧を再生成する。
+新しく置く `index.html` のタイトルと見出しにはディレクトリ名が入る。
+
+`CLAUDE.md` は Claude Code が起動時に読むファイルで、「`docs/UsersGuide.md` を読む」
+「`player.html` は編集しない」「先に構成案を出す」「書いたら `ytslide check` を
+実行する」といった決まりごとが書いてある。依頼のたびに書かなくてよい。
+中身は自分の用途に合わせて書き換えてよい（`init` をやり直しても上書きしない）。
+Claude Code を使わないなら `ytslide init --no-claude` とし、`CLAUDE.md` を置かない。
+
+**以降のコマンドは `~/my-slides` で実行する。** `slides/` の中へは移動しない。
+リポジトリを clone した中でも作れるが、直下の `CLAUDE.md` は yt_slide 自身を
+直すためのもので、上の決まりごとは入っていない（`init` も既存の `CLAUDE.md` を
+上書きしない）。Claude Code に作ってもらうなら、clone とは別の場所で `init` する。
+
+### 2. Claude Code に作ってもらう
+
+作業場所で Claude Code を起動する。
+
+```bash
+claude
+```
+
+作りたい内容を伝える。依頼文は短くてよい。
 
 ```text
 「地域の読書会の紹介」を、初めて参加する人向けに 3枚のスライドにしてください。
 名前は sample。内容は notes.txt に沿ってください。
 ```
 
+1. Claude Code は**先に構成案だけを出す**（各スライドの題名・使うテンプレート・
+   ナレーションの要旨）。よければ書かせる
+2. Claude Code が `slides/<名前>.js` を書き、`ytslide check` でエラーが
+   無くなるまで直す
+
 `ytslide check`・`video`・`pdf` は Playwright（chromium）を使う。入っていなければ、
 入れ方を添えたエラーで止まる（[測定と動画に要るパッケージ](#測定と動画に要るパッケージ)）。
+
+### 3. 確かめる
+
+1. 見た目を確かめる。Claude Code がブラウザを操作できれば
+   `player.html?slides=<名前>#N` を開いてスクリーンショットで見る。
+   できなければ自分で開いて見る（次の段落）
+2. **読み上げは自分で再生して聞く。** 読み違いは「3枚目の『◯◯』を
+   『△△』と読ませて」のように番号と語で伝える（[読みを直す](#読みを直す)）
+3. 直しはスライド番号で伝える。指定した番号のスライドだけが変わる
+4. 時間表示を合わせるなら、仕上げに `ytslide update --slides <名前>` を実行させる
+   （[時間表示を合わせたいとき](#時間表示を合わせたいとき)）。動画にするなら
+   `ytslide video --slides <名前>`（PDF なら `ytslide pdf --slides <名前>`）も
+
+自分で開くときは、`~/my-slides/player.html` をブラウザで開き、アドレス欄の末尾に
+`?slides=sample` を付けて Enter を押す。ファイルの URL は
+`file:///…/my-slides/player.html?slides=sample` の形になる。
+再生ボタンを押して、本文と読み上げを確認する。直させたら再読み込みする。
+**表示に使う CSS・フォントなども外部から取得するので、ネット接続が要る。**
+操作や音声の切り替えは[プレイヤーの操作ガイド](#プレイヤーの操作ガイド)以降を参照する。
+
+`?slides=` を省くと `slides/readme.js` を探す。上の手順で用意した場所には無いので、
+必ず `?slides=sample` を付ける。読み込みに失敗した場合は
+「スライドのデータ slides/<名前>.js を読み込めませんでした。」と表示される。
+ファイルの保存先と、URL の名前が一致しているか確かめる。
 
 ### 一覧から開きたいとき
 
@@ -273,11 +176,105 @@ LAN 内の IP アドレスを確認し、`http://<LAN内IP>:8000/` を開く。
 ytslide index --root ~/my-slides
 ```
 
+## 別のやり方
+
+### CLI を入れずに試す
+
+**まずコピー・編集だけで試すなら、CLI は不要。**
+[リポジトリの ZIP](https://github.com/ytani01/yt_slide/archive/refs/heads/main.zip) を
+ダウンロードして展開する。ホームフォルダーに `my-slides` フォルダーを作り、
+その中に `slides` フォルダーを作る。展開したファイルから `player.html` を
+`my-slides/` へ、`slides/template.js` を `my-slides/slides/` へコピーして、
+[手で書く](#手で書く)へ進む。Python・uv は要らない。
+以下の `~/my-slides` は、このホームフォルダー内の作業場所を指す。
+
+後で `ytslide` のコマンドを使いたくなったら、README の手順でインストールし、
+ターミナルで `cd ~/my-slides` を実行する。続けて `ytslide init` を実行すると、
+既存のプレイヤーとテンプレートを保ったまま、一覧生成に必要な
+`index.html` も用意できる。
+
+### 手で書く
+
+テキストエディターで `~/my-slides/slides/sample.js` を新規作成し、
+[最小の例](#最小の例)を貼り付ける。`title`、`body`（本文）、
+`narration`（読み上げる文章）を自分の内容に直し、保存する。
+`duration` は省略せず、最初はおおよその秒数でよい。
+ファイル名には英数字・`_`・`-` を使う。
+[3. 確かめる](#3-確かめる)の手順で `player.html?slides=sample` を開き、
+自分の本文と読み上げを確認する。
+
+`sample.js` を編集 → 保存 → ブラウザを再読み込み → 見た目と読み上げを確認、
+を繰り返す。本文だけを直したときは、一覧の再生成も時間の測定も要らない。
+
+**`slides/template.js` からコピーして始めてもよい。** 19種類の
+テンプレートが入っているので、`player.html?slides=template` で見て
+近いものを選び、その 1枚をコピーして中身を差し替えるほうが、
+1 から書くより早い。エディターで `slides/template.js` を開き、使いたい 1枚の
+オブジェクト（`{` から対応する `},` まで）を `sample.js` の `slideData` の
+中へコピーする。
+最初の 1枚と置き換えるか、その後ろへ足し、題名・本文・ナレーションを直す。
+テンプレートの区切りは `// ── N. 名前 ──` のコメントが目印になる。
+詳しくは[「body で書く」](#body-で書く標準)へ。
+
+### 他の AI に作ってもらう
+
+ファイルを読み書きできない AI（チャットの画面で使うものなど）に頼むときの
+やり方。Claude Code と違い、ファイルを添付し、返ってきたコードを自分で保存する。
+
+**渡すものは 3つ。**
+
+- **`docs/UsersGuide.md`（この文書）** — 書式の説明。`ytslide init` した
+  作業場所には `docs/UsersGuide.md` がある。ZIP を展開してあれば、その中の
+  `docs/UsersGuide.md` でよい。どちらも無ければ
+  [Markdown ファイル](https://raw.githubusercontent.com/ytani01/yt_slide/main/docs/UsersGuide.md)
+  をブラウザで開いて保存するか、内容をコピーして渡す
+- **作業場所の `slides/template.js`** — テンプレート 19種。渡すと、
+  近いものに沿った見た目で返ってくる
+- **スライドにしたい原稿や資料** — 無ければ、テーマと聞き手を文章で伝える
+
+**依頼文には次を書く。** 書かないと、説明文や断片だけが返ってきて、
+そのままでは保存できない。
+
+- `slides/<名前>.js` として保存できる **JavaScript 全体**を出すこと
+- `slidesConfig` と `slideData` を含めること
+- 各スライドに `title`・`body`・`narration`・`duration` を書くこと
+- `duration` はおおよその秒数でよいこと（[あとで測れる](#時間表示を合わせたいとき)）
+- `player.html` は編集しないこと
+
+**例 1。新しく作ってもらう。** テーマ・聞き手・枚数を自分の用途に置き換える。
+原稿が無ければ「内容は添付の原稿に沿ってください。」の行を外し、
+盛り込みたいことを文章で書く。
+
+```text
+添付した UsersGuide.md の形式と template.js のテンプレートを使って、
+「地域の読書会の紹介」を、初めて参加する人向けに 3枚のスライドにしてください。
+内容は添付の原稿に沿ってください。
+slides/sample.js として保存できる JavaScript 全体を出してください。
+slidesConfig と slideData を含め、各スライドに title・body・narration・duration を書き、
+duration はおおよその秒数にしてください。player.html は編集しません。
+```
+
+**例 2。できたものを直してもらう。** 直すスライドを番号で指し、
+変えないものも書く。
+
+```text
+添付した sample.js の 3枚目を、箇条書きから 2カラムの比較に変えてください。
+テンプレートは添付した template.js の中から近いものを選んでください。
+narration と duration はそのままにして、
+3枚目のオブジェクトだけを差し替える形で出してください。
+```
+
+出力された JavaScript を、前後の説明やコードブロックの囲みを含めずに
+`~/my-slides/slides/sample.js` へ保存する。[3. 確かめる](#3-確かめる)と同じく
+`player.html?slides=sample` を開き、本文・読み上げ・スライド送りを確認する。
+直したい箇所はスライド番号と変更内容を AI に伝え、修正後に保存・再読み込みして確かめる。
+
+
 ## `ytslide` のサブコマンド
 
 | サブコマンド | 使う場面 |
 |--------------|----------|
-| `ytslide init` | 最初に、自分の作業ディレクトリへプレイヤー・テンプレート・この文書を用意する。`--claude` で `CLAUDE.md` も置く |
+| `ytslide init` | 最初に、自分の作業ディレクトリへプレイヤー・テンプレート・この文書・`CLAUDE.md` を用意する。`--no-claude` で `CLAUDE.md` を外す |
 | `ytslide index` | 一覧から開きたいとき、`slides/*.js` から `index.html` を作り直す |
 | `ytslide measure` | 読み上げ秒数だけを測る。`--write` で `duration` に書き戻せる |
 | `ytslide update` | 時間表示を合わせる仕上げに、`measure --all --write` と `index` を続けて実行する |
@@ -295,8 +292,8 @@ ytslide index --root ~/my-slides
 
 ### 測定と動画に要るパッケージ
 
-最初の 1枚を作ってブラウザで見る段階では、以下の追加準備は要らない。
-測定や動画書き出しを使うときに用意する。
+ブラウザで見るだけなら、以下の追加準備は要らない。
+検査・測定・動画や PDF への書き出しを使うときに用意する。
 
 - `ytslide measure`・`ytslide update` — `curl`・`ffprobe`
 - `ytslide video`・`ytslide check` — 加えて `ffmpeg`・Playwright（Python, chromium）。
@@ -645,7 +642,8 @@ images/             ← 画像を使っているときだけ
 
 直すときも「3枚目を 2枚に分けて」「用語を揃えて」と文章で頼めて、結果は `git diff` で
 1行ずつ確かめられる。気に入らなければ戻せるので、思い切って任せられる。
-依頼文の例は [AI に作ってもらう](#ai-に作ってもらう)にある。
+依頼文の例は [Claude Code に作ってもらう](#2-claude-code-に作ってもらう)と
+[他の AI に作ってもらう](#他の-ai-に作ってもらう)にある。
 
 ### バージョン管理
 

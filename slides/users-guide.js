@@ -102,8 +102,8 @@ const slideData = [
     // Slide 3
     {
         title: '準備する',
-        duration: 15,
-        narration: '一覧や時間の測定も使うなら、ytslide をインストールします。作業用のディレクトリを作って移動し、ytslide init を実行します。コピーだけで始める手順も、UsersGuide.md にあります。',
+        duration: 12,
+        narration: 'ytslide と Claude Code をインストールします。作業用のディレクトリを作って移動し、ytslide init を実行します。決まりごとを書いた CLAUDE.md も置かれます。',
         render: function() {
             return `
                 <div class="flex flex-col h-full justify-center px-[3cqw]">
@@ -117,7 +117,7 @@ const slideData = [
                     </div>
                     <div class="bg-amber-950/40 border border-amber-500/40 rounded-xl p-[1.3cqw] mt-[1.3cqw] text-amber-300 flex items-center gap-[1.2cqw] font-medium" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">
                         <i class="fa-solid fa-circle-info text-amber-400 flex-shrink-0" style="font-size: clamp(1.2rem, 2.4cqw, 1.8rem);"></i>
-                        <span>導入は README の「インストール」へ。コピーだけで始める手順は UsersGuide.md にある</span>
+                        <span><code class="font-mono">CLAUDE.md</code> も置かれる（要らなければ <code class="font-mono">--no-claude</code>）。導入は README の「インストール」へ</span>
                     </div>
                 </div>
             `;
@@ -125,55 +125,46 @@ const slideData = [
     },
     // Slide 4
     {
-        title: '書いて確かめる',
+        title: 'Claude Code に作ってもらう',
+        icon: 'fa-terminal',
         duration: 17,
-        narration: 'UsersGuide.md の最小例を slides/sample.js に保存し、まず 1枚だけ自分の内容に直します。保存したら player.html?slides=sample をブラウザで開き、再読み込みして見た目と読み上げを確かめます。',
-        render: function() {
-            return `
-                <div class="flex flex-col h-full justify-center px-[3cqw]">
-                    <h2 class="font-bold text-sky-400 mb-[1.8cqw] flex items-center gap-[1cqw]" style="font-size: clamp(1.4rem, 3.2cqw, 2.5rem);">
-                        <i class="fa-solid fa-pen-to-square text-lime-400"></i> 書いて確かめる
-                    </h2>
-                    <div class="space-y-[1cqw]" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">
-                        <div class="bg-slate-900 border border-slate-800 rounded-xl p-[1.2cqw] text-slate-100 font-mono">slides/sample.js を作る</div>
-                        <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-[1.2cqw] text-slate-200 font-medium">題名・本文・ナレーションを自分用に直す。<code class="font-mono text-lime-400">duration</code> は省略せず、おおよその秒数でよい</div>
-                        <div class="bg-sky-950/40 border border-sky-500/40 rounded-xl p-[1.2cqw] text-sky-300 font-mono break-all">player.html?slides=sample</div>
-                        <div class="text-slate-300 font-medium flex items-center gap-[0.8cqw]"><i class="fa-solid fa-arrows-rotate text-lime-400"></i> 保存 → 再読み込み → 見た目と読み上げを確認 → 修正</div>
-                    </div>
-                </div>
-            `;
-        }
+        narration: '作業場所で claude を起動し、作りたい内容を伝えます。依頼文は短くてよく、先に構成案が出てきます。承認すると、Claude Code が slides の sample.js を書き、ytslide check でエラーが無くなるまで直します。',
+        body: `
+            <div class="space-y-[1cqw]" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-[1.2cqw] text-slate-100 font-mono">claude</div>
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-[1.2cqw] text-slate-200 font-mono whitespace-pre-line" style="font-size: clamp(0.8rem, 1.7cqw, 1.25rem);">「◯◯」を △△ 向けに 3枚のスライドにしてください。
+名前は sample。内容は notes.txt に沿ってください。</div>
+                <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-[1.2cqw] text-slate-200 font-medium"><code class="font-mono text-lime-400">CLAUDE.md</code> の決まりごと — <code class="font-mono">UsersGuide.md</code> を読む・<code class="font-mono">player.html</code> は触らない・先に構成案</div>
+                <div class="bg-sky-950/40 border border-sky-500/40 rounded-xl p-[1.2cqw] text-sky-300 font-medium">構成案を承認 → 書かせる → <code class="font-mono">ytslide check</code> でエラーが無くなるまで直させる</div>
+            </div>
+        `,
     },
     // Slide 5
     {
-        title: 'AI に作ってもらう',
-        icon: 'fa-robot',
-        duration: 19,
-        narration: 'AI に作ってもらうこともできます。渡すのは 3つ。書式を説明した UsersGuide.md、テンプレート集の template.js、それにスライドにしたい原稿です。依頼文には、保存できる JavaScript 全体を出すことと、各スライドに書く項目を必ず入れます。',
+        title: '確かめる',
+        icon: 'fa-circle-check',
+        duration: 18,
+        narration: 'できたら player.html?slides=sample をブラウザで開き、見た目を確かめます。読み上げは自分で聞きます。読み違いや直しは、スライドの番号で伝えます。時間表示を合わせるなら、仕上げに ytslide update を実行させます。',
         body: `
             <div class="space-y-[1cqw]" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">
-                <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-[1.2cqw] text-slate-200 font-medium"><span class="text-lime-400 font-bold">渡す 3つ</span> — <code class="font-mono text-lime-400">docs/UsersGuide.md</code>（書式）、<code class="font-mono text-lime-400">slides/template.js</code>（テンプレート 19種）、スライドにしたい原稿</div>
-                <div class="bg-slate-900 border border-slate-800 rounded-xl p-[1.2cqw] text-slate-200 font-mono whitespace-pre-line" style="font-size: clamp(0.8rem, 1.7cqw, 1.25rem);">UsersGuide.md の形式と template.js のテンプレートを使って、
-「◯◯」を △△ 向けに 3枚のスライドにしてください。
-slides/sample.js として保存できる JavaScript 全体を、
-slidesConfig と slideData を含めて出してください。
-各スライドに title・body・narration・duration を書いてください。</div>
-                <div class="bg-sky-950/40 border border-sky-500/40 rounded-xl p-[1.2cqw] text-sky-300 font-medium"><i class="fa-solid fa-floppy-disk text-lime-400 mr-[0.7cqw]"></i>出てきた <code class="font-mono">.js</code> を保存 → <code class="font-mono">player.html?slides=sample</code> で確認。依頼文の全文と、直してもらうときの例は UsersGuide.md に</div>
+                <div class="bg-sky-950/40 border border-sky-500/40 rounded-xl p-[1.2cqw] text-sky-300 font-mono break-all">player.html?slides=sample</div>
+                <div class="bg-amber-950/40 border border-amber-500/40 rounded-xl p-[1.2cqw] text-amber-300 font-medium"><i class="fa-solid fa-headphones text-amber-400 mr-[0.7cqw]"></i>読み上げは自分で聞く</div>
+                <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-[1.2cqw] text-slate-200 font-medium">直しはスライドの番号で伝える — 「3枚目の『◯◯』を『△△』と読ませて」</div>
+                <div class="text-slate-300 font-medium flex items-center gap-[0.8cqw]"><i class="fa-solid fa-flag-checkered text-lime-400"></i> 時間表示を合わせるなら <code class="font-mono">ytslide update --slides sample</code></div>
             </div>
         `,
     },
     // Slide 6
     {
-        title: 'Claude Code で作る',
-        icon: 'fa-terminal',
-        duration: 21,
-        narration: 'Claude Code を使うなら、ytslide init にクロード オプションを付けて作業場所を用意します。決まりごとを書いた CLAUDE.md が置かれるので、作りたい内容を伝えるだけで始められます。構成案を確かめてから書かせ、検査も任せます。読み上げは自分で聞いて、直しはスライドの番号で伝えます。',
+        title: '別のやり方',
+        icon: 'fa-pen-to-square',
+        duration: 19,
+        narration: 'Claude Code を使わずに作ることもできます。手で書くなら、テンプレートから近い 1枚をコピーして中身を差し替えます。他の AI に頼むなら、UsersGuide.md、template.js、原稿の 3つを渡し、保存できる JavaScript 全体を出してもらいます。',
         body: `
             <div class="space-y-[1cqw]" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">
-                <div class="bg-slate-900 border border-slate-800 rounded-xl p-[1.2cqw] text-slate-100 font-mono">ytslide init --claude</div>
-                <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-[1.2cqw] text-slate-200 font-medium"><code class="font-mono text-lime-400">CLAUDE.md</code> が置かれる — <code class="font-mono">UsersGuide.md</code> を読む・<code class="font-mono">player.html</code> は触らない・先に構成案、などの決まりごと</div>
-                <div class="bg-sky-950/40 border border-sky-500/40 rounded-xl p-[1.2cqw] text-sky-300 font-medium">構成案を承認 → 書かせる → <code class="font-mono">ytslide check</code> → 見た目を確かめる</div>
-                <div class="bg-amber-950/40 border border-amber-500/40 rounded-xl p-[1.2cqw] text-amber-300 font-medium"><i class="fa-solid fa-headphones text-amber-400 mr-[0.7cqw]"></i>読み上げは自分で聞く。直しはスライドの番号で伝え、仕上げに <code class="font-mono">ytslide update</code></div>
+                <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-[1.2cqw] text-slate-200 font-medium"><span class="text-lime-400 font-bold">手で書く</span> — <code class="font-mono text-lime-400">slides/template.js</code> から近い 1枚をコピーし、題名・本文・ナレーションを差し替える</div>
+                <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-[1.2cqw] text-slate-200 font-medium"><span class="text-lime-400 font-bold">他の AI に頼む</span> — <code class="font-mono text-lime-400">docs/UsersGuide.md</code>・<code class="font-mono text-lime-400">slides/template.js</code>・原稿を渡し、保存できる JavaScript 全体を出してもらう</div>
+                <div class="bg-sky-950/40 border border-sky-500/40 rounded-xl p-[1.2cqw] text-sky-300 font-medium"><i class="fa-solid fa-book text-lime-400 mr-[0.7cqw]"></i>依頼文の例と手順は <code class="font-mono">UsersGuide.md</code> の「別のやり方」に</div>
             </div>
         `,
     },
