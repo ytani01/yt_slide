@@ -313,7 +313,7 @@ transform を持たないので、fixed の基準は画面になる）。右上�
 
 ```mermaid
 flowchart LR
-    A[ボタン・F キー] --> B[setFullscreen]
+    A[ボタン・F キー・<br>スライドのダブルタップ] --> B[setFullscreen]
     X[終了ボタン・暗幕のタップ] --> B
     B --> C[クラスを切り替える<br>レターボックス・暗幕]
     B --> D{requestFullscreen<br>がある?}
@@ -321,6 +321,36 @@ flowchart LR
     D -- 無い --> F[擬似だけ]
     G[Esc・戻る] --> H[fullscreenchange] --> B
 ```
+
+スライドの枠（`#player-viewport`）のダブルタップ・ダブルクリックでも
+切り替える。ブラウザは `dblclick` の前に `click` を 2 回送るので、
+1 回目のタップで再生／一時停止が切り替わり、2 回目で元に戻る。
+`dblclick` のハンドラはフルスクリーンだけを扱う。1 回目を待たせずに
+切り替えるのは、反応の遅れを避けるためと、最初のタップで読み上げの
+unlock を通すため。再生中にダブルタップすると、一時停止と再開を
+通るので、そのスライドのナレーションは頭から読み直しになる。
+
+```mermaid
+sequenceDiagram
+    participant U as 利用者
+    participant V as #player-viewport
+    U->>V: タップ 1 回目
+    V->>V: click → 再生／一時停止（切り替え 1 回目）
+    U->>V: タップ 2 回目
+    V->>V: click → 再生／一時停止（切り替え 2 回目で元に戻る）
+    V->>V: dblclick → setFullscreen
+```
+
+- 一続きのクリックの中で切り替えた回数（`tapToggles`）を数え、2 回の
+  ときだけ `dblclick` に応じる。片方の `click` がスワイプとして捨てられた
+  ときは打ち消し合わないため
+- 枠には `touch-action: manipulation` を付けている。ダブルタップが
+  ズームに取られず、`dblclick` が届くようにするため
+- 回数の数え直し（`e.detail` が 1 の `click`）は `document` で受ける。
+  暗幕のダブルタップのように 1 回目が枠の外に当たったとき、前の回の
+  数が残って入り直さないようにするため。`e.detail` が 0 の `click` では
+  数え直さない。枠の `click` から呼ぶ `playBtn.click()` が detail 0 で、
+  数え直すと必ず 0 に戻ってしまう
 
 iPhone 向けには `apple-mobile-web-app-capable` などの meta を置いてある。
 ホーム画面に追加したページ（`?slides=` を含む URL）は、ブラウザの UI 無しで開く。

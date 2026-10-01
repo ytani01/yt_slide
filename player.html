@@ -54,6 +54,8 @@
             justify-content: space-between;
             container-type: inline-size;
             container-name: viewport;
+            /* ダブルタップをズームでなく dblclick にする（フルスクリーンの切り替え） */
+            touch-action: manipulation;
         }
 
         /* 本文の既定サイズ。枠は --vp-scale で縮むのにブラウザ既定の 16px は
@@ -575,10 +577,11 @@
             <h3>タッチ操作</h3>
             <dl>
                 <dt>スライドをタップ</dt><dd>再生／一時停止</dd>
+                <dt>スライドをダブルタップ</dt><dd>フルスクリーンの切り替え（マウスではダブルクリック）</dd>
                 <dt>左へスワイプ</dt><dd>次のスライド</dd>
                 <dt>右へスワイプ</dt><dd>前のスライド</dd>
             </dl>
-            <p>フルスクリーン中は、画面の左上の × で通常表示に戻ります。タッチ画面では、枠の外にある暗幕のタップや、Android の［戻る］操作（画面の端からのスワイプ）でも戻れます。</p>
+            <p>フルスクリーン中は、画面の左上の × かスライドのダブルタップで通常表示に戻ります。タッチ画面では、枠の外にある暗幕のタップや、Android の［戻る］操作（画面の端からのスワイプ）でも戻れます。</p>
             <h3>その他のボタン</h3>
             <p>送りのボタンは左から「先頭のスライド」「前のスライド」「再生」「次のスライド」「最後のスライド」の順に並んでいます。「字幕」でナレーションの全文を表示します。「速度」と「待ち」で再生速度と読み上げ後の待ち時間を選べます。</p>
             <p>ガイドを開閉しても再生状態は変わりません。再生中はスライドが進みます。</p>
@@ -1537,11 +1540,21 @@
                 (dx < 0 ? nextBtn : prevBtn).click();
             }, { passive: true });
 
+            // tapToggles は、一続きのクリック（e.detail が 1 から数える）の中で
+            // 再生／一時停止を切り替えた回数。ダブルタップの判定に使う（下）。
+            // 数え直しは document で受ける。1 回目が枠の外（暗幕など）に
+            // 当たったときに、前の回の数が残らないようにするため。
+            // 0 では数え直さない。playBtn.click() の合成 click は detail が 0。
+            let tapToggles = 0;
+            document.addEventListener('click', (e) => {
+                if (e.detail === 1) tapToggles = 0;
+            }, true);
             playerViewport.addEventListener('click', () => {
                 if (swiped) {
                     swiped = false;
                     return;
                 }
+                tapToggles++;
                 playBtn.click();
                 tapFeedbackIcon.className = `fa-solid ${isPlaying ? 'fa-play' : 'fa-pause'}`;
                 // 連続でタップされても頭から出し直す
@@ -1583,6 +1596,19 @@
                 setFullscreen(!playerViewport.classList.contains('pseudo-fullscreen'));
             });
             document.getElementById('fullscreen-exit-btn').addEventListener('click', () => setFullscreen(false));
+
+            // スライドのダブルタップ・ダブルクリックでフルスクリーンを切り替える
+            // （TODO-124）。dblclick の前に click が 2 回届き、再生／一時停止が
+            // 2 回切り替わって元に戻るので、ここではフルスクリーンだけを扱う。
+            // 1 回目のタップを待たせないのは、反応の遅れを避けるためと、
+            // 読み上げの unlock を最初のタップで通すため。片方の click が
+            // スワイプとして捨てられたとき（切り替えが 1 回）は、打ち消し合わない
+            // ので応じない。ダブルタップがズームに取られないよう、枠には
+            // touch-action: manipulation を付けている。
+            playerViewport.addEventListener('dblclick', () => {
+                if (tapToggles !== 2) return;
+                setFullscreen(!playerViewport.classList.contains('pseudo-fullscreen'));
+            });
 
             // 暗幕（#viewport-stage::before）のタップで抜ける。スマホでは
             // フルスクリーン中のボタンが暗幕に覆われ、Esc も押せないため。
