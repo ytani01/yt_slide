@@ -1,4 +1,4 @@
-"""`check` と `video` が使う chromium を起動する（TODO-122）。
+"""`check`・`video`・`pdf` が使う chromium を起動する（TODO-122）。
 
 Playwright のパッケージか chromium が無いときは、入れ方を添えて止める。
 `uv tool install` で入れた `ytslide` では `playwright` コマンドが PATH に

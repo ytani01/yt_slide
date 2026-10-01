@@ -86,3 +86,43 @@ def test_video_command_root_wiring(tmp_path):
     result = runner.invoke(cli, ['video', '--slides', 'nope', '--root', str(tmp_path)])
     assert result.exit_code == 2, result.output
     assert str(tmp_path) in result.output, result.output
+
+
+def test_pdf_command_passes_slides_and_out(tmp_path, monkeypatch):
+    # make_pdf() を差し替えて、--slides・--out が渡ることを確かめる
+    # （Playwright・pypdf には触れない）。
+    from pathlib import Path
+
+    from ytslide import pdf
+
+    (tmp_path / 'slides').mkdir()
+    (tmp_path / 'slides' / 'sample.js').write_text('', encoding='utf-8')
+    calls = []
+    monkeypatch.setattr(pdf, 'make_pdf', lambda name, out_dir: calls.append((name, out_dir)))
+
+    result = CliRunner().invoke(cli, [
+        'pdf', '--slides', 'sample', '--out', 'o', '--root', str(tmp_path)])
+    assert result.exit_code == 0, result.output
+    assert calls == [('sample', Path('o'))], calls
+
+
+def test_pdf_command_errors_without_slides(tmp_path):
+    (tmp_path / 'slides').mkdir()
+    result = CliRunner().invoke(cli, ['pdf', '--slides', 'nope', '--root', str(tmp_path)])
+    assert result.exit_code == 2, result.output
+    assert str(tmp_path) in result.output, result.output
+
+
+def test_make_pdf_without_pypdf_shows_install_hint(tmp_path, monkeypatch):
+    # pypdf が無いときは、chromium を起こす前に入れ方を添えて止める。
+    import sys
+
+    import click
+    import pytest
+
+    from ytslide import pdf
+
+    monkeypatch.setitem(sys.modules, 'pypdf', None)  # import で ImportError
+    with pytest.raises(click.ClickException, match='pypdf が入っていない') as e:
+        pdf.make_pdf('sample', tmp_path)
+    assert '[video]' in e.value.message

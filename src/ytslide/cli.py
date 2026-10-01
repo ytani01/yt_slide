@@ -11,6 +11,7 @@ from . import __version__, paths
 from . import check as check_mod
 from . import index as index_mod
 from . import measure as measure_mod
+from . import pdf as pdf_mod
 from . import video as video_mod
 from .click_utils import click_common_opts
 from .mylog import getLogger, loggerInit
@@ -72,7 +73,7 @@ CLAUDE_MD = """\
 - 各スライドに `title`・`body`・`narration`・`duration` を書く。
   `duration` はおおよその秒数でよいが、省かない
 - `ytslide` のコマンドは、この作業場所で実行する。`check`・`measure`・`update`・
-  `video` には `--slides <名前>` を付ける
+  `video`・`pdf` には `--slides <名前>` を付ける
 
 ## 進め方
 
@@ -204,6 +205,25 @@ def update(ctx, slides_name, repeat, root, debug):
     ctx.invoke(measure, numbers=(), text=None, all_=True, write=True,
                slides_name=slides_name, repeat=repeat, root=root, debug=debug)
     ctx.invoke(index, root=root, debug=debug)
+
+
+@cli.command()
+@click.option('--slides', 'slides_name', default=None,
+              help=f'slides/<名前>.js の <名前>（既定は {paths.DEFAULT_SLIDES}）')
+@click.option('--out', default='pdf', help='書き出し先ディレクトリ（既定 pdf）')
+@click.option('--root', help='スライドの置き場所（既定はカレントディレクトリ）')
+@click_common_opts(__version__)
+def pdf(ctx, slides_name, out, root, debug):
+    """スライド一式を 1スライド 1ページの PDF に書き出す（playwright・pypdf が要る）。"""
+    loggerInit(debug)
+    paths.set_root(root)
+    slides_name = slides_name or paths.DEFAULT_SLIDES
+
+    src = paths.SLIDES / f'{slides_name}.js'
+    if not src.exists():
+        raise _no_slides_error(src)
+
+    pdf_mod.make_pdf(slides_name, pathlib.Path(out))
 
 
 @cli.command()

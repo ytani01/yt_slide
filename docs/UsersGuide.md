@@ -190,7 +190,7 @@ flowchart TD
    『△△』と読ませて」のように番号と語で伝える（[読みを直す](#読みを直す)）
 5. 直しはスライド番号で伝える。指定した番号のスライドだけが変わる
 6. 仕上げに `ytslide update --slides <名前>` を実行させる。動画にするなら
-   `ytslide video --slides <名前>` も
+   `ytslide video --slides <名前>`（PDF なら `ytslide pdf --slides <名前>`）も
 
 依頼文は短くてよい。
 
@@ -199,7 +199,7 @@ flowchart TD
 名前は sample。内容は notes.txt に沿ってください。
 ```
 
-`ytslide check` と `video` は Playwright（chromium）を使う。入っていなければ、
+`ytslide check`・`video`・`pdf` は Playwright（chromium）を使う。入っていなければ、
 入れ方を添えたエラーで止まる（[測定と動画に要るパッケージ](#測定と動画に要るパッケージ)）。
 
 ### 一覧から開きたいとき
@@ -261,11 +261,11 @@ LAN 内の IP アドレスを確認し、`http://<LAN内IP>:8000/` を開く。
 **`web` は作業ディレクトリ全体を配信する。** 別端末からの接続には
 配信元への通信が許可されている必要がある。
 
-共有する段階では[「公開」](#公開)か[「動画に書き出す」](#動画に書き出す)へ進む。
+共有する段階では[「公開」](#公開)か[「動画に書き出す」](#動画に書き出す)・[「PDF に書き出す」](#pdf-に書き出す)へ進む。
 
 ### 別のディレクトリからコマンドを使う
 
-`measure`・`index`・`update`・`video`・`check` は `--root` で作業場所を指定できる。
+`measure`・`index`・`update`・`video`・`pdf`・`check` は `--root` で作業場所を指定できる。
 `init` と `web` はカレントディレクトリだけを見る。
 
 ```bash
@@ -283,8 +283,9 @@ ytslide index --root ~/my-slides
 | `ytslide web` | HTTP で確認したいとき、作業ディレクトリを配信する（ブラウザは自分で開く） |
 | `ytslide check` | 書き間違いが無いか検査する（構文エラー・必須キーの欠け・存在しない画像パス） |
 | `ytslide video` | 動画で渡したいとき、MP4 と `.srt` に書き出す |
+| `ytslide pdf` | 紙や PDF で渡したいとき、1スライド 1ページの PDF に書き出す |
 
-`measure`・`update`・`video` には `--slides sample` のように対象を指定する。
+`measure`・`update`・`video`・`pdf` には `--slides sample` のように対象を指定する。
 省略すると `readme` を探すが、`init` した場所には `readme.js` は無い。
 `update` は `measure` と `index` を続けて実行するだけなので、
 測定だけ・一覧だけが要るときは `measure`・`index` を単独で使う。
@@ -299,15 +300,17 @@ ytslide index --root ~/my-slides
 - `ytslide measure`・`ytslide update` — `curl`・`ffprobe`
 - `ytslide video`・`ytslide check` — 加えて `ffmpeg`・Playwright（Python, chromium）。
   Playwright のパッケージは `uv tool install '...[video]'` で入る
+- `ytslide pdf` — Playwright（Python, chromium）と `pypdf`（どちらも `[video]` で入る）。
+  `curl`・`ffmpeg` は要らない
 
 ```bash
 sudo apt install curl ffmpeg   # curl・ffmpeg・ffprobe
-"$(uv tool dir)/ytslide/bin/python" -m playwright install chromium   # ytslide video・ytslide check だけが使う
+"$(uv tool dir)/ytslide/bin/python" -m playwright install chromium   # ytslide video・ytslide pdf・ytslide check だけが使う
 ```
 
 `uv tool install` で入れた Playwright の `playwright` コマンドは PATH に
 出ないので、上のように `ytslide` の Python から実行する。
-Playwright か chromium が無いまま `check`・`video` を実行すると、
+Playwright か chromium が無いまま `check`・`video`・`pdf` を実行すると、
 入れ方を添えたエラーで止まる。
 
 Debian 12 (bookworm) / curl 7.88.1 / ffmpeg 5.1.9 / Python 3.14.7 /
@@ -559,6 +562,19 @@ video/sample.mp4 と video/sample.srt に書き出した
 - 前提のパッケージは [「測定と動画に要るパッケージ」](#測定と動画に要るパッケージ)にある
 - 書き出し先の `video/` は `.gitignore` に入っており、リポジトリには入れない。
   要るときに作り直す
+
+## PDF に書き出す
+
+紙に刷る、PDF で配る場合は `ytslide pdf` で 1スライド 1ページの PDF にする。
+
+```bash
+ytslide pdf --slides sample
+```
+
+`pdf/sample.pdf` ができる。`--out <ディレクトリ>`（既定 `pdf/`）で書き出し先を変えられる。
+書き出し先の `pdf/` は `.gitignore` に入っている。
+ナレーション・字幕・進行バー・ボタンは入らない。ページは 1920×1080 の比率（16:9）。
+前提のパッケージは [「測定と動画に要るパッケージ」](#測定と動画に要るパッケージ)にある。
 
 ## 公開
 

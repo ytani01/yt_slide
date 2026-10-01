@@ -18,10 +18,11 @@
 | `src/ytslide/measure.py` | 読み上げ秒数の測定と `duration` への書き込み（`ytslide measure`） |
 | `src/ytslide/index.py` | `slides/*.js` から `index.html` の一覧を作る（`ytslide index`） |
 | `src/ytslide/video.py` | スライド一式を MP4 と `.srt` に書き出す（`ytslide video`） |
-| `src/ytslide/browser.py` | `check`・`video` が使う chromium の起動。Playwright か chromium が無ければ入れ方を添えて止める |
+| `src/ytslide/pdf.py` | スライド一式を 1スライド 1ページの PDF に書き出す（`ytslide pdf`）。`video.py` の `FIT` を使う |
+| `src/ytslide/browser.py` | `check`・`video`・`pdf` が使う chromium の起動。Playwright か chromium が無ければ入れ方を添えて止める |
 | `tests/test_measure.py` | `measure.py` の書き込みと置換表の読み込みの自動確認 |
 | `tests/test_index.py` | `index.py` の `slidesConfig` の読み取りとマーカー間の差し替えの自動確認 |
-| `tests/test_video.py` | `video.py` の分割や字幕の組み立ての自動確認 |
+| `tests/test_video.py` | `video.py` の分割や字幕の組み立て、`video`・`pdf` コマンドの引数の受け渡しの自動確認 |
 | `tests/test_cli.py` | `ytslide init`（`--claude` を含む）が置くファイルと、二度目に上書きしないことの自動確認 |
 | `tests/test_browser.py` | Playwright か chromium が無いときの案内の自動確認 |
 | `pyproject.toml` | `ytslide` のパッケージ定義（`uv tool install` で使う） |

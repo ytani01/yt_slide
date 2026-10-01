@@ -13,5 +13,6 @@ __pycache__/
 /dist/
 *.egg-info/
 
-# ytslide video の書き出し先
+# ytslide video・pdf の書き出し先
 /video/
+/pdf/

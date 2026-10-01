@@ -122,19 +122,20 @@ Claude Code を使うなら `ytslide init --claude` で作業場所を用意す�
 
 作業場所をコマンドで用意する（プレイヤー・テンプレート・`docs/UsersGuide.md`、
 `--claude` で `CLAUDE.md` も置く）、一覧を生成する、読み上げ秒数を測る、
-HTTP で確認する、動画に書き出す場合は `ytslide` CLI を使う。
+HTTP で確認する、動画や PDF に書き出す場合は `ytslide` CLI を使う。
 [uv の公式手順](https://docs.astral.sh/uv/getting-started/installation/)で
 `uv` を入れ、次を実行する。Python 3.13 以上が必要。
 
 ```bash
-uv tool install 'git+https://github.com/ytani01/yt_slide'          # video 以外
-uv tool install 'git+https://github.com/ytani01/yt_slide[video]'   # video も使う
+uv tool install 'git+https://github.com/ytani01/yt_slide'          # video・pdf・check 以外
+uv tool install 'git+https://github.com/ytani01/yt_slide[video]'   # video・pdf・check も使う
 ```
 
 リポジトリのチェックアウトからなら `uv tool install '.[video]'`。
+`video` extra は `ytslide video`・`ytslide pdf`・`ytslide check` が使う（`pdf` は `pypdf` も要る）。
 `video` は Playwright（chromium）が重いので、既定の install には含めず
 extra に分けている。
-`video` と `check` で使う chromium は別に入れる
+`video`・`pdf`・`check` で使う chromium は別に入れる
 （[測定と動画に要るパッケージ](docs/UsersGuide.md#測定と動画に要るパッケージ)）。
 
 サブコマンドの一覧と、測定・動画の書き出しに要るパッケージは

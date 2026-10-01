@@ -9,7 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 `readme`・`user`・`developer`・`claude-memo`・`template` の 5つのスライド一式）。
 **プレイヤー側（`player.html` と `slides/*.js`）はビルドも依存関係のインストールも
 不要**で、ブラウザで開くだけで動く。インストールが要るのは、`duration` を測る・
-`index.html` を作り直す・動画に書き出す `ytslide`（`src/ytslide/`）だけ
+`index.html` を作り直す・動画や PDF に書き出す `ytslide`（`src/ytslide/`）だけ
 （`uv tool install`。README の「インストール」）。
 テストは `tests/` の 6本（`test_cli`・`test_browser`・`test_check`・`test_index`・
 `test_measure`・`test_video`。`uv run pytest`）。
