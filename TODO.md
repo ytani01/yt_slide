@@ -42,6 +42,7 @@ Playwright が要るため、extra は `video` に相乗りさせるか `pdf` �
 - [ ] どちらも既にあれば上書きしない（他のファイルと同じ）
 - [ ] `CLAUDE.md` の中身は `init` のコード（`src/ytslide/cli.py`）に文字列で持つ
 - [ ] `UsersGuide.md` を同梱データに足す（`pyproject.toml` の `force-include`）。テストを足す
+- [ ] `ytslide check`・`video` で Playwright が使えないとき、入れ方を添えた警告を出す（下記）
 - [ ] `slides/users-guide.js` の「AI に作ってもらう」の次に 1 枚足す
 - [ ] README・`docs/UsersGuide.md` の `init` で何ができるかの説明を直す
 
@@ -93,7 +94,8 @@ Playwright が要るため、extra は `video` に相乗りさせるか `pdf` �
 
 1. 新しく作るときは、先に構成案だけを出す（各スライドの題名・使う
    テンプレート・ナレーションの要旨）。承認されるまでファイルを書かない
-2. 書いたら `ytslide check --slides <名前>` を実行し、エラーが無くなるまで直す
+2. 書いたら `ytslide check --slides <名前>` を実行し、エラーが無くなるまで直す。
+   Playwright が入っていないという警告が出たら、その内容を利用者に伝えて先へ進む
 3. `ytslide measure --slides <名前> --all` で、`TTS_MAX_CHARS` で切れる
    文が無いか見る。あれば文を分ける
 4. ブラウザを操作できるなら、`player.html?slides=<名前>#N` で N 枚目を開いて
@@ -104,8 +106,13 @@ Playwright が要るため、extra は `video` に相乗りさせるか `pdf` �
 7. 仕上げに `ytslide update --slides <名前>` で `duration` と一覧を更新する
 ````
 
-`check` には Playwright が要る（`[video]` 付きで入れたとき）。入っていない
-ときに Claude Code がどう振る舞えばよいかは、着手時に決める。
+**Playwright は、使うコマンドを実行したときに警告で知らせる**（利用者が決めた）。
+`init --claude` の時点では調べない。`check` と `video` は今もパッケージが無いと
+`ClickException` で止まるが、案内が `uv tool install '.[video]'` でリポジトリの
+チェックアウト向けになっている。README の `git+https://…[video]` の形と
+`playwright install chromium` も添える。chromium だけが無いとき
+（`p.chromium.launch()` が失敗するとき）も同じ案内を出す。どちらの
+コマンドも Playwright が無ければ何もできないので、止まること自体は変えない。
 
 **ナレーションを足すので、`users-guide.js` の読みは利用者が先に聞いて確かめる**
 （確認の担当はそのあとに起こす）。
