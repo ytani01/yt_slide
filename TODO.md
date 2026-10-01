@@ -30,14 +30,15 @@ Playwright が要るため、extra は `video` に相乗りさせるか `pdf` �
 
 ---
 
-## TODO-122. Claude Code にスライドを作らせる手順を示し、init で CLAUDE.md を置く
+## TODO-122. Claude Code にスライドを作らせる手順を示し、init で UsersGuide.md も置く
 
 |      | main | 担当 |
 |------|------|------|
-| 見込み | Opus 5.5 / effort high | main（文書・スライド）+ implementer（Sonnet 5.5 / medium）+ reviewer（Opus 5.5 / high）+ verifier（Sonnet 5.5 / medium） |
+| 見込み | Opus 5.5 / effort high | main（実装・文書・スライド）+ reviewer（Opus 5.5 / high）+ verifier（Sonnet 5.5 / medium） |
 
 - [ ] `docs/UsersGuide.md` の「AI に作ってもらう」の次に「Claude Code で作る」の節を足す
-- [ ] `ytslide init` が作業場所に Claude Code 向けの `CLAUDE.md` と `docs/UsersGuide.md` も置く。既にあれば上書きしない（他のファイルと同じ）
+- [ ] その節に、作業場所に置く `CLAUDE.md` の中身をコピーして使える形で載せる
+- [ ] `ytslide init` が作業場所に `docs/UsersGuide.md` も置く。既にあれば上書きしない（他のファイルと同じ）
 - [ ] 同梱データに足す（`pyproject.toml` の `force-include`）。テストを足す
 - [ ] `slides/users-guide.js` の「AI に作ってもらう」の次に 1 枚足す
 - [ ] README・`docs/UsersGuide.md` の `init` で何ができるかの説明を直す
@@ -49,15 +50,14 @@ Playwright が要るため、extra は `video` に相乗りさせるか `pdf` �
 人が再生して読みを聞く → 番号で直しを伝える → `update` → 必要なら `video`」。
 
 `init` した作業場所には `docs/UsersGuide.md` が無く、Claude Code に書式を
-読ませられない。`CLAUDE.md` には「`docs/UsersGuide.md` を読む」「`player.html`
-を触らない」「書いたら `ytslide check`」程度を書き、依頼文から毎回の 2〜3 行を
-省けるようにする。`UsersGuide.md` は GitHub の URL を読ませず、同梱して置く
+読ませられない。`UsersGuide.md` は GitHub の URL を読ませず、同梱して置く
 （オフラインでも読め、入れた版とずれない。利用者が決めた）。
 
-**着手時に決めること** — 同梱する `CLAUDE.md` の置き場所。リポジトリから直接
-動かすと `paths.DATA` はリポジトリ直下になり、そこには開発用の `CLAUDE.md`
-がある。同じ名前で置くと開発用のほうをコピーしてしまうので、別の場所に置いて
-`force-include` で `ytslide/data/` の下へ写す。
+**`CLAUDE.md` はファイルとして同梱せず、`UsersGuide.md` に載せて利用者に
+コピーしてもらう**（利用者が決めた）。テンプレートのファイルをリポジトリや
+パッケージに置くと、Claude Code がそれを自分への指示と取り違えるおそれがある。
+中身は「`docs/UsersGuide.md` を読む」「`player.html` を触らない」
+「書いたら `ytslide check`」程度にし、依頼文から毎回の 2〜3 行を省けるようにする。
 
 **ナレーションを足すので、`users-guide.js` の読みは利用者が先に聞いて確かめる**
 （確認の担当はそのあとに起こす）。
