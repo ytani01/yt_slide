@@ -260,13 +260,14 @@ LAN 内の IP アドレスを確認し、`http://<LAN内IP>:8000/` を開く。
 `localhost` は開いた端末自身を指すので、別端末から配信元を見る URL には使わない。
 **`web` は作業ディレクトリ全体を配信する。** 別端末からの接続には
 配信元への通信が許可されている必要がある。
+作業ディレクトリに `player.html` が無いときは、`ytslide` に同梱のものを配る。
 
 共有する段階では[「公開」](#公開)か[「動画に書き出す」](#動画に書き出す)・[「PDF に書き出す」](#pdf-に書き出す)へ進む。
 
 ### 別のディレクトリからコマンドを使う
 
-`measure`・`index`・`update`・`video`・`pdf`・`check` は `--root` で作業場所を指定できる。
-`init` と `web` はカレントディレクトリだけを見る。
+`measure`・`index`・`update`・`video`・`pdf`・`check`・`web` は `--root` で作業場所を指定できる。
+`init` はカレントディレクトリだけを見る。
 
 ```bash
 ytslide index --root ~/my-slides

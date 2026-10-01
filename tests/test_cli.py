@@ -1,6 +1,7 @@
-"""`ytslide init` サブコマンドの確かめ。
+"""`ytslide init` と `ytslide web` サブコマンドの確かめ。
 
-`click.testing.CliRunner` でカレントディレクトリを切り替えて実際に叩く。
+`init` は `click.testing.CliRunner` でカレントディレクトリを切り替えて実際に叩く。
+`web` は子プロセスで起動し、`urllib` で取り出す。
 """
 import pathlib
 import tomllib
@@ -128,3 +129,42 @@ def test_init_second_run_does_not_overwrite(tmp_path, monkeypatch):
         assert 'mr-2"></i>SENTINEL</h1>' in written, written
     finally:
         paths.set_root(None)
+
+
+def test_web_serves_bundled_player_with_log(tmp_path):
+    # 作業場所に player.html が無くても同梱のものを配り、ログは出す（TODO-129）。
+    import socket
+    import subprocess
+    import sys
+    import time
+    import urllib.error
+    import urllib.request
+
+    (tmp_path / 'slides').mkdir()
+    (tmp_path / 'slides' / 'sample.js').write_text('// mine', encoding='utf-8')
+    with socket.socket() as s:
+        s.bind(('127.0.0.1', 0))
+        port = s.getsockname()[1]
+    proc = subprocess.Popen(
+        [sys.executable, '-m', 'ytslide', 'web', '-p', str(port), '--root', str(tmp_path)],
+        stderr=subprocess.PIPE)
+    body = None
+    try:
+        for _ in range(50):
+            try:
+                with urllib.request.urlopen(
+                        f'http://127.0.0.1:{port}/player.html?slides=sample') as r:
+                    body = r.read()
+                break
+            except urllib.error.HTTPError:
+                raise
+            except urllib.error.URLError:  # まだ起動していない
+                time.sleep(0.1)
+        assert body == (paths.DATA / 'player.html').read_bytes()
+        with urllib.request.urlopen(f'http://127.0.0.1:{port}/slides/sample.js') as r:
+            assert r.read() == b'// mine'
+    finally:
+        proc.terminate()
+        _, err = proc.communicate(timeout=5)
+        print(err.decode())
+    assert b'"GET /player.html?slides=sample HTTP/1.1" 200' in err

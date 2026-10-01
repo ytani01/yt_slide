@@ -1,14 +1,16 @@
 """`check`・`video`・`pdf` が使う chromium を起動し、`player.html` を開く（TODO-122）。
+作業場所を配る HTTP のハンドラーは `web` も使う（TODO-129）。
 
 Playwright のパッケージか chromium が無いときは、入れ方を添えて止める。
 `player.html` は作業場所を HTTP で配って開く。作業場所に `player.html` が
-無ければ、それだけ同梱のものを返す（TODO-128）。
+無ければ、それだけ同梱のものを返す（TODO-128）。有無はリクエストのたびに見る。
 `uv tool install` で入れた `ytslide` では `playwright` コマンドが PATH に
 出ないので、chromium の入れ方は `sys.executable -m playwright` の形で示す。
 """
 import contextlib
 import functools
 import http.server
+import os
 import sys
 import threading
 import urllib.parse
@@ -50,13 +52,19 @@ def chromium():
             browser.close()
 
 
-class _Handler(http.server.SimpleHTTPRequestHandler):
-    """作業場所を配り、`/player.html` だけ `paths.PLAYER_HTML` を返す。"""
+class PlayerHandler(http.server.SimpleHTTPRequestHandler):
+    """作業場所を配り、作業場所に `player.html` が無ければ同梱のものを返す。"""
 
     def translate_path(self, path):
-        if urllib.parse.urlsplit(path).path == '/player.html':
-            return str(paths.PLAYER_HTML)
-        return super().translate_path(path)
+        local = super().translate_path(path)
+        if (urllib.parse.urlsplit(path).path == '/player.html'
+                and not os.path.exists(local)):
+            return str(paths.DATA / 'player.html')
+        return local
+
+
+class _Handler(PlayerHandler):
+    """リクエストのログを出さない `PlayerHandler`（書き出し中の出力を汚さない）。"""
 
     def log_message(self, *args):
         pass

@@ -7,7 +7,7 @@ import pathlib
 
 import click
 
-from . import __version__, paths
+from . import __version__, browser, paths
 from . import check as check_mod
 from . import index as index_mod
 from . import measure as measure_mod
@@ -280,12 +280,13 @@ def check(ctx, slides_name, root, debug):
 
 @cli.command()
 @click.option('-p', '--port', type=int, default=8000, show_default=True, help='ポート番号')
+@click.option('--root', help='スライドの置き場所（既定はカレントディレクトリ）')
 @click_common_opts(__version__)
-def web(ctx, port, debug):
-    """カレントディレクトリを配る（http.server）。"""
+def web(ctx, port, root, debug):
+    """作業場所を配る（http.server）。player.html が無ければ同梱のものを配る。"""
     loggerInit(debug)
-    handler = functools.partial(
-        http.server.SimpleHTTPRequestHandler, directory=str(pathlib.Path.cwd()))
+    paths.set_root(root)
+    handler = functools.partial(browser.PlayerHandler, directory=str(paths.ROOT))
     with http.server.ThreadingHTTPServer(('', port), handler) as httpd:
         click.echo(f'http://localhost:{port}/ で配信中（Ctrl-C で止める）')
         try:
