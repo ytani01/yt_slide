@@ -48,27 +48,74 @@ def _no_slides_error(src):
     return click.UsageError(f'{src} が無い\n       {hint}')
 
 
+# `init --claude` で置く CLAUDE.md。テンプレートのファイルにすると Claude Code が
+# 自分への指示と取り違えるおそれがあるので、ここに文字列で持つ（TODO-122）。
+CLAUDE_MD = """\
+# CLAUDE.md
+
+ナレーション付きで自動再生するスライドを作る作業場所。
+`ytslide init --claude` で生成した。
+
+## 触る前に読むもの
+
+**スライドを書く前に `docs/UsersGuide.md` を読む。** `slides/<名前>.js` の
+書き方、テンプレート、`narration` と `duration`、読みの直し方、`ytslide` の
+サブコマンドはそこにある。
+
+## 決まりごと
+
+- 書くのは `slides/<名前>.js` だけ。`player.html` は編集しない。
+  `index.html` は手で直さず `ytslide index` で作り直す
+- ファイル名は英数字・`_`・`-` だけ
+- 見た目は `slides/template.js` のテンプレートから近いものを選んでコピーし、
+  中身を差し替える
+- 各スライドに `title`・`body`・`narration`・`duration` を書く。
+  `duration` はおおよその秒数でよいが、省かない
+- `ytslide` のコマンドは、この作業場所で実行する。`check`・`measure`・`update`・
+  `video` には `--slides <名前>` を付ける
+
+## 進め方
+
+1. 新しく作るときは、先に構成案だけを出す（各スライドの題名・使う
+   テンプレート・ナレーションの要旨）。承認されるまでファイルを書かない
+2. 書いたら `ytslide check --slides <名前>` を実行し、エラーが無くなるまで直す。
+   Playwright か chromium が無いと言われたら、表示された入れ方を利用者に
+   伝えて先へ進む
+3. `ytslide measure --slides <名前> --all` で、`TTS_MAX_CHARS` で切れる
+   文が無いか見る。あれば文を分ける
+4. ブラウザを操作できるなら、`player.html?slides=<名前>#N` で N 枚目を開いて
+   見た目を確かめる（はみ出し・崩れ）
+5. 読み上げは利用者が聞いて確かめる。読みの直しは `slidesConfig.rules` に
+   書く（長い語を先に書く）
+6. 直しを頼まれたら、指定された番号のスライドだけを変える
+7. 仕上げに `ytslide update --slides <名前>` で `duration` と一覧を更新する
+"""
+
+
+def _copy_data(rel, dst):
+    """同梱データの `rel` を `dst` へコピーする（既にあれば飛ばす）。"""
+    if not _skip_if_exists(dst):
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        dst.write_text((paths.DATA / rel).read_text(encoding='utf-8'),
+                       encoding='utf-8')
+
+
 @cli.command()
+@click.option('--claude', is_flag=True, help='Claude Code 向けの CLAUDE.md も置く')
 @click_common_opts(__version__)
-def init(ctx, debug):
+def init(ctx, claude, debug):
     """カレントディレクトリを、スライド一式の置き場所として初期化する。"""
     loggerInit(debug)
 
     root = pathlib.Path.cwd()
-    slides_dir = root / 'slides'
-    slides_dir.mkdir(exist_ok=True)
+    _copy_data('slides/template.js', root / 'slides' / 'template.js')
+    _copy_data('player.html', root / 'player.html')
+    _copy_data('docs/UsersGuide.md', root / 'docs' / 'UsersGuide.md')
 
-    template = slides_dir / 'template.js'
-    if not _skip_if_exists(template):
-        template.write_text(
-            (paths.DATA / 'slides' / 'template.js').read_text(encoding='utf-8'),
-            encoding='utf-8')
-
-    player_html = root / 'player.html'
-    if not _skip_if_exists(player_html):
-        player_html.write_text(
-            (paths.DATA / 'player.html').read_text(encoding='utf-8'),
-            encoding='utf-8')
+    if claude:
+        claude_md = root / 'CLAUDE.md'
+        if not _skip_if_exists(claude_md):
+            claude_md.write_text(CLAUDE_MD, encoding='utf-8')
 
     index_html = root / 'index.html'
     if not _skip_if_exists(index_html):

@@ -6,7 +6,7 @@
 """
 import pathlib
 
-# 同梱データ（player.html・index.html・slides/template.js）の場所。
+# 同梱データ（player.html・index.html・slides/template.js・docs/UsersGuide.md）の場所。
 # パッケージ配布物には `ytslide/data/` に入っている。
 # リポジトリのチェックアウトから直接動かしたとき（`uv run` / 開発中）は
 # `ytslide/data/` が無いので、リポジトリ直下（src/ytslide から 2つ上）へ

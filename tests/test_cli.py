@@ -2,10 +2,13 @@
 
 `click.testing.CliRunner` でカレントディレクトリを切り替えて実際に叩く。
 """
+import pathlib
+import tomllib
+
 from click.testing import CliRunner
 
 from ytslide import paths
-from ytslide.cli import cli
+from ytslide.cli import CLAUDE_MD, cli
 
 
 def test_init_creates_files_and_index(tmp_path, monkeypatch):
@@ -17,6 +20,10 @@ def test_init_creates_files_and_index(tmp_path, monkeypatch):
 
         assert (tmp_path / 'slides' / 'template.js').exists()
         assert (tmp_path / 'player.html').exists()
+        # UsersGuide.md は --claude が無くても置き、CLAUDE.md は置かない。
+        guide = (paths.DATA / 'docs' / 'UsersGuide.md').read_text(encoding='utf-8')
+        assert (tmp_path / 'docs' / 'UsersGuide.md').read_text(encoding='utf-8') == guide
+        assert not (tmp_path / 'CLAUDE.md').exists()
         assert not (tmp_path / 'README.md').exists()
         index_html = (tmp_path / 'index.html')
         assert index_html.exists()
@@ -29,6 +36,26 @@ def test_init_creates_files_and_index(tmp_path, monkeypatch):
         assert f'mr-2"></i>{tmp_path.name}</h1>' in html, html
     finally:
         paths.set_root(None)
+
+
+def test_init_claude_writes_claude_md(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    try:
+        result = CliRunner().invoke(cli, ['init', '--claude'])
+        assert result.exit_code == 0, result.output
+        assert (tmp_path / 'CLAUDE.md').read_text(encoding='utf-8') == CLAUDE_MD
+        assert (tmp_path / 'docs' / 'UsersGuide.md').exists()
+    finally:
+        paths.set_root(None)
+
+
+def test_init_data_is_packaged():
+    """`init` がコピーする同梱データが、wheel の force-include に載っている。"""
+    root = pathlib.Path(__file__).resolve().parents[1]
+    with open(root / 'pyproject.toml', 'rb') as f:
+        include = tomllib.load(f)['tool']['hatch']['build']['targets']['wheel']['force-include']
+    for rel in ('player.html', 'index.html', 'slides/template.js', 'docs/UsersGuide.md'):
+        assert include.get(rel) == f'ytslide/data/{rel}', rel
 
 
 def test_measure_no_slides_lists_candidates(tmp_path, monkeypatch):
@@ -60,6 +87,11 @@ def test_init_second_run_does_not_overwrite(tmp_path, monkeypatch):
     runner = CliRunner()
     runner.invoke(cli, ['init'])
 
+    guide_sentinel = '# SENTINEL UsersGuide.md\n'
+    (tmp_path / 'docs' / 'UsersGuide.md').write_text(guide_sentinel, encoding='utf-8')
+    claude_sentinel = '# SENTINEL CLAUDE.md\n'
+    (tmp_path / 'CLAUDE.md').write_text(claude_sentinel, encoding='utf-8')
+
     # 既存の中身をセンチネル文字列に差し替える。index.html はマーカー構造
     # だけ残し、タイトルと見出しをセンチネルにする（2回目の init が内部で
     # 呼ぶ `index` が、マーカーの中だけ書き換えるのは正常な挙動のため）。
@@ -75,8 +107,12 @@ def test_init_second_run_does_not_overwrite(tmp_path, monkeypatch):
     index_html.write_text(html, encoding='utf-8')
 
     try:
-        result = runner.invoke(cli, ['init'])
+        result = runner.invoke(cli, ['init', '--claude'])
         assert result.exit_code == 0, result.output
+        assert 'すでにある: UsersGuide.md' in result.output, result.output
+        assert 'すでにある: CLAUDE.md' in result.output, result.output
+        assert (tmp_path / 'docs' / 'UsersGuide.md').read_text(encoding='utf-8') == guide_sentinel
+        assert (tmp_path / 'CLAUDE.md').read_text(encoding='utf-8') == claude_sentinel
         assert 'すでにある: template.js' in result.output, result.output
         assert 'すでにある: player.html' in result.output, result.output
         assert 'すでにある: index.html' in result.output, result.output

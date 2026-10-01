@@ -30,6 +30,7 @@ source = "vcs"
 "player.html" = "ytslide/data/player.html"
 "index.html" = "ytslide/data/index.html"
 "slides/template.js" = "ytslide/data/slides/template.js"
+"docs/UsersGuide.md" = "ytslide/data/docs/UsersGuide.md"
 
 [dependency-groups]
 dev = [

@@ -98,6 +98,10 @@
 作りたい内容を伝えれば `.js` を書いてくれる（このリポジトリのスライドも
 そうやって作った）。そのまま使える
 [依頼文の例と、保存・確認の手順](docs/UsersGuide.md#ai-に作ってもらう)がガイドにある。
+Claude Code を使うなら `ytslide init --claude` で作業場所を用意する。
+決まりごとを書いた `CLAUDE.md` が置かれ、Claude Code が `.js` を書き、
+`ytslide check` での検査まで自分で進める
+（[Claude Code で作る](docs/UsersGuide.md#claude-code-で作る)）。
 
 手順は [docs/UsersGuide.md の「手順」](docs/UsersGuide.md#手順)にある。作業場所の用意、
 一覧の生成、読み上げ秒数の測定、HTTP での確認、公開と動画への書き出しまで、
@@ -114,8 +118,9 @@
 ファイルのコピー・編集とブラウザでの確認だけなら、Python・uv・`ytslide` は不要。
 公開先にもこれらを入れる必要はない。
 
-作業場所をコマンドで用意する、一覧を生成する、読み上げ秒数を測る、HTTP で確認する、
-動画に書き出す場合は `ytslide` CLI を使う。
+作業場所をコマンドで用意する（プレイヤー・テンプレート・`docs/UsersGuide.md`、
+`--claude` で `CLAUDE.md` も置く）、一覧を生成する、読み上げ秒数を測る、
+HTTP で確認する、動画に書き出す場合は `ytslide` CLI を使う。
 [uv の公式手順](https://docs.astral.sh/uv/getting-started/installation/)で
 `uv` を入れ、次を実行する。Python 3.13 以上が必要。
 
@@ -127,6 +132,8 @@ uv tool install 'git+https://github.com/ytani01/yt_slide[video]'   # video も�
 リポジトリのチェックアウトからなら `uv tool install '.[video]'`。
 `video` は Playwright（chromium）が重いので、既定の install には含めず
 extra に分けている。
+`video` と `check` で使う chromium は別に入れる
+（[測定と動画に要るパッケージ](docs/UsersGuide.md#測定と動画に要るパッケージ)）。
 
 サブコマンドの一覧と、測定・動画の書き出しに要るパッケージは
 [docs/UsersGuide.md の「`ytslide` のサブコマンド」](docs/UsersGuide.md#ytslide-のサブコマンド)にある。

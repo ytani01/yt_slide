@@ -164,6 +164,21 @@ slidesConfig と slideData を含めて出してください。
     },
     // Slide 6
     {
+        title: 'Claude Code で作る',
+        icon: 'fa-terminal',
+        duration: 21,
+        narration: 'Claude Code を使うなら、ytslide init にクロード オプションを付けて作業場所を用意します。決まりごとを書いた CLAUDE.md が置かれるので、作りたい内容を伝えるだけで始められます。構成案を確かめてから書かせ、検査も任せます。読み上げは自分で聞いて、直しはスライドの番号で伝えます。',
+        body: `
+            <div class="space-y-[1cqw]" style="font-size: clamp(0.9rem, 1.9cqw, 1.4rem);">
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-[1.2cqw] text-slate-100 font-mono">ytslide init --claude</div>
+                <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-[1.2cqw] text-slate-200 font-medium"><code class="font-mono text-lime-400">CLAUDE.md</code> が置かれる — <code class="font-mono">UsersGuide.md</code> を読む・<code class="font-mono">player.html</code> は触らない・先に構成案、などの決まりごと</div>
+                <div class="bg-sky-950/40 border border-sky-500/40 rounded-xl p-[1.2cqw] text-sky-300 font-medium">構成案を承認 → 書かせる → <code class="font-mono">ytslide check</code> → 見た目を確かめる</div>
+                <div class="bg-amber-950/40 border border-amber-500/40 rounded-xl p-[1.2cqw] text-amber-300 font-medium"><i class="fa-solid fa-headphones text-amber-400 mr-[0.7cqw]"></i>読み上げは自分で聞く。直しはスライドの番号で伝え、仕上げに <code class="font-mono">ytslide update</code></div>
+            </div>
+        `,
+    },
+    // Slide 7
+    {
         title: '一覧・仕上げ・共有',
         duration: 15,
         narration: '一覧から開きたいときは ytslide index を実行します。時間表示を合わせたいときだけ、ナレーションが固まってから update を 1回実行します。共有は Web サーバーへ置くか、MP4 に書き出します。',
@@ -175,7 +190,7 @@ slidesConfig と slideData を含めて出してください。
             </div>
         `,
     },
-    // Slide 7
+    // Slide 8
     {
         title: 'slideData の中身',
         duration: 10,
@@ -209,7 +224,7 @@ slidesConfig と slideData を含めて出してください。
             `;
         }
     },
-    // Slide 8
+    // Slide 9
     {
         title: '番号と枚数は自動',
         duration: 9,
@@ -237,7 +252,7 @@ slidesConfig と slideData を含めて出してください。
             `;
         }
     },
-    // Slide 9
+    // Slide 10
     {
         title: 'body で書く',
         icon: 'fa-pen',
@@ -254,7 +269,7 @@ slidesConfig と slideData を含めて出してください。
             </div>
         `,
     },
-    // Slide 10
+    // Slide 11
     {
         title: 'render() の書き方',
         duration: 14,
@@ -283,7 +298,7 @@ slidesConfig と slideData を含めて出してください。
             `;
         }
     },
-    // Slide 11
+    // Slide 12
     {
         title: '近い見た目をコピーする',
         duration: 9,
@@ -310,7 +325,7 @@ slidesConfig と slideData を含めて出してください。
             `;
         }
     },
-    // Slide 12
+    // Slide 13
     {
         title: 'duration の測り方',
         duration: 11,
@@ -331,7 +346,7 @@ slidesConfig と slideData を含めて出してください。
             `;
         }
     },
-    // Slide 13
+    // Slide 14
     {
         title: '仕上げでまとめて書き換える',
         duration: 11,
@@ -353,7 +368,7 @@ slidesConfig と slideData を含めて出してください。
             `;
         }
     },
-    // Slide 14
+    // Slide 15
     {
         title: 'まとめ',
         duration: 10,
@@ -382,7 +397,7 @@ slidesConfig と slideData を含めて出してください。
             `;
         }
     },
-    // Slide 15
+    // Slide 16
     {
         title: 'アイコン名の例 1 - 一覧・注意・手順',
         icon: 'fa-icons',
@@ -390,7 +405,7 @@ slidesConfig と slideData を含めて出してください。
         narration: 'ここからは icon に書けるアイコン名の例です。まずは箇条書き、注意や禁止、手順を示すものです。',
         body: iconTable(ICON_GROUPS.slice(0, 3)),
     },
-    // Slide 16
+    // Slide 17
     {
         title: 'アイコン名の例 2 - コード・文書・時間',
         icon: 'fa-icons',
@@ -398,7 +413,7 @@ slidesConfig と slideData を含めて出してください。
         narration: 'コードや端末の画面、ファイルや文書、時間と計測を表すものです。名前を間違えるとアイコンは何も出ません。',
         body: iconTable(ICON_GROUPS.slice(3, 6)),
     },
-    // Slide 17
+    // Slide 18
     {
         title: 'アイコン名の例 3 - 人・図解・強調',
         icon: 'fa-icons',

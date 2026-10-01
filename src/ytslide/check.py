@@ -9,9 +9,7 @@ import functools
 import http.server
 import threading
 
-import click
-
-from . import paths
+from . import browser, paths
 
 
 def check(slides_name):
@@ -19,14 +17,6 @@ def check(slides_name):
 
     `paths.set_root()` は呼び出し側で済んでいる前提。
     """
-    try:
-        from playwright.sync_api import sync_playwright
-    except ImportError as e:
-        raise click.ClickException(
-            "playwright が入っていない。"
-            "uv tool install '.[video]' で入れる"
-        ) from e
-
     handler = functools.partial(
         http.server.SimpleHTTPRequestHandler, directory=str(paths.ROOT))
     with http.server.ThreadingHTTPServer(('127.0.0.1', 0), handler) as httpd:
@@ -34,13 +24,11 @@ def check(slides_name):
         thread = threading.Thread(target=httpd.serve_forever, daemon=True)
         thread.start()
         try:
-            with sync_playwright() as p:
-                browser = p.chromium.launch()
-                page = browser.new_page()
+            with browser.chromium() as b:
+                page = b.new_page()
                 page.goto(f'http://127.0.0.1:{port}/player.html?slides={slides_name}')
                 page.wait_for_load_state('networkidle')
                 result = page.evaluate('() => window.runSlideCheck()')
-                browser.close()
         finally:
             httpd.shutdown()
             thread.join()

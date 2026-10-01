@@ -16,9 +16,7 @@ import re
 import subprocess
 import tempfile
 
-import click
-
-from . import measure, paths
+from . import browser, measure, paths
 
 # player.html の待ちの既定（自動再生で次へ進むまでの秒数）。
 TAIL_SILENCE_SECONDS = 2
@@ -95,23 +93,13 @@ def probe_duration(path):
 
 def screenshot_slides(slides_name, indexes, out_dir):
     """`indexes`（0 始まり）の PNG を `out_dir/slide{番号}.png` に撮る。"""
-    try:
-        from playwright.sync_api import sync_playwright
-    except ImportError as e:
-        raise click.ClickException(
-            "playwright が入っていない。"
-            "uv tool install '.[video]' で入れる"
-        ) from e
-
-    with sync_playwright() as p:
-        browser = p.chromium.launch()
-        page = browser.new_page(viewport={'width': WIDTH, 'height': HEIGHT})
+    with browser.chromium() as b:
+        page = b.new_page(viewport={'width': WIDTH, 'height': HEIGHT})
         page.goto(paths.PLAYER_HTML.as_uri() + f'?slides={slides_name}')
         page.wait_for_load_state('networkidle')
         for i in indexes:
             page.evaluate(FIT, i)
             page.screenshot(path=str(out_dir / f'slide{i + 1}.png'))
-        browser.close()
 
 
 def srt_timestamp(seconds):

@@ -14,14 +14,16 @@
 | `index.html` | スライドの一覧。`ytslide index` が生成する |
 | `slides/<名前>.js` | スライドデータ。`readme`・`users-guide`・`developer`・`claude-memo`・`template` |
 | `images/` | スライドに貼るビットマップ画像。パスは `player.html` から見た相対 |
-| `docs/` | 説明。[UsersGuide.md](UsersGuide.md)（作る人向け）とこのファイル |
+| `docs/` | 説明。[UsersGuide.md](UsersGuide.md)（作る人向け）とこのファイル。UsersGuide.md は同梱され、`ytslide init` が作業場所に置く。作業場所には README もこのファイルも無いので、UsersGuide.md からのリンクは GitHub の URL にする |
 | `src/ytslide/measure.py` | 読み上げ秒数の測定と `duration` への書き込み（`ytslide measure`） |
 | `src/ytslide/index.py` | `slides/*.js` から `index.html` の一覧を作る（`ytslide index`） |
 | `src/ytslide/video.py` | スライド一式を MP4 と `.srt` に書き出す（`ytslide video`） |
+| `src/ytslide/browser.py` | `check`・`video` が使う chromium の起動。Playwright か chromium が無ければ入れ方を添えて止める |
 | `tests/test_measure.py` | `measure.py` の書き込みと置換表の読み込みの自動確認 |
 | `tests/test_index.py` | `index.py` の `slidesConfig` の読み取りとマーカー間の差し替えの自動確認 |
 | `tests/test_video.py` | `video.py` の分割や字幕の組み立ての自動確認 |
-| `tests/test_cli.py` | `ytslide init` が置くファイルと、二度目に上書きしないことの自動確認 |
+| `tests/test_cli.py` | `ytslide init`（`--claude` を含む）が置くファイルと、二度目に上書きしないことの自動確認 |
+| `tests/test_browser.py` | Playwright か chromium が無いときの案内の自動確認 |
 | `pyproject.toml` | `ytslide` のパッケージ定義（`uv tool install` で使う） |
 | `TODO.md` | 進行中の項目（完了済みの目次は置かない） |
 | `archives/` | 決着した TODO 項目と、サブエージェントの報告。**現行仕様ではない** |

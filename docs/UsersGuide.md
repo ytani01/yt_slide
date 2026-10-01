@@ -5,7 +5,7 @@
 `player.html` は再生エンジンだけで、スライドのデータは
 `slides/<名前>.js` に分かれている。新しいスライドを作るときは、
 **`player.html` は触らず、`slides/<名前>.js` を足すだけ。**
-再生エンジンを直すなら [Developer.md](Developer.md) を読む。
+再生エンジンを直すなら [Developer.md](https://github.com/ytani01/yt_slide/blob/main/docs/Developer.md) を読む。
 
 ## 手順
 
@@ -15,7 +15,7 @@
 ### 1. 自分の作業場所を用意する
 
 **後で一覧の生成や時間の測定も使うなら、次の CLI の手順で始める。**
-[README の「インストール」](../README.md#インストール)に従って `ytslide` を入れる。
+[README の「インストール」](https://github.com/ytani01/yt_slide#インストール)に従って `ytslide` を入れる。
 `uv` の導入先と Python の条件もそこにある。測定・動画用の追加準備は後でよい。
 ターミナルで次を実行する。
 
@@ -25,9 +25,11 @@ cd ~/my-slides
 ytslide init
 ```
 
-`player.html`・`index.html`・`slides/template.js` ができる。
-`template.js` はテンプレートで、最初の一覧には `template` が 1件載る
-（開くと 19種類が並ぶ）。
+`player.html`・`index.html`・`slides/template.js`・`docs/UsersGuide.md`（この文書）
+ができる。`template.js` はテンプレートで、最初の一覧には `template` が 1件載る
+（開くと 19種類が並ぶ）。`UsersGuide.md` は AI に書式を読ませるときに使う。
+Claude Code で作るなら `ytslide init --claude` とし、`CLAUDE.md` も置く
+（[Claude Code で作る](#claude-code-で作る)）。
 `init` は既存のファイルをコピーで上書きせず、最後に一覧を再生成する。
 新しく置く `index.html` のタイトルと見出しにはディレクトリ名が入る。
 
@@ -73,7 +75,8 @@ ytslide init
 1 から書くより早い（手順は次の 3.）。
 
 **AI に書かせてもよい。** [依頼文の例](#ai-に作ってもらう)を使い、
-生成されたファイルを保存して同じように確認する。
+生成されたファイルを保存して同じように確認する。Claude Code なら
+ファイルの保存も検査も任せられる（[Claude Code で作る](#claude-code-で作る)）。
 
 ### 3. 編集して確かめる
 
@@ -93,10 +96,11 @@ ytslide init
 
 **渡すものは 3つ。**
 
-- **`docs/UsersGuide.md`（この文書）** — 書式の説明。
+- **`docs/UsersGuide.md`（この文書）** — 書式の説明。`ytslide init` した
+  作業場所には `docs/UsersGuide.md` がある。ZIP を展開してあれば、その中の
+  `docs/UsersGuide.md` でよい。どちらも無ければ
   [Markdown ファイル](https://raw.githubusercontent.com/ytani01/yt_slide/main/docs/UsersGuide.md)
-  をブラウザで開いて保存するか、内容をコピーして渡す。ZIP を展開してあれば、
-  その中の `docs/UsersGuide.md` でよい
+  をブラウザで開いて保存するか、内容をコピーして渡す
 - **作業場所の `slides/template.js`** — テンプレート 19種。渡すと、
   近いものに沿った見た目で返ってくる
 - **スライドにしたい原稿や資料** — 無ければ、テーマと聞き手を文章で伝える
@@ -137,6 +141,66 @@ narration と duration はそのままにして、
 `~/my-slides/slides/sample.js` へ保存する。上の[最小の 1枚を再生する手順](#2-最初の-1枚を書いて再生する)
 と同じく `player.html?slides=sample` を開き、本文・読み上げ・スライド送りを確認する。
 直したい箇所はスライド番号と変更内容を AI に伝え、修正後に保存・再読み込みして確かめる。
+
+### Claude Code で作る
+
+[Claude Code](https://docs.claude.com/ja/docs/claude-code/overview) は、作業場所の
+ファイルを直接読み書きし、`ytslide check`・`measure`・`update` も自分で実行する。
+上の「AI に作ってもらう」と違い、ファイルを添付したり、返ってきたコードを
+保存したりする手間が無い。
+
+作業場所は `--claude` を付けて用意する。
+
+```bash
+mkdir ~/my-slides
+cd ~/my-slides
+ytslide init --claude
+claude
+```
+
+`CLAUDE.md` ができる。Claude Code は起動するとこのファイルを読むので、
+「`docs/UsersGuide.md` を読む」「`player.html` は編集しない」「先に構成案を出す」
+「書いたら `ytslide check` を実行する」といった決まりごとを、依頼のたびに
+書かなくてよい。中身は自分の用途に合わせて書き換えてよい
+（`init` をやり直しても上書きしない）。
+
+進め方は次のとおり。
+
+```mermaid
+flowchart TD
+    A[作りたい内容を伝える] --> B[構成案を出させる]
+    B -->|承認| C[slides/名前.js を書かせる]
+    C --> D[ytslide check で検査させる]
+    D --> E[見た目を確かめる]
+    E --> F[再生して読みを聞く]
+    F -->|直しがある| G[番号で直しを伝える]
+    G --> D
+    F -->|直しが無い| H[ytslide update で仕上げる]
+    H --> I[必要なら ytslide video]
+```
+
+1. 作りたい内容を伝え、**先に構成案だけを出させる**（各スライドの題名・
+   使うテンプレート・ナレーションの要旨）。よければ書かせる
+2. Claude Code が `slides/<名前>.js` を書き、`ytslide check` でエラーが
+   無くなるまで直す
+3. 見た目を確かめる。Claude Code がブラウザを操作できれば
+   `player.html?slides=<名前>#N` を開いてスクリーンショットで見る。
+   できなければ自分で開いて見る
+4. **読み上げは自分で再生して聞く。** 読み違いは「3枚目の『◯◯』を
+   『△△』と読ませて」のように番号と語で伝える（[読みを直す](#読みを直す)）
+5. 直しはスライド番号で伝える。指定した番号のスライドだけが変わる
+6. 仕上げに `ytslide update --slides <名前>` を実行させる。動画にするなら
+   `ytslide video --slides <名前>` も
+
+依頼文は短くてよい。
+
+```text
+「地域の読書会の紹介」を、初めて参加する人向けに 3枚のスライドにしてください。
+名前は sample。内容は notes.txt に沿ってください。
+```
+
+`ytslide check` と `video` は Playwright（chromium）を使う。入っていなければ、
+入れ方を添えたエラーで止まる（[測定と動画に要るパッケージ](#測定と動画に要るパッケージ)）。
 
 ### 一覧から開きたいとき
 
@@ -212,7 +276,7 @@ ytslide index --root ~/my-slides
 
 | サブコマンド | 使う場面 |
 |--------------|----------|
-| `ytslide init` | 最初に、自分の作業ディレクトリへプレイヤーとテンプレートを用意する |
+| `ytslide init` | 最初に、自分の作業ディレクトリへプレイヤー・テンプレート・この文書を用意する。`--claude` で `CLAUDE.md` も置く |
 | `ytslide index` | 一覧から開きたいとき、`slides/*.js` から `index.html` を作り直す |
 | `ytslide measure` | 読み上げ秒数だけを測る。`--write` で `duration` に書き戻せる |
 | `ytslide update` | 時間表示を合わせる仕上げに、`measure --all --write` と `index` を続けて実行する |
@@ -225,7 +289,7 @@ ytslide index --root ~/my-slides
 `update` は `measure` と `index` を続けて実行するだけなので、
 測定だけ・一覧だけが要るときは `measure`・`index` を単独で使う。
 
-インストールは [README の「インストール」](../README.md#インストール)にある。
+インストールは [README の「インストール」](https://github.com/ytani01/yt_slide#インストール)にある。
 
 ### 測定と動画に要るパッケージ
 
@@ -234,12 +298,17 @@ ytslide index --root ~/my-slides
 
 - `ytslide measure`・`ytslide update` — `curl`・`ffprobe`
 - `ytslide video`・`ytslide check` — 加えて `ffmpeg`・Playwright（Python, chromium）。
-  `uv tool install '...[video]'` で入る
+  Playwright のパッケージは `uv tool install '...[video]'` で入る
 
 ```bash
 sudo apt install curl ffmpeg   # curl・ffmpeg・ffprobe
-playwright install chromium    # ytslide video・ytslide check だけが使う
+"$(uv tool dir)/ytslide/bin/python" -m playwright install chromium   # ytslide video・ytslide check だけが使う
 ```
+
+`uv tool install` で入れた Playwright の `playwright` コマンドは PATH に
+出ないので、上のように `ytslide` の Python から実行する。
+Playwright か chromium が無いまま `check`・`video` を実行すると、
+入れ方を添えたエラーで止まる。
 
 Debian 12 (bookworm) / curl 7.88.1 / ffmpeg 5.1.9 / Python 3.14.7 /
 playwright 1.63.0 で確認した。他の OS では入れ方を読み替える。
@@ -536,7 +605,7 @@ images/             ← 画像を使っているときだけ
   読み込めませんでした。」と出る
 - `docs/`・`archives/`・`README.md`・`TODO.md` は**要らない**。
   `index.html` を作り直すなら `ytslide index` が要る（`uv tool install` で
-  入れる。[README の「インストール」](../README.md#インストール)）。
+  入れる。[README の「インストール」](https://github.com/ytani01/yt_slide#インストール)）。
   `ytslide measure` は `duration` を測るためのもので、どちらも再生には
   関わらない
 - **ネット接続が要る。** オフラインでは見た目が崩れ、音声も出ない
@@ -544,7 +613,7 @@ images/             ← 画像を使っているときだけ
   読み上げまで動く（Online Voice で確かめた）。HTTP で配信しても同じ
 
 置き場所の自由度や公開 URL を保つ方法は
-[Developer.md の「場所を選ばない」](Developer.md#場所を選ばない)にある。
+[Developer.md の「場所を選ばない」](https://github.com/ytani01/yt_slide/blob/main/docs/Developer.md#場所を選ばない)にある。
 
 ## テキストで書く利点
 
