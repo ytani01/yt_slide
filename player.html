@@ -178,15 +178,53 @@
             position: relative;
         }
 
-        /* 字幕は枠に重ねず、画面幅によらず枠の下へ流す（TODO-035）。
-           通常表示ではクラスの mt-3 だけで足りるので、ここには擬似
-           フルスクリーン中の位置だけを書く。ラッパーがレターボックス
-           そのものなので、top: 100% がそのまま枠の下端になる（暗幕の上）。 */
+        /* 字幕は通常表示では枠に重ねず、画面幅によらず枠の下へ流す
+           （TODO-035）。それはクラスの mt-3 だけで足りるので、ここには擬似
+           フルスクリーン中の見た目だけを書く。
+           フルスクリーン中は映画の字幕のように、文字だけを半透明の帯に載せて
+           枠の下端に重ねる（TODO-125）。枠の下は 16:9 の画面では暗幕が 0px で、
+           画面の外に出てしまうため。ラッパーがレターボックスそのものなので、
+           bottom と幅の % はそのまま枠が基準になる。
+           文字の大きさは枠の幅（= min(100vw, 100dvh * 16/9)）の 2.4%。
+           ラッパーを container にすると fixed の基準が変わり、暗幕と終了ボタンが
+           ずれるので、cqw でなく vw と dvh で書く。
+           枠のタップ（再生／一時停止）を塞がないよう pointer-events: none。
+           縦持ちは枠の下に余白があるので、そこへ出してスライドを隠さない。 */
         #viewport-stage.is-fullscreen > #subtitle-banner {
             position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
+            left: 50%;
+            bottom: 4%;
+            transform: translateX(-50%);
+            width: max-content;
+            max-width: 90%;
+            margin: 0;
+            padding: 0.15em 0.6em;
+            background: rgba(0, 0, 0, 0.6);
+            border: 0;
+            border-radius: 0.25rem;
+            box-shadow: none;
+            -webkit-backdrop-filter: none;
+            backdrop-filter: none;
+            pointer-events: none;
+            font-size: clamp(14px, min(2.4vw, 4.27vh), 44px);
+            font-size: clamp(14px, min(2.4vw, 4.27dvh), 44px);
+        }
+        @media (orientation: portrait) {
+            #viewport-stage.is-fullscreen > #subtitle-banner {
+                top: calc(100% + 0.75rem);
+                bottom: auto;
+                pointer-events: auto;
+            }
+        }
+        #viewport-stage.is-fullscreen > #subtitle-banner #wave-container,
+        #viewport-stage.is-fullscreen > #subtitle-banner #caption-heading {
+            display: none;
+        }
+        #viewport-stage.is-fullscreen > #subtitle-banner #caption-text {
+            font-size: 1em;
+            line-height: 1.5;
+            text-align: center;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
         }
 
         /* フルスクリーンの終了ボタン。暗幕は画面比率で 0px になり、Android の
@@ -200,10 +238,21 @@
             left: 0.75rem;
             z-index: 40;
         }
+        /* 字幕の切り替えも、通常画面のボタンは暗幕の裏で押せないので、
+           終了ボタンの右隣に置く（TODO-125） */
+        #viewport-stage.is-fullscreen > #fullscreen-caption-btn {
+            display: flex;
+            position: fixed;
+            top: 0.75rem;
+            left: 3.75rem;
+            z-index: 40;
+        }
 
         /* 再生失敗の通知は、擬似フルスクリーン中は枠の下に余白が無いことがある
-           ため、字幕と違い枠の下端に重ねる（TODO-078）。 */
+           ため、枠の下端に重ねる（TODO-078）。横持ちと PC では字幕の帯とも
+           重なるので、通知を上に出す（TODO-125）。 */
         #viewport-stage.is-fullscreen > #audio-error-notice {
+            z-index: 31;
             position: absolute;
             bottom: 0;
             left: 0;
@@ -405,6 +454,8 @@
                     <button id="fullscreen-exit-btn" type="button" aria-label="フルスクリーンを終了" title="フルスクリーンを終了（Esc）" class="hidden w-10 h-10 rounded-full bg-slate-900/85 hover:bg-slate-800/95 text-slate-200 items-center justify-center border border-slate-600/60">
                         <i aria-hidden="true" class="fa-solid fa-xmark"></i>
                     </button>
+                    <!-- その右隣に字幕の切り替え（TODO-125） -->
+                    <button id="fullscreen-caption-btn" type="button" aria-pressed="false" title="字幕の表示/非表示（C）" class="hidden h-10 px-4 rounded-full bg-slate-900/85 hover:bg-slate-800/95 text-slate-200 text-sm font-bold items-center justify-center border border-slate-600/60">字幕</button>
 
                     <div id="audio-error-notice" role="status" class="z-30 bg-slate-950/95 border border-amber-500/50 rounded-xl p-3 shadow-2xl flex flex-wrap items-center gap-2 mt-3 hidden">
                         <span class="text-xs md:text-sm text-amber-300 font-bold flex-grow"><i aria-hidden="true" class="fa-solid fa-triangle-exclamation"></i> 音声を再生できませんでした</span>
@@ -414,7 +465,8 @@
                     <!-- Bottom Subtitle / Narration Banner。
                          縮小の対象は #viewport-frame の中だけなので、字幕はその外に
                          置いて等倍のまま読めるようにしている（TODO-001）。
-                         画面幅によらず枠の下へ流す（TODO-035）。 -->
+                         通常表示では画面幅によらず枠の下へ流す（TODO-035）。
+                         フルスクリーン中の見た目は CSS 側（TODO-125）。 -->
                     <div id="subtitle-banner" class="z-30 bg-slate-950/95 backdrop-blur border border-sky-500/40 rounded-xl p-3 shadow-2xl flex items-center gap-3 mt-3 hidden">
                         <div class="flex items-center gap-1 h-6 md:h-7 px-2 bg-slate-900 rounded border border-slate-800 flex-shrink-0 paused" id="wave-container">
                             <div class="wave-bar"></div>
@@ -424,7 +476,7 @@
                             <div class="wave-bar"></div>
                         </div>
                         <div class="flex-grow min-w-0">
-                            <div class="text-xs text-sky-400 font-bold uppercase tracking-wider flex items-center justify-between mb-1">
+                            <div id="caption-heading" class="text-xs text-sky-400 font-bold uppercase tracking-wider flex items-center justify-between mb-1">
                                 <span class="flex items-center gap-1"><i class="fa-solid fa-comment-dots"></i> ナレーション字幕</span>
                                 <span id="audio-status-badge" class="text-xs bg-slate-800 text-slate-400 border border-slate-700 px-2 py-0.5 rounded font-mono">停止中</span>
                             </div>
@@ -493,7 +545,7 @@
                         <!-- Right Options -->
                         <div class="flex items-center gap-2">
                             <!-- Subtitle / Caption Toggle Button -->
-                            <button id="toggle-caption-btn" aria-label="字幕" aria-pressed="false" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs text-slate-400 font-bold px-2.5 py-2 rounded-lg transition flex items-center gap-1.5 cursor-pointer" title="字幕の表示/非表示">
+                            <button id="toggle-caption-btn" aria-label="字幕" aria-pressed="false" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs text-slate-400 font-bold px-2.5 py-2 rounded-lg transition flex items-center gap-1.5 cursor-pointer" title="字幕の表示/非表示（C）">
                                 <i aria-hidden="true" class="fa-solid fa-closed-captioning" id="caption-icon"></i>
                                 <span class="hidden sm:inline">字幕</span>
                             </button>
@@ -565,13 +617,14 @@
         <div class="guide-body">
             <p>Tab でボタンへ移動し、Enter または Space で操作できます。ガイドは「閉じる」または Escape で閉じます。</p>
             <h3>キー操作</h3>
-            <p>矢印・Home・End・F・M は、選択欄やチャプター一覧の検索欄を操作していないときに使えます。Space は、ボタンの上ではそのボタンを押す操作になります。</p>
+            <p>矢印・Home・End・F・M・C は、選択欄やチャプター一覧の検索欄を操作していないときに使えます。Space は、ボタンの上ではそのボタンを押す操作になります。</p>
             <dl>
                 <dt>Space</dt><dd>再生／一時停止</dd>
                 <dt>← / →</dt><dd>前／次のスライド</dd>
                 <dt>Home / End</dt><dd>先頭／最後のスライド</dd>
                 <dt>F</dt><dd>フルスクリーンの切り替え</dd>
                 <dt>M</dt><dd>消音の切り替え</dd>
+                <dt>C</dt><dd>字幕の切り替え</dd>
                 <dt>Escape</dt><dd>フルスクリーンを終了</dd>
             </dl>
             <h3>タッチ操作</h3>
@@ -581,7 +634,7 @@
                 <dt>左へスワイプ</dt><dd>次のスライド</dd>
                 <dt>右へスワイプ</dt><dd>前のスライド</dd>
             </dl>
-            <p>フルスクリーン中は、画面の左上の × かスライドのダブルタップで通常表示に戻ります。タッチ画面では、枠の外にある暗幕のタップや、Android の［戻る］操作（画面の端からのスワイプ）でも戻れます。</p>
+            <p>フルスクリーン中は、画面の左上の × かスライドのダブルタップで通常表示に戻ります。× の右隣のボタンで字幕を切り替えられます。タッチ画面では、枠の外にある暗幕のタップや、Android の［戻る］操作（画面の端からのスワイプ）でも戻れます。</p>
             <h3>その他のボタン</h3>
             <p>送りのボタンは左から「先頭のスライド」「前のスライド」「再生」「次のスライド」「最後のスライド」の順に並んでいます。「字幕」でナレーションの全文を表示します。「速度」と「待ち」で再生速度と読み上げ後の待ち時間を選べます。</p>
             <p>ガイドを開閉しても再生状態は変わりません。再生中はスライドが進みます。</p>
@@ -753,6 +806,7 @@
         const audioErrorNotice = document.getElementById('audio-error-notice');
         const toggleCaptionBtn = document.getElementById('toggle-caption-btn');
         const captionIcon = document.getElementById('caption-icon');
+        const fsCaptionBtn = document.getElementById('fullscreen-caption-btn');
 
         // 再生の設定（速度・字幕・音声エンジン・待ち秒数）を localStorage で
         // 覚える（TODO-075）。プライベートウィンドウや file:// など、
@@ -785,6 +839,9 @@
             toggleCaptionBtn.classList.toggle('border-lime-500/50', showCaptions);
             captionIcon.classList.toggle('text-slate-400', !showCaptions);
             captionIcon.classList.toggle('text-lime-400', showCaptions);
+            fsCaptionBtn.setAttribute('aria-pressed', String(showCaptions));
+            fsCaptionBtn.classList.toggle('text-slate-200', !showCaptions);
+            fsCaptionBtn.classList.toggle('text-lime-400', showCaptions);
         }
 
         function japaneseVoices() {
@@ -1410,6 +1467,7 @@
                 applyCaptions();
                 saveSetting('showCaptions', showCaptions);
             });
+            fsCaptionBtn.addEventListener('click', () => toggleCaptionBtn.click());
 
             document.getElementById('audio-retry-btn').addEventListener('click', speakCurrentNarration);
             // 失敗したときは、もう一方のエンジンへ移す（声の指定は自動に戻す）
@@ -1620,7 +1678,7 @@
                 }
             });
 
-            // Listen for keyboard shortcuts (Space, Arrow keys, Fullscreen, Mute, Escape)
+            // Listen for keyboard shortcuts (Space, Arrow keys, Fullscreen, Mute, Captions, Escape)
             document.addEventListener('keydown', (e) => {
                 // モーダル中は Escape も含めてブラウザに任せる。
                 if (guide.open || e.defaultPrevented || e.isComposing) return;
@@ -1667,6 +1725,9 @@
                 } else if (e.key === 'm' || e.key === 'M') {
                     e.preventDefault();
                     muteBtn.click();
+                } else if ((e.key === 'c' || e.key === 'C') && !e.repeat) {
+                    e.preventDefault();
+                    toggleCaptionBtn.click();
 
                 }
             });
