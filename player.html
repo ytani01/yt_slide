@@ -967,6 +967,11 @@
             return `${mins}:${String(secs).padStart(2, '0')}`;
         }
 
+        // スライド番号を全枚数と同じ桁数に揃える（1 / 5、01 / 17、001 / 120）
+        function formatSlideNum(n) {
+            return String(n).padStart(String(slideData.length).length, '0');
+        }
+
         function hideAudioError() {
             audioErrorNotice.classList.add('hidden');
         }
@@ -1248,7 +1253,7 @@
             }
 
             // Update UI headers & captions
-            slideNum.textContent = String(currentIndex + 1).padStart(2, '0');
+            slideNum.textContent = formatSlideNum(currentIndex + 1);
             controlTitlePreview.textContent = `${currentIndex + 1}. ${slide.title}`;
             captionText.textContent = slide.narration;
 
@@ -1378,7 +1383,7 @@
                 btn.className = PLAYLIST_ITEM_CLASS;
                 btn.innerHTML = `
                     <div class="flex items-center gap-2.5 truncate pr-2">
-                        <span class="font-mono text-[10px] ${idx === currentIndex ? 'text-lime-400' : 'text-slate-500'}">${String(idx + 1).padStart(2, '0')}</span>
+                        <span class="font-mono text-[10px] ${idx === currentIndex ? 'text-lime-400' : 'text-slate-500'}">${formatSlideNum(idx + 1)}</span>
                         <span class="truncate">${slide.title}</span>
                     </div>
                     <i></i>
