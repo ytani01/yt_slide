@@ -289,8 +289,8 @@ CSS の `#viewport-stage.is-fullscreen > #subtitle-banner` で、波形と見出
 載せて中央寄せにする。ラッパーがレターボックスそのものなので、`bottom` と
 幅の `%` はそのまま枠が基準になる。
 
-- 文字の大きさは枠の幅の 2.4%。枠の幅は `min(100vw, 100dvh * 16/9)` なので
-  `min(2.4vw, 4.27dvh)` と書き、`clamp()` で 14〜44px に収める。ラッパーを
+- 文字の大きさは枠の幅の 1.8%。枠の幅は `min(100vw, 100dvh * 16/9)` なので
+  `min(1.8vw, 3.2dvh)` と書き、`clamp()` で 14〜33px に収める。ラッパーを
   container にして `cqw` で書かないのは、container が `position: fixed` の
   基準になり、暗幕と終了ボタンが画面でなくラッパーに付いてしまうため
 - 帯には `pointer-events: none` を付ける。枠のタップ（再生／一時停止）と

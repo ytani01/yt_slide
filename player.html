@@ -185,7 +185,7 @@
            枠の下端に重ねる（TODO-125）。枠の下は 16:9 の画面では暗幕が 0px で、
            画面の外に出てしまうため。ラッパーがレターボックスそのものなので、
            bottom と幅の % はそのまま枠が基準になる。
-           文字の大きさは枠の幅（= min(100vw, 100dvh * 16/9)）の 2.4%。
+           文字の大きさは枠の幅（= min(100vw, 100dvh * 16/9)）の 1.8%。
            ラッパーを container にすると fixed の基準が変わり、暗幕と終了ボタンが
            ずれるので、cqw でなく vw と dvh で書く。
            枠のタップ（再生／一時停止）を塞がないよう pointer-events: none。
@@ -206,8 +206,8 @@
             -webkit-backdrop-filter: none;
             backdrop-filter: none;
             pointer-events: none;
-            font-size: clamp(14px, min(2.4vw, 4.27vh), 44px);
-            font-size: clamp(14px, min(2.4vw, 4.27dvh), 44px);
+            font-size: clamp(14px, min(1.8vw, 3.2vh), 33px);
+            font-size: clamp(14px, min(1.8vw, 3.2dvh), 33px);
         }
         @media (orientation: portrait) {
             #viewport-stage.is-fullscreen > #subtitle-banner {

@@ -4,6 +4,7 @@
 作り直すので、手で直さない。やらないと決めたものは（対応しない）が付いている。
 進行中の項目は [TODO.md](../TODO.md) にある。
 
+- [TODO-131. 全画面表示の字幕を小さくする](todo/TODO-131.%20%E5%85%A8%E7%94%BB%E9%9D%A2%E8%A1%A8%E7%A4%BA%E3%81%AE%E5%AD%97%E5%B9%95%E3%82%92%E5%B0%8F%E3%81%95%E3%81%8F%E3%81%99%E3%82%8B.md)
 - [TODO-130. UsersGuide では Claude Code を使うやり方を標準にする](todo/TODO-130.%20UsersGuide%20%E3%81%A7%E3%81%AF%20Claude%20Code%20%E3%82%92%E4%BD%BF%E3%81%86%E3%82%84%E3%82%8A%E6%96%B9%E3%82%92%E6%A8%99%E6%BA%96%E3%81%AB%E3%81%99%E3%82%8B.md)
 - [TODO-129. ytslide web でも、作業場所に player.html が無ければ同梱のものを配る](todo/TODO-129.%20ytslide%20web%20%E3%81%A7%E3%82%82%E3%80%81%E4%BD%9C%E6%A5%AD%E5%A0%B4%E6%89%80%E3%81%AB%20player.html%20%E3%81%8C%E7%84%A1%E3%81%91%E3%82%8C%E3%81%B0%E5%90%8C%E6%A2%B1%E3%81%AE%E3%82%82%E3%81%AE%E3%82%92%E9%85%8D%E3%82%8B.md)
 - [TODO-128. 作業場所に player.html が無くても、作業場所のスライドを書き出す](todo/TODO-128.%20%E4%BD%9C%E6%A5%AD%E5%A0%B4%E6%89%80%E3%81%AB%20player.html%20%E3%81%8C%E7%84%A1%E3%81%8F%E3%81%A6%E3%82%82%E3%80%81%E4%BD%9C%E6%A5%AD%E5%A0%B4%E6%89%80%E3%81%AE%E3%82%B9%E3%83%A9%E3%82%A4%E3%83%89%E3%82%92%E6%9B%B8%E3%81%8D%E5%87%BA%E3%81%99.md)
