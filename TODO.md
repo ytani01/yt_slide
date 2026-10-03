@@ -36,8 +36,23 @@ TODO-132（オフライン対応）を対応しないと決めたので、その
 静止画になる」とある。「動かないことがある」の「ことがある」が、撮る瞬間に
 よって映り方が変わる（途中のコマや最初のコマになる）という意味かは確かめる。
 
-**着手時に調べること:** 報告のあったスライド（slide_backgammon のものか）と、
-アニメーションの作り（`requestAnimationFrame`・`setTimeout`・CSS animation）。
+**slide_backgammon のセッションからの調査（2026-10-04、コードを読んだだけで未実測）:**
+
+- 再現: `~/work/slide_backgammon`（HEAD 642d620）で
+  `ytslide video --slides backgammon --out ~/Videos/slide_backgammon`
+- 動きのほとんどは `narrationClock(el, draw)`（`slides/backgammon.js` 175 行付近）で、
+  再生中でない（`isPlaying` が偽）あいだは `draw(null)` で**動き終わった形**を描く。
+  撮るときは再生していないので、PNG は毎回この形になる（強調も無い）
+- 撮る瞬間で映り方が変わるのは、時計を見ずに `requestAnimationFrame` で回り続ける
+  `rulesBattle`（2 枚目）と `karenaTwinkle`（9 枚目）だけ（どちらも `Math.random` あり）
+- 失われる動き: 線が伸びる `historyGrow`、写真が落ちてくる `cueDrop`、札の強調 `cueSay`
+  （`transition duration-300` 付き）。2〜9 枚目のほぼ全部
+- 時計は `performance.now()` と `requestAnimationFrame`。`t` は 1.0x の秒で、
+  `getEffectiveSpeed()/BASE_SPEED_MULTIPLIER` を掛けて進む。コマ送りにするなら
+  `page.clock` で時計を進め、`isPlaying = true` と `speechRunId` の更新で t=0 から
+  動き出すはず（未確認）。尺は読み上げの mp3 の長さで分かる
+
+**着手時に調べること:** 上の見立てを実測で確かめる。
 
 **調べてから決めること:**（調べた結果を見せて利用者に聞く）
 
