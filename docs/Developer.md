@@ -17,12 +17,12 @@
 | `docs/` | 説明。[UsersGuide.md](UsersGuide.md)（作る人向け）とこのファイル。UsersGuide.md は同梱され、`ytslide init` が作業場所に置く。作業場所には README もこのファイルも無いので、UsersGuide.md からのリンクは GitHub の URL にする |
 | `src/ytslide/measure.py` | 読み上げ秒数の測定と `duration` への書き込み（`ytslide measure`） |
 | `src/ytslide/index.py` | `slides/*.js` から `index.html` の一覧を作る（`ytslide index`） |
-| `src/ytslide/video.py` | スライド一式を MP4 と `.srt` に書き出す（`ytslide video`） |
+| `src/ytslide/video.py` | スライド一式を MP4 と `.srt` に書き出す（`ytslide video`）。Playwright の `page.clock` で時計を止め、再生中の状態（`isPlaying`・`speechRunId` を進める。読み上げは鳴らさない）にして 1/30 秒ずつ進めて撮る。CSS transition と `element.animate()` は `page.clock` に従わないので、毎コマ `document.getAnimations()` の `currentTime` を合わせる |
 | `src/ytslide/pdf.py` | スライド一式を 1スライド 1ページの PDF に書き出す（`ytslide pdf`）。`video.py` の `FIT` を使う |
 | `src/ytslide/browser.py` | `check`・`video`・`pdf` が使う chromium の起動と `player.html` の開き方。Playwright か chromium が無ければ入れ方を添えて止める。作業場所を HTTP で配り、作業場所に `player.html` が無ければそれだけ同梱のものを返す（このハンドラーは `web` も使う） |
 | `tests/test_measure.py` | `measure.py` の書き込みと置換表の読み込みの自動確認 |
 | `tests/test_index.py` | `index.py` の `slidesConfig` の読み取りとマーカー間の差し替えの自動確認 |
-| `tests/test_video.py` | `video.py` の分割や字幕の組み立て、`video`・`pdf` コマンドの引数の受け渡しの自動確認 |
+| `tests/test_video.py` | `video.py` の分割や字幕の組み立て、`video`・`pdf` コマンドの引数の受け渡し、ffmpeg が落ちたときのエラー文の自動確認。短いスライドを実際に書き出して、コマ送りで決まった時刻に決まった位置まで動いていること（`element.animate()` と、`isPlaying`・`speechRunId` を見る動き）と、クリップの長さが音声＋無音であることも見る（ffmpeg と chromium が要る。無ければ飛ばす） |
 | `tests/test_cli.py` | `ytslide init`（`--no-claude` を含む）が置くファイルと、二度目に上書きしないこと、`ytslide web` が作業場所に無い `player.html` を同梱から配ることの自動確認 |
 | `tests/test_browser.py` | Playwright か chromium が無いときの案内と、作業場所に `player.html` が無いときの配り方の自動確認 |
 | `pyproject.toml` | `ytslide` のパッケージ定義（`uv tool install` で使う） |

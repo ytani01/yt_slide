@@ -85,13 +85,16 @@ def serve_root():
 
 
 @contextlib.contextmanager
-def open_player(slides_name, **page_options):
+def open_player(slides_name, install_clock=False, **page_options):
     """`player.html?slides=<名前>` を開き、読み込みが済んだ `Page` を渡す。
 
+    `install_clock` が真なら、開く前に `page.clock` を入れる（`video` のコマ送り。TODO-134）。
     `paths.set_root()` は呼び出し側で済んでいる前提。
     """
     with serve_root() as base, chromium() as b:
         page = b.new_page(**page_options)
+        if install_clock:
+            page.clock.install()
         page.goto(f'{base}/player.html?slides={slides_name}')
         page.wait_for_load_state('networkidle')
         yield page

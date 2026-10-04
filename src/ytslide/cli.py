@@ -4,6 +4,7 @@
 import functools
 import http.server
 import pathlib
+import subprocess
 
 import click
 
@@ -244,7 +245,14 @@ def video(ctx, slides_name, out, only, root, debug):
     if not src.exists():
         raise _no_slides_error(src)
 
-    video_mod.make_video(slides_name, pathlib.Path(out), list(only) or None)
+    try:
+        video_mod.make_video(slides_name, pathlib.Path(out), list(only) or None)
+    except subprocess.CalledProcessError as e:
+        # ffmpeg などが落ちた。capture したエラー文の末尾を添える（無ければ端末に出ている）
+        err = e.stderr.decode(errors='replace') if isinstance(e.stderr, bytes) else (e.stderr or '')
+        tail = '\n'.join(err.strip().splitlines()[-5:])
+        raise click.ClickException(
+            f'{e.cmd[0]} が失敗した（終了コード {e.returncode}）' + (f':\n{tail}' if tail else '')) from e
 
 
 @cli.command()
